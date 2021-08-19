@@ -4,7 +4,6 @@
 #define INTEGRIAN2D_SCENE_H
 
 #include <string>
-#include <vector>
 #include <unordered_map>
 
 namespace Integrian2D
