@@ -1,5 +1,7 @@
 #include "Integrian2D.h"
 #include "../Logger/Logger.h"
+#include "../SceneManager/SceneManager.h"
+#include "../Scene/Scene.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -23,6 +25,28 @@ namespace Integrian2D
 	Integrian2D::~Integrian2D()
 	{
 		ShutdownLibraries();
+	}
+
+	void Integrian2D::Run()
+	{
+		SceneManager* pSceneManager{ SceneManager::GetInstance() };
+		
+		while (true)
+		{
+			Scene* pActiveScene{ pSceneManager->GetActiveScene() };
+			
+			pActiveScene->RootUpdate();
+			pActiveScene->Update();
+			
+			pActiveScene->RootFixedUpdate();
+			pActiveScene->FixedUpdate();
+
+			pActiveScene->RootLateUpdate();
+			pActiveScene->LateUpdate();
+
+			pActiveScene->RootRender();
+			pActiveScene->Render();
+		}
 	}
 
 	bool Integrian2D::InitializeLibraries(std::string windowTitle) noexcept

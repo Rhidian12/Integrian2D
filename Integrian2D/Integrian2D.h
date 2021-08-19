@@ -17,6 +17,8 @@ namespace Integrian2D
 		Integrian2D(const int windowWidth, const int windowHeight, std::string windowTitle);
 		~Integrian2D();
 
+		void Run();
+
 		Integrian2D(const Integrian2D&) = delete;
 		Integrian2D(Integrian2D&&) = delete;
 		Integrian2D& operator=(const Integrian2D&) = delete;

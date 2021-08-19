@@ -25,12 +25,6 @@ namespace Integrian2D
 
 		virtual void Render() const {}
 
-		void RootUpdate();
-		void RootFixedUpdate();
-		void RootLateUpdate();
-
-		void RootRender() const;
-
 		void AddGameObject(std::string gameObjectName, GameObject* const pGameObject) noexcept;
 		void SetSceneName(std::string sceneName) noexcept;
 
@@ -38,6 +32,13 @@ namespace Integrian2D
 		const std::string& GetSceneName() const noexcept;
 
 	private:
+		friend class Integrian2D; // Make sure that only Integrian2D can access the Root[] functions
+		void RootUpdate();
+		void RootFixedUpdate();
+		void RootLateUpdate();
+
+		void RootRender() const;
+
 		std::string m_SceneName;
 
 		std::unordered_map<std::string, GameObject*> m_pGameObjects;
