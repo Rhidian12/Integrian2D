@@ -196,12 +196,15 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\Component\Component.cpp" />
+    <ClCompile Include="Input\GameController\GameController.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
-    <ClCompile Include="InputManager\InputManager.cpp" />
+    <ClCompile Include="Input\InputManager\InputManager.cpp" />
     <ClCompile Include="Integrian2D\Integrian2D.cpp" />
+    <ClCompile Include="Input\Keyboard\Keyboard.cpp" />
     <ClCompile Include="Locator\Locator.cpp" />
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Input\Mouse\Mouse.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
@@ -209,13 +212,16 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   <ItemGroup>
     <ClInclude Include="catch.hpp" />
     <ClInclude Include="Components\Component\Component.h" />
+    <ClInclude Include="Input\GameController\GameController.h" />
     <ClInclude Include="GameInput\GameInput.h" />
     <ClInclude Include="GameInput\PossibleInputs.h" />
     <ClInclude Include="GameObject\GameObject.h" />
-    <ClInclude Include="InputManager\InputManager.h" />
+    <ClInclude Include="Input\InputManager\InputManager.h" />
     <ClInclude Include="Integrian2D\Integrian2D.h" />
+    <ClInclude Include="Input\Keyboard\Keyboard.h" />
     <ClInclude Include="Locator\Locator.h" />
     <ClInclude Include="Logger\Logger.h" />
+    <ClInclude Include="Input\Mouse\Mouse.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Utils\Utils.h" />

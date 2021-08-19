@@ -82,6 +82,9 @@ TEST_CASE("Testing the GameObject...")
 }
 
 #else
+
+inline bool g_IsLooping{ true }; // Maybe move this somewhere else
+
 int main()
 {
 	Integrian2D::Integrian2D engine{ 640,480, "TestWindow" };

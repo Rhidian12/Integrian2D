@@ -30,6 +30,16 @@ namespace Integrian2D
 				return static_cast<FundamentalType>(rand()) % max + min;
 			}
 		}
+
+		template<typename Type>
+		constexpr void Clamp(Type& value, const Type& min, const Type& max) noexcept
+		{
+			if (value < min)
+				value = min;
+
+			if (value > max)
+				value = max;
+		}
 	}
 }
 

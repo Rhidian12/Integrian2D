@@ -42,7 +42,16 @@
     <ClCompile Include="SceneManager\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager\InputManager.cpp">
+    <ClCompile Include="Input\InputManager\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Mouse\Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Keyboard\Keyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\GameController\GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,13 +83,22 @@
     <ClInclude Include="SceneManager\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager\InputManager.h">
+    <ClInclude Include="Input\InputManager\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameInput\GameInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameInput\PossibleInputs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Mouse\Mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Keyboard\Keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\GameController\GameController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
