@@ -4,7 +4,7 @@
 
 bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
-#define UNIT_TESTS
+//#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
@@ -88,8 +88,30 @@ TEST_CASE("Testing the Point...")
 {
 	using namespace Integrian2D;
 
-	Point2f test{ 150.f, 100.f };
-	REQUIRE(test.x == 150.f);
+	Point2f point{ 1.f, 1.f };
+	REQUIRE(point.x == 1.f);
+	REQUIRE(point.y == 1.f);
+	
+	point += Vector2f{ 5.f, 8.f };
+
+	REQUIRE(point.x == 6.f);
+	REQUIRE(point.y == 9.f);
+
+	Point2f copiedPoint{ point };
+	REQUIRE(copiedPoint == point);
+	REQUIRE_FALSE(copiedPoint != point);
+
+	Point2f movedPoint{ std::move(point) };
+	REQUIRE(copiedPoint == movedPoint);
+	REQUIRE_FALSE(copiedPoint != movedPoint);
+}
+
+TEST_CASE("Testing the Vector...")
+{
+	using namespace Integrian2D;
+
+	Vector2f vector{ 1.f, 0.f };
+	REQUIRE(Magnitude(vector) == 1.f);
 
 }
 

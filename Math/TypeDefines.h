@@ -5,6 +5,8 @@
 
 #include "Point.h"
 #include "Vector.h"
+#include "Point2.h"
+#include "Vector2.h"
 
 namespace Integrian2D
 {
