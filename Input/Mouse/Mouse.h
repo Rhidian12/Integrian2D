@@ -1,6 +1,7 @@
 #pragma once
-#ifndef INTEGRIAN_MOUSE_H
-#define INTEGRIAN_MOUSE_H
+
+#ifndef INTEGRIAN2D_MOUSE_H
+#define INTEGRIAN2D_MOUSE_H
 
 #include "../../GameInput/GameInput.h" // GameInput
 #include <unordered_map> // std::unordered_map

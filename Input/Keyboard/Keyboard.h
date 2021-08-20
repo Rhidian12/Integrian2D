@@ -1,6 +1,7 @@
 #pragma once
-#ifndef INTEGRIAN_KEYBOARDINPUT_H
-#define INTEGRIAN_KEYBOARDINPUT_H
+
+#ifndef INTEGRIAN2D_KEYBOARDINPUT_H
+#define INTEGRIAN2D_KEYBOARDINPUT_H
 
 #include "../../GameInput/GameInput.h" // GameInput
 #include <unordered_map> // std::unordered_map
