@@ -15,37 +15,31 @@ namespace Integrian2D
 		~Keyboard();
 
 	private:
-		Keyboard() = default;
-		Keyboard(const Keyboard&) = delete;
-		Keyboard(Keyboard&& other) noexcept;
-		Keyboard& operator=(const Keyboard&) = delete;
 		friend class InputManager;
-
-		void AddCommand(const KeyboardInput keyboardInput, const State keyState, const std::function<void()>& pCommand);
-		void ExecuteCommands();
-
-		void ResetInputs();
-
-		[[nodiscard]] bool IsPressed(const KeyboardInput gameInput) const;
-		bool WasPressed(const State previousState) const;
-		State GetKeystate(const KeyboardInput keyboardInput, const State previousState) const;
-		[[nodiscard]] const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& GetCommands() const;
-		[[nodiscard]] KeyboardInput GetWhichKeyIsPressed() const noexcept;
-
-		void RemoveCommand(const std::function<void()>& pCommand);
-
-		std::unordered_map<KeyboardInput, std::vector<CommandAndButton>> m_KeyboardCommands{};
 
 		using CommandPair = std::pair<KeyboardInput, std::vector<CommandAndButton>>;
 		using UMapIterator = std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>::iterator;
 
-		inline Keyboard& operator=(Keyboard&& other) noexcept
-		{
-			m_KeyboardCommands = other.m_KeyboardCommands;
-			other.m_KeyboardCommands.clear();
+		Keyboard() = default;
+		Keyboard(const Keyboard&) = delete;
+		Keyboard(Keyboard&& other) noexcept;
+		Keyboard& operator=(const Keyboard&) = delete;
+		Keyboard& operator=(Keyboard&& other) noexcept;
 
-			return *this;
-		}
+		void AddCommand(const KeyboardInput keyboardInput, const State keyState, const std::function<void()>& pCommand) noexcept;
+		void ExecuteCommands() noexcept;
+
+		void ResetInputs() noexcept;
+
+		[[nodiscard]] bool IsPressed(const KeyboardInput gameInput) const noexcept;
+		bool WasPressed(const State previousState) const noexcept;
+		State GetKeystate(const KeyboardInput keyboardInput, const State previousState) const noexcept;
+		[[nodiscard]] const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& GetCommands() const noexcept;
+		[[nodiscard]] KeyboardInput GetWhichKeyIsPressed() const noexcept;
+
+		void RemoveCommand(const std::function<void()>& pCommand) noexcept;
+
+		std::unordered_map<KeyboardInput, std::vector<CommandAndButton>> m_KeyboardCommands{};
 	};
 }
 

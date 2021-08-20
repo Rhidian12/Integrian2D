@@ -9,18 +9,25 @@ namespace Integrian2D
 		other.m_KeyboardCommands.clear();
 	}
 
+	Keyboard& Keyboard::operator=(Keyboard&& other) noexcept
+	{
+		m_KeyboardCommands = other.m_KeyboardCommands;
+		other.m_KeyboardCommands.clear();
+
+		return *this;
+	}
 
 	Keyboard::~Keyboard()
 	{
 		m_KeyboardCommands.clear();
 	}
 
-	void Keyboard::AddCommand(const KeyboardInput keyboardInput, const State keyState, const std::function<void()>& pCommand)
+	void Keyboard::AddCommand(const KeyboardInput keyboardInput, const State keyState, const std::function<void()>& pCommand) noexcept
 	{
 		m_KeyboardCommands[keyboardInput].push_back(CommandAndButton{ pCommand,keyState });
 	}
 
-	void Keyboard::ExecuteCommands()
+	void Keyboard::ExecuteCommands() noexcept
 	{
 		for (std::pair<const KeyboardInput, std::vector<CommandAndButton>>& commandPair : m_KeyboardCommands)
 		{
@@ -28,22 +35,21 @@ namespace Integrian2D
 			{
 				const State currentKeystate{ GetKeystate(commandPair.first, commandAndButton.previousKeystate) };
 				if (currentKeystate == commandAndButton.wantedKeystate)
-				{
 					commandAndButton.pCommand();
-				}
+
 				commandAndButton.previousKeystate = currentKeystate;
 			}
 		}
 	}
 
-	void Keyboard::ResetInputs()
+	void Keyboard::ResetInputs() noexcept
 	{
 		for (std::pair<const KeyboardInput, std::vector<CommandAndButton>>& commandPair : m_KeyboardCommands)
 			for (CommandAndButton& commandAndButton : commandPair.second)
 				commandAndButton.previousKeystate = State::NotPressed;
 	}
 
-	bool Keyboard::IsPressed(const KeyboardInput gameInput) const
+	bool Keyboard::IsPressed(const KeyboardInput gameInput) const noexcept
 	{
 		if (gameInput == KeyboardInput::INVALID)
 			return false;
@@ -51,12 +57,12 @@ namespace Integrian2D
 		return SDL_GetKeyboardState(nullptr)[static_cast<SDL_Scancode>(gameInput)];
 	}
 
-	bool Keyboard::WasPressed(const State previousState) const
+	bool Keyboard::WasPressed(const State previousState) const noexcept
 	{
 		return (previousState == State::OnPress || previousState == State::OnHeld);
 	}
 
-	State Keyboard::GetKeystate(const KeyboardInput keyboardInput, const State previousState) const
+	State Keyboard::GetKeystate(const KeyboardInput keyboardInput, const State previousState) const noexcept
 	{
 		if (WasPressed(previousState))
 		{
@@ -73,7 +79,7 @@ namespace Integrian2D
 		return State::NotPressed;
 	}
 
-	const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& Keyboard::GetCommands() const
+	const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& Keyboard::GetCommands() const noexcept
 	{
 		return m_KeyboardCommands;
 	}
@@ -89,7 +95,7 @@ namespace Integrian2D
 		return KeyboardInput::INVALID;
 	}
 
-	void Keyboard::RemoveCommand(const std::function<void()>& pCommand)
+	void Keyboard::RemoveCommand(const std::function<void()>& pCommand) noexcept
 	{
 		for (const CommandPair& commandPair : m_KeyboardCommands)
 			for (const CommandAndButton& commandAndButton : commandPair.second)
