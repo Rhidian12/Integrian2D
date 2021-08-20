@@ -88,13 +88,13 @@ namespace Integrian2D
 	template<typename Type>
 	Vector<2, Type> operator*(const Vector<2, Type>& lhs, const Type& rhs) noexcept
 	{
-		return Vector<2, Type>{lhs.x * rhs, lhs.y * rhs};
+		return Vector<2, Type>{lhs.x* rhs, lhs.y* rhs};
 	}
 
 	template<typename Type>
 	Vector<2, Type> operator*(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
-		return Vector<2, Type>{lhs.x * rhs.x, lhs.y * rhs.y};
+		return Vector<2, Type>{lhs.x* rhs.x, lhs.y* rhs.y};
 	}
 
 	template<typename Type>
@@ -142,7 +142,7 @@ namespace Integrian2D
 		lhs.y /= rhs;
 		return lhs;
 	}
-	
+
 	template<typename Type>
 	Vector<2, Type> operator*=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
@@ -178,7 +178,7 @@ namespace Integrian2D
 	template<typename Type>
 	Type Dot(const Vector<2, Type>& lhs, const Vector<2, Type>& other) noexcept
 	{
-		return lhs.x * other.x + lhs.y* other.y;
+		return lhs.x * other.x + lhs.y * other.y;
 	}
 
 	template<typename Type>

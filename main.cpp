@@ -2,6 +2,8 @@
 
 #include <vld.h>
 
+bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
+
 #define UNIT_TESTS
 
 #ifdef UNIT_TESTS
@@ -66,7 +68,7 @@ TEST_CASE("Testing the GameObject...")
 	REQUIRE(pCopyOperator->GetComponentByType<ComponentWithNumbers>()->m_C == pCopyConstructor->GetComponentByType<ComponentWithNumbers>()->m_C);
 	REQUIRE(pCopyOperator->GetComponentByType<ComponentWithNumbers>()->m_D == pCopyConstructor->GetComponentByType<ComponentWithNumbers>()->m_D);
 
-	Integrian2D::GameObject* pMoveOperator{new Integrian2D::GameObject{}};
+	Integrian2D::GameObject* pMoveOperator{ new Integrian2D::GameObject{} };
 	*pMoveOperator = std::move(*pCopyOperator);
 	REQUIRE(pMoveOperator->GetComponentByType<ComponentWithNumbers>()->GetOwner() == pMoveOperator);
 	REQUIRE(pMoveOperator->GetComponentByType<ComponentWithNumbers>()->m_A == pCopyConstructor->GetComponentByType<ComponentWithNumbers>()->m_A);
@@ -81,19 +83,17 @@ TEST_CASE("Testing the GameObject...")
 	delete pMoveOperator;
 }
 
+#include "Math/TypeDefines.h"
 TEST_CASE("Testing the Point...")
 {
-#include "Math/TypeDefines.h"
-
 	using namespace Integrian2D;
 
-	Point2f 
+	Point2f test{ 150.f, 100.f };
+	REQUIRE(test.x == 150.f);
+
 }
 
 #else
-
-bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
-
 int main()
 {
 	Integrian2D::Integrian2D engine{ 640,480, "TestWindow" };

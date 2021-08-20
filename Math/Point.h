@@ -5,7 +5,7 @@
 
 #include <limits> // std::numeric_limits
 #include <cstdint>
-#include "Vector.h" // Vector
+#include "Vector.h"
 #include "../Utils/Utils.h"
 
 namespace Integrian2D
@@ -15,7 +15,7 @@ namespace Integrian2D
 	{
 		// == Data ==
 		Type data[P];
-	
+
 		// == Operator[] Is Required To Be A Member ==
 		Type& operator[](uint8_t i)
 		{
@@ -43,6 +43,6 @@ namespace Integrian2D
 		const Vector<P, Type> vector{ p1, p2 };
 		return static_cast<Type>(sqrt(MagnitudeSquared(vector)));
 	}
-}
+};
 
 #endif // !ENGINE_POINT_H
