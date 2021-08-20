@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef INTEGRIAND_POINT2_H
-#define INTEGRIAND_POINT2_H
+#ifndef INTEGRIAN2D_POINT2_H
+#define INTEGRIAN2D_POINT2_H
 
 #include "Point.h" // Point 
 #include "Vector.h" // Vector
@@ -60,10 +60,14 @@ namespace Integrian2D
 		union
 		{
 			Type data[2];
+
+#pragma warning ( push )
+#pragma warning ( disable : 4201 ) // Disable nameless struct warning
 			struct
 			{
 				Type x, y;
 			};
+#pragma warning ( pop )
 		};
 #pragma endregion
 	};

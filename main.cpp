@@ -2,7 +2,7 @@
 
 #include <vld.h>
 
-//#define UNIT_TESTS
+#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
@@ -81,9 +81,18 @@ TEST_CASE("Testing the GameObject...")
 	delete pMoveOperator;
 }
 
+TEST_CASE("Testing the Point...")
+{
+#include "Math/TypeDefines.h"
+
+	using namespace Integrian2D;
+
+	Point2f 
+}
+
 #else
 
-inline bool g_IsLooping{ true }; // Maybe move this somewhere else
+bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
 int main()
 {

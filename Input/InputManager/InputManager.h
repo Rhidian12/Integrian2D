@@ -7,6 +7,7 @@
 #include "../Mouse/Mouse.h"
 #include "../Keyboard/Keyboard.h"
 #include "../GameController/GameController.h"
+#include "../../Math/TypeDefines.h"
 
 #include <array>
 

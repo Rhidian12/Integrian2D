@@ -5,7 +5,7 @@
 
 namespace Integrian2D
 {
-	SceneManager* const Integrian2D::SceneManager::GetInstance() noexcept
+	SceneManager* const SceneManager::GetInstance() noexcept
 	{
 		if (!m_pInstance)
 			m_pInstance = new SceneManager{};

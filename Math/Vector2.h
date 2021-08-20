@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef INTEGRIAN_VECTOR2_H
-#define INTEGRIAN_VECTOR2_H
+#ifndef INTEGRIAN2D_VECTOR2_H
+#define INTEGRIAN2D_VECTOR2_H
 
 #include "Vector.h"
 #include "Point.h"
@@ -61,10 +61,13 @@ namespace Integrian2D
 		{
 			Type data[2];
 
+#pragma warning ( push )
+#pragma warning ( disable : 4201 ) // Disable nameless struct warning
 			struct
 			{
 				Type x, y;
 			};
+#pragma warning ( pop )
 		};
 #pragma endregion
 	};
@@ -171,7 +174,7 @@ namespace Integrian2D
 	}
 #pragma endregion
 
-#pragma region Member Functions
+#pragma region Functions
 	template<typename Type>
 	Type Dot(const Vector<2, Type>& lhs, const Vector<2, Type>& other) noexcept
 	{

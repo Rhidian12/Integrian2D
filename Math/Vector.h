@@ -35,7 +35,7 @@ namespace Integrian2D
 	template<int V, typename Type>
 	Type MagnitudeSquared(const Vector<V, Type>& v1) noexcept
 	{
-		return v1.Dot(v1);
+		return Dot(v1, v1);
 	}
 
 	template<int V, typename Type>

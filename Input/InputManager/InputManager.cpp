@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-extern bool g_IsLooping;
+extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
@@ -148,5 +148,22 @@ namespace Integrian2D
 		m_Mouse.ResetInputs();
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
 			m_Controllers[i].ResetInputs();
+	}
+
+	InputManager::InputManager()
+		: m_MousePosition{}
+		, m_WindowWidth{}
+		, m_WindowHeight{}
+		, m_AmountOfControllers{ uint8_t(SDL_NumJoysticks()) }
+		, m_Controllers{}
+		, m_Keyboard{}
+		, m_Mouse{}
+	{
+		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+			m_Controllers[i] = std::move(GameController{ uint8_t(i) });
+
+		m_Keyboard = std::move(Keyboard{});
+
+		m_Mouse = std::move(Mouse{});
 	}
 }
