@@ -14,36 +14,30 @@ namespace Integrian2D
 		~Mouse();
 
 	private:
-		Mouse() = default;
-		Mouse(const Mouse&) = delete;
-		Mouse(Mouse&& other);
-		Mouse& operator=(const Mouse&) = delete;
 		friend class InputManager;
-
-		void AddCommand(const MouseButton mouseButton, const State keyState, const std::function<void()>& pCommand);
-		void ExecuteCommands();
-
-		[[nodiscard]] bool IsPressed(const MouseButton gameInput) const;
-		bool WasPressed(const State previousState) const;
-		State GetKeystate(const MouseButton mouseButton, const State previousState) const;
-		[[nodiscard]] const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& GetCommands() const;
-
-		void RemoveCommand(const std::function<void()>& pCommand);
-
-		void ResetInputs();
-
-		std::unordered_map<MouseButton, std::vector<CommandAndButton>> m_MouseCommands{};
 
 		using CommandPair = std::pair<MouseButton, std::vector<CommandAndButton>>;
 		using UMapIterator = std::unordered_map<MouseButton, std::vector<CommandAndButton>>::iterator;
 
-		inline Mouse& operator=(Mouse&& other) noexcept
-		{
-			m_MouseCommands = other.m_MouseCommands;
-			other.m_MouseCommands.clear();
+		Mouse() = default;
+		Mouse(const Mouse&) = delete;
+		Mouse(Mouse&& other) noexcept;
+		Mouse& operator=(const Mouse&) = delete;
+		Mouse& operator=(Mouse&& other) noexcept;
 
-			return *this;
-		}
+		void AddCommand(const MouseButton mouseButton, const State keyState, const std::function<void()>& pCommand) noexcept;
+		void ExecuteCommands() noexcept;
+
+		[[nodiscard]] bool IsPressed(const MouseButton gameInput) const noexcept;
+		bool WasPressed(const State previousState) const noexcept;
+		State GetKeystate(const MouseButton mouseButton, const State previousState) const noexcept;
+		[[nodiscard]] const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& GetCommands() const noexcept;
+
+		void RemoveCommand(const std::function<void()>& pCommand) noexcept;
+
+		void ResetInputs() noexcept;
+
+		std::unordered_map<MouseButton, std::vector<CommandAndButton>> m_MouseCommands{};
 	};
 }
 
