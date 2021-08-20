@@ -16,11 +16,6 @@ namespace Integrian2D
 	class InputManager final
 	{
 	public:
-		static InputManager* const GetInstance() noexcept;
-		static void Cleanup() noexcept;
-
-		virtual ~InputManager() = default;
-
 		/*
 		This function gets called in the App::Run() every frame.
 		All input gets processed, and commands linked to those inputs get executed
@@ -67,10 +62,9 @@ namespace Integrian2D
 		void ResetInputs();
 
 	private:
-		friend class App;
-		InputManager();
+		friend class Locator;
 
-		inline static InputManager* m_pInstance{};
+		InputManager();
 
 		Point2f m_MousePosition;
 		uint32_t m_WindowWidth;

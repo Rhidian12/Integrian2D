@@ -7,19 +7,6 @@ extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
-	InputManager* const Integrian2D::InputManager::GetInstance() noexcept
-	{
-		if (!m_pInstance)
-			m_pInstance = new InputManager{};
-
-		return m_pInstance;
-	}
-
-	void InputManager::Cleanup() noexcept
-	{
-		Utils::SafeDelete(m_pInstance);
-	}
-
 	void InputManager::HandleInput()
 	{
 		int x{}, y{};
