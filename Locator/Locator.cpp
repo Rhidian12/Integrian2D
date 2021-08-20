@@ -1,5 +1,7 @@
 #include "Locator.h"
 #include "../Utils/Utils.h"
+#include "../SceneManager/SceneManager.h"
+#include "../Scene/Scene.h"
 
 namespace Integrian2D
 {
@@ -10,8 +12,14 @@ namespace Integrian2D
 
 		return m_pInstance;
 	}
+
 	void Locator::Cleanup() noexcept
 	{
 		Utils::SafeDelete(m_pInstance);
+	}
+
+	InputManager* const Locator::GetInputManager() const noexcept
+	{
+		return &SceneManager::GetInstance()->GetActiveScene()->inputManager;
 	}
 }

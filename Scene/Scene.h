@@ -5,6 +5,7 @@
 
 #include <string>
 #include <unordered_map>
+#include "../Input/InputManager/InputManager.h"
 
 namespace Integrian2D
 {
@@ -31,15 +32,23 @@ namespace Integrian2D
 		const std::string& GetSceneName() const noexcept;
 
 	private:
-		friend class Integrian2D; // Make sure that only Integrian2D can access the Root[] functions
+		friend class Integrian2D; // Make sure that only Integrian2D can access the Root functions
+		friend class Locator;
+
+#pragma warning ( push )
+#pragma warning ( disable : 4201 ) // Disable nameless struct warning
+		struct
+		{
+			InputManager inputManager{};
+		};
+#pragma warning ( pop )
+
 		void RootUpdate();
 		void RootFixedUpdate();
 		void RootLateUpdate();
-
 		void RootRender() const;
 
 		std::string m_SceneName;
-
 		std::unordered_map<std::string, GameObject*> m_pGameObjects;
 	};
 }

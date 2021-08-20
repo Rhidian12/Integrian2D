@@ -1,9 +1,14 @@
 #pragma once
+
 #ifndef INTEGRIAN2D_POSSIBLEINPUTS_H
 #define INTEGRIAN2D_POSSIBLEINPUTS_H
 
+#ifdef max /* Undefine the max() macro since it's fucking the entire project somehow */
+#undef max
+#endif
+
 #include <limits>
-#include <cstdint>
+#include <stdint.h>
 #include <SDL.h>
 
 namespace Integrian2D
@@ -111,9 +116,9 @@ namespace Integrian2D
 		ArrowLeft = SDL_SCANCODE_LEFT,
 	};
 
-	enum class ControllerInput : Uint8
+	enum class ControllerInput : uint16_t
 	{
-		INVALID = std::numeric_limits<Uint8>::max(), // internal usage
+		INVALID = std::numeric_limits<uint16_t>::max(), // internal usage
 		ButtonA = SDL_CONTROLLER_BUTTON_A,
 		ButtonB = SDL_CONTROLLER_BUTTON_B,
 		ButtonX = SDL_CONTROLLER_BUTTON_X,

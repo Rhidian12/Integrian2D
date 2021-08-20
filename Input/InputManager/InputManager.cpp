@@ -7,7 +7,7 @@ extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
-	void InputManager::HandleInput()
+	void InputManager::HandleInput() noexcept
 	{
 		int x{}, y{};
 		const Uint32 mouseState = SDL_GetMouseState(&x, &y);
@@ -37,7 +37,7 @@ namespace Integrian2D
 			m_Controllers[i].ExecuteCommands();
 	}
 
-	void InputManager::AddCommand(const GameInput& gameInput, const std::function<void()>& pCommand, const State keyState, const uint8_t controllerIndex)
+	void InputManager::AddCommand(const GameInput& gameInput, const std::function<void()>& pCommand, const State keyState, const uint8_t controllerIndex) noexcept
 	{
 		if (gameInput.controllerInput != ControllerInput::INVALID)
 			m_Controllers[controllerIndex].AddCommand(gameInput.controllerInput, keyState, pCommand);
@@ -49,7 +49,7 @@ namespace Integrian2D
 			m_Keyboard.AddCommand(gameInput.keyboardInput, keyState, pCommand);
 	}
 
-	void InputManager::RemoveCommandFromInput(const GameInput& input, std::function<void()>& pCommand, const uint8_t controllerIndex)
+	void InputManager::RemoveCommandFromInput(const GameInput& input, std::function<void()>& pCommand, const uint8_t controllerIndex) noexcept
 	{
 		if (input.mouseButton != MouseButton::INVALID)
 			m_Mouse.RemoveCommand(pCommand);
@@ -61,14 +61,14 @@ namespace Integrian2D
 			m_Controllers[controllerIndex].RemoveCommand(pCommand);
 	}
 
-	void InputManager::RemoveCommand(const std::function<void()>& pCommand, const uint8_t controllerIndex)
+	void InputManager::RemoveCommand(const std::function<void()>& pCommand, const uint8_t controllerIndex) noexcept
 	{
 		m_Mouse.RemoveCommand(pCommand);
 		m_Keyboard.RemoveCommand(pCommand);
 		m_Controllers[controllerIndex].RemoveCommand(pCommand);
 	}
 
-	void InputManager::RemoveAllCommands()
+	void InputManager::RemoveAllCommands() noexcept
 	{
 		for (uint8_t i{}; i < 4; ++i)
 			m_Controllers[i].m_pCommands.clear();
@@ -78,17 +78,17 @@ namespace Integrian2D
 		m_Mouse.m_MouseCommands.clear();
 	}
 
-	bool InputManager::IsKeyboardKeyPressed(const KeyboardInput gameInput) const
+	bool InputManager::IsKeyboardKeyPressed(const KeyboardInput gameInput) const noexcept
 	{
 		return m_Keyboard.IsPressed(gameInput);
 	}
 
-	bool InputManager::IsControllerButtonPressed(const ControllerInput gameInput, const uint8_t playerIndex) const
+	bool InputManager::IsControllerButtonPressed(const ControllerInput gameInput, const uint8_t playerIndex) const noexcept
 	{
 		return m_Controllers[playerIndex].IsPressed(gameInput);
 	}
 
-	bool InputManager::IsMouseButtonPressed(const MouseButton gameInput) const
+	bool InputManager::IsMouseButtonPressed(const MouseButton gameInput) const noexcept
 	{
 		return m_Mouse.IsPressed(gameInput);
 	}
@@ -99,37 +99,37 @@ namespace Integrian2D
 
 	}
 
-	const Point2f& InputManager::GetMousePosition() const
+	const Point2f& InputManager::GetMousePosition() const noexcept
 	{
 		return m_MousePosition;
 	}
 
-	double InputManager::GetJoystickMovement(const ControllerInput axis, const uint8_t playerIndex) const
+	double InputManager::GetJoystickMovement(const ControllerInput axis, const uint8_t playerIndex) const noexcept
 	{
 		return m_Controllers[playerIndex].GetJoystickMovement(axis);
 	}
 
-	double InputManager::GetTriggerMovement(const ControllerInput axis, const uint8_t playerIndex) const
+	double InputManager::GetTriggerMovement(const ControllerInput axis, const uint8_t playerIndex) const noexcept
 	{
 		return m_Controllers[playerIndex].GetTriggerMovement(axis);
 	}
 
-	const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& InputManager::GetKeyboardCommands() const
+	const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& InputManager::GetKeyboardCommands() const noexcept
 	{
 		return m_Keyboard.m_KeyboardCommands;
 	}
 
-	const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& InputManager::GetMouseCommands() const
+	const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& InputManager::GetMouseCommands() const noexcept
 	{
 		return m_Mouse.m_MouseCommands;
 	}
 
-	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& InputManager::GetControllerCommands(const uint8_t index) const
+	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& InputManager::GetControllerCommands(const uint8_t index) const noexcept
 	{
 		return m_Controllers[index].m_pCommands;
 	}
 
-	void InputManager::ResetInputs()
+	void InputManager::ResetInputs() noexcept
 	{
 		m_Keyboard.ResetInputs();
 		m_Mouse.ResetInputs();
