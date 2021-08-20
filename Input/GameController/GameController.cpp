@@ -14,9 +14,7 @@ namespace Integrian2D
 			m_pSDLGameController = SDL_GameControllerOpen(index);
 
 			if (!m_pSDLGameController)
-			{
 				Logger::LogError("Error in controller: " + std::to_string(index) + "\n" + SDL_GetError());
-			}
 		}
 	}
 
@@ -28,6 +26,18 @@ namespace Integrian2D
 
 		other.m_pCommands.clear();
 		other.m_pSDLGameController = nullptr;
+	}
+
+	GameController& GameController::operator=(GameController&& other) noexcept
+	{
+		m_pCommands = other.m_pCommands;
+		m_pSDLGameController = other.m_pSDLGameController;
+		m_Index = other.m_Index;
+
+		other.m_pCommands.clear();
+		other.m_pSDLGameController = nullptr;
+
+		return *this;
 	}
 
 	GameController::~GameController()
@@ -44,12 +54,12 @@ namespace Integrian2D
 		m_pCommands.clear();
 	}
 
-	void GameController::AddCommand(const ControllerInput controllerInput, const State keyState, const std::function<void()>& pCommand)
+	void GameController::AddCommand(const ControllerInput controllerInput, const State keyState, const std::function<void()>& pCommand) noexcept
 	{
 		m_pCommands[controllerInput].push_back(CommandAndButton{ pCommand,keyState });
 	}
 
-	void GameController::ExecuteCommands()
+	void GameController::ExecuteCommands() noexcept
 	{
 		for (std::pair<const ControllerInput, std::vector<CommandAndButton>>& commandPair : m_pCommands)
 		{
@@ -57,15 +67,14 @@ namespace Integrian2D
 			{
 				const State currentKeystate{ GetKeystate(commandPair.first, commandAndButton.previousKeystate) };
 				if (currentKeystate == commandAndButton.wantedKeystate)
-				{
 					commandAndButton.pCommand();
-				}
+
 				commandAndButton.previousKeystate = currentKeystate;
 			}
 		}
 	}
 
-	bool GameController::IsPressed(const ControllerInput controllerInput) const
+	bool GameController::IsPressed(const ControllerInput controllerInput) const noexcept
 	{
 		if (controllerInput == ControllerInput::LeftTrigger)
 			return (SDL_GameControllerGetAxis(m_pSDLGameController, SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 0);
@@ -77,12 +86,12 @@ namespace Integrian2D
 			return (SDL_GameControllerGetButton(m_pSDLGameController, static_cast<SDL_GameControllerButton>(controllerInput)) > 0);
 	}
 
-	bool GameController::WasPressed(const State previousState) const
+	bool GameController::WasPressed(const State previousState) const noexcept
 	{
 		return (previousState == State::OnPress || previousState == State::OnHeld);
 	}
 
-	State GameController::GetKeystate(const ControllerInput controllerInput, const State previousState) const
+	State GameController::GetKeystate(const ControllerInput controllerInput, const State previousState) const noexcept
 	{
 		if (WasPressed(previousState))
 		{
@@ -99,7 +108,7 @@ namespace Integrian2D
 		return State::NotPressed;
 	}
 
-	double GameController::GetJoystickMovement(const ControllerInput axis) const
+	double GameController::GetJoystickMovement(const ControllerInput axis) const noexcept
 	{
 		if (axis != ControllerInput::JoystickLeftHorizontalAxis && axis != ControllerInput::JoystickLeftVerticalAxis)
 		{
@@ -115,7 +124,7 @@ namespace Integrian2D
 		return movement;
 	}
 
-	double GameController::GetTriggerMovement(const ControllerInput axis) const
+	double GameController::GetTriggerMovement(const ControllerInput axis) const noexcept
 	{
 		if (axis != ControllerInput::LeftTrigger && axis != ControllerInput::RightTrigger)
 		{
@@ -128,12 +137,12 @@ namespace Integrian2D
 		return movement;
 	}
 
-	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& GameController::GetCommands() const
+	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& GameController::GetCommands() const noexcept
 	{
 		return m_pCommands;
 	}
 
-	void GameController::RemoveCommand(const std::function<void()>& pCommand)
+	void GameController::RemoveCommand(const std::function<void()>& pCommand) noexcept
 	{
 		for (const CommandPair& commandPair : m_pCommands)
 			for (const CommandAndButton& commandAndButton : commandPair.second)
@@ -141,7 +150,7 @@ namespace Integrian2D
 					m_pCommands.erase(commandPair.first);
 	}
 
-	void GameController::ResetInputs()
+	void GameController::ResetInputs() noexcept
 	{
 		for (std::pair<const ControllerInput, std::vector<CommandAndButton>>& commandPair : m_pCommands)
 			for (CommandAndButton& commandAndButton : commandPair.second)
