@@ -4,11 +4,18 @@
 #define INTEGRIAN2D_UTILS_H
 
 #include <type_traits>
+#include <string>
 
 namespace Integrian2D
 {
 	namespace Utils
 	{
+#ifdef _DEBUG
+		void Assert(const bool expression, std::string message);
+#else
+		void Assert(const bool expression, std::string message);
+#endif
+
 		// == Templated Functions ==
 		template<typename Pointer>
 		void SafeDelete(Pointer*& pData)
@@ -39,6 +46,12 @@ namespace Integrian2D
 
 			if (value > max)
 				value = max;
+		}
+
+		template<typename FundamentalType, typename = std::enable_if_t<std::is_fundamental_v<FundamentalType>>>
+		constexpr bool AreEqual(const FundamentalType a, const FundamentalType b)
+		{
+			return abs(a - b) <= std::numeric_limits<FundamentalType>::epsilon();
 		}
 	}
 }

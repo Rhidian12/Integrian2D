@@ -222,6 +222,10 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Locator\Locator.h" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Input\Mouse\Mouse.h" />
+    <ClInclude Include="Math\Point.h" />
+    <ClInclude Include="Math\Point2.h" />
+    <ClInclude Include="Math\Vector.h" />
+    <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Utils\Utils.h" />
