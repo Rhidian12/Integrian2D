@@ -54,6 +54,12 @@
     <ClCompile Include="Input\GameController\GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parsing\BinaryWriter\BinaryWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Integrian2D\Integrian2D.h">
@@ -114,6 +120,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\TypeDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parsing\BinaryWriter\BinaryWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parsing\BinaryReader\BinaryReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parsing\DataType\DataType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

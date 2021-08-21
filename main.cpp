@@ -4,7 +4,7 @@
 
 bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
-//#define UNIT_TESTS
+#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
@@ -91,7 +91,7 @@ TEST_CASE("Testing the Point...")
 	Point2f point{ 1.f, 1.f };
 	REQUIRE(point.x == 1.f);
 	REQUIRE(point.y == 1.f);
-	
+
 	point += Vector2f{ 5.f, 8.f };
 
 	REQUIRE(point.x == 6.f);
@@ -113,6 +113,36 @@ TEST_CASE("Testing the Vector...")
 	Vector2f vector{ 1.f, 0.f };
 	REQUIRE(Magnitude(vector) == 1.f);
 
+}
+
+#include "Parsing/BinaryWriter/BinaryWriter.h"
+TEST_CASE("Testing the Writer...")
+{
+	using namespace Integrian2D;
+
+	BinaryWriter writer{ "Test.bin" };
+
+	writer.Write(50);
+	writer.Write(100.f);
+	writer.Write(150.0);
+	writer.Write(std::string{ "200" });
+	writer.Write(uint8_t(12));
+	writer.Write(int8_t(-12));
+}
+
+#include "Parsing/BinaryReader/BinaryReader.h"
+TEST_CASE("Testing the Reader...")
+{
+	using namespace Integrian2D;
+
+	BinaryReader reader{ "Test.bin" };
+	
+	REQUIRE(reader.Read().GetData<int>() == 50);
+	REQUIRE(reader.Read().GetData<float>() == 100.f);
+	REQUIRE(reader.Read().GetData<double>() == 150.0);
+	REQUIRE(reader.Read().GetData<std::string>() == "200");
+	REQUIRE(reader.Read().GetData<uint8_t>() == 12);
+	REQUIRE(reader.Read().GetData<int8_t>() == -12);
 }
 
 #else

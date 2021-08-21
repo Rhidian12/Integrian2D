@@ -195,6 +195,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp" />
+    <ClCompile Include="Parsing\BinaryWriter\BinaryWriter.cpp" />
     <ClCompile Include="Components\Component\Component.cpp" />
     <ClCompile Include="Input\GameController\GameController.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
@@ -210,6 +212,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Parsing\BinaryReader\BinaryReader.h" />
+    <ClInclude Include="Parsing\BinaryWriter\BinaryWriter.h" />
     <ClInclude Include="catch.hpp" />
     <ClInclude Include="Components\Component\Component.h" />
     <ClInclude Include="Input\GameController\GameController.h" />
@@ -227,6 +231,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Math\TypeDefines.h" />
     <ClInclude Include="Math\Vector.h" />
     <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="Parsing\DataType\DataType.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Utils\Utils.h" />
