@@ -63,6 +63,9 @@
     <ClCompile Include="Texture\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Components\TextureComponent\TextureComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Integrian2D\Integrian2D.h">
@@ -141,6 +144,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\RGBColour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TextureComponent\TextureComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
