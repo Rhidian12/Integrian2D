@@ -213,6 +213,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Parsing\BinaryReader\BinaryReader.h" />
     <ClInclude Include="Parsing\BinaryWriter\BinaryWriter.h" />
     <ClInclude Include="catch.hpp" />
