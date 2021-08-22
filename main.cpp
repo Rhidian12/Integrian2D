@@ -137,12 +137,12 @@ TEST_CASE("Testing the Reader...")
 
 	BinaryReader reader{ "Test.bin" };
 	
-	REQUIRE(reader.Read().GetData<int>() == 50);
-	REQUIRE(reader.Read().GetData<float>() == 100.f);
-	REQUIRE(reader.Read().GetData<double>() == 150.0);
-	REQUIRE(reader.Read().GetData<std::string>() == "200");
-	REQUIRE(reader.Read().GetData<uint8_t>() == 12);
-	REQUIRE(reader.Read().GetData<int8_t>() == -12);
+	REQUIRE(reader.Read<int>()== 50);
+	REQUIRE(reader.Read<float>() == 100.f);
+	REQUIRE(reader.Read<double>() == 150.0);
+	REQUIRE(reader.Read<std::string>() == "200");
+	REQUIRE(reader.Read<uint8_t>() == 12);
+	REQUIRE(reader.Read<int8_t>() == -12);
 }
 
 #else

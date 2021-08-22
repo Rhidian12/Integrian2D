@@ -15,98 +15,14 @@ namespace Integrian2D
 		BinaryReader(std::string fileName);
 		~BinaryReader();
 
-		void Close() noexcept;
+		void Close() noexcept;	
 
-		ReadData Read() noexcept
+		template<typename Type>
+		Type Read() noexcept
 		{
 			Utils::Assert(m_File.is_open(), "BinaryReader could not open the file!");
 
-			DataType type{ ReadType() };
-			ReadData readData{};
-
-			switch (type)
-			{
-			case DataType::uint8_t:
-			{
-				uint8_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::uint16_t:
-			{
-				uint16_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::uint32_t:
-			{
-				uint32_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::uint64_t:
-			{
-				uint64_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::int8_t:
-			{
-				int8_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::int16_t:
-			{
-				int16_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::int32_t:
-			{
-				int32_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::int64_t:
-			{
-				int64_t data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::floatP:
-			{
-				float data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::doubleP:
-			{
-				double data{};
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(data));
-
-				readData = ReadData{ data, type };
-			}
-			break;
-			case DataType::string:
+			if constexpr (std::is_same_v<Type, std::string>)
 			{
 				size_t stringSize{};
 
@@ -117,15 +33,16 @@ namespace Integrian2D
 
 				m_File.read(&data[0], stringSize);
 
-				readData = ReadData{ data, type };
+				return data;
 			}
-			break;
-			default:
-				Utils::Assert(false, "Type is not part of DataType!");
-				break;
-			}
+			else
+			{
+				Type data{};
 
-			return readData;
+				m_File.read(reinterpret_cast<char*>(&data), sizeof(Type));
+
+				return data;
+			}
 		}
 
 	private:
