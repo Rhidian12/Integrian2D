@@ -11,6 +11,7 @@
 namespace Integrian2D
 {
 	class Component;
+	class TransformComponent;
 
 	class GameObject final
 	{
@@ -33,6 +34,8 @@ namespace Integrian2D
 		void SetTag(std::string tag) noexcept;
 
 		const std::string& GetTag() const noexcept;
+
+		TransformComponent* pTransform;
 
 		GameObject(const GameObject& other) noexcept;
 		GameObject(GameObject&& other) noexcept;

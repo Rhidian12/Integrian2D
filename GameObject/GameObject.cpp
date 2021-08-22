@@ -2,6 +2,7 @@
 #include "../Utils/Utils.h"
 #include "../Components/Component/Component.h"
 #include "../Logger/Logger.h"
+#include "../Components/TransformComponent/TransformComponent.h"
 
 #include <algorithm>
 
@@ -11,6 +12,7 @@ namespace Integrian2D
 		: m_pComponents{}
 		, m_pChildren{}
 		, m_Tag{}
+		, pTransform{ new TransformComponent{ this } }
 	{
 	}
 
@@ -101,6 +103,7 @@ namespace Integrian2D
 		: m_pComponents{}
 		, m_pChildren{}
 		, m_Tag{ other.m_Tag }
+		, pTransform{ static_cast<TransformComponent*>(other.pTransform->Clone(this)) }
 	{
 		for (Component* pC : other.m_pComponents)
 			m_pComponents.push_back(pC->Clone(this));
@@ -112,15 +115,21 @@ namespace Integrian2D
 		: m_pComponents{ std::forward<std::vector<Component*>>(other.m_pComponents) }
 		, m_pChildren{ std::forward<std::vector<GameObject*>>(other.m_pChildren) }
 		, m_Tag{ std::forward<std::string>(other.m_Tag) }
+		, pTransform{ std::forward<TransformComponent*>(other.pTransform) }
 	{
+		pTransform->SetOwner(this);
+
 		for (Component* pC : m_pComponents)
 			pC->SetOwner(this);
 
 		other.m_pComponents.clear();
 		other.m_pChildren.clear();
+		other.pTransform = nullptr;
 	}
 	GameObject& GameObject::operator=(const GameObject& other) noexcept
 	{
+		pTransform = static_cast<TransformComponent*>(other.pTransform->Clone(this));
+
 		for (Component* pC : other.m_pComponents)
 			m_pComponents.push_back(pC->Clone(this));
 
@@ -133,6 +142,9 @@ namespace Integrian2D
 	}
 	GameObject& GameObject::operator=(GameObject&& other) noexcept
 	{
+		pTransform = std::forward<TransformComponent*>(other.pTransform);
+		pTransform->SetOwner(this);
+
 		m_pComponents = std::forward<std::vector<Component*>>(other.m_pComponents);
 		m_pChildren = std::forward<std::vector<GameObject*>>(other.m_pChildren);
 		m_Tag = std::forward<std::string>(other.m_Tag);
@@ -142,6 +154,7 @@ namespace Integrian2D
 
 		other.m_pComponents.clear();
 		other.m_pChildren.clear();
+		other.pTransform = nullptr;
 
 		return *this;
 	}
