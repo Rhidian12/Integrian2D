@@ -4,7 +4,6 @@
 #include <fstream>
 #include <type_traits>
 
-#include "../DataType/DataType.h"
 #include "../../Utils/Utils.h"
 
 namespace Integrian2D
@@ -46,14 +45,6 @@ namespace Integrian2D
 		}
 
 	private:
-		DataType ReadType() noexcept
-		{
-			DataType type{};
-			m_File.read(reinterpret_cast<char*>(&type), sizeof(size_t));
-
-			return type;
-		}
-
 		std::fstream m_File;
 	};
 }

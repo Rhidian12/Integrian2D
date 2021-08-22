@@ -4,7 +4,6 @@
 #include <fstream>
 #include <type_traits>
 
-#include "../DataType/DataType.h"
 #include "../../Utils/Utils.h"
 
 namespace Integrian2D
