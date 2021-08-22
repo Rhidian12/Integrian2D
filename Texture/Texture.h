@@ -25,9 +25,9 @@ namespace Integrian2D
 		void Draw(const Point2f& dstBottomLeft = {}, const Rectf& srcRect = Rectf{}) const;
 		void Draw(const Rectf& dstRect, const Rectf& srcRect = Rectf{}) const;
 
-		[[nodiscard]] float GetWidth() const;
-		[[nodiscard]] float GetHeight() const;
-		[[nodiscard]] bool IsCreationOk() const;
+		float GetWidth() const;
+		float GetHeight() const;
+		bool IsCreationOk() const;
 
 	private:
 		//DATA MEMBERS
