@@ -140,5 +140,8 @@
     <ClInclude Include="Math\Rect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\RGBColour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
