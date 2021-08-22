@@ -33,13 +33,13 @@ namespace Integrian2D
 
 	private:
 		friend class Integrian2D; // Make sure that only Integrian2D can access the Root functions
-		friend class Locator;
+		friend class Locator; // Make sure that only the Locator can access the InputManager
 
 #pragma warning ( push )
 #pragma warning ( disable : 4201 ) // Disable nameless struct warning
 		struct
 		{
-			InputManager inputManager{};
+			InputManager inputManager{}; // TODO: Make this not a struct if not necessary
 		};
 #pragma warning ( pop )
 
