@@ -1,10 +1,6 @@
-#include "Integrian2D/Integrian2D.h"
-
-#include <vld.h>
-
 bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
-#define UNIT_TESTS
+//#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
@@ -146,8 +142,20 @@ TEST_CASE("Testing the Reader...")
 }
 
 #else
-int main()
+#include "Core/Core.h"
+#include "SceneManager/SceneManager.h"
+#include "Scene/Scene.h"
+
+#include <vld.h>
+
+#undef main
+int main(int, char**)
 {
-	Integrian2D::Integrian2D engine{ 640,480, "TestWindow" };
+	using namespace Integrian2D;
+
+	Core engine{ 640,480, "TestWindow" };
+
+	
+	return 0;
 }
 #endif

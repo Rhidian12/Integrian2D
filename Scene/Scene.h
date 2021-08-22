@@ -32,7 +32,7 @@ namespace Integrian2D
 		const std::string& GetSceneName() const noexcept;
 
 	private:
-		friend class Integrian2D; // Make sure that only Integrian2D can access the Root functions
+		friend class Core; // Make sure that only Core can access the Root functions
 		friend class Locator; // Make sure that only the Locator can access the InputManager
 
 #pragma warning ( push )

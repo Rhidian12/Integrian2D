@@ -11,18 +11,18 @@ namespace Integrian2D
 {
 	class Scene;
 
-	class Integrian2D final
+	class Core final
 	{
 	public:
-		Integrian2D(const int windowWidth, const int windowHeight, std::string windowTitle);
-		~Integrian2D();
+		Core(const int windowWidth, const int windowHeight, std::string windowTitle);
+		~Core();
 
 		void Run();
 
-		Integrian2D(const Integrian2D&) = delete;
-		Integrian2D(Integrian2D&&) = delete;
-		Integrian2D& operator=(const Integrian2D&) = delete;
-		Integrian2D& operator=(Integrian2D&&) = delete;
+		Core(const Core&) = delete;
+		Core(Core&&) = delete;
+		Core& operator=(const Core&) = delete;
+		Core& operator=(Core&&) = delete;
 
 	private:
 		bool InitializeLibraries(std::string windowTitle) noexcept;

@@ -1,4 +1,4 @@
-#include "Integrian2D.h"
+#include "Core.h"
 #include "../Logger/Logger.h"
 #include "../SceneManager/SceneManager.h"
 #include "../Scene/Scene.h"
@@ -13,7 +13,7 @@
 
 namespace Integrian2D
 {
-	Integrian2D::Integrian2D(const int windowWidth, const int windowHeight, std::string windowTitle)
+	Core::Core(const int windowWidth, const int windowHeight, std::string windowTitle)
 		: m_pWindow{}
 		, m_WindowWidth{ windowWidth }
 		, m_WindowHeight{ windowHeight }
@@ -22,12 +22,12 @@ namespace Integrian2D
 			std::abort(); // TODO: Throw an exception
 	}
 
-	Integrian2D::~Integrian2D()
+	Core::~Core()
 	{
 		ShutdownLibraries();
 	}
 
-	void Integrian2D::Run()
+	void Core::Run()
 	{
 		SceneManager* pSceneManager{ SceneManager::GetInstance() };
 		
@@ -49,7 +49,7 @@ namespace Integrian2D
 		}
 	}
 
-	bool Integrian2D::InitializeLibraries(std::string windowTitle) noexcept
+	bool Core::InitializeLibraries(std::string windowTitle) noexcept
 	{
 #pragma region SDL Stuff
 		//Create window + surfaces
@@ -127,7 +127,8 @@ namespace Integrian2D
 
 		return true;
 	}
-	void Integrian2D::ShutdownLibraries() noexcept
+
+	void Core::ShutdownLibraries() noexcept
 	{
 		Mix_CloseAudio();
 		Mix_Quit();

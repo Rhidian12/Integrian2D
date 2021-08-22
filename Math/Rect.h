@@ -40,8 +40,8 @@ namespace Integrian2D
 		Rect(Rect&& other) noexcept
 			: x{ std::move(other.x) }
 			, y{ std::move(other.y) }
-			, width{ std::moveother.width) }
-			, height{ std::moveother.height) }
+			, width{ std::move(other.width) }
+			, height{ std::move(other.height) }
 		{}
 		Rect& operator=(const Rect& other) noexcept
 		{

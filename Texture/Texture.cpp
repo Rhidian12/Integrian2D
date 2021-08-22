@@ -105,10 +105,10 @@ namespace Integrian2D
 		// Render text surface
 		SDL_Color textColor{};
 		MaxToOne(color);
-		textColor.r = Uint8(color.r * 255);
-		textColor.g = Uint8(color.g * 255);
-		textColor.b = Uint8(color.b * 255);
-		textColor.a = Uint8(color.a * 255);
+		textColor.r = Uint8(color.r.v * static_cast<uint8_t>(255));
+		textColor.g = Uint8(color.g.v * static_cast<uint8_t>(255));
+		textColor.b = Uint8(color.b.v * static_cast<uint8_t>(255));
+		textColor.a = Uint8(color.a.v * static_cast<uint8_t>(255));
 
 		SDL_Surface* pLoadedSurface = TTF_RenderText_Blended(pFont, text.c_str(), textColor);
 		if (pLoadedSurface == nullptr)

@@ -18,7 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Integrian2D\Integrian2D.cpp">
+    <ClCompile Include="Core\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Logger\Logger.cpp">
@@ -71,7 +71,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Integrian2D\Integrian2D.h">
+    <ClInclude Include="Core\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Logger\Logger.h">
