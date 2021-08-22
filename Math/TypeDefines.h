@@ -8,6 +8,7 @@
 #include "Point2.h"
 #include "Vector2.h"
 #include "Rect.h"
+#include "RGBColour.h"
 
 namespace Integrian2D
 {

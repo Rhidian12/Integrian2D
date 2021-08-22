@@ -104,7 +104,7 @@ namespace Integrian2D
 
 		// Render text surface
 		SDL_Color textColor{};
-		color.MaxToOne();
+		MaxToOne(color);
 		textColor.r = Uint8(color.r * 255);
 		textColor.g = Uint8(color.g * 255);
 		textColor.b = Uint8(color.b * 255);
@@ -257,18 +257,18 @@ namespace Integrian2D
 		else // srcRect specified
 		{
 			// Convert to the range [0.0, 1.0]
-			textLeft = srcRect[VertexLocation::LeftBottom].x / m_Width;
-			textRight = (srcRect[VertexLocation::LeftBottom].x + srcRect.width) / m_Width;
-			textTop = (srcRect[VertexLocation::LeftBottom].y - srcRect.height) / m_Height;
-			textBottom = srcRect[VertexLocation::LeftBottom].y / m_Height;
+			textLeft = srcRect.x / m_Width;
+			textRight = (srcRect.x + srcRect.width) / m_Width;
+			textTop = (srcRect.y - srcRect.height) / m_Height;
+			textBottom = srcRect.y / m_Height;
 
 			defaultDestHeight = srcRect.height;
 			defaultDestWidth = srcRect.width;
 		}
 
 		// Determine vertex coordinates
-		const float vertexLeft{ dstRect[VertexLocation::LeftBottom].x };
-		const float vertexBottom{ dstRect[VertexLocation::LeftBottom].y };
+		const float vertexLeft{ dstRect.x };
+		const float vertexBottom{ dstRect.y };
 		float vertexRight{};
 		float vertexTop{};
 		if (!(dstRect.width > 0.001f && dstRect.height > 0.001f)) // If no size specified use default size
@@ -329,10 +329,10 @@ namespace Integrian2D
 		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
 		glBegin(GL_POLYGON);
 		{
-			glVertex2f(rect[VertexLocation::LeftBottom].x, rect[VertexLocation::LeftBottom].y);
-			glVertex2f(rect[VertexLocation::LeftBottom].x + rect.width, rect[VertexLocation::LeftBottom].y);
-			glVertex2f(rect[VertexLocation::LeftBottom].x + rect.width, rect[VertexLocation::LeftBottom].y + rect.height);
-			glVertex2f(rect[VertexLocation::LeftBottom].x, rect[VertexLocation::LeftBottom].y + rect.height);
+			glVertex2f(rect.x, rect.y);
+			glVertex2f(rect.x + rect.width, rect.y);
+			glVertex2f(rect.x + rect.width, rect.y + rect.height);
+			glVertex2f(rect.x, rect.y + rect.height);
 		}
 		glEnd();
 	}
