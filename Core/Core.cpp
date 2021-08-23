@@ -19,7 +19,6 @@ namespace Integrian2D
 		: m_pWindow{}
 		, m_WindowWidth{ windowWidth }
 		, m_WindowHeight{ windowHeight }
-		, m_ClearColour{ 192, 192, 192 }
 	{
 		if (!InitializeLibraries(windowTitle))
 			std::abort(); // TODO: Throw an exception
@@ -140,17 +139,5 @@ namespace Integrian2D
 
 		SDL_DestroyWindow(m_pWindow);
 		SDL_Quit();
-	}
-
-	void Core::StartRenderLoop() const noexcept
-	{
-		glClearColor(static_cast<float>(m_ClearColour.r / 255), static_cast<float>(m_ClearColour.g / 255), static_cast<float>(m_ClearColour.b / 255),
-			static_cast<float>(m_ClearColour.a.v));
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		// == YOU CAN CHANGE THE TYPE OF THE CAMERA ==
-		// == DO NOT CHANGE THE IMPLENTATION OF THIS FUNCTION UNLESS YOU EXPLICITLY WANT TO CHANGE HOW THE CAMERA WORKS ==
-
-		glPushMatrix();
 	}
 }
