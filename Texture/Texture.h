@@ -28,6 +28,7 @@ namespace Integrian2D
 		float GetWidth() const;
 		float GetHeight() const;
 		bool IsCreationOk() const;
+		unsigned int GetTextureID() const noexcept;
 
 	private:
 		//DATA MEMBERS

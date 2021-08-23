@@ -324,6 +324,11 @@ namespace Integrian2D
 		return m_CreationOk;
 	}
 
+	unsigned int Texture::GetTextureID() const noexcept
+	{
+		return m_Id;
+	}
+
 	void Texture::DrawFilledRect(const Rectf& rect) const
 	{
 		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
