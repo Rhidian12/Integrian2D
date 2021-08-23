@@ -35,6 +35,15 @@ namespace Integrian2D
 		static_cast<uint8_t>(a.v += b.v);
 		return a;
 	}
+	inline Betteruint8_t operator+(const Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		return Betteruint8_t(static_cast<uint8_t>(a.v + b));
+	}
+	inline Betteruint8_t& operator+=(Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		static_cast<uint8_t>(a.v += b);
+		return a;
+	}
 	inline Betteruint8_t operator-(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v - b.v));
@@ -42,6 +51,15 @@ namespace Integrian2D
 	inline Betteruint8_t& operator-=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		static_cast<uint8_t>(a.v -= b.v);
+		return a;
+	}
+	inline Betteruint8_t operator-(const Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		return Betteruint8_t(static_cast<uint8_t>(a.v - b));
+	}
+	inline Betteruint8_t& operator-=(Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		static_cast<uint8_t>(a.v -= b);
 		return a;
 	}
 	inline Betteruint8_t operator*(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
@@ -53,6 +71,15 @@ namespace Integrian2D
 		static_cast<uint8_t>(a.v *= b.v);
 		return a;
 	}
+	inline Betteruint8_t operator*(const Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		return Betteruint8_t(static_cast<uint8_t>(a.v * b));
+	}
+	inline Betteruint8_t& operator*=(Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		static_cast<uint8_t>(a.v *= b);
+		return a;
+	}
 	inline Betteruint8_t operator/(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v / b.v));
@@ -60,6 +87,15 @@ namespace Integrian2D
 	inline Betteruint8_t& operator/=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		static_cast<uint8_t>(a.v /= b.v);
+		return a;
+	}
+	inline Betteruint8_t operator/(const Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		return Betteruint8_t(static_cast<uint8_t>(a.v / b));
+	}
+	inline Betteruint8_t& operator/=(Betteruint8_t& a, const uint8_t b) noexcept
+	{
+		static_cast<uint8_t>(a.v /= b);
 		return a;
 	}
 #pragma endregion
