@@ -133,13 +133,13 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Member Functions
-		inline uint8_t& operator[](uint8_t i)
+		uint8_t& operator[](uint8_t i)
 		{
 			Utils::Assert(i < sizeof(data) / sizeof(uint8_t), "Point<P, Type>::operator[] > Index is out of bounds!");
 			return data[i].v;
 		}
 
-		inline const uint8_t& operator[](uint8_t i) const
+		const uint8_t& operator[](uint8_t i) const
 		{
 			Utils::Assert(i < sizeof(data) / sizeof(uint8_t), "Point<P, Type>::operator[] > Index is out of bounds!");
 			return data[i].v;
