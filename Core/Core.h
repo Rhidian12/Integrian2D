@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "../Math/TypeDefines.h"
+
 struct SDL_Window;
 
 namespace Integrian2D
@@ -27,6 +29,8 @@ namespace Integrian2D
 	private:
 		bool InitializeLibraries(std::string windowTitle) noexcept;
 		void ShutdownLibraries() noexcept;
+
+		void StartRenderLoop() const noexcept;
 
 		SDL_Window* m_pWindow;
 		int m_WindowWidth;

@@ -132,8 +132,8 @@ TEST_CASE("Testing the Reader...")
 	using namespace Integrian2D;
 
 	BinaryReader reader{ "Test.bin" };
-	
-	REQUIRE(reader.Read<int>()== 50);
+
+	REQUIRE(reader.Read<int>() == 50);
 	REQUIRE(reader.Read<float>() == 100.f);
 	REQUIRE(reader.Read<double>() == 150.0);
 	REQUIRE(reader.Read<std::string>() == "200");
@@ -145,8 +145,33 @@ TEST_CASE("Testing the Reader...")
 #include "Core/Core.h"
 #include "SceneManager/SceneManager.h"
 #include "Scene/Scene.h"
+#include "GameObject/GameObject.h"
+#include "Texture/Texture.h"
+#include "Components/TextureComponent/TextureComponent.h"
 
 #include <vld.h>
+
+class TestScene final : public Integrian2D::Scene
+{
+public:
+	TestScene(std::string name)
+		: Scene{ name }
+	{}
+	~TestScene()
+	{
+		delete m_pTexture;
+	}
+
+	virtual void Start() override
+	{
+		m_pGameObject->AddComponent(new Integrian2D::TextureComponent{ m_pGameObject, m_pTexture });
+
+		AddGameObject("Test", m_pGameObject);
+	}
+
+	Integrian2D::Texture* m_pTexture{ new Integrian2D::Texture{"dinoHappy.png"} };
+	Integrian2D::GameObject* m_pGameObject{ new Integrian2D::GameObject{} };
+};
 
 #undef main
 int main(int, char**)
@@ -155,7 +180,13 @@ int main(int, char**)
 
 	Core engine{ 640,480, "TestWindow" };
 
-	
+	Scene* pScene{ new TestScene{"TestScene"} };
+
+	SceneManager::GetInstance()->AddScene(pScene);
+
+	engine.Run();
+
+
 	return 0;
 }
 #endif

@@ -11,12 +11,15 @@
 #include <SDL_video.h>
 #include <GL\GLU.h>
 
+extern bool volatile g_IsLooping;
+
 namespace Integrian2D
 {
 	Core::Core(const int windowWidth, const int windowHeight, std::string windowTitle)
 		: m_pWindow{}
 		, m_WindowWidth{ windowWidth }
 		, m_WindowHeight{ windowHeight }
+		, m_ClearColour{ 192, 192, 192 }
 	{
 		if (!InitializeLibraries(windowTitle))
 			std::abort(); // TODO: Throw an exception
@@ -30,14 +33,16 @@ namespace Integrian2D
 	void Core::Run()
 	{
 		SceneManager* pSceneManager{ SceneManager::GetInstance() };
-		
-		while (true)
+
+		Utils::Assert(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
+
+		while (g_IsLooping)
 		{
 			Scene* pActiveScene{ pSceneManager->GetActiveScene() };
-			
+
 			pActiveScene->RootUpdate();
 			pActiveScene->Update();
-			
+
 			pActiveScene->RootFixedUpdate();
 			pActiveScene->FixedUpdate();
 
@@ -135,5 +140,17 @@ namespace Integrian2D
 
 		SDL_DestroyWindow(m_pWindow);
 		SDL_Quit();
+	}
+
+	void Core::StartRenderLoop() const noexcept
+	{
+		glClearColor(static_cast<float>(m_ClearColour.r / 255), static_cast<float>(m_ClearColour.g / 255), static_cast<float>(m_ClearColour.b / 255),
+			static_cast<float>(m_ClearColour.a.v));
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// == YOU CAN CHANGE THE TYPE OF THE CAMERA ==
+		// == DO NOT CHANGE THE IMPLENTATION OF THIS FUNCTION UNLESS YOU EXPLICITLY WANT TO CHANGE HOW THE CAMERA WORKS ==
+
+		glPushMatrix();
 	}
 }
