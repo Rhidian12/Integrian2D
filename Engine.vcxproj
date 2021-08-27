@@ -214,6 +214,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Texture\Texture.cpp" />
     <ClCompile Include="Components\TransformComponent\TransformComponent.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
+    <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Rect.h" />
@@ -242,9 +243,11 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Components\TextureComponent\TextureComponent.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="Texture\Texture.h" />
     <ClInclude Include="Components\TransformComponent\TransformComponent.h" />
     <ClInclude Include="Utils\Utils.h" />
+    <ClInclude Include="Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

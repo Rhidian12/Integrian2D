@@ -23,6 +23,8 @@ namespace Integrian2D
 
 		for (GameObject*& pG : m_pChildren)
 			Utils::SafeDelete(pG);
+
+		Utils::SafeDelete(pTransform);
 	}
 
 	void GameObject::Update()

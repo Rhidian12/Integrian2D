@@ -2,6 +2,8 @@
 #include "../Logger/Logger.h"
 #include "../SceneManager/SceneManager.h"
 #include "../Scene/Scene.h"
+#include "../Window/Window.h"
+#include "../Renderer/Renderer.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -15,18 +17,21 @@ extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
-	Core::Core(const int windowWidth, const int windowHeight, std::string windowTitle)
+	Core::Core(const int windowWidth, const int windowHeight, const std::string windowTitle)
 		: m_pWindow{}
-		, m_WindowWidth{ windowWidth }
-		, m_WindowHeight{ windowHeight }
+		, m_WindowWidth{windowWidth}
+		, m_WindowHeight{windowHeight}
 	{
-		if (!InitializeLibraries(windowTitle))
+		if (!InitializeLibraries(windowWidth, windowHeight, windowTitle))
 			std::abort(); // TODO: Throw an exception
 	}
 
 	Core::~Core()
 	{
-		ShutdownLibraries();
+		SceneManager::Cleanup();
+		Renderer::Cleanup();
+
+		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
 
 	void Core::Run()
@@ -38,6 +43,8 @@ namespace Integrian2D
 		while (g_IsLooping)
 		{
 			Scene* pActiveScene{ pSceneManager->GetActiveScene() };
+
+			pActiveScene->inputManager.HandleInput();
 
 			pActiveScene->RootUpdate();
 			pActiveScene->Update();
@@ -53,33 +60,18 @@ namespace Integrian2D
 		}
 	}
 
-	bool Core::InitializeLibraries(std::string windowTitle) noexcept
+	bool Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string windowTitle) noexcept
 	{
 #pragma region SDL Stuff
 		//Create window + surfaces
 		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == -1)
-			Logger::LogSevereError(std::string{ "SDL_Init failed:" } + SDL_GetError() + "\n");
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > SDL initialisation failed: " } + SDL_GetError());
 
-		m_pWindow = SDL_CreateWindow(
-			windowTitle.c_str(),
-			SDL_WINDOWPOS_CENTERED,
-			SDL_WINDOWPOS_CENTERED,
-			m_WindowWidth, m_WindowHeight,
-			SDL_WINDOW_OPENGL);
-
-		if (!m_pWindow)
-		{
-			Logger::LogSevereError("Error: m_pWindow failed in App::Initialize()\n");
-			return false;
-		}
-
-		SDL_GLContext context = SDL_GL_CreateContext(m_pWindow);
-		if (context == nullptr)
-			Logger::LogSevereError("App::Initialize() CreateContext() failed\n");
+		m_pWindow = new Window{ windowWidth, windowHeight, windowTitle };
 
 		if (SDL_GL_SetSwapInterval(1) < 0)
 		{
-			Logger::LogSevereError(std::string{ "App::Initialize() error when calling SDL_GL_SetSwapInterval " } + SDL_GetError() + "\n");
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > Setting the screen refresh rate failed: " } + SDL_GetError());
 			return false;
 		}
 
@@ -88,11 +80,11 @@ namespace Integrian2D
 		glLoadIdentity();
 
 		// Set up a two-dimensional orthographic viewing region.
-		gluOrtho2D(0, m_WindowWidth, 0, m_WindowHeight); // y from bottom to top
+		gluOrtho2D(0, windowWidth, 0, windowHeight); // y from bottom to top
 
 		// Set the viewport to the client window area
 		// The viewport is the rectangu	lar region of the window where the image is drawn.
-		glViewport(0, 0, m_WindowWidth, m_WindowHeight);
+		glViewport(0, 0, windowWidth, windowHeight);
 
 		// Set the Modelview matrix to the identity matrix
 		glMatrixMode(GL_MODELVIEW);
@@ -106,27 +98,27 @@ namespace Integrian2D
 		const int pngFlags{ IMG_INIT_PNG };
 		const int jpgFlags{ IMG_INIT_JPG };
 		if (!(IMG_Init(pngFlags) & pngFlags) || !(IMG_Init(jpgFlags) & jpgFlags))
-			Logger::LogSevereError(std::string{ "SDL_image could not initialize! SDL_image Error: " } + SDL_GetError() + "\n");
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > SDL_image could not initialize! " } + SDL_GetError());
 
 		if (TTF_Init() != 0)
-			Logger::LogSevereError(SDL_GetError());
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > SDL_ttf could not initialize! " } + SDL_GetError());
 #pragma endregion
 
 #pragma region SDL_Mixer
 		// this final parameter is the chunk size of the audio, this might have to be made larger if too much hooks are getting used
 		// TODO: Load in all filesizes of music in our folder, and take the average of that
 		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 8, 2048) == -1)
-			Logger::LogSevereError(std::string{ "SDL_Mixer failed to open! " } + Mix_GetError() + "\n");
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > SDL_Mixer could not be opened! " } + Mix_GetError());
 
 		// == Initialize SDL_Mixer == 
 		const int mixerFlags{ MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG };
 		if ((Mix_Init(mixerFlags) & mixerFlags) != mixerFlags)
-			Logger::LogSevereError(std::string{ "SDL_Mixer failed to initialize!" } + Mix_GetError() + "\n");
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > SDL_Mixer failed to initialize!" } + Mix_GetError());
 #pragma endregion
 
 #pragma region SDL_Controllers
 		if (SDL_JoystickEventState(SDL_ENABLE) == -1)
-			Logger::LogSevereError(std::string{ "SDL_JoystickEventState() failed! " } + SDL_GetError() + "\n");
+			Logger::LogSevereError(std::string{ "Core::InitializeLibraries() > The SDL_Joystick failed to initialize! " } + SDL_GetError());
 #pragma endregion
 
 		return true;
@@ -137,7 +129,7 @@ namespace Integrian2D
 		Mix_CloseAudio();
 		Mix_Quit();
 
-		SDL_DestroyWindow(m_pWindow);
+		Utils::SafeDelete(m_pWindow);
 		SDL_Quit();
 	}
 }

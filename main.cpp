@@ -151,30 +151,10 @@ TEST_CASE("Testing the Reader...")
 
 #include <vld.h>
 
-class TestScene final : public Integrian2D::Scene
-{
-public:
-	TestScene(std::string name)
-		: Scene{ name }
-	{}
-	~TestScene()
-	{
-		delete m_pTexture;
-	}
-
-	virtual void Start() override
-	{
-		m_pGameObject->AddComponent(new Integrian2D::TextureComponent{ m_pGameObject, m_pTexture });
-
-		AddGameObject("Test", m_pGameObject);
-	}
-
-	Integrian2D::Texture* m_pTexture{ new Integrian2D::Texture{"dinoHappy.png"} };
-	Integrian2D::GameObject* m_pGameObject{ new Integrian2D::GameObject{} };
-};
+#include "TestScene.h"
 
 #undef main
-int main(int, char**)
+int main()
 {
 	using namespace Integrian2D;
 

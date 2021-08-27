@@ -7,16 +7,15 @@
 
 #include "../Math/TypeDefines.h"
 
-struct SDL_Window;
-
 namespace Integrian2D
 {
 	class Scene;
+	class Window;
 
 	class Core final
 	{
 	public:
-		Core(const int windowWidth, const int windowHeight, std::string windowTitle);
+		Core(const int windowWidth, const int windowHeight, const std::string windowTitle);
 		~Core();
 
 		void Run();
@@ -27,10 +26,10 @@ namespace Integrian2D
 		Core& operator=(Core&&) = delete;
 
 	private:
-		bool InitializeLibraries(std::string windowTitle) noexcept;
+		bool InitializeLibraries(const int windowWidth, const int windowHeight, const std::string windowTitle) noexcept;
 		void ShutdownLibraries() noexcept;
 
-		SDL_Window* m_pWindow;
+		Window* m_pWindow;
 		int m_WindowWidth;
 		int m_WindowHeight;
 	};

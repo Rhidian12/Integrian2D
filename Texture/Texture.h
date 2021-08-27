@@ -13,7 +13,7 @@ namespace Integrian2D
 {
 	class Texture final
 	{
-	public: // TODO: Make Texturemanager creator
+	public:
 		explicit Texture(const std::string& imagePath);
 		explicit Texture(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor);
 		Texture(const Texture& other) = delete;

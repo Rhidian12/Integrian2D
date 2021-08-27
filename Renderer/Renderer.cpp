@@ -10,10 +10,27 @@ uint8_t operator"" _u(unsigned long long x) // adding _8 behind any integer (IN 
 
 namespace Integrian2D
 {
-	Renderer::Renderer()
+	Renderer* Renderer::GetInstance() noexcept
+	{
+		Utils::Assert(m_pInstance != nullptr, "Renderer::GetInstance() > m_pInstance was never created! Was the Window created properly?");
+		return m_pInstance;
+	}
+
+	void Renderer::Cleanup() noexcept
+	{
+		Utils::SafeDelete(m_pInstance);
+	}
+
+	Renderer::Renderer(SDL_Window* const pWindow)
 		: m_ClearColour{ 192_u,192_u,192_u }
 		, m_TexturesToRender{}
+		, m_pWindow{ pWindow }
 	{}
+
+	void Renderer::CreateRenderer(SDL_Window* const pWindow) noexcept
+	{
+		m_pInstance = new Renderer{ pWindow };
+	}
 
 	void Renderer::StartRenderLoop() noexcept
 	{
@@ -29,7 +46,7 @@ namespace Integrian2D
 		glPopMatrix(); // This is for when a camera gets added
 
 		// == Swap back- and frontbuffer ==
-		SDL_GL_SwapWindow(pWindow);
+		SDL_GL_SwapWindow(m_pWindow);
 
 		m_TexturesToRender.clear();
 	}
