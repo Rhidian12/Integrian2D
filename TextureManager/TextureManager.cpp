@@ -1,5 +1,6 @@
 #include "TextureManager.h"
 #include "../Utils/Utils.h"
+#include "../Texture/Texture.h"
 #include "../Logger/Logger.h"
 
 namespace Integrian2D
