@@ -57,6 +57,11 @@ namespace Integrian2D
 		}
 	}
 
+	const std::unordered_map<std::string, Scene*>& SceneManager::GetScenes() const noexcept
+	{
+		return m_pScenes;
+	}
+
 	SceneManager::SceneManager()
 		: m_pActiveScene{}
 		, m_pScenes{}

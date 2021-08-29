@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "../Math/RGBColour.h"
+#include "../Math/TypeDefines.h"
 
 struct SDL_Window;
 namespace Integrian2D
@@ -14,7 +14,7 @@ namespace Integrian2D
 		static Renderer* GetInstance() noexcept;
 		static void Cleanup() noexcept;
 
-		void Render(Texture* const pTexture) noexcept;
+		void RenderTexture(Texture* const pTexture, const Rectf& destRect, const Rectf& sourceRect) noexcept;
 
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) = delete;
@@ -22,20 +22,28 @@ namespace Integrian2D
 		Renderer& operator=(Renderer&&) = delete;
 
 	private:
-		friend class Scene; // Make sure only Scene can access the Render loop
+		friend class Core; // Let only the Core do the render loop
 		friend class Window; // Let only the Window make a Renderer
+
+		struct TextureInformation final
+		{
+			Texture* pTexture;
+			Rectf destRect;
+			Rectf sourceRect;
+		};
 
 		static void CreateRenderer(SDL_Window* const pWindow) noexcept;
 
 		Renderer(SDL_Window* const pWindow);
 
 		void StartRenderLoop() noexcept;
+		void Render() noexcept;
 		void EndRenderLoop() noexcept;
 
 		inline static Renderer* m_pInstance{};
 
 		RGBColour m_ClearColour;
-		std::vector<unsigned int> m_TexturesToRender;
+		std::vector<TextureInformation> m_TexturesToRender;
 
 		SDL_Window* const m_pWindow;
 	};

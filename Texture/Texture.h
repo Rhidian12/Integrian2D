@@ -22,9 +22,6 @@ namespace Integrian2D
 		Texture& operator=(Texture&& other) noexcept;
 		~Texture();
 
-		void Draw(const Point2f& dstBottomLeft = {}, const Rectf& srcRect = Rectf{}) const;
-		void Draw(const Rectf& dstRect, const Rectf& srcRect = Rectf{}) const;
-
 		float GetWidth() const;
 		float GetHeight() const;
 		bool IsCreationOk() const;

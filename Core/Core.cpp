@@ -37,6 +37,10 @@ namespace Integrian2D
 	void Core::Run()
 	{
 		SceneManager* pSceneManager{ SceneManager::GetInstance() };
+		Renderer* pRenderer{ Renderer::GetInstance() };
+
+		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
+			scenePair.second->Start();
 
 		Utils::Assert(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
 
@@ -57,6 +61,8 @@ namespace Integrian2D
 
 			pActiveScene->RootRender();
 			pActiveScene->Render();
+
+			pRenderer->Render();
 		}
 	}
 

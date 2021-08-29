@@ -41,6 +41,91 @@ namespace Integrian2D
 		glPushMatrix(); // This is for when a camera gets added
 	}
 
+	void Renderer::Render() noexcept
+	{
+		StartRenderLoop();
+
+		const float epsilon{ 0.001f };
+
+		for (const TextureInformation& textureInformation : m_TexturesToRender)
+		{
+			// Determine texture coordinates using srcRect and default destination width and height
+			float textLeft{};
+			float textRight{};
+			float textTop{};
+			float textBottom{};
+
+			float defaultDestWidth{};
+			float defaultDestHeight{};
+			if (!(textureInformation.sourceRect.width > epsilon && textureInformation.sourceRect.height > epsilon)) // No srcRect specified
+			{
+				// Use complete texture
+				textLeft = 0.0f;
+				textRight = 1.0f;
+				textTop = 0.0f;
+				textBottom = 1.0f;
+
+				defaultDestHeight = textureInformation.pTexture->GetHeight();
+				defaultDestWidth = textureInformation.pTexture->GetWidth();
+			}
+			else // srcRect specified
+			{
+				// Convert to the range [0.0, 1.0]
+				textLeft = textureInformation.sourceRect.x / textureInformation.sourceRect.width;
+				textRight = (textureInformation.sourceRect.x + textureInformation.sourceRect.width) / textureInformation.sourceRect.width;
+				textTop = (textureInformation.sourceRect.y - textureInformation.sourceRect.height) / textureInformation.sourceRect.height;
+				textBottom = textureInformation.sourceRect.y / textureInformation.sourceRect.height;
+
+				defaultDestHeight = textureInformation.sourceRect.height;
+				defaultDestWidth = textureInformation.sourceRect.width;
+			}
+
+			// Determine vertex coordinates
+			const float vertexLeft{ textureInformation.destRect.x };
+			const float vertexBottom{ textureInformation.destRect.y };
+			float vertexRight{};
+			float vertexTop{};
+			if (!(textureInformation.destRect.width > 0.001f && textureInformation.destRect.height > 0.001f)) // If no size specified use default size
+			{
+				vertexRight = vertexLeft + defaultDestWidth;
+				vertexTop = vertexBottom + defaultDestHeight;
+			}
+			else
+			{
+				vertexRight = vertexLeft + textureInformation.destRect.width;
+				vertexTop = vertexBottom + textureInformation.destRect.height;
+
+			}
+
+			// Tell opengl which texture we will use
+			glBindTexture(GL_TEXTURE_2D, textureInformation.pTexture->GetTextureID());
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+			// Draw
+			glEnable(GL_TEXTURE_2D);
+			{
+				glBegin(GL_QUADS);
+				{
+					glTexCoord2f(textLeft, textBottom);
+					glVertex2f(vertexLeft, vertexBottom);
+
+					glTexCoord2f(textLeft, textTop);
+					glVertex2f(vertexLeft, vertexTop);
+
+					glTexCoord2f(textRight, textTop);
+					glVertex2f(vertexRight, vertexTop);
+
+					glTexCoord2f(textRight, textBottom);
+					glVertex2f(vertexRight, vertexBottom);
+				}
+				glEnd();
+			}
+			glDisable(GL_TEXTURE_2D);
+		}
+
+		EndRenderLoop();
+	}
+
 	void Renderer::EndRenderLoop() noexcept
 	{
 		glPopMatrix(); // This is for when a camera gets added
@@ -51,8 +136,8 @@ namespace Integrian2D
 		m_TexturesToRender.clear();
 	}
 
-	void Renderer::Render(Texture* const pTexture) noexcept
+	void Renderer::RenderTexture(Texture* const pTexture, const Rectf& destRect, const Rectf& sourceRect) noexcept
 	{
-		m_TexturesToRender.push_back(pTexture->GetTextureID());
+		m_TexturesToRender.push_back(TextureInformation{ pTexture, destRect, sourceRect });
 	}
 }

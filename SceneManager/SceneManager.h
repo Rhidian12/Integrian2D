@@ -21,6 +21,7 @@ namespace Integrian2D
 		
 		Scene* const GetActiveScene() const noexcept;
 		Scene* const GetScene(std::string sceneName) const noexcept;
+		const std::unordered_map<std::string, Scene*>& GetScenes() const noexcept;
 
 	private:
 		SceneManager();

@@ -26,5 +26,7 @@ namespace Integrian2D
 	private:
 		Texture* m_pTexture;
 		Rectf m_SourceRect;
+		float m_Width;
+		float m_Height;
 	};
 }

@@ -13,10 +13,9 @@ public:
 		, m_pTexture{ new Integrian2D::Texture{"dinoHappy.png"} }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
 	{}
-	~TestScene()
+	~TestScene() override
 	{
 		delete m_pTexture;
-		delete m_pGameObject;
 	}
 
 	virtual void Start() override
