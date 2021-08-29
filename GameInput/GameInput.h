@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_GAMEINPUT_H
-#define INTEGRIAN2D_GAMEINPUT_H
-
 #include <functional>
 #include "PossibleInputs.h"
 #include "../Utils/Utils.h"
@@ -55,5 +52,3 @@ namespace Integrian2D
 		uint64_t id{ Utils::RandomNumber(uint64_t(0), std::numeric_limits<uint64_t>::max()) };
 	};
 }
-
-#endif // !INTEGRIAN2D_GAMEINPUT_H

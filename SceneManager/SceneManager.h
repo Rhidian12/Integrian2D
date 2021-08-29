@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_SCENEMANAGER_H
-#define INTEGRIAN2D_SCENEMANAGER_H
-
 #include <unordered_map>
 
 namespace Integrian2D
@@ -32,5 +29,3 @@ namespace Integrian2D
 		std::unordered_map<std::string, Scene*> m_pScenes;
 	};
 }
-
-#endif // !INTEGRIAN2D_SCENEMANAGER_H

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_POINT_H
-#define INTEGRIAN2D_POINT_H
-
 #include <limits> // std::numeric_limits
 #include <cstdint>
 #include "Vector.h"
@@ -44,5 +41,3 @@ namespace Integrian2D
 		return static_cast<Type>(sqrt(MagnitudeSquared(vector)));
 	}
 };
-
-#endif // !ENGINE_POINT_H

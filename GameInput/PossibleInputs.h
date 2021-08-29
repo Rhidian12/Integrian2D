@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_POSSIBLEINPUTS_H
-#define INTEGRIAN2D_POSSIBLEINPUTS_H
-
 #ifdef max /* Undefine the max() macro since it's fucking the entire project somehow */
 #undef max
 #endif
@@ -142,4 +139,3 @@ namespace Integrian2D
 	};
 }
 
-#endif // INTEGRIAN_POSSIBLEINPUTS_H

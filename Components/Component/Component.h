@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_COMPONENT_H
-#define INTEGRIAN2D_COMPONENT_H
-
 namespace Integrian2D
 {
 	class GameObject;
@@ -33,5 +30,3 @@ namespace Integrian2D
 		GameObject* m_pOwner;
 	};
 }
-
-#endif // !INTEGRIAN2D_COMPONENT_H

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_INPUTMANAGER_H
-#define INTEGRIAN2D_INPUTMANAGER_H
-
 #include "../Mouse/Mouse.h"
 #include "../Keyboard/Keyboard.h"
 #include "../GameController/GameController.h"
@@ -77,4 +74,3 @@ namespace Integrian2D
 	};
 }
 
-#endif // !INTEGRIAN2D_INPUTMANAGER_H

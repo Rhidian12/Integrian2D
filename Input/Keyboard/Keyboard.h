@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_KEYBOARDINPUT_H
-#define INTEGRIAN2D_KEYBOARDINPUT_H
-
 #include "../../GameInput/GameInput.h" // GameInput
 #include <unordered_map> // std::unordered_map
 #include <vector> // std::vector
@@ -43,5 +40,3 @@ namespace Integrian2D
 		std::unordered_map<KeyboardInput, std::vector<CommandAndButton>> m_KeyboardCommands{};
 	};
 }
-
-#endif // !INTEGRIAN_KEYBOARDINPUT_H

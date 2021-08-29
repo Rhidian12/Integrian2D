@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_POINT2_H
-#define INTEGRIAN2D_POINT2_H
-
 #include "Point.h" // Point 
 #include "Vector.h" // Vector
 
@@ -176,4 +173,3 @@ namespace Integrian2D
 #pragma endregion
 }
 
-#endif // !ENGINE_POINT2_H

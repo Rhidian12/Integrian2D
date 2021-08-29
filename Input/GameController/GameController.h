@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_GAMECONTROLLER_H
-#define INTEGRIAN2D_GAMECONTROLLER_H
-
 #include <unordered_map> // std::unordered_map
 #include <vector> // std::vector
 #include "../../GameInput/GameInput.h" // GameInput
@@ -51,4 +48,3 @@ namespace Integrian2D
 	};
 }
 
-#endif // INTEGRIAN_GAMECONTROLLER_H

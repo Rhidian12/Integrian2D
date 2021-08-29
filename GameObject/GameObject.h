@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_GAMEOBJECT_H
-#define INTEGRIAN2D_GAMEOBJECT_H
-
 #include <vector>
 #include <typeinfo>
 
@@ -63,4 +60,3 @@ namespace Integrian2D
 	}
 }
 
-#endif // !INTEGRIAN2D_GAMEOBJECT_H

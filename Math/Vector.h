@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_VECTOR_H
-#define INTEGRIAN2D_VECTOR_H
-
 #include <math.h>
 #include <limits> // std::numeric_limits
 #include <cstdint>
@@ -64,4 +61,3 @@ namespace Integrian2D
 	}
 }
 
-#endif // !ENGINE_VECTOR_H

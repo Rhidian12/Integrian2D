@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_SCENE_H
-#define INTEGRIAN2D_SCENE_H
-
 #include <string>
 #include <unordered_map>
 #include "../Input/InputManager/InputManager.h"
@@ -53,4 +50,3 @@ namespace Integrian2D
 	};
 }
 
-#endif // !INTEGRIAN2D_SCENE_H

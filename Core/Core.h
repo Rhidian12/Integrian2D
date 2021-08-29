@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_INTEGRIAN2D_H
-#define INTEGRIAN2D_INTEGRIAN2D_H
-
 #include <string>
 
 #include "../Math/TypeDefines.h"
@@ -34,5 +31,3 @@ namespace Integrian2D
 		int m_WindowHeight;
 	};
 }
-
-#endif // !INTEGRIAN2D_INTEGRIAN2D_H

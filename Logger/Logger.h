@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_LOGGER_H
-#define INTEGRIAN2D_LOGGER_H
-
 #pragma region Reference
 // Reference: https://stackoverflow.com/questions/8765938/colorful-text-using-printf-in-c
 // Reference: https://docs.microsoft.com/en-us/windows/console/setconsoletextattribute
@@ -49,4 +46,3 @@ namespace Integrian2D
 	};
 }
 
-#endif // !INTEGRIAN2D_LOGGER_H

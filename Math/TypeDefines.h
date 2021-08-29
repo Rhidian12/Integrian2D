@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef INTEGRIAN2D_TYPEDEFINES_H
-#define INTEGRIAN2D_TYPEDEFINES_H
-
 #include "Point.h"
 #include "Vector.h"
 #include "Point2.h"
@@ -17,4 +14,3 @@ namespace Integrian2D
 	typedef Rect<float> Rectf;
 }
 
-#endif // !INTEGRIAN2D_TYPEDEFINES_H
