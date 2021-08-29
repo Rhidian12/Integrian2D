@@ -33,7 +33,7 @@ namespace Integrian2D
 			Logger::LogWarning(std::string{ "TextureManager::AddTexture() > A Texture with textureID: " } + textureID + " was already added!");
 	}
 
-	const Texture* const TextureManager::GetTexture(const std::string& textureID) const noexcept
+	Texture* const TextureManager::GetTexture(const std::string& textureID) const noexcept
 	{
 		const std::unordered_map<std::string, Texture*>::const_iterator cIt{ m_pTextures.find(textureID) };
 

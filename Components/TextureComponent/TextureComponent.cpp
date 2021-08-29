@@ -15,7 +15,7 @@ namespace Integrian2D
 	{
 	}
 
-	TextureComponent::TextureComponent(GameObject* pOwner, Texture* pTexture)
+	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture)
 		: Component{ pOwner }
 		, m_pTexture{ pTexture }
 		, m_SourceRect{}

@@ -17,7 +17,7 @@ namespace Integrian2D
 
 		void AddTexture(std::string textureID, Texture* const pTexture) noexcept;
 
-		const Texture* const GetTexture(const std::string& textureID) const noexcept;
+		Texture* const GetTexture(const std::string& textureID) const noexcept;
 		const std::unordered_map<std::string, Texture*>& GetTextures() const noexcept;
 
 	private:
