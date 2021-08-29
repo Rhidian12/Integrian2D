@@ -47,18 +47,8 @@ namespace Integrian2D
 		m_pTexture = pTexture;
 	}
 
-	void TextureComponent::SetSourceRect(Rectf sourceRect) noexcept
-	{
-		m_SourceRect = sourceRect;
-	}
-
 	Texture* const TextureComponent::GetTexture() const noexcept
 	{
 		return m_pTexture;
-	}
-
-	const Rectf& TextureComponent::GetSourceRect() const noexcept
-	{
-		return m_SourceRect;
 	}
 }
