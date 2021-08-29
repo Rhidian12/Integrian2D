@@ -4,6 +4,7 @@
 #include "../Scene/Scene.h"
 #include "../Window/Window.h"
 #include "../Renderer/Renderer.h"
+#include "../TextureManager/TextureManager.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -30,6 +31,7 @@ namespace Integrian2D
 	{
 		SceneManager::Cleanup();
 		Renderer::Cleanup();
+		TextureManager::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
