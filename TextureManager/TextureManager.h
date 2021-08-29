@@ -20,6 +20,11 @@ namespace Integrian2D
 		Texture* const GetTexture(const std::string& textureID) const noexcept;
 		const std::unordered_map<std::string, Texture*>& GetTextures() const noexcept;
 
+		TextureManager(const TextureManager&) = delete;
+		TextureManager(TextureManager&&) = delete;
+		TextureManager& operator=(const TextureManager&) = delete;
+		TextureManager& operator=(TextureManager&&) = delete;
+
 	private:
 		TextureManager() = default;
 
