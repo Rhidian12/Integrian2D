@@ -16,16 +16,17 @@ namespace Integrian2D
 	public:
 		explicit Texture(const std::string& imagePath);
 		explicit Texture(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor);
-		Texture(const Texture& other) = delete;
-		Texture& operator=(const Texture& other) = delete;
-		Texture(Texture&& other) noexcept;
-		Texture& operator=(Texture&& other) noexcept;
 		~Texture();
 
 		float GetWidth() const;
 		float GetHeight() const;
 		bool IsCreationOk() const;
 		unsigned int GetTextureID() const noexcept;
+
+		Texture(const Texture& other) noexcept;
+		Texture(Texture&& other) noexcept;
+		Texture& operator=(const Texture& other) noexcept;
+		Texture& operator=(Texture&& other) noexcept;
 
 	private:
 		//DATA MEMBERS

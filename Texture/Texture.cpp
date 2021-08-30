@@ -26,31 +26,49 @@ namespace Integrian2D
 	{
 		CreateFromString(text, fontPath, ptSize, textColor);
 	}
-	Texture::Texture(Texture&& other) noexcept
+
+	Texture::Texture(const Texture& other) noexcept
 		: m_Id{ other.m_Id }
 		, m_Width{ other.m_Width }
 		, m_Height{ other.m_Height }
 		, m_CreationOk{ other.m_CreationOk }
 	{
+	}
+
+	Texture::Texture(Texture&& other) noexcept
+		: m_Id{ std::move(other.m_Id) }
+		, m_Width{ std::move(other.m_Width) }
+		, m_Height{ std::move(other.m_Height) }
+		, m_CreationOk{ std::move(other.m_CreationOk) }
+	{
 		other.m_Id = 0;
 		other.m_CreationOk = false;
 	}
 
-	Texture& Texture::operator=(Texture&& other) noexcept
+	Texture& Texture::operator=(const Texture& other) noexcept
 	{
-		if (this != &other)// no self assignment
-		{
-			m_Id = other.m_Id;
-			m_Width = other.m_Width;
-			m_Height = other.m_Height;
-			m_CreationOk = other.m_CreationOk;
-			other.m_Id = 0;
-			other.m_CreationOk = false;
-		}
+		m_Id = other.m_Id;
+		m_Width = other.m_Width;
+		m_Height = other.m_Height;
+		m_CreationOk = other.m_CreationOk;
+
 		return *this;
 	}
 
-	Texture::~Texture()  // NOLINT(modernize-use-equals-default)
+	Texture& Texture::operator=(Texture&& other) noexcept
+	{
+		m_Id = std::move(other.m_Id);
+		m_Width = std::move(other.m_Width);
+		m_Height = std::move(other.m_Height);
+		m_CreationOk = std::move(other.m_CreationOk);
+
+		other.m_Id = 0;
+		other.m_CreationOk = false;
+
+		return *this;
+	}
+
+	Texture::~Texture()
 	{
 		glDeleteTextures(1, &m_Id);
 	}
