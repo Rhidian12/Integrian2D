@@ -218,6 +218,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Math\Point3.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\RGBColour.h" />
     <ClInclude Include="Parsing\BinaryReader\BinaryReader.h" />
