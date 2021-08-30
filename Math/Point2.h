@@ -12,19 +12,15 @@ namespace Integrian2D
 	struct Point<2, Type>
 	{
 #pragma region Constructors
-		Point<2, Type>()
+		explicit Point<2, Type>()
 			: x{}
 			, y{}
 		{}
-		Point<2, Type>(const Type _x, const Type _y)
+		explicit Point<2, Type>(const Type _x, const Type _y)
 			: x{ _x }
 			, y{ _y }
 		{}
-		Point<2, Type>(const Point<3, Type>& p)
-			: x{ p.x }
-			, y{ p.y }
-		{}
-		Point<2, Type>(const Point<4, Type>& p)
+		explicit Point<2, Type>(const Point<3, Type>& p)
 			: x{ p.x }
 			, y{ p.y }
 		{}
