@@ -53,7 +53,7 @@ namespace Integrian2D
 
 			return *this;
 		}
-		Point<3, Type>& operator=(const Point<3, Type>& other) noexcept
+		Point<3, Type>& operator=(Point<3, Type>&& other) noexcept
 		{
 			x = std::move(other.x);
 			y = std::move(other.y);
