@@ -45,30 +45,25 @@ namespace Integrian2D
 	{
 		StartRenderLoop();
 
-		const float epsilon{ 0.001f };
+		RenderAllTextures();
 
+		EndRenderLoop();
+	}
+
+	void Renderer::RenderAllTextures() noexcept
+	{
 		for (const TextureInformation& textureInformation : m_TexturesToRender)
 		{
 			// Determine texture coordinates using srcRect and default destination width and height
 			float textLeft{};
-			float textRight{};
+			float textRight{ 1.f };
 			float textTop{};
-			float textBottom{};
+			float textBottom{ 1.f };
 
-			float defaultDestWidth{};
-			float defaultDestHeight{};
-			if (!(textureInformation.sourceRect.width > epsilon && textureInformation.sourceRect.height > epsilon)) // No srcRect specified
-			{
-				// Use complete texture
-				textLeft = 0.0f;
-				textRight = 1.0f;
-				textTop = 0.0f;
-				textBottom = 1.0f;
+			float defaultDestWidth{ textureInformation.pTexture->GetHeight() };
+			float defaultDestHeight{ textureInformation.pTexture->GetWidth() };
 
-				defaultDestHeight = textureInformation.pTexture->GetHeight();
-				defaultDestWidth = textureInformation.pTexture->GetWidth();
-			}
-			else // srcRect specified
+			if (!Utils::AreEqual(textureInformation.sourceRect.width, 0.f) && !Utils::AreEqual(textureInformation.sourceRect.height, 0.f)) // srcRect specified
 			{
 				// Convert to the range [0.0, 1.0]
 				textLeft = textureInformation.sourceRect.x / textureInformation.sourceRect.width;
@@ -83,18 +78,13 @@ namespace Integrian2D
 			// Determine vertex coordinates
 			const float vertexLeft{ textureInformation.destRect.x };
 			const float vertexBottom{ textureInformation.destRect.y };
-			float vertexRight{};
-			float vertexTop{};
-			if (!(textureInformation.destRect.width > 0.001f && textureInformation.destRect.height > 0.001f)) // If no size specified use default size
-			{
-				vertexRight = vertexLeft + defaultDestWidth;
-				vertexTop = vertexBottom + defaultDestHeight;
-			}
-			else
+			float vertexRight{ vertexLeft + defaultDestWidth };
+			float vertexTop{ vertexBottom + defaultDestHeight };
+
+			if (!Utils::AreEqual(textureInformation.destRect.width, 0.f) || !Utils::AreEqual(textureInformation.destRect.height, 0.f)) // size specified
 			{
 				vertexRight = vertexLeft + textureInformation.destRect.width;
 				vertexTop = vertexBottom + textureInformation.destRect.height;
-
 			}
 
 			// Tell opengl which texture we will use
@@ -123,7 +113,6 @@ namespace Integrian2D
 			glDisable(GL_TEXTURE_2D);
 		}
 
-		EndRenderLoop();
 	}
 
 	void Renderer::EndRenderLoop() noexcept

@@ -38,6 +38,7 @@ namespace Integrian2D
 
 		void StartRenderLoop() noexcept;
 		void Render() noexcept;
+		void RenderAllTextures() noexcept;
 		void EndRenderLoop() noexcept;
 
 		inline static Renderer* m_pInstance{};
