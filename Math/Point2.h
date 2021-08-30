@@ -27,21 +27,21 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Rule Of 5
-		Point<2, Type>(const Point<2, Type>& p)
+		Point<2, Type>(const Point<2, Type>& p) noexcept
 			: x{ p.x }
 			, y{ p.y }
 		{}
-		Point<2, Type>(Point<2, Type>&& other)
+		Point<2, Type>(Point<2, Type>&& other) noexcept
 			: x{ std::move(other.x) }
 			, y{ std::move(other.y) }
 		{}
-		Point<2, Type>& operator=(const Point<2, Type>& p)
+		Point<2, Type>& operator=(const Point<2, Type>& p) noexcept
 		{
 			x = p.x;
 			y = p.y;
 			return *this;
 		}
-		Point<2, Type>& operator=(Point<2, Type>&& p)
+		Point<2, Type>& operator=(Point<2, Type>&& p) noexcept
 		{
 			x = std::move(p.x);
 			y = std::move(p.y);
