@@ -67,7 +67,7 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Data
-			union
+		union
 		{
 			Type data[3];
 
@@ -82,4 +82,149 @@ namespace Integrian2D
 		};
 #pragma endregion
 	};
+
+#pragma region Arithmetic Operators
+	template<typename Type>
+	Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Vector<3, Type>{lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z};
+	}
+
+	template<typename Type>
+	Vector<3, Type> operator-(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Vector<3, Type>{lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z};
+	}
+
+	template<typename Type>
+	Vector<3, Type> operator*(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Vector<3, Type>{lhs.x* rhs.x, lhs.y* rhs.y, lhs.z* rhs.z};
+	}
+
+	template<typename Type>
+	Vector<3, Type> operator*(const Vector<3, Type>& lhs, const Type& rhs) noexcept
+	{
+		return Vector<3, Type>{lhs.x* rhs, lhs.y* rhs, lhs.z* rhs};
+	}
+
+	template<typename Type>
+	Vector<3, Type> operator/(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Vector<3, Type>{lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z};
+	}
+
+	template<typename Type>
+	Vector<3, Type> operator/(const Vector<3, Type>& lhs, const Type& rhs) noexcept
+	{
+		return Vector<3, Type>{lhs.x / rhs, lhs.y / rhs, lhs.z / rhs};
+	}
+#pragma endregion
+
+#pragma region Compound Arithmetic Operators
+	template<typename Type>
+	Vector<3, Type>& operator+=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x += rhs.x;
+		lhs.y += rhs.y;
+		lhs.z += rhs.z;
+
+		return lhs;
+	}
+
+	template<typename Type>
+	Vector<3, Type>& operator-=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x -= rhs.x;
+		lhs.y -= rhs.y;
+		lhs.z -= rhs.z;
+
+		return lhs;
+	}
+
+	template<typename Type>
+	Vector<3, Type>& operator*=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x *= rhs.x;
+		lhs.y *= rhs.y;
+		lhs.z *= rhs.z;
+
+		return lhs;
+	}
+
+	template<typename Type>
+	Vector<3, Type>& operator*=(Vector<3, Type>& lhs, const Type& rhs) noexcept
+	{
+		lhs.x *= rhs;
+		lhs.y *= rhs;
+		lhs.z *= rhs;
+
+		return lhs;
+	}
+
+	template<typename Type>
+	Vector<3, Type>& operator/=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x /= rhs.x;
+		lhs.y /= rhs.y;
+		lhs.z /= rhs.z;
+
+		return lhs;
+	}
+
+	template<typename Type>
+	Vector<3, Type>& operator/=(Vector<3, Type>& lhs, const Type& rhs) noexcept
+	{
+		lhs.x /= rhs;
+		lhs.y /= rhs;
+		lhs.z /= rhs;
+
+		return lhs;
+	}
+#pragma endregion
+
+#pragma region Relational Operators
+	template<typename Type>
+	bool operator==(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Utils::AreEqual(lhs.x, rhs.x) && Utils::AreEqual(lhs.y, rhs.y) && Utils::AreEqual(rhs.z, lhs.z);
+	}
+
+	template<typename Type>
+	bool operator!=(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return !(lhs == rhs);
+	}
+#pragma endregion
+
+#pragma region Functions
+	template<typename Type>
+	Type Dot(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+	}
+
+	template<typename Type>
+	Vector<3, Type> Cross(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Vector<3, Type>{ lhs.y* rhs.z - lhs.z * rhs.y,
+			lhs.z* rhs.x - lhs.x * rhs.z,
+			lhs.x* rhs.y - lhs.y * rhs.x };
+	}
+
+	template<typename Type>
+	Vector<3, Type> Orthogonal(const Vector<3, Type>& lhs, const Vector<3, Type>& cpVector = Vector<3, Type>{ Type(0),Type(0),Type(1) }) noexcept
+	{
+		return Cross<Type>(lhs, cpVector);
+	}
+#pragma endregion
+
+#pragma region Miscellanneous Operators
+	template<typename Type>
+	std::ostream& operator<<(std::ostream& os, const Vector<3, Type>& v) noexcept
+	{
+		os << vector.x << ", " << vector.y << ", " << vector.z;
+		return os;
+	}
+#pragma endregion
 }
