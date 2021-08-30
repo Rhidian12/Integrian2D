@@ -109,7 +109,7 @@ namespace Integrian2D
 
 #pragma region Compound Assignment Operators
 	template<typename Type>
-	Vector<2, Type> operator+=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	Vector<2, Type>& operator+=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
 		lhs.x += rhs.x;
 		lhs.y += rhs.y;
@@ -117,7 +117,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator-=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	Vector<2, Type>& operator-=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
 		lhs.x -= rhs.x;
 		lhs.y -= rhs.y;
@@ -125,7 +125,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator/=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	Vector<2, Type>& operator/=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
 		lhs.x /= rhs.x;
 		lhs.y /= rhs.y;
@@ -133,7 +133,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator/=(Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type>& operator/=(Vector<2, Type>& lhs, const Type& rhs) noexcept
 	{
 		lhs.x /= rhs;
 		lhs.y /= rhs;
@@ -141,7 +141,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator*=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	Vector<2, Type>& operator*=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
 		lhs.x *= rhs.x;
 		lhs.y *= rhs.y;
@@ -149,7 +149,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator*=(Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type>& operator*=(Vector<2, Type>& lhs, const Type& rhs) noexcept
 	{
 		lhs.x *= rhs;
 		lhs.y *= rhs;
