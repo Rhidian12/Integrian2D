@@ -2,7 +2,7 @@
 #include "../Texture/Texture.h"
 #include "../Utils/Utils.h"
 
-uint8_t operator"" _u(unsigned long long x) // adding _8 behind any integer (IN THIS FILE) will make it a uint8_t
+inline uint8_t operator"" _u(unsigned long long x) // adding _8 behind any integer (IN THIS FILE) will make it a uint8_t
 {
 	Integrian2D::Utils::Assert((x <= 255) && (x >= 0), "_u suffix was used for a value outside the uint8_t range [0, 255]");
 	return static_cast<uint8_t>(x);
