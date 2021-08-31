@@ -158,7 +158,7 @@ TEST_CASE("Testing the Matrix...")
 		REQUIRE(Utils::AreEqual(matrix(0, 0), 69.f));
 		REQUIRE(Utils::AreEqual(matrix(1, 1), 42.f));
 
-		REQUIRE(Utils::AreEqual(GetDeterminant(matrix, 2), 2898.f));
+		REQUIRE(Utils::AreEqual(GetDeterminantOfMatrix(matrix, 2), 2898.f));
 
 		matrix = GetIdentityMatrix<2, 2, float>();
 
@@ -220,7 +220,7 @@ TEST_CASE("Testing the Matrix...")
 		REQUIRE(Utils::AreEqual(matrix(1, 1), 42.f));
 		REQUIRE(Utils::AreEqual(matrix(2, 2), 21.f));
 
-		REQUIRE(Utils::AreEqual(GetDeterminant(matrix, 3), 60858.f));
+		REQUIRE(Utils::AreEqual(GetDeterminantOfMatrix(matrix, 3), 60858.f));
 
 		matrix = GetIdentityMatrix<3, 3, float>();
 
@@ -228,20 +228,16 @@ TEST_CASE("Testing the Matrix...")
 		REQUIRE(Utils::AreEqual(matrix(1, 1), 1.f));
 		REQUIRE(Utils::AreEqual(matrix(2, 2), 1.f));
 
-		matrix(0, 0) = 69.f;
-		matrix(1, 1) = 42.f;
-		matrix(2, 2) = 21.f;
-
 		Matrix3x3 testMatrix{};
-		testMatrix(0, 0) = 3.f;
-		testMatrix(0, 2) = 2.f;
-		testMatrix(1, 0) = 2.f;
-		testMatrix(1, 2) = -2.f;
-		testMatrix(2, 1) = 1.f;
-		testMatrix(2, 2) = 1.f;
-		testMatrix(2, 2) = 1.f;
 
-		auto result = matrix / testMatrix;
+		for (int r{}; r < 3; ++r)
+			for (int c{}; c < 3; ++c)
+				matrix(r, c) = float(rand() % 101 - 50);
+
+		for (int r{}; r < 3; ++r)
+			for (int c{}; c < 3; ++c)
+				testMatrix(r, c) = float(rand() % 101 - 50);
+
 	}
 }
 

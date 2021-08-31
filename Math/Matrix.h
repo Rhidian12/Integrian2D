@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../Utils/Utils.h"
+#include "Vector.h"
+#include "../Logger/Logger.h"
+
 #include <utility>
 
 namespace Integrian2D
@@ -57,6 +60,18 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Member Operators
+		const Vector<Columns, Type>& operator[](const int r) const noexcept
+		{
+			Utils::Assert(r < Rows, "Matrix::operator[] > Index is out of bounds!");
+			return *(reinterpret_cast<Vector<Columns, Type>*>(data[r]));
+		}
+
+		Vector<Columns, Type>& operator[](const int r) noexcept
+		{
+			Utils::Assert(r < Rows, "Matrix::operator[] > Index is out of bounds!");
+			return *(reinterpret_cast<Vector<Columns, Type>*>(data[r]));
+		}
+
 		const Type& operator()(const int r, const int c) const noexcept
 		{
 			Utils::Assert((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
@@ -132,52 +147,23 @@ namespace Integrian2D
 		static_assert(ColumnsM1 == RowsM2, "Matrix::operator/() > Matrix<Rows1, Columns1> * Matrix<Rows2, Columns2>. Columns1 and Rows2 must be equal!");
 
 		// this is pain
-		// == First get the Matrix of Minors ==
-		Matrix<RowsM1, ColumnsM2, Type> matrixOfMinors{};
-		for (int r{}; r < RowsM1; ++r)
-		{
-			for (int c{}; c < ColumnsM2; ++c)
-			{
-				int rowCounter{}, colCounter{};
-				Matrix<RowsM1 - 1, ColumnsM2 - 1, Type> matrix{};
-				for (int row{}; row < RowsM1; ++row)
-				{
-					if (r == row)
-						continue;
+		// it has cost me blood, sweat and tears to make this
+		// if you think it is wrong, congratulations
+		// it is right, cunt
 
-					for (int col{}; col < ColumnsM2; ++col)
-					{
-						if (c == col)
-							continue;
+		return lhs * GetInverseMatrix(rhs);
+	}
 
-						matrix.data[rowCounter][colCounter++] = rhs.data[row][col];
-					}
+	template<int Rows, int Columns, typename Type>
+	Matrix<Rows, Columns, Type> operator/(const Matrix<Rows, Columns, Type>& lhs, const Type& rhs) noexcept
+	{
+		Matrix<Rows, Columns, Type> matrix{};
 
-					++rowCounter;
-				}
+		for (int row{}; row < Rows; ++row)
+			for (int col{}; col < Columns; ++col)
+				matrix.data[row][col] += lhs.data[row][col] / rhs;
 
-				matrixOfMinors.data[r][c] = GetDeterminant(matrix, GetAmountOfRowsInMatrix(matrix));
-			}
-		}
-
-		// == Checkboard ==
-		int sign{ 1 };
-		for (int r{}; r < RowsM1; ++r)
-		{
-			for (int c{}; c < ColumnsM2; ++c)
-			{
-				matrixOfMinors.data[r][c] *= sign;
-				sign = -sign;
-			}
-		}
-
-		// == Transpose Matrix ==
-		Matrix<ColumnsM2, RowsM1, Type> transposedMatrix{ TransposeMatrix(matrixOfMinors) };
-
-		// == Multiply By 1 / Determinant ==
-		Matrix<ColumnsM2, RowsM1, Type> inverseRHSMatrix{ transposedMatrix * static_cast<Type>(1.f / GetDeterminant(rhs, GetAmountOfRowsInMatrix(rhs))) };
-
-		return lhs * inverseRHSMatrix;
+		return matrix;
 	}
 #pragma endregion
 
@@ -208,9 +194,9 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> MakeSubMatrix(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length) noexcept
+	Matrix<Rows, Columns, Type> GetMatrixCofactor(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length) noexcept
 	{
-		static_assert(Rows == Columns, "MakeSubMatrix() > Matrix must be square!");
+		static_assert(Rows == Columns, "GetMatrixCofactor() > Matrix must be square!");
 
 		int rowCounter{}, columnCounter{};
 		Matrix<Rows, Columns, Type> matrix{};
@@ -236,7 +222,7 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	Type GetDeterminant(const Matrix<Rows, Columns, Type>& m, const int length) noexcept
+	Type GetDeterminantOfMatrix(const Matrix<Rows, Columns, Type>& m, const int length) noexcept
 	{
 		static_assert(Rows == Columns, "GetDeterminant() > Matrix must be square!");
 
@@ -251,8 +237,8 @@ namespace Integrian2D
 
 			for (int i{}; i < length; ++i)
 			{
-				Matrix<Rows, Columns, Type> matrix{ MakeSubMatrix<Rows, Columns, Type>(m, 0, i, length) };
-				determinant += sign * m.data[0][i] * GetDeterminant<Rows, Columns, Type>(matrix, length - 1);
+				Matrix<Rows, Columns, Type> matrix{ GetMatrixCofactor<Rows, Columns, Type>(m, 0, i, length) };
+				determinant += sign * m.data[0][i] * GetDeterminantOfMatrix<Rows, Columns, Type>(matrix, length - 1);
 				sign = -sign;
 			}
 
@@ -270,5 +256,58 @@ namespace Integrian2D
 				matrix.data[c][r] = m.data[r][c];
 
 		return matrix;
+	}
+
+	template<int Rows, int Columns, typename Type>
+	Matrix<Columns, Rows, Type> GetAdjointMatrix(const Matrix<Columns, Rows, Type>& m) noexcept
+	{
+		static_assert(Rows == Columns, "Matrix::GetAdjointMatrix() > Matrix must be square!");
+
+		Matrix<Columns, Rows, Type> matrix{};
+
+		if constexpr (Rows == 1)
+			matrix[0][0] = 1;
+		else
+		{
+			int sign{ 1 };
+
+			for (int r{}; r < Rows; ++r)
+			{
+				for (int c{}; c < Columns; ++c)
+				{
+					Matrix<Columns, Rows, Type> cofactorMatrix{ GetMatrixCofactor(m, r, c, Rows) };
+
+					sign = ((r + c) % 2 == 0) ? 1 : -1;
+					
+					matrix.data[c][r] = sign * GetDeterminantOfMatrix(cofactorMatrix, Rows - 1);
+				}
+			}
+		}
+
+		return matrix;
+	}
+
+	template<int Rows, int Columns, typename Type>
+	Matrix<Rows, Columns, Type> GetInverseMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
+	{
+		static_assert(Rows == Columns, "Matrix::GetInverseMatrix() > Matrix must be square!");
+
+		const Type determinant{ GetDeterminantOfMatrix(m, Rows) };
+
+		if (Utils::AreEqual(determinant, static_cast<Type>(0.f)))
+		{
+			Logger::LogError("Matrix::GetInverseMatrix() > Determinant is zero, no inverse matrix exists! Returning Identity Matrix!");
+			return GetIdentityMatrix<Rows, Columns, Type>();
+		}
+
+		Matrix<Rows, Columns, Type> adjointMatrix{ GetAdjointMatrix(m) };
+
+		Matrix<Rows, Columns, Type> inverseMatrix{};
+
+		for (int r{}; r < Rows; ++r)
+			for (int c{}; c < Columns; ++c)
+				inverseMatrix.data[r][c] = adjointMatrix.data[r][c] / determinant;
+
+		return inverseMatrix;
 	}
 }
