@@ -44,10 +44,6 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
-	void TransformComponent::RotateAroundPoint(const float angleRadians, const Point2f& pointToRotateAround) noexcept
-	{
-	}
-
 	void TransformComponent::SetPosition(const Rectf destRect) noexcept
 	{
 		m_DestRect = destRect;
@@ -66,7 +62,7 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
-	const Rectf& TransformComponent::GetPosition() const noexcept
+	const Rectf& TransformComponent::GetDestRect() const noexcept
 	{
 		return m_DestRect;
 	}

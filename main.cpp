@@ -1,6 +1,6 @@
 bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
-//#define UNIT_TESTS
+#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
@@ -141,6 +141,110 @@ TEST_CASE("Testing the Reader...")
 	REQUIRE(reader.Read<int8_t>() == -12);
 }
 
+TEST_CASE("Testing the Matrix...")
+{
+	using namespace Integrian2D;
+
+	{
+		Matrix2x2 matrix{};
+
+		for (int r{}; r < 2; ++r)
+			for (int c{}; c < 2; ++c)
+				REQUIRE(Utils::AreEqual(matrix(r, c), 0.f));
+
+		matrix(0, 0) = 69.f;
+		matrix(1, 1) = 42.f;
+
+		REQUIRE(Utils::AreEqual(matrix(0, 0), 69.f));
+		REQUIRE(Utils::AreEqual(matrix(1, 1), 42.f));
+
+		REQUIRE(Utils::AreEqual(GetDeterminant(matrix, 2), 2898.f));
+
+		matrix = GetIdentityMatrix<2, 2, float>();
+
+		REQUIRE(Utils::AreEqual(matrix(0, 0), 1.f));
+		REQUIRE(Utils::AreEqual(matrix(1, 1), 1.f));
+
+		matrix = Matrix2x2{};
+
+		float counter{ 1.f };
+		for (int r{}; r < 2; ++r)
+			for (int c{}; c < 2; ++c)
+				matrix(r, c) = counter++;
+
+		auto transposedMatrix{ TransposeMatrix(matrix) };
+
+		REQUIRE(Utils::AreEqual(transposedMatrix(0, 0), 1.f));
+		REQUIRE(Utils::AreEqual(transposedMatrix(0, 1), 3.f));
+		REQUIRE(Utils::AreEqual(transposedMatrix(1, 0), 2.f));
+		REQUIRE(Utils::AreEqual(transposedMatrix(1, 1), 4.f));
+
+		{
+			Matrix2x2 otherMatrix{};
+
+			for (int r{}; r < 2; ++r)
+				for (int c{}; c < 2; ++c)
+					otherMatrix(r, c) = counter++;
+
+			auto result = matrix * otherMatrix;
+
+			REQUIRE(Utils::AreEqual(result(0, 0), 19.f));
+			REQUIRE(Utils::AreEqual(result(0, 1), 22.f));
+			REQUIRE(Utils::AreEqual(result(1, 0), 43.f));
+			REQUIRE(Utils::AreEqual(result(1, 1), 50.f));
+
+			otherMatrix(0, 1) = -otherMatrix(0, 1);
+			otherMatrix(1, 1) = -otherMatrix(1, 1);
+
+			result = matrix * otherMatrix;
+
+			REQUIRE(Utils::AreEqual(result(0, 0), 19.f));
+			REQUIRE(Utils::AreEqual(result(0, 1), -22.f));
+			REQUIRE(Utils::AreEqual(result(1, 0), 43.f));
+			REQUIRE(Utils::AreEqual(result(1, 1), -50.f));
+		}
+	}
+
+	{
+		Matrix3x3 matrix{};
+
+		for (int r{}; r < 3; ++r)
+			for (int c{}; c < 3; ++c)
+				REQUIRE(Utils::AreEqual(matrix(r, c), 0.f));
+
+		matrix(0, 0) = 69.f;
+		matrix(1, 1) = 42.f;
+		matrix(2, 2) = 21.f;
+
+		REQUIRE(Utils::AreEqual(matrix(0, 0), 69.f));
+		REQUIRE(Utils::AreEqual(matrix(1, 1), 42.f));
+		REQUIRE(Utils::AreEqual(matrix(2, 2), 21.f));
+
+		REQUIRE(Utils::AreEqual(GetDeterminant(matrix, 3), 60858.f));
+
+		matrix = GetIdentityMatrix<3, 3, float>();
+
+		REQUIRE(Utils::AreEqual(matrix(0, 0), 1.f));
+		REQUIRE(Utils::AreEqual(matrix(1, 1), 1.f));
+		REQUIRE(Utils::AreEqual(matrix(2, 2), 1.f));
+
+		matrix(0, 0) = 69.f;
+		matrix(1, 1) = 42.f;
+		matrix(2, 2) = 21.f;
+
+		Matrix3x3 testMatrix{};
+		testMatrix(0, 0) = 3.f;
+		testMatrix(0, 2) = 2.f;
+		testMatrix(1, 0) = 2.f;
+		testMatrix(1, 2) = -2.f;
+		testMatrix(2, 1) = 1.f;
+		testMatrix(2, 2) = 1.f;
+		testMatrix(2, 2) = 1.f;
+
+		auto result = matrix / testMatrix;
+	}
+}
+
 #else
 #include "Core/Core.h"
 #include "SceneManager/SceneManager.h"
@@ -167,5 +271,5 @@ int main()
 	engine.Run();
 
 	return 0;
-}
+	}
 #endif

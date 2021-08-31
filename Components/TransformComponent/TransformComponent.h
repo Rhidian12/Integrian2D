@@ -16,13 +16,12 @@ namespace Integrian2D
 
 		void Translate(const Vector2f& velocity) noexcept;
 		void Rotate(const float angleRadians) noexcept;
-		void RotateAroundPoint(const float angleRadians, const Point2f& pointToRotateAround) noexcept;
 
 		void SetPosition(const Rectf destRect) noexcept;
 		void SetScale(const Point2f scale) noexcept;
 		void SetAngle(const float angle) noexcept;
 
-		const Rectf& GetPosition() const noexcept;
+		const Rectf& GetDestRect() const noexcept;
 		const Point2f& GetScale() const noexcept;
 		const float GetAngle() const noexcept;
 
