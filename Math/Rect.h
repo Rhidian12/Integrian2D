@@ -76,7 +76,7 @@ namespace Integrian2D
 #pragma warning ( disable : 4201 ) // Disable nameless struct warning
 			struct
 			{
-				float x, y, width, height;
+				Type x, y, width, height;
 				Point<2, Type> xy;
 			};
 #pragma warning ( pop )
