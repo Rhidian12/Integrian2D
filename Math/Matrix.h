@@ -140,6 +140,20 @@ namespace Integrian2D
 		return matrix;
 	}
 
+	template<int Rows, int Columns, int P, typename Type>
+	Point<P, Type> operator*(const Matrix<Rows, Columns, Type>& lhs, const Point<P, Type>& rhs) noexcept
+	{
+		static_assert(Columns == P, "Matrix::operator*() > Amount of Columns and Point must be equal");
+
+		Point<P, Type> point{};
+
+		for (int row{}; row < Rows; ++row)
+			for (int col{}; col < Columns; ++col)
+				point[row] += lhs.data[row][col] * rhs[row];
+
+		return point;
+	}
+
 	template<int RowsM1, int ColumnsM1, int RowsM2, int ColumnsM2, typename Type>
 	Matrix<RowsM1, ColumnsM1, Type> operator/(const Matrix<RowsM1, ColumnsM1, Type>& lhs, const Matrix<RowsM2, ColumnsM2, Type>& rhs) noexcept
 	{

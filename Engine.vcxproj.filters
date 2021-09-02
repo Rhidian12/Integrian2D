@@ -182,13 +182,7 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Matrix3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
