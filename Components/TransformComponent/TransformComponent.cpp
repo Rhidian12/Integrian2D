@@ -6,7 +6,6 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_TransformChanged{}
 		, m_DestRect{}
-		, m_Translation{}
 		, m_Scale{ 1.f, 1.f }
 		, m_Angle{}
 	{
@@ -25,38 +24,17 @@ namespace Integrian2D
 
 	void TransformComponent::FixedUpdate()
 	{
-		// TODO: If parent changes, this needs to be adjusted as well
-
 		if (m_TransformChanged)
 		{
 			m_TransformChanged = false;
 
-			Matrix3x3 translationMatrix{ GetIdentityMatrix<3,3,float>() };
-			translationMatrix(0, 2) = m_Translation.x;
-			translationMatrix(1, 2) = m_Translation.y;
 
-			Matrix3x3 scaleMatrix{ GetIdentityMatrix<3,3,float>() };
-			scaleMatrix(0, 0) = m_Scale.x;
-			scaleMatrix(1, 1) = m_Scale.y;
-
-			const float c{ cos(m_Angle) };
-			const float s{ sin(m_Angle) };
-			Matrix3x3 rotationMatrix{ GetIdentityMatrix<3,3,float>() };
-			rotationMatrix(0, 0) = c;
-			rotationMatrix(0, 1) = -s;
-			rotationMatrix(1, 0) = s;
-			rotationMatrix(1, 1) = c;
-
-			const Matrix3x3 transformationMatrix{ scaleMatrix * rotationMatrix * translationMatrix };
-
-			Rectf destRect{ m_DestRect };
-			destRect.leftBottom = transformationMatrix * destRect.leftBottom;
 		}
 	}
 
 	void TransformComponent::Translate(const Vector2f& velocity) noexcept
 	{
-		m_Translation = velocity;
+		m_DestRect.xy += velocity;
 		m_TransformChanged = true;
 	}
 
@@ -66,15 +44,9 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
-	void TransformComponent::SetDestRect(const Rectf destRect) noexcept
+	void TransformComponent::SetPosition(const Rectf destRect) noexcept
 	{
 		m_DestRect = destRect;
-		m_TransformChanged = true;
-	}
-
-	void TransformComponent::SetPosition(const Point2f position) noexcept
-	{
-		m_DestRect.leftBottom = position;
 		m_TransformChanged = true;
 	}
 
