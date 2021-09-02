@@ -17,7 +17,8 @@ namespace Integrian2D
 		void Translate(const Vector2f& velocity) noexcept;
 		void Rotate(const float angleRadians) noexcept;
 
-		void SetPosition(const Rectf destRect) noexcept;
+		void SetDestRect(const Rectf destRect) noexcept;
+		void SetPosition(const Point2f position) noexcept;
 		void SetScale(const Point2f scale) noexcept;
 		void SetAngle(const float angle) noexcept;
 
@@ -28,6 +29,8 @@ namespace Integrian2D
 	private:
 		bool m_TransformChanged;
 		Rectf m_DestRect; // contains position, width, height
+
+		Vector2f m_Translation;
 		Point2f m_Scale;
 		float m_Angle; // Radians
 	};

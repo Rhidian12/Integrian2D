@@ -34,7 +34,7 @@ namespace Integrian2D
 	void TextureComponent::Render() const
 	{
 		//m_pTexture->Draw(m_pOwner->pTransform->position, m_SourceRect);
-		Renderer::GetInstance()->RenderTexture(m_pTexture, Rectf{ m_pOwner->pTransform->GetDestRect().x, m_pOwner->pTransform->GetDestRect().y, m_Width, m_Height }, m_SourceRect);
+		Renderer::GetInstance()->RenderTexture(m_pTexture, Rectf{ m_pOwner->pTransform->GetDestRect().leftBottom.x , m_pOwner->pTransform->GetDestRect().leftBottom.y, m_Width, m_Height }, m_SourceRect);
 	}
 
 	Component* TextureComponent::Clone(GameObject* pOwner) noexcept
