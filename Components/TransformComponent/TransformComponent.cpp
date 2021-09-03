@@ -34,7 +34,7 @@ namespace Integrian2D
 
 	void TransformComponent::Translate(const Vector2f& velocity) noexcept
 	{
-		m_DestRect.xy += velocity;
+		Translate<2, float>(m_DestRect, velocity);
 		m_TransformChanged = true;
 	}
 
@@ -44,7 +44,7 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
-	void TransformComponent::SetPosition(const Rectf destRect) noexcept
+	void TransformComponent::SetPosition(const PRectf destRect) noexcept
 	{
 		m_DestRect = destRect;
 		m_TransformChanged = true;
@@ -62,7 +62,7 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
-	const Rectf& TransformComponent::GetDestRect() const noexcept
+	const PRectf& TransformComponent::GetDestRect() const noexcept
 	{
 		return m_DestRect;
 	}

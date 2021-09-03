@@ -1,14 +1,19 @@
 #pragma once
 
 #include "Point.h"
-#include "Vector.h"
 #include "Point2.h"
-#include "Vector2.h"
 #include "Point3.h"
+
+#include "Vector.h"
+#include "Vector2.h"
+
 #include "Rect.h"
+
 #include "Polygon.h"
 #include "PRect.h"
+
 #include "RGBColour.h"
+
 #include "Matrix.h"
 
 namespace Integrian2D

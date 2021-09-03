@@ -93,6 +93,18 @@ namespace Integrian2D
 
 				template<int V, typename Type>
 				friend void Translate(Polygon<4, Type>& p, const Vector<V, Type>& v) noexcept;
+				template<typename Type>
+				friend void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept;
+				template<typename Type>
+				friend void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept;
+				template<typename Type>
+				friend void SetPosition(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
+				template<typename Type>
+				friend const Point<2, Type>& GetPosition(const Polygon<4, Type>& p) noexcept;
+				template<typename Type>
+				friend void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept;
+				template<typename Type>
+				friend void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept;
 
 				Point<2, Type> leftBottom, leftTop, rightTop, rightBottom, pivotPoint;
 
@@ -144,6 +156,82 @@ namespace Integrian2D
 		p.points.rightTop += v;
 		p.points.rightBottom += v;
 		p.points.pivotPoint += v;
+	}
+
+	template<typename Type>
+	void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept
+	{
+		p.angle = _angle;
+
+		const Type c{ static_cast<Type>(cos(_angle)) };
+		const Type s{ static_cast<Type>(sin(_angle)) };
+		const Point<2, Type>& pivotPoint{ p.points.pivotPoint };
+
+		// == Translate all points with pivotpoint ==
+		p.points.leftBottom -= pivotPoint;
+		p.points.leftTop -= pivotPoint;
+		p.points.rightTop -= pivotPoint;
+		p.points.rightBottom -= pivotPoint;
+
+		// == Rotate All Points ==
+		p.points.leftBottom = { p.points.leftBottom.x * c - p.points.leftBottom.y * s, p.points.leftBottom.x * s + p.points.leftBottom.y * c };
+		p.points.leftTop = { p.points.leftTop.x * c - p.points.leftTop.y * s, p.points.leftTop.x * s + p.points.leftTop.y * c };
+		p.points.rightTop = { p.points.rightTop.x * c - p.points.rightTop.y * s, p.points.rightTop.x * s + p.points.rightTop.y * c };
+		p.points.rightBottom = { p.points.rightBottom.x * c - p.points.rightBottom.y * s, p.points.rightBottom.x * s + p.points.rightBottom.y * c };
+
+		// == Translate All Points Back ==
+		p.points.leftBottom += pivotPoint;
+		p.points.leftTop += pivotPoint;
+		p.points.rightTop += pivotPoint;
+		p.points.rightBottom += pivotPoint;
+	}
+
+	template<typename Type>
+	void SetPosition(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept
+	{
+		p.points.leftBottom = _leftBottom;
+		p.points.leftTop = { _leftBottom.x, _leftBottom.y + p.height };
+		p.points.rightTop = { _leftBottom.x + p.width, _leftBottom.y + p.height };
+		p.points.rightBottom = { _leftBottom.x + p.width, _leftBottom.y };
+		p.points.pivotPoint = { _leftBottom.x + p.width * static_cast<Type>(0.5f), _leftBottom.y + p.height * static_cast<Type>(0.5f) };
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+			SetRotation(p, p.angle);
+	}
+
+	template<typename Type>
+	void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept
+	{
+		p.angle += _angleChange;
+
+		SetRotation(p, p.angle);
+	}
+
+	template<typename Type>
+	const Point<2, Type>& GetPosition(const Polygon<4, Type>& p) noexcept
+	{
+		return p.points.leftBottom;
+	}
+
+	template<typename Type>
+	void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept
+	{
+		p.width = _width;
+
+		p.points.rightTop = { p.points.leftBottom.x + _width, p.points.rightTop.y };
+		p.points.rightBottom = { p.points.leftBottom.x + _width, p.points.rightBottom.y };
+		p.points.pivotPoint = { p.points.leftBottom.x + _width * static_cast<Type>(0.5f), p.points.pivotPoint.y };
+	}
+
+	template<typename Type>
+	void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept
+	{
+		p.height = _height;
+
+		p.points.leftTop = { p.points.leftTop.x, p.points.leftBottom.y + _height };
+		p.points.rightTop = { p.points.rightTop.x, p.points.leftBottom.y + _height };
+		p.points.pivotPoint = { p.points.pivotPoint.x, p.points.leftBottom.y + _height * static_cast<Type>(0.5f) };
 	}
 #pragma endregion
 }
