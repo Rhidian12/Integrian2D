@@ -6,6 +6,8 @@
 #include "Vector2.h"
 #include "Point3.h"
 #include "Rect.h"
+#include "Polygon.h"
+#include "PRect.h"
 #include "RGBColour.h"
 #include "Matrix.h"
 
@@ -15,6 +17,7 @@ namespace Integrian2D
 	typedef Point<3, float> Point3f;
 	typedef Vector<2, float> Vector2f;
 	typedef Rect<float> Rectf;
+	typedef Polygon<4, float> PRectf;
 	typedef Matrix<2, 2, float> Matrix2x2;
 	typedef Matrix<3, 3, float> Matrix3x3;
 }

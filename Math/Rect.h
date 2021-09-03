@@ -66,35 +66,17 @@ namespace Integrian2D
 #pragma region Data
 		union
 		{
-			// data[0] == x
-			// data[1] == y
-			// data[2] == width
-			// data[3] == height
-			Type data[4];
-
 #pragma warning ( push )
 #pragma warning ( disable : 4201 ) // Disable nameless struct warning
 			struct
 			{
-				Type x, y, width, height;
+				Type x, y;
 				Point<2, Type> xy;
 			};
 #pragma warning ( pop )
 		};
-#pragma endregion
 
-#pragma region Member Operators
-		Type& operator[](uint8_t i)
-		{
-			Utils::Assert(i < sizeof(data) / sizeof(Type), "Rect<Type>::operator[] > Index is out of bounds!");
-			return data[i];
-		}
-
-		const Type& operator[](uint8_t i) const
-		{
-			Utils::Assert(i < sizeof(data) / sizeof(Type), "Rect<Type>::operator[] > Index is out of bounds!");
-			return data[i];
-		}
+		Type width, height;
 #pragma endregion
 	};
 

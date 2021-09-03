@@ -1,6 +1,6 @@
 bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
-//#define UNIT_TESTS
+#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
@@ -239,6 +239,15 @@ TEST_CASE("Testing the Matrix...")
 				testMatrix(r, c) = float(rand() % 101 - 50);
 
 	}
+}
+
+TEST_CASE("Testing the PRectf...")
+{
+	using namespace Integrian2D;
+
+	PRectf rect{};
+
+	Translate(rect, Vector2f{});
 }
 
 #else
