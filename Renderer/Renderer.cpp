@@ -22,13 +22,16 @@ namespace Integrian2D
 	}
 
 	Renderer::Renderer(SDL_Window* const pWindow)
-		: m_ClearColour{ 192_u,192_u,192_u }
+		: m_IsNewFrame{}
+		, m_ClearColour{ 192_u,192_u,192_u }
 		, m_TexturesToRender{}
 		, m_pWindow{ pWindow }
 	{}
 
 	void Renderer::CreateRenderer(SDL_Window* const pWindow) noexcept
 	{
+		Utils::Assert(!m_pInstance, "Renderer::CreateRenderer() > This function is called by the Core, do not manually call this function!");
+
 		m_pInstance = new Renderer{ pWindow };
 	}
 
@@ -43,11 +46,20 @@ namespace Integrian2D
 
 	void Renderer::Render() noexcept
 	{
+		Utils::Assert(m_IsNewFrame, "Renderer::Render() > This function was called twice this frame, don't call this function manually!");
+
 		StartRenderLoop();
 
 		RenderAllTextures();
 
 		EndRenderLoop();
+
+		m_IsNewFrame = false;
+	}
+
+	void Renderer::SetNewFrame() noexcept
+	{
+		m_IsNewFrame = true;
 	}
 
 	void Renderer::RenderAllTextures() noexcept
@@ -112,7 +124,6 @@ namespace Integrian2D
 			}
 			glDisable(GL_TEXTURE_2D);
 		}
-
 	}
 
 	void Renderer::EndRenderLoop() noexcept

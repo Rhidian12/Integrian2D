@@ -23,8 +23,7 @@ namespace Integrian2D
 		, m_WindowWidth{windowWidth}
 		, m_WindowHeight{windowHeight}
 	{
-		if (!InitializeLibraries(windowWidth, windowHeight, windowTitle))
-			std::abort(); // TODO: Throw an exception
+		Utils::Assert(InitializeLibraries(windowWidth, windowHeight, windowTitle), "Core::InitializeLibraries() > Something horrible went wrong with initializing the libraries!");
 	}
 
 	Core::~Core()
@@ -48,6 +47,8 @@ namespace Integrian2D
 
 		while (g_IsLooping)
 		{
+			pRenderer->SetNewFrame();
+
 			Scene* pActiveScene{ pSceneManager->GetActiveScene() };
 
 			pActiveScene->inputManager.HandleInput();

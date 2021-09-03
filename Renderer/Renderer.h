@@ -11,10 +11,15 @@ namespace Integrian2D
 	class Renderer final
 	{
 	public:
+		static void CreateRenderer(SDL_Window* const pWindow) noexcept;
+
 		static Renderer* GetInstance() noexcept;
 		static void Cleanup() noexcept;
 
 		void RenderTexture(Texture* const pTexture, const Rectf& destRect, const Rectf& sourceRect) noexcept;
+		void Render() noexcept;
+
+		void SetNewFrame() noexcept;
 
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) = delete;
@@ -22,9 +27,6 @@ namespace Integrian2D
 		Renderer& operator=(Renderer&&) = delete;
 
 	private:
-		friend class Core; // Let only the Core do the render loop
-		friend class Window; // Let only the Window make a Renderer
-
 		struct TextureInformation final
 		{
 			Texture* pTexture;
@@ -32,16 +34,15 @@ namespace Integrian2D
 			Rectf sourceRect;
 		};
 
-		static void CreateRenderer(SDL_Window* const pWindow) noexcept;
-
 		Renderer(SDL_Window* const pWindow);
 
 		void StartRenderLoop() noexcept;
-		void Render() noexcept;
 		void RenderAllTextures() noexcept;
 		void EndRenderLoop() noexcept;
 
 		inline static Renderer* m_pInstance{};
+
+		bool m_IsNewFrame;
 
 		RGBColour m_ClearColour;
 		std::vector<TextureInformation> m_TexturesToRender;
