@@ -5,6 +5,7 @@
 #include "Components/TextureComponent/TextureComponent.h"
 #include "TextureManager/TextureManager.h"
 #include "Components/TransformComponent/TransformComponent.h"
+#include "Input/InputManager/InputManager.h"
 
 #include <string>
 class TestScene final : public Integrian2D::Scene
@@ -25,6 +26,11 @@ public:
 
 		m_pGameObject->pTransform->Translate({ 100.f,100.f });
 		m_pGameObject->pTransform->Rotate(Integrian2D::Utils::ToRadians(-45.f));
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::Space }, [this]()->void
+			{
+				m_pGameObject->pTransform->Rotate(Integrian2D::Utils::ToRadians(45.f));
+			}, Integrian2D::State::OnRelease);
 	}
 
 	virtual void Update() override
