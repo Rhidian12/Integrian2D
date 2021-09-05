@@ -13,6 +13,8 @@ namespace Integrian2D
 		void Assert(const bool expression, std::string message);
 #endif
 
+		inline volatile constexpr double PI{ 3.14159265358979323846264338327950288 };
+
 		// == Templated Functions ==
 		template<typename Pointer>
 		void SafeDelete(Pointer*& pData)
@@ -57,7 +59,13 @@ namespace Integrian2D
 		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
 		constexpr FloatingPoint ToRadians(const FloatingPoint degrees) noexcept
 		{
-			return static_cast<FloatingPoint>(degrees * M_PI / 180.f);
+			return static_cast<FloatingPoint>(degrees * PI / 180.f);
+		}
+
+		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
+		constexpr FloatingPoint ToDegrees(const FloatingPoint radians) noexcept
+		{
+			return static_cast<FloatingPoint>(radians * 180.0 / PI);
 		}
 	}
 }
