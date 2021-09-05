@@ -88,16 +88,10 @@ namespace Integrian2D
 			}
 
 			// Determine vertex coordinates
-			const float vertexLeft{ textureInformation.destRect.x };
-			const float vertexBottom{ textureInformation.destRect.y };
-			float vertexRight{ vertexLeft + defaultDestWidth };
-			float vertexTop{ vertexBottom + defaultDestHeight };
-
-			if (!Utils::AreEqual(textureInformation.destRect.width, 0.f) || !Utils::AreEqual(textureInformation.destRect.height, 0.f)) // size specified
-			{
-				vertexRight = vertexLeft + textureInformation.destRect.width;
-				vertexTop = vertexBottom + textureInformation.destRect.height;
-			}
+			const Point2f& leftBottom{ GetLeftBottom(textureInformation.destRect) };
+			const Point2f& leftTop{ GetLeftTop(textureInformation.destRect) };
+			const Point2f& rightTop{ GetRightTop(textureInformation.destRect) };
+			const Point2f& rightBottom{ GetRightBottom(textureInformation.destRect) };
 
 			// Tell opengl which texture we will use
 			glBindTexture(GL_TEXTURE_2D, textureInformation.pTexture->GetTextureID());
@@ -109,16 +103,16 @@ namespace Integrian2D
 				glBegin(GL_QUADS);
 				{
 					glTexCoord2f(textLeft, textBottom);
-					glVertex2f(vertexLeft, vertexBottom);
+					glVertex2f(leftBottom.x, leftBottom.y);
 
 					glTexCoord2f(textLeft, textTop);
-					glVertex2f(vertexLeft, vertexTop);
+					glVertex2f(leftTop.x, leftTop.y);
 
 					glTexCoord2f(textRight, textTop);
-					glVertex2f(vertexRight, vertexTop);
+					glVertex2f(rightTop.x, rightTop.y);
 
 					glTexCoord2f(textRight, textBottom);
-					glVertex2f(vertexRight, vertexBottom);
+					glVertex2f(rightBottom.x, rightBottom.y);
 				}
 				glEnd();
 			}
@@ -136,7 +130,7 @@ namespace Integrian2D
 		m_TexturesToRender.clear();
 	}
 
-	void Renderer::RenderTexture(Texture* const pTexture, const Rectf& destRect, const Rectf& sourceRect) noexcept
+	void Renderer::RenderTexture(Texture* const pTexture, const PRectf& destRect, const Rectf& sourceRect) noexcept
 	{
 		m_TexturesToRender.push_back(TextureInformation{ pTexture, destRect, sourceRect });
 	}

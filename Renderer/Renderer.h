@@ -16,7 +16,8 @@ namespace Integrian2D
 		static Renderer* GetInstance() noexcept;
 		static void Cleanup() noexcept;
 
-		void RenderTexture(Texture* const pTexture, const Rectf& destRect, const Rectf& sourceRect) noexcept;
+		void RenderTexture(Texture* const pTexture, const PRectf& destRect, const Rectf& sourceRect) noexcept;
+
 		void Render() noexcept;
 
 		void SetNewFrame() noexcept;
@@ -30,7 +31,7 @@ namespace Integrian2D
 		struct TextureInformation final
 		{
 			Texture* pTexture;
-			Rectf destRect;
+			PRectf destRect;
 			Rectf sourceRect;
 		};
 
