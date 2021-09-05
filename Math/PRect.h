@@ -248,6 +248,10 @@ namespace Integrian2D
 	void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept
 	{
 		p.points.pivotPoint = _pivotPoint;
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+			SetRotation(p, p.angle);
 	}
 
 	template<typename Type>
@@ -259,21 +263,43 @@ namespace Integrian2D
 	template<typename Type>
 	void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept
 	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
 		p.width = _width;
 
 		p.points.rightTop = { p.points.leftBottom.x + _width, p.points.rightTop.y };
 		p.points.rightBottom = { p.points.leftBottom.x + _width, p.points.rightBottom.y };
 		p.points.pivotPoint = { p.points.leftBottom.x + _width * static_cast<Type>(0.5f), p.points.pivotPoint.y };
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
 	}
 
 	template<typename Type>
 	void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept
 	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
 		p.height = _height;
 
 		p.points.leftTop = { p.points.leftTop.x, p.points.leftBottom.y + _height };
 		p.points.rightTop = { p.points.rightTop.x, p.points.leftBottom.y + _height };
 		p.points.pivotPoint = { p.points.pivotPoint.x, p.points.leftBottom.y + _height * static_cast<Type>(0.5f) };
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
 	}
 #pragma endregion
 }

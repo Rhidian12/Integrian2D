@@ -55,6 +55,9 @@ namespace Integrian2D
 			SetHeight(destRect, m_Height);
 		}
 
+		Utils::Assert(Distance(GetLeftBottom(destRect), GetRightBottom(destRect)) == m_Width, "Width was not equal!");
+		Utils::Assert(Distance(GetLeftBottom(destRect), GetLeftTop(destRect)) == m_Height, "Height was not equal!");
+
 		Renderer::GetInstance()->RenderTexture(m_pTexture, destRect, m_SourceRect);
 	}
 
