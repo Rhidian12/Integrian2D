@@ -4,6 +4,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/TextureComponent/TextureComponent.h"
 #include "TextureManager/TextureManager.h"
+#include "Components/TransformComponent/TransformComponent.h"
 
 #include <string>
 class TestScene final : public Integrian2D::Scene
@@ -21,6 +22,10 @@ public:
 		m_pGameObject->AddComponent(new Integrian2D::TextureComponent{ m_pGameObject, Integrian2D::TextureManager::GetInstance()->GetTexture("DinoHappy") });
 
 		AddGameObject("Test", m_pGameObject);
+
+		m_pGameObject->pTransform->Translate({ 50.f,50.f });
+		m_pGameObject->pTransform->Rotate(45.f);
+		std::cout << "Angle: " << m_pGameObject->pTransform->GetAngle();
 	}
 
 	Integrian2D::GameObject* m_pGameObject;
