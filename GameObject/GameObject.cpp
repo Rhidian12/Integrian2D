@@ -38,6 +38,8 @@ namespace Integrian2D
 
 	void GameObject::FixedUpdate()
 	{
+		pTransform->FixedUpdate();
+
 		for (Component* pC : m_pComponents)
 			pC->FixedUpdate();
 

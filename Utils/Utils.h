@@ -53,6 +53,12 @@ namespace Integrian2D
 		{
 			return abs(a - b) <= std::numeric_limits<FundamentalType>::epsilon();
 		}
+
+		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
+		constexpr FloatingPoint ToRadians(const FloatingPoint degrees) noexcept
+		{
+			return static_cast<FloatingPoint>(degrees * M_PI / 180.f);
+		}
 	}
 }
 

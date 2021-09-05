@@ -24,7 +24,11 @@ public:
 		AddGameObject("Test", m_pGameObject);
 
 		m_pGameObject->pTransform->Translate({ 50.f,50.f });
-		m_pGameObject->pTransform->Rotate(45.f);
+		m_pGameObject->pTransform->Rotate(Integrian2D::Utils::45.f);
+	}
+
+	virtual void Update() override
+	{
 		std::cout << "Angle: " << m_pGameObject->pTransform->GetAngle();
 	}
 
