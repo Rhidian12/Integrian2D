@@ -50,18 +50,7 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Data
-		union
-		{
-			Type data[2];
-
-#pragma warning ( push )
-#pragma warning ( disable : 4201 ) // Disable nameless struct warning
-			struct
-			{
-				Type x, y;
-			};
-#pragma warning ( pop )
-		};
+		Type x, y;
 #pragma endregion
 	};
 
@@ -93,7 +82,7 @@ namespace Integrian2D
 	template<typename Type>
 	Point<2, Type> operator*(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
-		return Point<2, Type>{lhs.x * rhs.x, lhs.y * rhs.y};
+		return Point<2, Type>{lhs.x* rhs.x, lhs.y* rhs.y};
 	}
 
 	template<typename Type>
@@ -111,7 +100,7 @@ namespace Integrian2D
 		lhs.y += rhs.y;
 		return lhs;
 	}
-	
+
 	template<typename Type>
 	Point<2, Type>& operator-=(Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
