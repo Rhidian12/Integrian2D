@@ -51,12 +51,14 @@ namespace Integrian2D
 
 		if (Utils::AreEqual(destRect.width, 0.f) && Utils::AreEqual(destRect.height, 0.f))
 		{
+			const float angle{ destRect.angle };
+			SetRotation(destRect, 0.f);
+
 			SetWidth(destRect, m_Width);
 			SetHeight(destRect, m_Height);
-		}
 
-		Utils::Assert(Distance(GetLeftBottom(destRect), GetRightBottom(destRect)) == m_Width, "Width was not equal!");
-		Utils::Assert(Distance(GetLeftBottom(destRect), GetLeftTop(destRect)) == m_Height, "Height was not equal!");
+			SetRotation(destRect, angle);
+		}
 
 		Renderer::GetInstance()->RenderTexture(m_pTexture, destRect, m_SourceRect);
 	}
