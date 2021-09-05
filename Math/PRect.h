@@ -90,58 +90,54 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Data
-		union
+		class Points final
 		{
-			class Points final
+		private:
+			friend struct Polygon<4, Type>;
+
+			template<int V, typename Type>
+			friend void Translate(Polygon<4, Type>& p, const Vector<V, Type>& v) noexcept;
+			template<typename Type>
+			friend void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept;
+			template<typename Type>
+			friend void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept;
+			template<typename Type>
+			friend void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
+			template<typename Type>
+			friend const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept;
+			template<typename Type>
+			friend const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept;
+			template<typename Type>
+			friend const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept;
+			template<typename Type>
+			friend const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept;
+			template<typename Type>
+			friend void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept;
+			template<typename Type>
+			friend const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept;
+			template<typename Type>
+			friend void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept;
+			template<typename Type>
+			friend void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept;
+
+			Point<2, Type> leftBottom, leftTop, rightTop, rightBottom, pivotPoint;
+
+		public:
+			bool operator==(const Points& rhs) const noexcept
 			{
-			private:
-				friend struct Polygon<4, Type>;
+				return (leftBottom == rhs.leftBottom) && (leftTop == rhs.leftTop)
+					&& (rightTop == rhs.rightTop) && (rightBottom == rhs.rightBottom)
+					&& (pivotPoint == rhs.pivotPoint);
+			}
 
-				template<int V, typename Type>
-				friend void Translate(Polygon<4, Type>& p, const Vector<V, Type>& v) noexcept;
-				template<typename Type>
-				friend void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept;
-				template<typename Type>
-				friend void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept;
-				template<typename Type>
-				friend void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
-				template<typename Type>
-				friend const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept;
-				template<typename Type>
-				friend const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept;
-				template<typename Type>
-				friend const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept;
-				template<typename Type>
-				friend const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept;
-				template<typename Type>
-				friend void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept;
-				template<typename Type>
-				friend const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept;
-				template<typename Type>
-				friend void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept;
-				template<typename Type>
-				friend void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept;
-
-				Point<2, Type> leftBottom, leftTop, rightTop, rightBottom, pivotPoint;
-
-			public:
-				bool operator==(const Points& rhs) const noexcept
-				{
-					return (leftBottom == rhs.leftBottom) && (leftTop == rhs.leftTop)
-						&& (rightTop == rhs.rightTop) && (rightBottom == rhs.rightBottom)
-						&& (pivotPoint == rhs.pivotPoint);
-				}
-
-				bool operator!=(const Points& rhs) noexcept
-				{
-					return !(*this == rhs);
-				}
-
-			};
-
-			Points points;
-			Type width, height, scaleX, scaleY, angle;
+			bool operator!=(const Points& rhs) noexcept
+			{
+				return !(*this == rhs);
+			}
 		};
+
+		Points points;
+		Type width, height, scaleX, scaleY, angle;
 #pragma endregion
 	};
 
