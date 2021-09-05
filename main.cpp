@@ -282,5 +282,5 @@ int main(int, char*[])
 	engine.Run();
 
 	return 0;
-	}
+}
 #endif
