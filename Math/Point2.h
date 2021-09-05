@@ -67,7 +67,7 @@ namespace Integrian2D
 
 #pragma region Arithmetic Operators
 	template<typename Type>
-	Vector<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	Point<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x - rhs.x, lhs.y - rhs.y};
 	}
@@ -79,9 +79,9 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	Point<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
-		return Vector<2, Type>{lhs.x + rhs.x, lhs.y + rhs.y};
+		return Point<2, Type>{lhs.x + rhs.x, lhs.y + rhs.y};
 	}
 
 	template<typename Type>

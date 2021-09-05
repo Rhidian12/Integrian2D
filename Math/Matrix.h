@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Utils/Utils.h"
+#include "Point.h"
 #include "Vector.h"
 #include "../Logger/Logger.h"
 

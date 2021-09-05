@@ -241,13 +241,19 @@ TEST_CASE("Testing the Matrix...")
 	}
 }
 
-TEST_CASE("Testing the PRectf...")
+#include "Components/TransformComponent/TransformComponent.h"
+
+TEST_CASE("Testing the TransformComponent...")
 {
 	using namespace Integrian2D;
 
-	PRectf rect{};
+	GameObject gameObject{};
 
-	Translate(rect, Vector2f{});
+	//REQUIRE(Utils::AreEqual(gameObject.pTransform->GetAngle(), 0.f));
+	//REQUIRE(Utils::AreEqual(gameObject.pTransform->GetScale().x, 1.f));
+	//REQUIRE(Utils::AreEqual(gameObject.pTransform->GetScale().y, 1.f));
+	//REQUIRE(Utils::AreEqual(gameObject.pTransform->GetPosition().x, 0.f));
+	//REQUIRE(Utils::AreEqual(gameObject.pTransform->GetPosition().y, 0.f));
 }
 
 #else

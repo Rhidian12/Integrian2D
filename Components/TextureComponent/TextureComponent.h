@@ -12,6 +12,7 @@ namespace Integrian2D
 	public:
 		TextureComponent(GameObject* pOwner);
 		TextureComponent(GameObject* pOwner, Texture* const pTexture);
+		TextureComponent(GameObject* pOwner, Texture* const pTexture, const float width, const float height);
 
 		virtual void Render() const override;
 

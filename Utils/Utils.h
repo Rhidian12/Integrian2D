@@ -17,8 +17,11 @@ namespace Integrian2D
 		template<typename Pointer>
 		void SafeDelete(Pointer*& pData)
 		{
-			delete pData;
-			pData = nullptr;
+			if (pData)
+			{
+				delete pData;
+				pData = nullptr;
+			}
 		}
 
 		template<typename FundamentalType, typename = std::enable_if_t<std::is_fundamental_v<FundamentalType>>>

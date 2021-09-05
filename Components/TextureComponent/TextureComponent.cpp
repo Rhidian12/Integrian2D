@@ -31,10 +31,23 @@ namespace Integrian2D
 		}
 	}
 
+	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const float width, const float height)
+		: Component{ pOwner }
+		, m_pTexture{ pTexture }
+		, m_SourceRect{}
+		, m_Width{ width }
+		, m_Height{ height }
+	{
+		if (pTexture)
+		{
+			m_SourceRect.width = pTexture->GetWidth();
+			m_SourceRect.height = pTexture->GetHeight();
+		}
+	}
+
 	void TextureComponent::Render() const
 	{
-		//m_pTexture->Draw(m_pOwner->pTransform->position, m_SourceRect);
-		Renderer::GetInstance()->RenderTexture(m_pTexture, Rectf{ GetPosition(m_pOwner->pTransform->GetDestRect()).x, GetPosition(m_pOwner->pTransform->GetDestRect()).y, m_Width, m_Height }, m_SourceRect);
+		Renderer::GetInstance()->RenderTexture(m_pTexture, Rectf{ m_pOwner->pTransform->GetPosition().x, m_pOwner->pTransform->GetPosition().y, m_Width, m_Height }, m_SourceRect);
 	}
 
 	Component* TextureComponent::Clone(GameObject* pOwner) noexcept
