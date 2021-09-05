@@ -12,12 +12,16 @@ namespace Integrian2D
 		RectCollider(GameObject* const pOwner, const PRectf collider);
 		RectCollider(GameObject* const pOwner, const PRectf collider, const bool render);
 
+		// TODO: Implement Fixed Update Collision!
+
 		virtual void Render() const override;
 
 		void SetRenderDebug(const bool render) noexcept;
 		void SetRenderDebugColour(const RGBColour colour) noexcept;
+		void SetCollider(const PRectf collider) noexcept;
 
 		const RGBColour& GetColliderColour() const noexcept;
+		const PRectf& GetCollider() const noexcept;
 
 	private:
 		bool m_RenderDebugBox;

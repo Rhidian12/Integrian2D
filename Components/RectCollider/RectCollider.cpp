@@ -34,8 +34,18 @@ namespace Integrian2D
 		m_ColliderColour = colour;
 	}
 
+	void RectCollider::SetCollider(const PRectf collider) noexcept
+	{
+		m_Collider = collider;
+	}
+
 	const RGBColour& RectCollider::GetColliderColour() const noexcept
 	{
 		return m_ColliderColour;
+	}
+
+	const PRectf& RectCollider::GetCollider() const noexcept
+	{
+		return m_Collider;
 	}
 }
