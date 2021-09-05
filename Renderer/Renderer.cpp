@@ -62,6 +62,70 @@ namespace Integrian2D
 		m_IsNewFrame = true;
 	}
 
+	void Renderer::RenderRectangle(const Rectf& rect, const RGBColour& colour) noexcept
+	{
+		glColor3i(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_LINE_LOOP);
+		{
+			glVertex2f(rect.x, rect.y);
+			glVertex2f(rect.x, rect.y + rect.height);
+			glVertex2f(rect.x + rect.width, rect.y + rect.height);
+			glVertex2f(rect.x + rect.width, rect.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderRectangle(const PRectf& rect, const RGBColour& colour) noexcept
+	{
+		glColor3i(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_LINE_LOOP);
+		{
+			glVertex2f(GetLeftBottom(rect).x, GetLeftBottom(rect).y);
+			glVertex2f(GetLeftTop(rect).x, GetLeftTop(rect).y);
+			glVertex2f(GetRightTop(rect).x, GetRightTop(rect).y);
+			glVertex2f(GetRightBottom(rect).x, GetRightBottom(rect).y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderFilledRectangle(const Rectf& rect, const RGBColour& colour) noexcept
+	{
+		glColor3i(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_POLYGON);
+		{
+			glVertex2f(rect.x, rect.y);
+			glVertex2f(rect.x, rect.y + rect.height);
+			glVertex2f(rect.x + rect.width, rect.y + rect.height);
+			glVertex2f(rect.x + rect.width, rect.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderFilledRectangle(const PRectf& rect, const RGBColour& colour) noexcept
+	{
+		glColor3i(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_POLYGON);
+		{
+			glVertex2f(GetLeftBottom(rect).x, GetLeftBottom(rect).y);
+			glVertex2f(GetLeftTop(rect).x, GetLeftTop(rect).y);
+			glVertex2f(GetRightTop(rect).x, GetRightTop(rect).y);
+			glVertex2f(GetRightBottom(rect).x, GetRightBottom(rect).y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour) noexcept
+	{
+		glColor3i(colour.r.v, colour.g.v, colour.b.v);
+		glLineWidth(lineWidth);
+		glBegin(GL_LINES);
+		{
+			glVertex2f(start.x, start.y);
+			glVertex2f(end.x, end.y);
+		}
+		glEnd();
+	}
+
 	void Renderer::RenderAllTextures() noexcept
 	{
 		for (const TextureInformation& textureInformation : m_TexturesToRender)
