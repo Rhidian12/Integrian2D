@@ -44,21 +44,23 @@ namespace Integrian2D
 
 #pragma region Rule Of 5
 		Polygon<4, Type>(const Polygon<4, Type>& other) noexcept
-			: points{ other.points }
-			, width{ other.width }
-			, height{ other.height }
-			, scaleX{ other.scaleX }
-			, scaleY{ other.scaleY }
-			, angle{ other.angle }
-		{}
+		{
+			points = other.points;
+			width = other.width;
+			height = other.height;
+			scaleX = other.scaleX;
+			scaleY = other.scaleY;
+			angle = other.angle;
+		}
 		Polygon<4, Type>(Polygon<4, Type>&& other) noexcept
-			: points{ std::move(other.points) }
-			, width{ std::move(other.width) }
-			, height{ std::move(other.height) }
-			, scaleX{ std::move(other.scaleX) }
-			, scaleY{ std::move(other.scaleY) }
-			, angle{ std::move(other.angle) }
-		{}
+		{
+			points = std::move(other.points);
+			width = std::move(other.width);
+			height = std::move(other.height);
+			scaleX = std::move(other.scaleX);
+			scaleY = std::move(other.scaleY);
+			angle = std::move(other.angle);
+		}
 		Polygon<4, Type>& operator=(const Polygon& other) noexcept
 		{
 			points = other.points;
