@@ -1,4 +1,6 @@
 #include "TransformComponent.h"
+#include "../../GameObject/GameObject.h"
+#include "../RectCollider/RectCollider.h"
 
 namespace Integrian2D
 {
@@ -111,5 +113,15 @@ namespace Integrian2D
 	const float TransformComponent::GetAngle() const noexcept
 	{
 		return atan2(m_TransformationMatrix(0,1), m_TransformationMatrix(0, 0));
+	}
+
+	const PRectf TransformComponent::GetDestRect() const noexcept
+	{
+		RectCollider* pRectCollider{ m_pOwner->GetComponentByType<RectCollider>() };
+
+		if(pRectCollider)
+			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, GetAngle(), GetScale().x, GetScale().y};
+		else
+			return PRectf{ GetPosition(), 0.f, 0.f, GetAngle(), GetScale().x, GetScale().y };
 	}
 }
