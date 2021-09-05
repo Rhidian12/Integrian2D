@@ -47,7 +47,15 @@ namespace Integrian2D
 
 	void TextureComponent::Render() const
 	{
-		Renderer::GetInstance()->RenderTexture(m_pTexture, Rectf{ m_pOwner->pTransform->GetPosition().x, m_pOwner->pTransform->GetPosition().y, m_Width, m_Height }, m_SourceRect);
+		PRectf destRect{ m_pOwner->pTransform->GetDestRect() };
+
+		if (Utils::AreEqual(destRect.width, 0.f) && Utils::AreEqual(destRect.height, 0.f))
+		{
+			SetWidth(destRect, m_Width);
+			SetHeight(destRect, m_Height);
+		}
+
+		Renderer::GetInstance()->RenderTexture(m_pTexture, destRect, m_SourceRect);
 	}
 
 	Component* TextureComponent::Clone(GameObject* pOwner) noexcept
