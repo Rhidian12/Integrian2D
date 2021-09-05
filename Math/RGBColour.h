@@ -103,6 +103,12 @@ namespace Integrian2D
 	struct RGBColour final
 	{
 #pragma region Constructors
+		RGBColour()
+			: r{ 0 }
+			, g{ 0 }
+			, b{ 0 }
+			, a{ 1 }
+		{}
 		RGBColour(const uint8_t _r, const uint8_t _g, const uint8_t _b)
 			: r{ _r }
 			, g{ _g }
