@@ -1,6 +1,6 @@
 bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
-#define UNIT_TESTS
+//#define UNIT_TESTS
 
 #ifdef UNIT_TESTS
 #define CATCH_CONFIG_MAIN
