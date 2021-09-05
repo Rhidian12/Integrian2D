@@ -19,7 +19,7 @@ namespace Integrian2D
 		scaleMatrix(0, 0) = m_Scale.x;
 		scaleMatrix(1, 1) = m_Scale.y;
 
-		m_TransformationMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+		m_TransformationMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 	}
 
 	Component* TransformComponent::Clone(GameObject* pOwner) noexcept
@@ -55,7 +55,7 @@ namespace Integrian2D
 			scaleMatrix(0, 0) = m_Scale.x;
 			scaleMatrix(1, 1) = m_Scale.y;
 
-			m_TransformationMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+			m_TransformationMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 		}
 	}
 
@@ -88,7 +88,7 @@ namespace Integrian2D
 	void TransformComponent::SetScale(const Point2f scale) noexcept
 	{
 		m_TransformationMatrix(0, 0) = scale.x;
-		m_TransformationMatrix(1, 1) = scale.y;	
+		m_TransformationMatrix(1, 1) = scale.y;
 
 		m_TransformChanged = true;
 	}
@@ -103,24 +103,42 @@ namespace Integrian2D
 	const Point2f TransformComponent::GetPosition() const noexcept
 	{
 		return Point2f{ m_TransformationMatrix(0,2), m_TransformationMatrix(1,2) };
+
+		// We can just extract this from the Matrix
 	}
 
 	const Point2f TransformComponent::GetScale() const noexcept
 	{
-		return Point2f{ m_TransformationMatrix(0,0), m_TransformationMatrix(1,1) };
+		return Point2f{ sqrtf(powf(m_TransformationMatrix(0,0), 2) + powf(m_TransformationMatrix(1,0), 2)),
+						sqrtf(powf(m_TransformationMatrix(0,1), 2) + powf(m_TransformationMatrix(1,1), 2)) };
+
+		// [ V1x		V2x		T1 ]
+		// [ V1y		V2y		T2 ]
+		// [ 0			0		1  ]
+
+		// Formula to get Scale is:
+		// ScaleX = sqrt((V1x)^2 + (V1y)^2)
+		// ScaleY = sqrt((V2x)^2 + (V2y)^2)
 	}
 
 	const float TransformComponent::GetAngle() const noexcept
 	{
-		return atan2(m_TransformationMatrix(0,1), m_TransformationMatrix(0, 0));
+		return atan2(m_TransformationMatrix(1, 0), m_TransformationMatrix(0, 0));
+
+		// [ V1x		V2x		T1 ]
+		// [ V1y		V2y		T2 ]
+		// [ 0			0		1  ]
+
+		// Formula to get Angle is:
+		// Angle = arctan2(V1y / V1x)
 	}
 
 	const PRectf TransformComponent::GetDestRect() const noexcept
 	{
 		RectCollider* pRectCollider{ m_pOwner->GetComponentByType<RectCollider>() };
 
-		if(pRectCollider)
-			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, GetAngle(), GetScale().x, GetScale().y};
+		if (pRectCollider)
+			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, GetAngle(), GetScale().x, GetScale().y };
 		else
 			return PRectf{ GetPosition(), 0.f, 0.f, GetAngle(), GetScale().x, GetScale().y };
 	}
