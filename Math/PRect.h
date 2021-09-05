@@ -3,7 +3,7 @@
 #include "Polygon.h"
 #include "../Utils/Utils.h"
 #include "Vector.h"
-#include "Point.h"
+#include "Point2.h"
 
 #include <utility>
 
@@ -39,6 +39,10 @@ namespace Integrian2D
 			scaleX = _scaleX;
 			scaleY = _scaleY;
 			angle = _angle;
+
+			// == Rotate, but only if the angle is not 0 ==
+			if (!Utils::AreEqual(angle, static_cast<Type>(0.f)))
+				SetRotation(*this, angle);
 		}
 #pragma endregion
 
