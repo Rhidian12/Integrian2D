@@ -98,9 +98,19 @@ namespace Integrian2D
 				template<typename Type>
 				friend void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept;
 				template<typename Type>
-				friend void SetPosition(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
+				friend void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
 				template<typename Type>
-				friend const Point<2, Type>& GetPosition(const Polygon<4, Type>& p) noexcept;
+				friend const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept;
+				template<typename Type>
+				friend const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept;
+				template<typename Type>
+				friend const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept;
+				template<typename Type>
+				friend const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept;
+				template<typename Type>
+				friend void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept;
+				template<typename Type>
+				friend const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept;
 				template<typename Type>
 				friend void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept;
 				template<typename Type>
@@ -159,6 +169,14 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
+	void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept
+	{
+		p.angle += _angleChange;
+
+		SetRotation(p, p.angle);
+	}
+
+	template<typename Type>
 	void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept
 	{
 		p.angle = _angle;
@@ -187,7 +205,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetPosition(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept
+	void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept
 	{
 		p.points.leftBottom = _leftBottom;
 		p.points.leftTop = { _leftBottom.x, _leftBottom.y + p.height };
@@ -201,17 +219,39 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept
+	const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept
 	{
-		p.angle += _angleChange;
-
-		SetRotation(p, p.angle);
+		return p.points.leftBottom;
 	}
 
 	template<typename Type>
-	const Point<2, Type>& GetPosition(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept
 	{
-		return p.points.leftBottom;
+		return p.points.leftTop;
+	}
+
+	template<typename Type>
+	const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept
+	{
+		return p.points.rightTop;
+	}
+
+	template<typename Type>
+	const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept
+	{
+		return p.points.rightBottom;
+	}
+
+	template<typename Type>
+	void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept
+	{
+		p.points.pivotPoint = _pivotPoint;
+	}
+
+	template<typename Type>
+	const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept
+	{
+		return p.points.pivotPoint;
 	}
 
 	template<typename Type>
