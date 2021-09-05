@@ -28,10 +28,7 @@ namespace Integrian2D
 		GameObject* const GetGameObject(std::string gameObjectName) const noexcept;
 		const std::string& GetSceneName() const noexcept;
 
-	private:
-		friend class Core; // Make sure that only Core can access the Root functions
-		friend class Locator; // Make sure that only the Locator can access the InputManager
-
+	protected:
 #pragma warning ( push )
 #pragma warning ( disable : 4201 ) // Disable nameless struct warning
 		struct
@@ -39,6 +36,10 @@ namespace Integrian2D
 			InputManager inputManager{}; // TODO: Make this not a struct if not necessary
 		};
 #pragma warning ( pop )
+
+	private:
+		friend class Core; // Make sure that only Core can access the Root functions
+		friend class Locator; // Make sure that only the Locator can access the InputManager
 
 		void RootUpdate();
 		void RootFixedUpdate();
