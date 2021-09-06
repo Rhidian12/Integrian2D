@@ -23,7 +23,7 @@ namespace Integrian2D
 
 			typedef std::remove_const_t<std::remove_reference_t<decltype(data)>> removeCVData;
 
-			ASSERT(!std::is_same_v<removeCVData, char[]>, "String literals are not supported! Only strings!");
+			static_assert(!std::is_same_v<removeCVData, char[]>, "String literals are not supported! Only strings!");
 			
 			if constexpr (std::is_same_v<removeCVData, std::string>)
 			{
