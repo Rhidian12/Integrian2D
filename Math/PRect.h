@@ -246,10 +246,14 @@ namespace Integrian2D
 		p.scaleX = scale.x;
 		p.scaleY = scale.y;
 
-		p.points.leftBottom *= scale;
-		p.points.leftTop *= scale;
-		p.points.rightTop *= scale;
-		p.points.rightBottom *= scale;
+		const Type halfWidth{ p.width * static_cast<Type>(0.5f) };
+		const Type halfHeight{ p.height * static_cast<Type>(0.5f) };
+		const Point<2, Type>& center{ p.points.center };
+
+		p.points.leftBottom = { center.x - halfWidth * scale.x, center.y - halfHeight * scale.y };
+		p.points.leftTop = { center.x - halfWidth * scale.x, center.y + halfHeight * scale.y };
+		p.points.rightTop = { center.x + halfWidth * scale.x, center.y + halfHeight * scale.y };
+		p.points.rightBottom = { center.x + halfWidth * scale.x, center.y - halfHeight * scale.y };
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
@@ -259,6 +263,13 @@ namespace Integrian2D
 	template<typename Type>
 	void SetCenter(Polygon<4, Type>& p, const Point<2, Type> _center) noexcept
 	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
 		p.points.center = _center;
 
 		const Type halfWidth{ p.width * static_cast<Type>(0.5f) };
@@ -272,8 +283,12 @@ namespace Integrian2D
 		p.points.pivotPoint = _center; // pivot point is in the center by default
 
 		// == Rotate, but only if the angle is not 0 ==
-		//if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
-		//	SetRotation(p, p.angle);
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
+
+		// == Scale, but only if the scale is not 1 ==
+		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
+			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
 	}
 
 	template<typename Type>
@@ -332,10 +347,9 @@ namespace Integrian2D
 			SetRotation(p, static_cast<Type>(0.f));
 		}
 
-		p.height = _width;
+		p.width = _width;
 
 		const Point<2, Type>& center{ p.points.center };
-		const Type halfHeight{ _width * static_cast<Type>(0.5f) };
 		const Type halfWidth{ _width * static_cast<Type>(0.5f) };
 
 		p.points.leftBottom.x = center.x - halfWidth;
@@ -346,6 +360,10 @@ namespace Integrian2D
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
 			SetRotation(p, originalAngle);
+
+		// == Scale, but only if the scale is not 1 ==
+		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
+			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
 	}
 
 	template<typename Type>
@@ -371,6 +389,10 @@ namespace Integrian2D
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
 			SetRotation(p, originalAngle);
+
+		// == Scale, but only if the scale is not 1 ==
+		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
+			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
 	}
 #pragma endregion
 }
