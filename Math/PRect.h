@@ -332,15 +332,16 @@ namespace Integrian2D
 			SetRotation(p, static_cast<Type>(0.f));
 		}
 
-		p.width = _width;
+		p.height = _width;
 
 		const Point<2, Type>& center{ p.points.center };
+		const Type halfHeight{ _width * static_cast<Type>(0.5f) };
 		const Type halfWidth{ _width * static_cast<Type>(0.5f) };
 
-		p.points.leftBottom = { center.x - halfWidth, p.points.leftBottom.y };
-		p.points.leftTop = { center.x - halfWidth, p.points.leftTop };
-		p.points.rightTop = { center.x + halfWidth, p.points.rightTop };
-		p.points.rightBottom = { center.x + halfWidth, p.points.rightBottom };
+		p.points.leftBottom.x = center.x - halfWidth;
+		p.points.leftTop.x = center.x - halfWidth;
+		p.points.rightTop.x = center.x + halfWidth;
+		p.points.rightBottom.x = center.x + halfWidth;
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
@@ -362,10 +363,10 @@ namespace Integrian2D
 		const Point<2, Type>& center{ p.points.center };
 		const Type halfHeight{ _height * static_cast<Type>(0.5f) };
 
-		p.points.leftBottom = { p.points.leftBottom.x, center.y - halfHeight };
-		p.points.leftTop = { p.points.leftTop.x, center.y + halfHeight };
-		p.points.rightTop = { p.points.rightTop.x, center.y + halfHeight };
-		p.points.rightBottom = { p.points.rightBottom.x, center.y - halfHeight };
+		p.points.leftBottom.y = center.y - halfHeight;
+		p.points.leftTop.y = center.y + halfHeight;
+		p.points.rightTop.y = center.y + halfHeight;
+		p.points.rightBottom.y = center.y - halfHeight;
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
