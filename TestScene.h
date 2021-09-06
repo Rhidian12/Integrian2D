@@ -55,12 +55,12 @@ public:
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::Q }, [this]()->void
 			{
 				m_pGameObject->pTransform->Scale(Integrian2D::Point2f{ 1.f, 1.f });
-			}, Integrian2D::State::OnHeld);
+			}, Integrian2D::State::OnRelease);
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::A }, [this]()->void
 			{
 				m_pGameObject->pTransform->Scale(Integrian2D::Point2f{ -1.f, -1.f });
-			}, Integrian2D::State::OnHeld);
+			}, Integrian2D::State::OnRelease);
 	}
 
 	virtual void Update() override
