@@ -35,7 +35,7 @@ public:
 
 	virtual void Update() override
 	{
-		std::cout << "Angle: " << Integrian2D::Utils::ToDegrees(m_pGameObject->pTransform->GetAngle());
+		std::cout << "Angle: " << Integrian2D::Utils::ToDegrees(m_pGameObject->pTransform->GetAngle()) << std::endl;
 	}
 
 	Integrian2D::GameObject* m_pGameObject;
