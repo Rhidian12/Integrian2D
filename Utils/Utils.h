@@ -10,10 +10,10 @@ namespace Integrian2D
 	namespace Utils
 	{
 #ifdef _DEBUG
-		inline void Assert(const bool expression, std::string message);
+		void Assert(const bool expression, std::string message);
 #define ASSERT(expression, message) Utils::Assert(expression, message);
 #else
-		inline void Assert(const bool expression, std::string message);
+		void Assert(const bool expression, std::string message);
 #define ASSERT(expression, message)
 #endif
 
