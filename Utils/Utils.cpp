@@ -8,7 +8,7 @@ namespace Integrian2D
 	{
 
 #ifdef _DEBUG
-		void Assert(const bool expression, std::string message)
+		inline void Assert(const bool expression, std::string message)
 		{
 			if (!expression)
 			{
@@ -17,7 +17,7 @@ namespace Integrian2D
 			}
 		}
 #else
-		void Assert(const bool expression, std::string message)
+		inline void Assert(const bool expression, std::string message)
 		{
 			(void)expression;
 			(void)message;
