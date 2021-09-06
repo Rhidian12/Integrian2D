@@ -34,6 +34,11 @@
 #include <string>
 #include <Windows.h>
 
+inline std::string operator""_s(const char* str, std::size_t len)
+{
+	return std::string(str, len);
+}
+
 namespace Integrian2D
 {
 	class Logger final
