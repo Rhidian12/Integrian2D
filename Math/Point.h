@@ -12,19 +12,6 @@ namespace Integrian2D
 	{
 		// == Data ==
 		Type data[P];
-
-		// == Operator[] Is Required To Be A Member ==
-		Type& operator[](uint8_t i)
-		{
-			Utils::Assert(i < P, "Point<P, Type>::operator[] > Index is out of bounds!");
-			return data[i];
-		}
-
-		const Type& operator[](uint8_t i) const
-		{
-			Utils::Assert(i < P, "Point<P, Type>::operator[] > Index is out of bounds!");
-			return data[i];
-		}
 	};
 
 	// == Non-Member Functions That Are Useful For All Points ==
