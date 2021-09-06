@@ -24,7 +24,7 @@ public:
 
 		AddGameObject("Test", m_pGameObject);
 
-		m_pGameObject->pTransform->Translate({ 100.f,100.f });
+		m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 100.f,100.f });
 		m_pGameObject->pTransform->Rotate(Integrian2D::Utils::ToRadians(-45.f));
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::Space }, [this]()->void
