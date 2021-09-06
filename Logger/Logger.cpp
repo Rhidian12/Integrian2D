@@ -14,7 +14,6 @@ namespace Integrian2D
 
 		SetConsoleTextAttribute(hConsole, 7); // set text back to white
 #else
-		int test;
 		(void)message;
 		(void)newLine;
 #endif
