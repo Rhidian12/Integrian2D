@@ -1,6 +1,7 @@
 #pragma once
 // ===========================
 // Bart Uyttenhove, professor at DAE created this class
+// I took it, with permission, and changed it to suit this engine
 // ===========================
 #include "../Math/TypeDefines.h"
 
