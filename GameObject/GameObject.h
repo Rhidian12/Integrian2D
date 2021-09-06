@@ -55,7 +55,6 @@ namespace Integrian2D
 			if (typeid(*pC) == typeInfo)
 				return static_cast<Type*>(pC);
 
-		Logger::LogWarning(std::string{ "GameObject::GetComponentByType() > Component of type: " } + typeInfo.name() + " was not present!");
 		return nullptr;
 	}
 }
