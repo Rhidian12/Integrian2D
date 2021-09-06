@@ -2,6 +2,7 @@
 
 #include <type_traits>
 #include <string>
+#include <limits>
 
 namespace Integrian2D
 {
@@ -66,6 +67,15 @@ namespace Integrian2D
 		constexpr FloatingPoint ToDegrees(const FloatingPoint radians) noexcept
 		{
 			return static_cast<FloatingPoint>(radians * 180.0 / PI);
+		}
+
+		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
+		constexpr FloatingPoint RoundToZero(FloatingPoint value, const FloatingPoint epsilon = static_cast<FloatingPoint>(1e-5f)) // 0.00001
+		{
+			if (abs(value) <= epsilon)
+				value = static_cast<FloatingPoint>(0.f);
+
+			return value;
 		}
 	}
 }

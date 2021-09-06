@@ -123,7 +123,7 @@ namespace Integrian2D
 
 	const float TransformComponent::GetAngle() const noexcept
 	{
-		return atan2(m_TransformationMatrix(1, 0), m_TransformationMatrix(0, 0));
+		return Utils::RoundToZero(atan2(m_TransformationMatrix(1, 0), m_TransformationMatrix(0, 0)));
 
 		// [ V1x		V2x		T1 ]
 		// [ V1y		V2y		T2 ]
