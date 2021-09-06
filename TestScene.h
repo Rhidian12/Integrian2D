@@ -15,7 +15,7 @@ public:
 		: Scene{ name }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
 	{
-		Integrian2D::TextureManager::GetInstance()->AddTexture("DinoHappy", new Integrian2D::Texture{"dinoHappy.png"});
+		Integrian2D::TextureManager::GetInstance()->AddTexture("DinoHappy", new Integrian2D::Texture{ "dinoHappy.png" });
 	}
 
 	virtual void Start() override
@@ -31,6 +31,36 @@ public:
 			{
 				m_pGameObject->pTransform->Rotate(Integrian2D::Utils::ToRadians(45.f));
 			}, Integrian2D::State::OnRelease);
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowUp }, [this]()->void
+			{
+				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 0.f, 5.f });
+			}, Integrian2D::State::OnHeld);
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowDown }, [this]()->void
+			{
+				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 0.f, -5.f });
+			}, Integrian2D::State::OnHeld);
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowLeft }, [this]()->void
+			{
+				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ -5.f, 0.f });
+			}, Integrian2D::State::OnHeld);
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowRight }, [this]()->void
+			{
+				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 5.f, 0.f });
+			}, Integrian2D::State::OnHeld);
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::Q }, [this]()->void
+			{
+				m_pGameObject->pTransform->Scale(Integrian2D::Point2f{ 1.f, 1.f });
+			}, Integrian2D::State::OnHeld);
+
+		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::A }, [this]()->void
+			{
+				m_pGameObject->pTransform->Scale(Integrian2D::Point2f{ -1.f, -1.f });
+			}, Integrian2D::State::OnHeld);
 	}
 
 	virtual void Update() override

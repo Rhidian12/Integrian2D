@@ -43,6 +43,10 @@ namespace Integrian2D
 			// == Rotate, but only if the angle is not 0 ==
 			if (!Utils::AreEqual(angle, static_cast<Type>(0.f)))
 				SetRotation(*this, angle);
+
+			// == Scale, but only if the scale is not 1 ==
+			if (!Utils::AreEqual(scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(scaleY, static_cast<Type>(1.f)))
+				SetScale(*this, Point<2, Type>{ scaleX, scaleY });
 		}
 #pragma endregion
 
@@ -100,7 +104,11 @@ namespace Integrian2D
 			template<typename Type>
 			friend void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept;
 			template<typename Type>
+			friend void Scale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept;
+			template<typename Type>
 			friend void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept;
+			template<typename Type>
+			friend void SetScale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept;
 			template<typename Type>
 			friend void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
 			template<typename Type>
@@ -179,6 +187,15 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
+	void Scale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept
+	{
+		p.scaleX += scale.x;
+		p.scaleY += scale.y;
+
+		SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+	}
+
+	template<typename Type>
 	void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept
 	{
 		p.angle = _angle;
@@ -204,6 +221,30 @@ namespace Integrian2D
 		p.points.leftTop += pivotPoint;
 		p.points.rightTop += pivotPoint;
 		p.points.rightBottom += pivotPoint;
+	}
+
+	template<typename Type>
+	void SetScale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept
+	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
+		p.scaleX = scale.x;
+		p.scaleY = scale.y;
+
+		p.points.leftTop *= scale;
+		p.points.rightTop *= scale;
+		p.points.rightBottom *= scale;
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
+
+		p.points.pivotPoint *= scale;
 	}
 
 	template<typename Type>
