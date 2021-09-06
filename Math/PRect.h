@@ -29,11 +29,15 @@ namespace Integrian2D
 		explicit Polygon<4, Type>(const Point<2, Type> _xy, const Type _width, const Type _height, const Type _angle, const Type _scaleX, const Type _scaleY)
 			: points{}
 		{
-			points.leftBottom = _xy;
-			points.leftTop = { _xy.x, _xy.y + _height };
-			points.rightTop = { _xy.x + _width, _xy.y + _height };
-			points.rightBottom = { _xy.x + _width, _xy.y };
-			points.pivotPoint = { _xy.x + _width * static_cast<Type>(0.5f), _xy.y + _height * static_cast<Type>(0.5f) }; // pivot point is in the center by default
+			const Type halfWidth{ _width * static_cast<Type>(0.5f) };
+			const Type halfHeight{ _height * static_cast<Type>(0.5f) };
+
+			points.center = _xy;
+			points.leftBottom = { _xy.x - halfWidth, _xy.y - halfHeight };
+			points.leftTop = { _xy.x - halfWidth, _xy.y + halfHeight };
+			points.rightTop = { _xy.x + halfWidth, _xy.y + halfHeight };
+			points.rightBottom = { _xy.x + halfWidth, _xy.y - halfHeight };
+			points.pivotPoint = _xy; // pivot point is in the center by default
 			width = _width;
 			height = _height;
 			scaleX = _scaleX;
@@ -110,7 +114,9 @@ namespace Integrian2D
 			template<typename Type>
 			friend void SetScale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept;
 			template<typename Type>
-			friend void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept;
+			friend void SetCenter(Polygon<4, Type>& p, const Point<2, Type> _center) noexcept;
+			template<typename Type>
+			friend const Point<2, Type>& GetCenter(const Polygon<4, Type>& p) noexcept;
 			template<typename Type>
 			friend const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept;
 			template<typename Type>
@@ -128,14 +134,14 @@ namespace Integrian2D
 			template<typename Type>
 			friend void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept;
 
-			Point<2, Type> leftBottom, leftTop, rightTop, rightBottom, pivotPoint;
+			Point<2, Type> center, leftBottom, leftTop, rightTop, rightBottom, pivotPoint;
 
 		public:
 			bool operator==(const Points& rhs) const noexcept
 			{
 				return (leftBottom == rhs.leftBottom) && (leftTop == rhs.leftTop)
 					&& (rightTop == rhs.rightTop) && (rightBottom == rhs.rightBottom)
-					&& (pivotPoint == rhs.pivotPoint);
+					&& (pivotPoint == rhs.pivotPoint) && (center == rhs.center);
 			}
 
 			bool operator!=(const Points& rhs) noexcept
@@ -176,6 +182,7 @@ namespace Integrian2D
 		p.points.rightTop += v;
 		p.points.rightBottom += v;
 		p.points.pivotPoint += v;
+		p.points.center += v;
 	}
 
 	template<typename Type>
@@ -209,18 +216,21 @@ namespace Integrian2D
 		p.points.leftTop -= pivotPoint;
 		p.points.rightTop -= pivotPoint;
 		p.points.rightBottom -= pivotPoint;
+		p.points.center -= pivotPoint;
 
 		// == Rotate All Points ==
 		p.points.leftBottom = { p.points.leftBottom.x * c - p.points.leftBottom.y * s, p.points.leftBottom.x * s + p.points.leftBottom.y * c };
 		p.points.leftTop = { p.points.leftTop.x * c - p.points.leftTop.y * s, p.points.leftTop.x * s + p.points.leftTop.y * c };
 		p.points.rightTop = { p.points.rightTop.x * c - p.points.rightTop.y * s, p.points.rightTop.x * s + p.points.rightTop.y * c };
 		p.points.rightBottom = { p.points.rightBottom.x * c - p.points.rightBottom.y * s, p.points.rightBottom.x * s + p.points.rightBottom.y * c };
+		p.points.center = { p.points.center.x * c - p.points.center.y * s, p.points.center.x * s + p.points.center.y * c };
 
 		// == Translate All Points Back ==
 		p.points.leftBottom += pivotPoint;
 		p.points.leftTop += pivotPoint;
 		p.points.rightTop += pivotPoint;
 		p.points.rightBottom += pivotPoint;
+		p.points.center += pivotPoint;
 	}
 
 	template<typename Type>
@@ -236,6 +246,7 @@ namespace Integrian2D
 		p.scaleX = scale.x;
 		p.scaleY = scale.y;
 
+		p.points.leftBottom *= scale;
 		p.points.leftTop *= scale;
 		p.points.rightTop *= scale;
 		p.points.rightBottom *= scale;
@@ -243,22 +254,32 @@ namespace Integrian2D
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
 			SetRotation(p, originalAngle);
-
-		p.points.pivotPoint *= scale;
 	}
 
 	template<typename Type>
-	void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type> _leftBottom) noexcept
+	void SetCenter(Polygon<4, Type>& p, const Point<2, Type> _center) noexcept
 	{
-		p.points.leftBottom = _leftBottom;
-		p.points.leftTop = { _leftBottom.x, _leftBottom.y + p.height };
-		p.points.rightTop = { _leftBottom.x + p.width, _leftBottom.y + p.height };
-		p.points.rightBottom = { _leftBottom.x + p.width, _leftBottom.y };
-		p.points.pivotPoint = { _leftBottom.x + p.width * static_cast<Type>(0.5f), _leftBottom.y + p.height * static_cast<Type>(0.5f) };
+		p.points.center = _center;
+
+		const Type halfWidth{ p.width * static_cast<Type>(0.5f) };
+		const Type halfHeight{ p.height * static_cast<Type>(0.5f) };
+
+		p.points.center = _center;
+		p.points.leftBottom = { _center.x - halfWidth, _center.y - halfHeight };
+		p.points.leftTop = { _center.x - halfWidth, _center.y + halfHeight };
+		p.points.rightTop = { _center.x + halfWidth, _center.y + halfHeight };
+		p.points.rightBottom = { _center.x + halfWidth, _center.y - halfHeight };
+		p.points.pivotPoint = _center; // pivot point is in the center by default
 
 		// == Rotate, but only if the angle is not 0 ==
-		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
-			SetRotation(p, p.angle);
+		//if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		//	SetRotation(p, p.angle);
+	}
+
+	template<typename Type>
+	const Point<2, Type>& GetCenter(const Polygon<4, Type>& p) noexcept
+	{
+		return p.points.center;
 	}
 
 	template<typename Type>
@@ -313,9 +334,13 @@ namespace Integrian2D
 
 		p.width = _width;
 
-		p.points.rightTop = { p.points.leftBottom.x + _width, p.points.rightTop.y };
-		p.points.rightBottom = { p.points.leftBottom.x + _width, p.points.rightBottom.y };
-		p.points.pivotPoint = { p.points.leftBottom.x + _width * static_cast<Type>(0.5f), p.points.pivotPoint.y };
+		const Point<2, Type>& center{ p.points.center };
+		const Type halfWidth{ _width * static_cast<Type>(0.5f) };
+
+		p.points.leftBottom = { center.x - halfWidth, p.points.leftBottom.y };
+		p.points.leftTop = { center.x - halfWidth, p.points.leftTop };
+		p.points.rightTop = { center.x + halfWidth, p.points.rightTop };
+		p.points.rightBottom = { center.x + halfWidth, p.points.rightBottom };
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
@@ -334,9 +359,13 @@ namespace Integrian2D
 
 		p.height = _height;
 
-		p.points.leftTop = { p.points.leftTop.x, p.points.leftBottom.y + _height };
-		p.points.rightTop = { p.points.rightTop.x, p.points.leftBottom.y + _height };
-		p.points.pivotPoint = { p.points.pivotPoint.x, p.points.leftBottom.y + _height * static_cast<Type>(0.5f) };
+		const Point<2, Type>& center{ p.points.center };
+		const Type halfHeight{ _height * static_cast<Type>(0.5f) };
+
+		p.points.leftBottom = { p.points.leftBottom.x, center.y - halfHeight };
+		p.points.leftTop = { p.points.leftTop.x, center.y + halfHeight };
+		p.points.rightTop = { p.points.rightTop.x, center.y + halfHeight };
+		p.points.rightBottom = { p.points.rightBottom.x, center.y - halfHeight };
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
