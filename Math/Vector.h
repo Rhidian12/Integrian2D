@@ -1,9 +1,5 @@
 #pragma once
 
-#include <math.h>
-#include <limits> // std::numeric_limits
-#include <cstdint>
-
 #include "../Utils/Utils.h"
 
 namespace Integrian2D
@@ -13,19 +9,6 @@ namespace Integrian2D
 	{
 		// == Data == 
 		Type data[V];
-
-		// == Operator[] Is Required To Be A Member ==
-		Type& operator[](uint8_t i)
-		{
-			Utils::Assert(i < V, "Point<P, Type>::operator[] > Index is out of bounds!");
-			return data[i];
-		}
-
-		const Type& operator[](uint8_t i) const
-		{
-			Utils::Assert(i < V, "Point<P, Type>::operator[] > Index is out of bounds!");
-			return data[i];
-		}
 	};
 
 	// == Non-Member Methods That Are Useful For All Vectors ==
