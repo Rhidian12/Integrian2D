@@ -9,7 +9,7 @@
 
 namespace Integrian2D
 {
-	// == Specialisation of Polygon ==
+	// == Specialisation of Polygon, Being a Rectangle ==
 	template<typename Type>
 	struct Polygon<4, Type>
 	{
