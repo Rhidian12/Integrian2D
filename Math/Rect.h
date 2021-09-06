@@ -11,19 +11,19 @@ namespace Integrian2D
 	struct Rect
 	{
 #pragma region Constructors
-		Rect()
+		explicit Rect()
 			: x{}
 			, y{}
 			, width{}
 			, height{}
 		{}
-		Rect(const Type _x, const Type _y, const Type _width, const Type _height)
+		explicit Rect(const Type _x, const Type _y, const Type _width, const Type _height)
 			: x{ _x }
 			, y{ _y }
 			, width{ _width }
 			, height{ _height }
 		{}
-		Rect(const Point<2, Type> _xy, const Type _width, const Type _height)
+		explicit Rect(const Point<2, Type> _xy, const Type _width, const Type _height)
 			: xy{ _xy }
 			, width{ _width }
 			, height{ _height }
