@@ -19,7 +19,7 @@ namespace Integrian2D
 		template<typename Type>
 		Type Read() noexcept
 		{
-			Utils::Assert(m_File.is_open(), "BinaryReader could not open the file!");
+			ASSERT(m_File.is_open(), "BinaryReader could not open the file!");
 
 			if constexpr (std::is_same_v<Type, std::string>)
 			{

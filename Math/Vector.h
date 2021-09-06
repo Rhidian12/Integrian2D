@@ -29,7 +29,7 @@ namespace Integrian2D
 	{
 		const Type magnitude{ Magnitude(v1) };
 
-		Utils::Assert(magnitude != static_cast<Type>(0.f), "Vector::Normalize() > Magnitude cannot be 0!");
+		ASSERT(magnitude != static_cast<Type>(0.f), "Vector::Normalize() > Magnitude cannot be 0!");
 
 		v1 /= magnitude;
 		return magnitude;

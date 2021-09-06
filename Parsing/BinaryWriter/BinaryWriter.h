@@ -19,11 +19,11 @@ namespace Integrian2D
 		template<typename Data>
 		void Write(const Data& data) noexcept
 		{
-			Utils::Assert(m_File.is_open(), "BinaryWriter could not open the file!");
+			ASSERT(m_File.is_open(), "BinaryWriter could not open the file!");
 
 			typedef std::remove_const_t<std::remove_reference_t<decltype(data)>> removeCVData;
 
-			Utils::Assert(!std::is_same_v<removeCVData, char[]>, "String literals are not supported! Only strings!");
+			ASSERT(!std::is_same_v<removeCVData, char[]>, "String literals are not supported! Only strings!");
 			
 			if constexpr (std::is_same_v<removeCVData, std::string>)
 			{

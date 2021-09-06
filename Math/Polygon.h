@@ -12,13 +12,13 @@ namespace Integrian2D
 		// == Operator[] Is Required To Be A Member ==
 		Type& operator[](const size_t i)
 		{
-			Utils::Assert(i < Points, "Point<Points, Type>::operator[] > Index is out of bounds!");
+			ASSERT(i < Points, "Point<Points, Type>::operator[] > Index is out of bounds!");
 			return data[i];
 		}
 
 		const Type& operator[](const size_t i) const
 		{
-			Utils::Assert(i < Points, "Polygon<Points, Type>::operator[] > Index is out of bounds!");
+			ASSERT(i < Points, "Polygon<Points, Type>::operator[] > Index is out of bounds!");
 			return data[i];
 		}
 	};

@@ -63,25 +63,25 @@ namespace Integrian2D
 #pragma region Member Operators
 		const Vector<Columns, Type>& operator[](const int r) const noexcept
 		{
-			Utils::Assert(r < Rows, "Matrix::operator[] > Index is out of bounds!");
+			ASSERT(r < Rows, "Matrix::operator[] > Index is out of bounds!");
 			return *(reinterpret_cast<Vector<Columns, Type>*>(data[r]));
 		}
 
 		Vector<Columns, Type>& operator[](const int r) noexcept
 		{
-			Utils::Assert(r < Rows, "Matrix::operator[] > Index is out of bounds!");
+			ASSERT(r < Rows, "Matrix::operator[] > Index is out of bounds!");
 			return *(reinterpret_cast<Vector<Columns, Type>*>(data[r]));
 		}
 
 		const Type& operator()(const int r, const int c) const noexcept
 		{
-			Utils::Assert((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
+			ASSERT((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
 			return data[r][c];
 		}
 
 		Type& operator()(const int r, const int c) noexcept
 		{
-			Utils::Assert((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
+			ASSERT((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
 			return data[r][c];
 		}
 #pragma endregion

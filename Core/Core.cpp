@@ -43,7 +43,7 @@ namespace Integrian2D
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
 			scenePair.second->Start();
 
-		Utils::Assert(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
+		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
 
 		while (g_IsLooping)
 		{
@@ -73,11 +73,11 @@ namespace Integrian2D
 	{
 #pragma region SDL Stuff
 		//Create window + surfaces
-		Utils::Assert(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0, "Core::InitializeLibraries() > SDL initialisation failed : "_s + SDL_GetError());
+		ASSERT(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0, "Core::InitializeLibraries() > SDL initialisation failed : "_s + SDL_GetError());
 
 		m_pWindow = new Window{ windowWidth, windowHeight, windowTitle };
 
-		Utils::Assert(SDL_GL_SetSwapInterval(1) == 0, "Core::InitializeLibraries() > Setting the screen refresh rate failed: "_s + SDL_GetError());
+		ASSERT(SDL_GL_SetSwapInterval(1) == 0, "Core::InitializeLibraries() > Setting the screen refresh rate failed: "_s + SDL_GetError());
 
 		// Set the Projection matrix to the identity matrix
 		glMatrixMode(GL_PROJECTION);
@@ -101,23 +101,23 @@ namespace Integrian2D
 		//Initialize PNG loading
 		const int pngFlags{ IMG_INIT_PNG };
 		const int jpgFlags{ IMG_INIT_JPG };
-		Utils::Assert((IMG_Init(pngFlags) & pngFlags) || !(IMG_Init(jpgFlags) & jpgFlags), "Core::InitializeLibraries() > SDL_image could not initialize! "_s + SDL_GetError());
-
-		Utils::Assert(TTF_Init() == 0, "Core::InitializeLibraries() > SDL_ttf could not initialize!"_s + SDL_GetError());
+		ASSERT((IMG_Init(pngFlags) & pngFlags) || !(IMG_Init(jpgFlags) & jpgFlags), "Core::InitializeLibraries() > SDL_image could not initialize! "_s + SDL_GetError());
+		
+		ASSERT(TTF_Init() == 0, "Core::InitializeLibraries() > SDL_ttf could not initialize!"_s + SDL_GetError());
 #pragma endregion
 
 #pragma region SDL_Mixer
 		// this final parameter is the chunk size of the audio, this might have to be made larger if too much hooks are getting used
 		// TODO: Load in all filesizes of music in our folder, and take the average of that
-		Utils::Assert(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 8, 2048) == 0, "Core::InitializeLibraries() > SDL_Mixer could not be opened! "_s + Mix_GetError());
+		ASSERT(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 8, 2048) == 0, "Core::InitializeLibraries() > SDL_Mixer could not be opened! "_s + Mix_GetError());
 
 		// == Initialize SDL_Mixer == 
 		const int mixerFlags{ MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG };
-		Utils::Assert((Mix_Init(mixerFlags) & mixerFlags) == mixerFlags, "Core::InitializeLibraries() > SDL_Mixer failed to initialize!"_s + Mix_GetError());
+		ASSERT((Mix_Init(mixerFlags) & mixerFlags) == mixerFlags, "Core::InitializeLibraries() > SDL_Mixer failed to initialize!"_s + Mix_GetError());
 #pragma endregion
 
 #pragma region SDL_Controllers
-		Utils::Assert(SDL_JoystickEventState(SDL_ENABLE) == 1, "Core::InitializeLibraries() > The SDL_Joystick failed to initialize!"_s + SDL_GetError());
+		ASSERT(SDL_JoystickEventState(SDL_ENABLE) == 1, "Core::InitializeLibraries() > The SDL_Joystick failed to initialize!"_s + SDL_GetError());
 #pragma endregion
 	}
 
