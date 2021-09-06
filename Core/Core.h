@@ -23,7 +23,7 @@ namespace Integrian2D
 		Core& operator=(Core&&) = delete;
 
 	private:
-		bool InitializeLibraries(const int windowWidth, const int windowHeight, const std::string windowTitle) noexcept;
+		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string windowTitle) noexcept;
 		void ShutdownLibraries() noexcept;
 
 		Window* m_pWindow;
