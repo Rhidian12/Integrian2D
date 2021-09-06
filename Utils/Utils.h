@@ -14,7 +14,7 @@ namespace Integrian2D
 #define ASSERT(expression, message) Utils::Assert(expression, message);
 #else
 		void Assert(const bool expression, std::string message);
-#define ASSERT(expression, message) void;
+#define ASSERT(expression, message)
 #endif
 
 		inline volatile constexpr double PI{ 3.14159265358979323846264338327950288 };
