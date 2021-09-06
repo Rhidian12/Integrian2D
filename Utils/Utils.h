@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <string>
 #include <limits>
+#include <cmath>
 
 namespace Integrian2D
 {
@@ -72,8 +73,29 @@ namespace Integrian2D
 		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
 		constexpr FloatingPoint RoundToZero(FloatingPoint value, const FloatingPoint epsilon = static_cast<FloatingPoint>(1e-5f)) // 0.00001
 		{
-			if (abs(value) <= epsilon)
-				value = static_cast<FloatingPoint>(0.f);
+			FloatingPoint fraction{};
+			FloatingPoint roundedDownValue{ std::modf(value, &fraction) };
+
+			if (fraction <= epsilon)
+				return roundedDownValue;
+
+			return value;
+		}
+
+		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
+		constexpr FloatingPoint RoundDecimalUp(FloatingPoint value)
+		{
+			if (static_cast<int>(value) != value)
+				value = static_cast<float>(static_cast<int>(++value));
+
+			return value;
+		}
+
+		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
+		constexpr FloatingPoint RoundDecimalDown(FloatingPoint value)
+		{
+			if (static_cast<int>(value) != value)
+				value = static_cast<float>(static_cast<int>(--value));
 
 			return value;
 		}
