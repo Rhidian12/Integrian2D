@@ -112,7 +112,19 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
+	Point<3, Type> operator*(const Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		return Point<3, Type>{lhs.x* rhs.x, lhs.y* rhs.y, lhs.z* rhs.z};
+	}
+
+	template<typename Type>
 	Point<3, Type> operator/(const Point<3, Type>& lhs, const Point<3, Type>& rhs) noexcept
+	{
+		return Point<3, Type>{lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z};
+	}
+
+	template<typename Type>
+	Point<3, Type> operator/(const Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Point<3, Type>{lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z};
 	}
@@ -120,11 +132,29 @@ namespace Integrian2D
 
 #pragma region Compound Assignment Operators
 	template<typename Type>
+	Point<3, Type>& operator+=(Point<3, Type>& lhs, const Point<3, Type>& rhs) noexcept
+	{
+		lhs.x += rhs.x;
+		lhs.y += rhs.y;
+		lhs.z += rhs.z;
+		return lhs;
+	}
+
+	template<typename Type>
 	Point<3, Type>& operator+=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		lhs.x += rhs.x;
 		lhs.y += rhs.y;
 		lhs.z += rhs.z;
+		return lhs;
+	}
+
+	template<typename Type>
+	Point<3, Type>& operator-=(Point<3, Type>& lhs, const Point<3, Type>& rhs) noexcept
+	{
+		lhs.x -= rhs.x;
+		lhs.y -= rhs.y;
+		lhs.z -= rhs.z;
 		return lhs;
 	}
 
