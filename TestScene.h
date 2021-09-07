@@ -6,6 +6,8 @@
 #include "TextureManager/TextureManager.h"
 #include "Components/TransformComponent/TransformComponent.h"
 #include "Input/InputManager/InputManager.h"
+#include "Components/RectColliderComponent/RectColliderComponent.h"
+#include "Components/PhysicsComponent/PhysicsComponent.h"
 
 #include <string>
 class TestScene final : public Integrian2D::Scene
@@ -14,18 +16,22 @@ public:
 	TestScene(std::string name)
 		: Scene{ name }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
+		, m_pGameObject2{ new Integrian2D::GameObject{} }
 	{
 		Integrian2D::TextureManager::GetInstance()->AddTexture("DinoHappy", new Integrian2D::Texture{ "dinoHappy.png" });
 	}
 
 	virtual void Start() override
 	{
-		m_pGameObject->AddComponent(new Integrian2D::TextureComponent{ m_pGameObject, Integrian2D::TextureManager::GetInstance()->GetTexture("DinoHappy") });
+		using namespace Integrian2D;
 
-		AddGameObject("Test", m_pGameObject);
+		m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("DinoHappy") });
+		m_pGameObject->AddComponent(new RectColliderComponent{ m_pGameObject, PRectf{ 100.f,100.f, 152.f, 166.f }, true });
+		m_pGameObject->AddComponent(new PhysicsComponent{ m_pGameObject, 1.f, Vector2f{}, m_pGameObject->GetComponentByType<RectColliderComponent>() });
+
+		AddGameObject("Dino", m_pGameObject);
 
 		m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 100.f,100.f });
-		m_pGameObject->pTransform->Rotate(Integrian2D::Utils::ToRadians(-45.f));
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::Space }, [this]()->void
 			{
@@ -61,6 +67,14 @@ public:
 			{
 				m_pGameObject->pTransform->Scale(Integrian2D::Point2f{ -1.f, -1.f });
 			}, Integrian2D::State::OnRelease);
+
+		m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("DinoHappy") });
+		m_pGameObject2->AddComponent(new RectColliderComponent{ m_pGameObject2, PRectf{ 500.f, 500.f, 152.f, 166.f }, true });
+		m_pGameObject2->AddComponent(new PhysicsComponent{ m_pGameObject2, 0.f, Vector2f{}, m_pGameObject2->GetComponentByType<RectColliderComponent>() });
+
+		AddGameObject("Dino2", m_pGameObject2);
+
+		m_pGameObject2->pTransform->Translate(Vector2f{ 300.f, 300.f });
 	}
 
 	virtual void Update() override
@@ -69,5 +83,6 @@ public:
 	}
 
 	Integrian2D::GameObject* m_pGameObject;
+	Integrian2D::GameObject* m_pGameObject2;
 };
 #pragma once
