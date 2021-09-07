@@ -1,9 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include <typeinfo>
-
-#include "../Logger/Logger.h"
 
 namespace Integrian2D
 {
