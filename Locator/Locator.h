@@ -3,6 +3,7 @@
 namespace Integrian2D
 {
 	class InputManager;
+	class PhysicsEngine;
 
 	class Locator final
 	{
@@ -11,6 +12,7 @@ namespace Integrian2D
 		static void Cleanup() noexcept;
 
 		InputManager* const GetInputManager() const noexcept;
+		PhysicsEngine* const GetPhysicsEngine() const noexcept;
 
 	private:
 		Locator() = default;
