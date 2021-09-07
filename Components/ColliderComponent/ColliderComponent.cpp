@@ -8,6 +8,11 @@ namespace Integrian2D
 	{
 	}
 
+	void ColliderComponent::SetColliderShape(const ColliderShape shape) noexcept
+	{
+		m_Shape = shape;
+	}
+
 	ColliderShape ColliderComponent::GetColliderShape() const noexcept
 	{
 		return m_Shape;
