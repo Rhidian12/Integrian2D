@@ -3,7 +3,7 @@
 Integrian2D::Writer::Writer(const std::string filePath)
 	: m_File{}
 {
-	m_File.open(filePath, std::ios::out);
+	m_File.open(filePath);
 }
 
 Integrian2D::Writer::~Writer()
@@ -13,7 +13,7 @@ Integrian2D::Writer::~Writer()
 
 void Integrian2D::Writer::Open(const std::string filePath) noexcept
 {
-	m_File.open(filePath, std::ios::out);
+	m_File.open(filePath);
 }
 
 void Integrian2D::Writer::Close() noexcept

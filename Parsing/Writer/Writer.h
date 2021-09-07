@@ -18,17 +18,17 @@ namespace Integrian2D
 		void Close() noexcept;
 
 		template<typename Type>
-		void Write(const Type& data, const bool newLine) const noexcept
+		void Write(const Type& data, const bool newLine) noexcept
 		{
 			ASSERT(m_File.is_open(), "Writer could not write to the file!");
 
 			m_File << data;
 
-			//if (newLine)
-			//	m_File << std::endl;
+			if (newLine)
+				m_File << '\n';
 		}
 
 	private:
-		std::fstream m_File;
+		std::ofstream m_File;
 	};
 }
