@@ -14,6 +14,22 @@ namespace Integrian2D
 		, m_ColliderColour{ 255, 0, 0 }
 	{}
 
+	bool RectColliderComponent::CheckCollision(ColliderComponent* const pOtherCollider) noexcept
+	{
+		switch (pOtherCollider->GetColliderShape())
+		{
+		case ColliderShape::Rectangle:
+			return RectangleCollision(static_cast<RectColliderComponent*>(pOtherCollider));
+			break;
+		case ColliderShape::Circle:
+			break;
+		default:
+			ASSERT(false, "RectColliderComponent::CheckCollision() > The other shape has no collision available!")
+		}
+
+		return false;
+	}
+
 	void RectColliderComponent::Render() const
 	{
 		if (m_RenderDebugBox)
@@ -43,5 +59,18 @@ namespace Integrian2D
 	const PRectf& RectColliderComponent::GetCollider() const noexcept
 	{
 		return m_Collider;
+	}
+
+	bool RectColliderComponent::RectangleCollision(RectColliderComponent* const pRectCollider)
+	{
+		// If one rectangle is on left side of the other
+		if (GetRightBottom(m_Collider).x < GetLeftBottom(pRectCollider->m_Collider).x || GetRightBottom(pRectCollider->m_Collider).x < GetLeftBottom(m_Collider).x)
+			return false;
+
+		// If one rectangle is under the other
+		if (GetLeftBottom(m_Collider).y > GetLeftTop(pRectCollider->m_Collider).y || GetLeftBottom(pRectCollider->m_Collider).y > GetLeftBottom(m_Collider).y)
+			return false;
+
+		return true;
 	}
 }

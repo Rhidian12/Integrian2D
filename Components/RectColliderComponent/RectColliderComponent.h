@@ -11,6 +11,8 @@ namespace Integrian2D
 		RectColliderComponent(GameObject* const pOwner, const PRectf collider);
 		RectColliderComponent(GameObject* const pOwner, const PRectf collider, const bool render);
 
+		virtual bool CheckCollision(ColliderComponent* const pOtherCollider) noexcept override;
+
 		virtual void Render() const override;
 
 		void SetRenderDebug(const bool render) noexcept;
@@ -21,6 +23,8 @@ namespace Integrian2D
 		const PRectf& GetCollider() const noexcept;
 
 	private:
+		bool RectangleCollision(RectColliderComponent* const pRectCollider);
+
 		bool m_RenderDebugBox;
 		PRectf m_Collider;
 		RGBColour m_ColliderColour;
