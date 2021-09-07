@@ -81,6 +81,9 @@
     <ClCompile Include="Components\RectCollider\RectCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parsing\Writer\Writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -195,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\RectCollider\RectCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parsing\Writer\Writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

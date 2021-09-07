@@ -217,6 +217,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Components\TransformComponent\TransformComponent.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
     <ClCompile Include="Window\Window.cpp" />
+    <ClCompile Include="Parsing\Writer\Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\PRect.h" />
@@ -257,6 +258,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Components\TransformComponent\TransformComponent.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="Window\Window.h" />
+    <ClInclude Include="Parsing\Writer\Writer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
