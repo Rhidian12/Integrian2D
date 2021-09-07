@@ -4,6 +4,12 @@
 
 namespace Integrian2D
 {
+	PhysicsInfo::PhysicsInfo(const float _mass, const Vector2f _velocity, ColliderComponent* const _pHitbox)
+		: mass{ _mass }
+		, velocity{ _velocity }
+		, pHitbox{ _pHitbox }
+	{}
+
 	PhysicsInfo::~PhysicsInfo()
 	{
 		Utils::SafeDelete(pHitbox);
@@ -12,7 +18,7 @@ namespace Integrian2D
 	PhysicsInfo::PhysicsInfo(const PhysicsInfo& other) noexcept
 		: mass{ other.mass }
 		, velocity{ other.velocity }
-		, pHitbox{ new PhysicsInfoImpl{*other.pHitbox} }
+		, pHitbox{ other.pHitbox }
 	{}
 
 	PhysicsInfo::PhysicsInfo(PhysicsInfo&& other) noexcept
@@ -27,7 +33,7 @@ namespace Integrian2D
 	{
 		mass = other.mass;
 		velocity = other.velocity;
-		pHitbox = new PhysicsInfoImpl{ *other.pHitbox };
+		pHitbox = other.pHitbox;
 
 		return *this;
 	}

@@ -5,39 +5,12 @@
 
 namespace Integrian2D
 {
-	class IPhysicsInfo
+	class ColliderComponent;
+
+	class PhysicsInfo final
 	{
 	public:
-		virtual ~IPhysicsInfo() = default;
-	};
-
-	template<typename Type>
-	class PhysicsInfoImpl final : public IPhysicsInfo
-	{
-	public:
-		PhysicsInfoImpl(const Type data)
-			: m_Data{ data }
-		{}
-
-		const Type& GetData() const noexcept
-		{
-			return m_Data;
-		}
-
-	private:
-		Type m_Data;
-	};
-
-	struct PhysicsInfo final
-	{
-	public:
-		template<int P, typename Type>
-		PhysicsInfo(const float _mass, const Vector2f _velocity, const Polygon<P, Type> hitbox)
-			: mass{ _mass }
-			, velocity{ _velocity }
-			, pHitbox{ new PhysicsInfoImpl{hitbox} }
-		{}
-
+		PhysicsInfo(const float _mass, const Vector2f _velocity, ColliderComponent* const _pHitbox);
 		~PhysicsInfo();
 
 #pragma region Rule Of 5
@@ -47,14 +20,8 @@ namespace Integrian2D
 		PhysicsInfo& operator=(PhysicsInfo&& other) noexcept;
 #pragma endregion
 
-		template<int P, typename Type>
-		Polygon<P, Type> GetHitbox() const noexcept
-		{
-			static_cast<PhysicsInfoImpl*>(pHitbox)->GetData();
-		}
-
 		float mass;
 		Vector2f velocity;
-		IPhysicsInfo* pHitbox;
+		ColliderComponent* pHitbox;
 	};
 }
