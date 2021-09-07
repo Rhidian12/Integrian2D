@@ -195,6 +195,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\ColliderComponent\ColliderComponent.cpp" />
     <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp" />
     <ClCompile Include="Parsing\BinaryWriter\BinaryWriter.cpp" />
     <ClCompile Include="Components\Component\Component.cpp" />
@@ -223,6 +224,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Parsing\Writer\Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\ColliderComponent\ColliderComponent.h" />
     <ClInclude Include="Math\PRect.h" />
     <ClInclude Include="Math\Matrix.h" />
     <ClInclude Include="Math\Point3.h" />
