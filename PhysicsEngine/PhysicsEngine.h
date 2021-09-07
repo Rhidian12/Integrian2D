@@ -3,20 +3,29 @@
 #include "../Math/TypeDefines.h"
 #include "PhysicsInfo/PhysicsInfo.h"
 
-#include <unordered_map>
+#include <vector>
 
 namespace Integrian2D
 {
-	class GameObject;
+	class PhysicsComponent;
 
 	class PhysicsEngine final
 	{
 	public:
-		void AddGameObject(GameObject* const pGameObject, const float mass, const Vector2f velocity) noexcept;
+		void FixedUpdate() noexcept;
+
+		void AddPhysicsComponent(PhysicsComponent* const pComponent) noexcept;
+		void RemovePhysicsComponent(PhysicsComponent* const pComponent) noexcept;
+
+		void SetGravity(const float gravity) noexcept;
+		float GetGravity() const noexcept;
 
 	private:
-		PhysicsEngine() = default;
+		friend class Scene;
 
-		std::unordered_map<GameObject*, PhysicsInfo> m_pGameObjects;
+		PhysicsEngine();
+
+		std::vector<PhysicsComponent*> m_pComponents;
+		float m_Gravity;
 	};
 }
