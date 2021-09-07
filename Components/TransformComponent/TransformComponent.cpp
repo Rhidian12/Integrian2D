@@ -1,6 +1,6 @@
 #include "TransformComponent.h"
 #include "../../GameObject/GameObject.h"
-#include "../RectCollider/RectCollider.h"
+#include "../RectColliderComponent/RectColliderComponent.h"
 
 namespace Integrian2D
 {
@@ -135,7 +135,7 @@ namespace Integrian2D
 
 	const PRectf TransformComponent::GetDestRect() const noexcept
 	{
-		RectCollider* pRectCollider{ m_pOwner->GetComponentByType<RectCollider>() };
+		RectColliderComponent* pRectCollider{ m_pOwner->GetComponentByType<RectColliderComponent>() };
 
 		if (pRectCollider)
 			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, GetAngle(), GetScale().x, GetScale().y };

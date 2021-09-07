@@ -78,7 +78,7 @@
     <ClCompile Include="TextureManager\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\RectCollider\RectCollider.cpp">
+    <ClCompile Include="Components\RectColliderComponent\RectColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Parsing\Writer\Writer.cpp">
@@ -209,7 +209,7 @@
     <ClInclude Include="Math\Polygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\RectCollider\RectCollider.h">
+    <ClInclude Include="Components\RectColliderComponent\RectColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Parsing\Writer\Writer.h">

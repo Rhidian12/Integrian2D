@@ -208,7 +208,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Input\Mouse\Mouse.cpp" />
-    <ClCompile Include="Components\RectCollider\RectCollider.cpp" />
+    <ClCompile Include="Components\RectColliderComponent\RectColliderComponent.cpp" />
     <ClCompile Include="Parsing\Reader\Reader.cpp" />
     <ClCompile Include="PhysicsEngine\PhysicsEngine.cpp" />
     <ClCompile Include="PhysicsEngine\PhysicsInfo\PhysicsInfo.cpp" />
@@ -252,7 +252,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Math\Vector.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Parsing\DataType\DataType.h" />
-    <ClInclude Include="Components\RectCollider\RectCollider.h" />
+    <ClInclude Include="Components\RectColliderComponent\RectColliderComponent.h" />
     <ClInclude Include="Parsing\Reader\Reader.h" />
     <ClInclude Include="PhysicsEngine\PhysicsEngine.h" />
     <ClInclude Include="PhysicsEngine\PhysicsInfo\PhysicsInfo.h" />

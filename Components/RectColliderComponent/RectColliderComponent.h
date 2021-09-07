@@ -1,18 +1,15 @@
 #pragma once
 
-#include "../Component/Component.h"
+#include "../ColliderComponent/ColliderComponent.h"
 #include "../../Math/TypeDefines.h"
 
 namespace Integrian2D
 {
-	class RectCollider final : public Component
+	class RectColliderComponent final : public ColliderComponent
 	{
 	public:
-		RectCollider(GameObject* const pOwner);
-		RectCollider(GameObject* const pOwner, const PRectf collider);
-		RectCollider(GameObject* const pOwner, const PRectf collider, const bool render);
-
-		// TODO: Implement Fixed Update Collision!
+		RectColliderComponent(GameObject* const pOwner, const PRectf collider);
+		RectColliderComponent(GameObject* const pOwner, const PRectf collider, const bool render);
 
 		virtual void Render() const override;
 
