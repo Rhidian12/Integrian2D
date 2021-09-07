@@ -15,6 +15,7 @@ namespace Integrian2D
 
 		virtual bool CheckCollision(ColliderComponent* const pOtherCollider) noexcept override;
 
+		virtual void FixedUpdate() override;
 		virtual void Render() const override;
 
 		void SetRenderDebug(const bool render) noexcept;

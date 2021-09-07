@@ -1,5 +1,7 @@
 #include "RectColliderComponent.h"
 #include "../../Renderer/Renderer.h"
+#include "../../GameObject/GameObject.h"
+#include "../TransformComponent/TransformComponent.h"
 
 namespace Integrian2D
 {
@@ -35,6 +37,11 @@ namespace Integrian2D
 		}
 
 		return false;
+	}
+
+	void RectColliderComponent::FixedUpdate()
+	{
+		SetCenter(m_Collider, m_pOwner->pTransform->GetPosition());
 	}
 
 	void RectColliderComponent::Render() const
