@@ -37,7 +37,7 @@ namespace Integrian2D
 		}
 	}
 
-	int Reader::GetAmountOfLines() noexcept
+	unsigned int Reader::GetAmountOfLines() noexcept
 	{
 		// Reference: https://stackoverflow.com/questions/3482064/counting-the-number-of-lines-in-a-text-file
 	

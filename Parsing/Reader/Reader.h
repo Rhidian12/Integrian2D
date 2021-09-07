@@ -31,7 +31,7 @@ namespace Integrian2D
 			return data;
 		}
 
-		int GetAmountOfLines() noexcept;
+		unsigned int GetAmountOfLines() noexcept;
 		std::string GetLine(const unsigned int line) noexcept;
 
 	private:
