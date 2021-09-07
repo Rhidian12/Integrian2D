@@ -26,6 +26,11 @@ namespace Integrian2D
 		Locator::GetInstance()->GetPhysicsEngine()->RemovePhysicsComponent(this);
 	}
 
+	bool PhysicsComponent::CheckCollision(PhysicsComponent* const pOtherCollider) noexcept
+	{
+		return m_PhysicsInfo.pHitbox->CheckCollision(pOtherCollider->GetPhysicsInfo().pHitbox);
+	}
+
 	void PhysicsComponent::SetMass(const float mass) noexcept
 	{
 		m_PhysicsInfo.mass = mass;

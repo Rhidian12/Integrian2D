@@ -29,7 +29,17 @@ namespace Integrian2D
 			// == Check For Collision With Other GameObjects ==
 			for (size_t j{}; j < m_pComponents.size(); ++j)
 			{
-				
+				if (i == j)
+					continue;
+
+				// TODO: Add broad and narrow collision detection
+				// Broad: Check which gameobjects COULD collide
+				// Narrow: Check all of those gameobjects with each other
+
+				if (m_pComponents[i]->CheckCollision(m_pComponents[j]))
+				{
+
+				}
 			}
 		}
 	}

@@ -17,6 +17,8 @@ namespace Integrian2D
 
 		~PhysicsComponent();
 
+		bool CheckCollision(PhysicsComponent* const pOtherCollider) noexcept;
+
 		void SetMass(const float mass) noexcept;
 		void SetVelocity(const Vector2f velocity) noexcept;
 		void SetColliderComponent(ColliderComponent* const pCollider, ColliderShape shape) noexcept;
