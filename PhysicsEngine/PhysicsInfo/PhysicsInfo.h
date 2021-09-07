@@ -11,7 +11,6 @@ namespace Integrian2D
 	{
 	public:
 		PhysicsInfo(const float _mass, const Vector2f _velocity, ColliderComponent* const _pHitbox);
-		~PhysicsInfo();
 
 #pragma region Rule Of 5
 		PhysicsInfo(const PhysicsInfo& other) noexcept;

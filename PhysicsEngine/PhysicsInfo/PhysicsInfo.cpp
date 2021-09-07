@@ -10,11 +10,6 @@ namespace Integrian2D
 		, pHitbox{ _pHitbox }
 	{}
 
-	PhysicsInfo::~PhysicsInfo()
-	{
-		Utils::SafeDelete(pHitbox);
-	}
-
 	PhysicsInfo::PhysicsInfo(const PhysicsInfo& other) noexcept
 		: mass{ other.mass }
 		, velocity{ other.velocity }
