@@ -6,6 +6,7 @@
 #include "../Renderer/Renderer.h"
 #include "../TextureManager/TextureManager.h"
 #include "../Locator/Locator.h"
+#include "../Timer/Timer.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -33,6 +34,7 @@ namespace Integrian2D
 		Renderer::Cleanup();
 		TextureManager::Cleanup();
 		Locator::Cleanup();
+		Timer::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
@@ -41,6 +43,7 @@ namespace Integrian2D
 	{
 		SceneManager* pSceneManager{ SceneManager::GetInstance() };
 		Renderer* pRenderer{ Renderer::GetInstance() };
+		Timer* pTimer{ Timer::GetInstance() };
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
 			scenePair.second->Start();
@@ -49,6 +52,8 @@ namespace Integrian2D
 
 		while (g_IsLooping)
 		{
+			pTimer->Update();
+
 			pRenderer->SetNewFrame();
 
 			Scene* pActiveScene{ pSceneManager->GetActiveScene() };
