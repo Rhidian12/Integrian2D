@@ -17,6 +17,8 @@ namespace Integrian2D
 
 		~PhysicsComponent();
 
+		virtual Component* Clone(GameObject* const pOwner) noexcept override;
+
 		bool CheckCollision(PhysicsComponent* const pOtherCollider) noexcept;
 
 		void SetMass(const float mass) noexcept;

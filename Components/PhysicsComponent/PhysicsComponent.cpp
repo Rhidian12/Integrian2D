@@ -26,6 +26,11 @@ namespace Integrian2D
 		Locator::GetInstance()->GetPhysicsEngine()->RemovePhysicsComponent(this);
 	}
 
+	Component* PhysicsComponent::Clone(GameObject* const pOwner) noexcept
+	{
+		return new PhysicsComponent{ pOwner, m_PhysicsInfo.mass, m_PhysicsInfo.velocity, m_PhysicsInfo.pHitbox };
+	}
+
 	bool PhysicsComponent::CheckCollision(PhysicsComponent* const pOtherCollider) noexcept
 	{
 		return m_PhysicsInfo.pHitbox->CheckCollision(pOtherCollider->GetPhysicsInfo().pHitbox);

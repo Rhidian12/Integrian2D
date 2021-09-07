@@ -14,7 +14,7 @@ namespace Integrian2D
 		, m_ColliderColour{ 255, 0, 0 }
 	{}
 
-	Component* RectColliderComponent::Clone(GameObject* const pOwner)
+	Component* RectColliderComponent::Clone(GameObject* const pOwner) noexcept
 	{
 		RectColliderComponent* pC{ new RectColliderComponent{pOwner, m_Collider, m_RenderDebugBox} };
 		pC->m_ColliderColour = m_ColliderColour;

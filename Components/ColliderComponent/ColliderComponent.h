@@ -16,7 +16,7 @@ namespace Integrian2D
 		ColliderComponent(GameObject* const pOwner, const ColliderShape shape);
 		virtual ~ColliderComponent() = default;
 
-		virtual Component* Clone(GameObject* const pOwner) = 0;
+		virtual Component* Clone(GameObject* const pOwner) noexcept override = 0;
 
 		virtual bool CheckCollision(ColliderComponent* const pOtherCollider) noexcept = 0;
 
