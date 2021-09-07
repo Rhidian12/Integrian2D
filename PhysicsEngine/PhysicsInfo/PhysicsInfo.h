@@ -34,7 +34,7 @@ namespace Integrian2D
 		template<int P, typename Type>
 		PhysicsInfo(const float _mass, const Vector2f _velocity, const Polygon<P, Type> hitbox)
 			: mass{ _mass }
-			, _velocity{ _velocity }
+			, velocity{ _velocity }
 			, pHitbox{ new PhysicsInfoImpl{hitbox} }
 		{}
 

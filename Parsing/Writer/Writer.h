@@ -24,8 +24,8 @@ namespace Integrian2D
 
 			m_File << data;
 
-			if (newLine)
-				m_File << std::endl;
+			//if (newLine)
+			//	m_File << std::endl;
 		}
 
 	private:
