@@ -39,6 +39,7 @@ namespace Integrian2D
 	void PhysicsComponent::SetColliderComponent(ColliderComponent* const pCollider, ColliderShape shape) noexcept
 	{
 		m_PhysicsInfo.pHitbox = pCollider;
+		m_PhysicsInfo.pHitbox->SetColliderShape(shape);
 	}
 
 	const PhysicsInfo& PhysicsComponent::GetPhysicsInfo() const noexcept
