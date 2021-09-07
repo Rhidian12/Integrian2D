@@ -11,6 +11,8 @@ namespace Integrian2D
 		RectColliderComponent(GameObject* const pOwner, const PRectf collider);
 		RectColliderComponent(GameObject* const pOwner, const PRectf collider, const bool render);
 
+		virtual Component* Clone(GameObject* const pOwner) override;
+
 		virtual bool CheckCollision(ColliderComponent* const pOtherCollider) noexcept override;
 
 		virtual void Render() const override;
