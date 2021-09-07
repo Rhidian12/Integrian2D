@@ -2,7 +2,9 @@
 
 #include <string>
 #include <unordered_map>
+
 #include "../Input/InputManager/InputManager.h"
+#include "../PhysicsEngine/PhysicsEngine.h"
 
 namespace Integrian2D
 {
@@ -34,6 +36,7 @@ namespace Integrian2D
 		struct
 		{
 			InputManager inputManager{}; // TODO: Make this not a struct if not necessary
+			PhysicsEngine physicsEngine{};
 		};
 #pragma warning ( pop )
 
