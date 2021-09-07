@@ -3,6 +3,7 @@
 #include "../Components/PhysicsComponent/PhysicsComponent.h"
 #include "../GameObject/GameObject.h"
 #include "../Components/TransformComponent/TransformComponent.h"
+#include "../Timer/Timer.h"
 
 #include <algorithm>
 
@@ -10,24 +11,28 @@ namespace Integrian2D
 {
 	PhysicsEngine::PhysicsEngine()
 		: m_pComponents{}
-		, m_Gravity{ 9.81f }
+		, m_Gravity{ 98.1f }
 	{}
 
 	void PhysicsEngine::FixedUpdate() noexcept
 	{
+		const float elapsedSeconds{ Timer::GetInstance()->GetElapsedSeconds() };
+
 		for (size_t i{}; i < m_pComponents.size(); ++i)
 		{
-			if (!m_pComponents[i]->GetPhysicsInfo().pHitbox)
+			const PhysicsInfo& physicsInfo{ m_pComponents[i]->GetPhysicsInfo() };
+
+			if (!physicsInfo.pHitbox)
 				continue;
 
 			// == Cache The Transform ==
 			TransformComponent* pTransform{ m_pComponents[i]->GetOwner()->pTransform };
 
 			// == Apply Gravity ==
-			pTransform->Translate(Vector2f{ 0.f, -m_Gravity });
+			pTransform->Translate(Vector2f{ 0.f, -m_Gravity * elapsedSeconds * physicsInfo.mass });
 
 			// == Apply Velocity ==
-			pTransform->Translate(m_pComponents[i]->GetPhysicsInfo().velocity);
+			pTransform->Translate(physicsInfo.velocity * elapsedSeconds);
 
 			// == Check For Collision With Other GameObjects ==
 			for (size_t j{}; j < m_pComponents.size(); ++j)
@@ -43,8 +48,8 @@ namespace Integrian2D
 				// Narrow: Check all of those gameobjects with each other
 
 				if (m_pComponents[i]->CheckCollision(m_pComponents[j]))
-					pTransform->Translate(Vector2f{ m_pComponents[i]->GetPhysicsInfo().velocity.x,
-						m_pComponents[i]->GetPhysicsInfo().velocity.y + m_Gravity });
+					pTransform->Translate(Vector2f{ physicsInfo.velocity.x * elapsedSeconds,
+						physicsInfo.velocity.y * elapsedSeconds + m_Gravity * elapsedSeconds * physicsInfo.mass });
 			}
 		}
 	}
