@@ -19,7 +19,9 @@ namespace Integrian2D
 	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity, ColliderComponent* const pCollider)
 		: Component{ pOwner }
 		, m_PhysicsInfo{ mass, velocity, pCollider }
-	{}
+	{
+		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this);
+	}
 
 	PhysicsComponent::~PhysicsComponent()
 	{
