@@ -17,6 +17,9 @@ namespace Integrian2D
 	{
 		for (size_t i{}; i < m_pComponents.size(); ++i)
 		{
+			if (!m_pComponents[i]->GetPhysicsInfo().pHitbox)
+				continue;
+
 			// == Cache The Transform ==
 			TransformComponent* pTransform{ m_pComponents[i]->GetOwner()->pTransform };
 
@@ -32,14 +35,16 @@ namespace Integrian2D
 				if (i == j)
 					continue;
 
+				if (!m_pComponents[j]->GetPhysicsInfo().pHitbox)
+					continue;
+
 				// TODO: Add broad and narrow collision detection
 				// Broad: Check which gameobjects COULD collide
 				// Narrow: Check all of those gameobjects with each other
 
 				if (m_pComponents[i]->CheckCollision(m_pComponents[j]))
-				{
-
-				}
+					pTransform->Translate(Vector2f{ m_pComponents[i]->GetPhysicsInfo().velocity.x,
+						m_pComponents[i]->GetPhysicsInfo().velocity.y + m_Gravity });
 			}
 		}
 	}
