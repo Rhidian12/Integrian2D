@@ -1,0 +1,48 @@
+#include "PhysicsComponent.h"
+#include "../../Locator/Locator.h"
+#include "../../PhysicsEngine/PhysicsEngine.h"
+
+namespace Integrian2D
+{
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner)
+		: PhysicsComponent{ pOwner, 1.f, Vector2f{}, nullptr }
+	{}
+
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass)
+		: PhysicsComponent{ pOwner, mass, Vector2f{}, nullptr }
+	{}
+
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity)
+		: PhysicsComponent{ pOwner, mass, velocity, nullptr }
+	{}
+
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity, ColliderComponent* const pCollider)
+		: Component{ pOwner }
+		, m_PhysicsInfo{ mass, velocity, pCollider }
+	{}
+
+	PhysicsComponent::~PhysicsComponent()
+	{
+		Locator::GetInstance()->GetPhysicsEngine()->RemovePhysicsComponent(this);
+	}
+
+	void PhysicsComponent::SetMass(const float mass) noexcept
+	{
+		m_PhysicsInfo.mass = mass;
+	}
+
+	void PhysicsComponent::SetVelocity(const Vector2f velocity) noexcept
+	{
+		m_PhysicsInfo.velocity = velocity;
+	}
+
+	void PhysicsComponent::SetColliderComponent(ColliderComponent* const pCollider, ColliderShape shape) noexcept
+	{
+		m_PhysicsInfo.pHitbox = pCollider;
+	}
+
+	const PhysicsInfo& PhysicsComponent::GetPhysicsInfo() const noexcept
+	{
+		return m_PhysicsInfo;
+	}
+}

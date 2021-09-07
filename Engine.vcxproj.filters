@@ -96,6 +96,9 @@
     <ClCompile Include="Components\ColliderComponent\ColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Components\PhysicsComponent\PhysicsComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -225,6 +228,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\ColliderComponent\ColliderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PhysicsComponent\PhysicsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
