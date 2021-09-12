@@ -82,7 +82,7 @@ namespace Integrian2D
 			return false;
 
 		// If one rectangle is under the other
-		if (GetLeftBottom(m_Collider).y > GetLeftTop(pRectCollider->m_Collider).y || GetLeftBottom(pRectCollider->m_Collider).y > GetLeftBottom(m_Collider).y)
+		if (GetLeftBottom(m_Collider).y > GetLeftTop(pRectCollider->m_Collider).y || GetLeftBottom(pRectCollider->m_Collider).y > GetLeftTop(m_Collider).y)
 			return false;
 
 		return true;
