@@ -39,6 +39,17 @@ namespace Integrian2D
 		return false;
 	}
 
+	bool RectColliderComponent::CheckCollision(const Point2f& point) noexcept
+	{
+		if (point.x < GetLeftBottom(m_Collider).x || point.x > GetRightBottom(m_Collider).x)
+			return false;
+
+		if (point.y < GetLeftBottom(m_Collider).y || point.y > GetLeftTop(m_Collider).y)
+			return false;
+
+		return true;
+	}
+
 	void RectColliderComponent::FixedUpdate()
 	{
 		SetCenter(m_Collider, m_pOwner->pTransform->GetPosition());

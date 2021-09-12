@@ -14,6 +14,7 @@ namespace Integrian2D
 		virtual Component* Clone(GameObject* const pOwner) noexcept override;
 
 		virtual bool CheckCollision(ColliderComponent* const pOtherCollider) noexcept override;
+		bool CheckCollision(const Point2f& point) noexcept;
 
 		virtual void FixedUpdate() override;
 		virtual void Render() const override;
