@@ -88,7 +88,7 @@ namespace Integrian2D
 		constexpr FloatingPoint RoundDecimalUp(FloatingPoint value)
 		{
 			if (static_cast<int>(value) != value)
-				value = static_cast<float>(static_cast<int>(++value));
+				value = static_cast<FloatingPoint>(static_cast<int>(++value));
 
 			return value;
 		}
@@ -97,7 +97,7 @@ namespace Integrian2D
 		constexpr FloatingPoint RoundDecimalDown(FloatingPoint value)
 		{
 			if (static_cast<int>(value) != value)
-				value = static_cast<float>(static_cast<int>(--value));
+				value = static_cast<FloatingPoint>(static_cast<int>(--value));
 
 			return value;
 		}
