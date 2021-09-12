@@ -38,6 +38,11 @@ namespace Integrian2D
 		return m_PhysicsInfo.pHitbox->CheckCollision(pOtherCollider->GetPhysicsInfo().pHitbox);
 	}
 
+	void PhysicsComponent::AddForce(const Vector2f& force) noexcept
+	{
+		m_PhysicsInfo.velocity += (force * m_PhysicsInfo.mass);
+	}
+
 	void PhysicsComponent::SetMass(const float mass) noexcept
 	{
 		m_PhysicsInfo.mass = mass;
