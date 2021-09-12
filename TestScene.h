@@ -40,22 +40,22 @@ public:
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowUp }, [this]()->void
 			{
-				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 0.f, 5.f });
+				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Integrian2D::Vector2f{ 0.f, 5.f });
 			}, Integrian2D::State::OnHeld);
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowDown }, [this]()->void
 			{
-				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 0.f, -5.f });
+				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Integrian2D::Vector2f{ 0.f, -5.f });
 			}, Integrian2D::State::OnHeld);
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowLeft }, [this]()->void
 			{
-				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ -5.f, 0.f });
+				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Integrian2D::Vector2f{ -5.f, 0.f });
 			}, Integrian2D::State::OnHeld);
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::ArrowRight }, [this]()->void
 			{
-				m_pGameObject->pTransform->Translate(Integrian2D::Vector2f{ 5.f, 0.f });
+				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Integrian2D::Vector2f{ 5.f, 0.f });
 			}, Integrian2D::State::OnHeld);
 
 		inputManager.AddCommand(Integrian2D::GameInput{ Integrian2D::KeyboardInput::Q }, [this]()->void
