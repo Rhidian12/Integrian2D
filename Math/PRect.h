@@ -153,6 +153,84 @@ namespace Integrian2D
 		Points points;
 		Type width, height, scaleX, scaleY, angle;
 #pragma endregion
+
+#pragma region Iterator
+		class iterator final
+		{
+		public:
+			using iterator_category = std::random_access_iterator_tag;
+			using difference_type = std::ptrdiff_t;
+			using value_type = Point<2, Type>;
+			using pointer = value_type*;
+			using reference = value_type&;
+
+			iterator(pointer pPointer) noexcept
+				: m_Pointer{ pPointer }
+			{}
+
+			inline reference operator*() const noexcept { return *m_Pointer; }
+			inline pointer operator->() noexcept { return m_Pointer; }
+			
+			inline iterator& operator++() noexcept { ++m_Pointer; return *this; }
+			inline iterator& operator++(int) noexcept { iterator tmp = *this; ++(*this); return tmp; }
+			inline iterator& operator--() noexcept { --m_Pointer; return *this; }
+			inline iterator& operator--(int) noexcept { iterator tmp = *this; --(*this); return tmp; }
+
+			inline bool operator==(const iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
+			inline bool operator!=(const iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
+
+		private:
+			pointer m_Pointer;
+		};
+
+		class const_iterator final
+		{
+		public:
+			using iterator_category = std::random_access_iterator_tag;
+			using difference_type = std::ptrdiff_t;
+			using value_type = const Point<2, Type>;
+			using pointer = value_type*;
+			using reference = value_type&;
+
+			const_iterator(pointer pPointer) noexcept
+				: m_Pointer{ pPointer }
+			{}
+
+			inline reference operator*() const noexcept { return *m_Pointer; }
+			inline pointer operator->() noexcept { return m_Pointer; }
+
+			inline const_iterator& operator++() noexcept { ++m_Pointer; return *this; }
+			inline const_iterator& operator++(int) noexcept { const_iterator tmp = *this; ++(*this); return tmp; }
+			inline const_iterator& operator--() noexcept { --m_Pointer; return *this; }
+			inline const_iterator& operator--(int) noexcept { const_iterator tmp = *this; --(*this); return tmp; }
+
+			inline bool operator==(const const_iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
+			inline bool operator!=(const const_iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
+
+		private:
+			pointer m_Pointer;
+		};
+
+		iterator begin() noexcept
+		{
+			return iterator{ &center };
+		}
+
+		const_iterator begin() const noexcept
+		{
+			return const_iterator{ &center };
+		}
+
+		iterator end() noexcept
+		{
+			return iterator{ &rightBottom + 1 };
+		}
+
+		const_iterator end() const noexcept
+		{
+			return const_iterator{ &rightBottom + 1 };
+		}
+#pragma endregion
 	};
 
 #pragma region Relational Operators
