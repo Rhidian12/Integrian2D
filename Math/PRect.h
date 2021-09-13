@@ -213,22 +213,22 @@ namespace Integrian2D
 
 		iterator begin() noexcept
 		{
-			return iterator{ &center };
+			return iterator{ &points.center };
 		}
 
 		const_iterator begin() const noexcept
 		{
-			return const_iterator{ &center };
+			return const_iterator{ &points.center };
 		}
 
 		iterator end() noexcept
 		{
-			return iterator{ &rightBottom + 1 };
+			return iterator{ &points.rightBottom + 1 };
 		}
 
 		const_iterator end() const noexcept
 		{
-			return const_iterator{ &rightBottom + 1 };
+			return const_iterator{ &points.rightBottom + 1 };
 		}
 #pragma endregion
 	};
