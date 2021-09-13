@@ -4,6 +4,7 @@
 #include "../GameObject/GameObject.h"
 #include "../Components/TransformComponent/TransformComponent.h"
 #include "../Timer/Timer.h"
+#include "../Components/RectColliderComponent/RectColliderComponent.h"
 
 #include <algorithm>
 
@@ -22,7 +23,7 @@ namespace Integrian2D
 		{
 			const PhysicsInfo& physicsInfo{ m_pComponents[i]->GetPhysicsInfo() };
 
-			if (!physicsInfo.pHitbox)
+			if (!physicsInfo.pHitbox) // If the object does not have a hitbox, it will not be used in the physics engine
 				continue;
 
 			// == Cache The Transform ==
@@ -37,19 +38,36 @@ namespace Integrian2D
 			// == Check For Collision With Other GameObjects ==
 			for (size_t j{}; j < m_pComponents.size(); ++j)
 			{
-				if (i == j)
+				if (i == j) // make sure we're not checking ourselves
 					continue;
 
-				if (!m_pComponents[j]->GetPhysicsInfo().pHitbox)
+				if (!m_pComponents[j]->GetPhysicsInfo().pHitbox) // If the object does not have a hitbox, it will not be used in the physics engine
 					continue;
+
+				const PhysicsInfo& otherPhysicsInfo{ m_pComponents[j]->GetPhysicsInfo() };
+				const ColliderShape otherColliderShape{ otherPhysicsInfo.pHitbox->GetColliderShape() };
 
 				// TODO: Add broad and narrow collision detection
 				// Broad: Check which gameobjects COULD collide
 				// Narrow: Check all of those gameobjects with each other
 
 				if (m_pComponents[i]->CheckCollision(m_pComponents[j]))
+				{
+					// if the gameobjects are colliding, find the shortest distance to not touch each other
+					switch (otherColliderShape)
+					{
+					case ColliderShape::Rectangle:
+
+						break;
+					case ColliderShape::Circle:
+						break;
+					}
+
 					pTransform->Translate(Vector2f{ physicsInfo.velocity.x * elapsedSeconds,
 						physicsInfo.velocity.y * elapsedSeconds + m_Gravity * elapsedSeconds * physicsInfo.mass });
+
+					m_pComponents[i]->SetVelocity(Vector2f{});
+				}
 			}
 		}
 	}
