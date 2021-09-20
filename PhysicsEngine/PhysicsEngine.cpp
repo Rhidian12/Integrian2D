@@ -5,6 +5,7 @@
 #include "../Components/TransformComponent/TransformComponent.h"
 #include "../Timer/Timer.h"
 #include "../Components/RectColliderComponent/RectColliderComponent.h"
+#include "../Utils/Utils.h"
 
 #include <algorithm>
 
@@ -57,6 +58,34 @@ namespace Integrian2D
 					switch (otherColliderShape)
 					{
 					case ColliderShape::Rectangle:
+						// IncomingInpulse == OutgoingImpulse
+						// IncomingKineticEnergy == OutgoingKineticEnergy
+						
+						// m1v1 + m2v2 = m1u1 + m2u2
+						// 0.5m1(v1)^2 + 0.5m2(v2)^2 = 0.5m1(u1)^2 + 0.5m2(u2)^2 
+						// <=>
+						// m1u1 = m1v1 + m2v2 - m2u2
+						// 0.5m1(v1)^2 + 0.5m2(v2)^2 = 0.5m1(u1)^2 + 0.5m2(u2)^2 
+						// <=>
+						// u1 = (m1v1 + m2v2 - m2u2) / m1
+						// m1(v1)^2 + m2(v2)^2 = m1(u1)^2 + m2(u2)^2 
+						// <=>
+						// u1 = (m1v1 + m2v2 - m2u2) / m1
+						// m2(u2)^2 = m1(v1)^2 + m2(v2)^2 - m1(u1)^2
+						// <=>
+						// u1 = (m1v1 + m2v2 - m2u2) / m1
+						// u2^2 = (m1(v1)^2 + m2(v2)^2 - m1(u1)^2) / m2
+						// <=>
+						// u1 = (m1v1 + m2v2 - m2u2) / m1
+						// u2 = sqrt((m1(v1)^2 + m2(v2)^2 - m1(u1)^2 / m2)
+						// <=>
+						// u1 = (m1v1 + m2v2 - m2(sqrt( (m1(v1)^2 + m2(v2)^2 - m1(u1)^2 / m2)) ) / m1
+						// u2 = sqrt((m1(v1)^2 + m2(v2)^2 - m1(u1)^2 / m2)
+
+						float outgoingVelocityOneX{ (physicsInfo.velocity.x * physicsInfo.mass +
+							otherPhysicsInfo.velocity.x * otherPhysicsInfo.mass - 
+							otherPhysicsInfo.mass * (sqrtf(physicsInfo.velocity.x * Utils::Square(physicsInfo.mass) + 
+							otherPhysicsInfo.velocity.x * Utils::Square(otherPhysicsInfo.mass) /* - m1(u1)^2 / m2 */))) / physicsInfo.mass};
 
 						break;
 					case ColliderShape::Circle:
