@@ -30,6 +30,12 @@ namespace Integrian2D
 			}
 		}
 
+		template<typename Type>
+		constexpr Type Square(const Type value) noexcept
+		{
+			return value * value;
+		}
+
 		template<typename FundamentalType, typename = std::enable_if_t<std::is_fundamental_v<FundamentalType>>>
 		constexpr FundamentalType RandomNumber(const FundamentalType min, const FundamentalType max)
 		{
