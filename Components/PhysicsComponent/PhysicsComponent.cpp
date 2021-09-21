@@ -53,6 +53,11 @@ namespace Integrian2D
 		m_PhysicsInfo.velocity = velocity;
 	}
 
+	void PhysicsComponent::SetIsAffectedByGravity(const bool isAffectedByGravity) noexcept
+	{
+		m_PhysicsInfo.gravity = isAffectedByGravity;
+	}
+
 	void PhysicsComponent::SetColliderComponent(ColliderComponent* const pCollider, ColliderShape shape) noexcept
 	{
 		m_PhysicsInfo.pHitbox = pCollider;

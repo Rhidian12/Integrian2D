@@ -25,6 +25,7 @@ namespace Integrian2D
 
 		void SetMass(const float mass) noexcept;
 		void SetVelocity(const Vector2f velocity) noexcept;
+		void SetIsAffectedByGravity(const bool isAffectedByGravity) noexcept;
 		void SetColliderComponent(ColliderComponent* const pCollider, ColliderShape shape) noexcept;
 
 		const PhysicsInfo& GetPhysicsInfo() const noexcept;

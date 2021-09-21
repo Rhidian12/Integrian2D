@@ -31,7 +31,8 @@ namespace Integrian2D
 			TransformComponent* pTransform{ m_pComponents[i]->GetOwner()->pTransform };
 
 			// == Apply Gravity ==
-			pTransform->Translate(Vector2f{ 0.f, -m_Gravity * elapsedSeconds * physicsInfo.mass });
+			if (physicsInfo.gravity)
+				m_pComponents[i]->AddForce(Vector2f{ 0.f, -m_Gravity * elapsedSeconds * physicsInfo.mass });
 
 			// == Apply Velocity ==
 			pTransform->Translate(physicsInfo.velocity * elapsedSeconds);
@@ -58,44 +59,65 @@ namespace Integrian2D
 					switch (otherColliderShape)
 					{
 					case ColliderShape::Rectangle:
+					{
 						// IncomingInpulse == OutgoingImpulse
 						// IncomingKineticEnergy == OutgoingKineticEnergy
-						
+
 						// m1v1 + m2v2 = m1u1 + m2u2
 						// 0.5m1(v1)^2 + 0.5m2(v2)^2 = 0.5m1(u1)^2 + 0.5m2(u2)^2 
 						// <=>
-						// m1u1 = m1v1 + m2v2 - m2u2
-						// 0.5m1(v1)^2 + 0.5m2(v2)^2 = 0.5m1(u1)^2 + 0.5m2(u2)^2 
+						// m1v1 - m1u1 = m2u2 - m2v2
+						// m1(v1)^2 - m1(u1)^2 = m2(u2)^2 - m2(v2)^2 
 						// <=>
-						// u1 = (m1v1 + m2v2 - m2u2) / m1
-						// m1(v1)^2 + m2(v2)^2 = m1(u1)^2 + m2(u2)^2 
+						// m1(v1 - u1) = m2(u2 - v2)
+						// m1((v1)^2 - (u1)^2) = m2((u2)^2 - (v2)^2)
 						// <=>
-						// u1 = (m1v1 + m2v2 - m2u2) / m1
-						// m2(u2)^2 = m1(v1)^2 + m2(v2)^2 - m1(u1)^2
+						// m1(v1 - u1) = m2(u2 - v2)
+						// m1(v1 + u1)(v1 - u1) = m2(u2 + v2)(u2 - v2)
 						// <=>
-						// u1 = (m1v1 + m2v2 - m2u2) / m1
-						// u2^2 = (m1(v1)^2 + m2(v2)^2 - m1(u1)^2) / m2
+						// m1(v1 - u1) = m2(u2 - v2)
+						// v1 + u1 = u2 + v2
 						// <=>
-						// u1 = (m1v1 + m2v2 - m2u2) / m1
-						// u2 = sqrt((m1(v1)^2 + m2(v2)^2 - m1(u1)^2 / m2)
+						// m1(v1 - u1) = m2(u2 - v2)
+						// u1 = u2 + v2 - v1
 						// <=>
-						// u1 = (m1v1 + m2v2 - m2(sqrt( (m1(v1)^2 + m2(v2)^2 - m1(u1)^2 / m2)) ) / m1
-						// u2 = sqrt((m1(v1)^2 + m2(v2)^2 - m1(u1)^2 / m2)
+						// m1(v1 - (u2 + v2 - v1)) = m2(u2 - v2)
+						// u1 = u2 + v2 - v1
+						// <=>
+						// m1(v1 - u2 - v2 + v1) = m2(u2 - v2)
+						// u1 = u2 + v2 - v1
+						// <=> (SUBSTITUTED EQUATION #2 INTO #1)
+						// m1v1 - m1u2 - m1v2 + m1v1 = m2u2 - m2v2
+						// <=>
+						// m1v1 - m1v2 + m1v1 + m2v2 = m2u2 + m1u2
+						// <=>
+						// u2(m1 + m2) = m1v1 - m1v2 + m1v1 + m2v2
+						// <=>
+						// u2 = (m1v1 - m1v2 + m1v1 + m2v2) / (m1 + m2)
+						// <=>
+						// u1 = u2 + v2 - v1
 
-						float outgoingVelocityOneX{ (physicsInfo.velocity.x * physicsInfo.mass +
-							otherPhysicsInfo.velocity.x * otherPhysicsInfo.mass - 
-							otherPhysicsInfo.mass * (sqrtf(physicsInfo.velocity.x * Utils::Square(physicsInfo.mass) + 
-							otherPhysicsInfo.velocity.x * Utils::Square(otherPhysicsInfo.mass) /* - m1(u1)^2 / m2 */))) / physicsInfo.mass};
+						const float outgoingVelocityTwoX{ ((physicsInfo.velocity.x * physicsInfo.mass - otherPhysicsInfo.velocity.x * physicsInfo.mass +
+							physicsInfo.velocity.x * physicsInfo.mass + otherPhysicsInfo.velocity.x * otherPhysicsInfo.mass) / (physicsInfo.mass + otherPhysicsInfo.mass)) };
+						const float outgoingVelocityTwoY{ ((physicsInfo.velocity.y * physicsInfo.mass - otherPhysicsInfo.velocity.y * physicsInfo.mass +
+							physicsInfo.velocity.y * physicsInfo.mass + otherPhysicsInfo.velocity.y * otherPhysicsInfo.mass) / (physicsInfo.mass + otherPhysicsInfo.mass)) };
+						const float outgoingVelocityOneX{ outgoingVelocityTwoX + otherPhysicsInfo.velocity.x - physicsInfo.velocity.x };
+						const float outgoingVelocityOneY{ outgoingVelocityTwoY + otherPhysicsInfo.velocity.y - physicsInfo.velocity.y };
 
+						const float coefficientOfRestitution{  };
+
+						m_pComponents[i]->SetVelocity(Vector2f{ outgoingVelocityOneX, outgoingVelocityOneY });
+						m_pComponents[j]->SetVelocity(Vector2f{ outgoingVelocityTwoX, outgoingVelocityTwoY });
+					}
 						break;
 					case ColliderShape::Circle:
 						break;
 					}
 
-					pTransform->Translate(Vector2f{ physicsInfo.velocity.x * elapsedSeconds,
-						physicsInfo.velocity.y * elapsedSeconds + m_Gravity * elapsedSeconds * physicsInfo.mass });
-
-					m_pComponents[i]->SetVelocity(Vector2f{});
+					//pTransform->Translate(Vector2f{ physicsInfo.velocity.x * elapsedSeconds,
+					//	physicsInfo.velocity.y * elapsedSeconds + m_Gravity * elapsedSeconds * physicsInfo.mass });
+					//
+					//m_pComponents[i]->SetVelocity(Vector2f{});
 				}
 			}
 		}
