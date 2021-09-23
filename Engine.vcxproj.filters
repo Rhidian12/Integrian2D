@@ -251,5 +251,8 @@
     <ClInclude Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
