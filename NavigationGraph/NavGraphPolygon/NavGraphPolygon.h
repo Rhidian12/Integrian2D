@@ -22,7 +22,7 @@ namespace Integrian2D
 	private:
 		std::vector<Point2f> m_Vertices; // outer vertices of the polygon
 		std::vector<NavGraphPolygon> m_ChildPolygons; // inner vertices of the polygon
-		// TODO: Make a std::vector of Trianglef (Polygon<3, float>)
+		std::vector<PTrianglef> m_Triangles;
 	};
 
 	inline bool operator==(const NavGraphPolygon& a, const NavGraphPolygon& b) noexcept

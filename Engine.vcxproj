@@ -235,7 +235,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Math\Polygon.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\RGBColour.h" />
-    <ClInclude Include="Math\Triangle.h" />
+    <ClInclude Include="Math\PTriangle.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.h" />
     <ClInclude Include="NavigationGraph\NavigationGraph.h" />

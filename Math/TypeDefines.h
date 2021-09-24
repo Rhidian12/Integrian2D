@@ -10,6 +10,7 @@
 #include "Rect.h"
 
 #include "Polygon.h"
+#include "PTriangle.h"
 #include "PRect.h"
 
 #include "RGBColour.h"
@@ -26,6 +27,7 @@ namespace Integrian2D
 
 	typedef Rect<float> Rectf;
 
+	typedef Polygon<3, float> PTrianglef;
 	typedef Polygon<4, float> PRectf;
 
 	typedef Matrix<2, 2, float> Matrix2x2;
