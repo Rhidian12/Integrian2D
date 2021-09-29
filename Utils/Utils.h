@@ -79,7 +79,7 @@ namespace Integrian2D
 		}
 
 		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
-		constexpr FloatingPoint RoundToZero(FloatingPoint value, const FloatingPoint epsilon = static_cast<FloatingPoint>(1e-5f)) // 0.00001
+		constexpr FloatingPoint RoundToZero(FloatingPoint value, const FloatingPoint epsilon = static_cast<FloatingPoint>(1e-5f) /* == 0.00001 */) noexcept
 		{
 			FloatingPoint fraction{};
 			FloatingPoint roundedDownValue{ std::modf(value, &fraction) };
@@ -91,7 +91,7 @@ namespace Integrian2D
 		}
 
 		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
-		constexpr FloatingPoint RoundDecimalUp(FloatingPoint value)
+		constexpr FloatingPoint RoundDecimalUp(FloatingPoint value) noexcept
 		{
 			if (static_cast<int>(value) != value)
 				value = static_cast<FloatingPoint>(static_cast<int>(++value));
@@ -100,12 +100,31 @@ namespace Integrian2D
 		}
 
 		template<typename FloatingPoint, typename = std::enable_if_t<std::is_floating_point_v<FloatingPoint>>>
-		constexpr FloatingPoint RoundDecimalDown(FloatingPoint value)
+		constexpr FloatingPoint RoundDecimalDown(FloatingPoint value) noexcept
 		{
 			if (static_cast<int>(value) != value)
 				value = static_cast<FloatingPoint>(static_cast<int>(--value));
 
 			return value;
+		}
+
+		template<typename Type>
+		constexpr bool IsInRange(const Type value, const Type min, const Type max, const bool rangeLimitsInclusive = true) noexcept
+		{
+			if (rangeLimitsInclusive)
+			{
+				if (value >= min && value <= max)
+					return true;
+				else
+					return false;
+			}
+			else
+			{
+				if (value > min && value = max)
+					return true;
+				else
+					return false;
+			}
 		}
 	}
 }
