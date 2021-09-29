@@ -120,7 +120,7 @@ namespace Integrian2D
 			}
 			else
 			{
-				if (value > min && value = max)
+				if (value > min && value < max)
 					return true;
 				else
 					return false;
