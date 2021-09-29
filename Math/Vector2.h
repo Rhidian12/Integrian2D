@@ -205,6 +205,47 @@ namespace Integrian2D
 	{
 		return Vector<2, Type>{ -v.y, v.x };
 	}
+
+	template<typename Type>
+	bool DoVectorsIntersect(const Point<2, Type>& p1, const Vector<2, Type>& v1, const Point<2, Type>& p2, const Vector<2, Type>& v2, Point<2, Type>* pIntersectionPoint)
+	{
+		// Reference: https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+
+		const Vector<2, Type> pointOneToPointTwo{ p1, p2 };
+		const Type vectorsCross{ Cross(v1, v2) };
+		const Type pointVectorVectorOneCross{ Cross(pointOneToPointTwo, v1) };
+
+		const Type firstLineParameter{ Cross(pointOneToPointTwo, v2) / vectorsCross };
+		const Type secondLineParameter{ Cross(pointOneToPointTwo, v1) / vectorsCross };
+
+		if (Utils::AreEqual(vectorsCross, static_cast<Type>(0.f)) && Utils::AreEqual(pointVectorVectorOneCross, static_cast<Type>(0.f)))
+		{
+			// the two vectors are colinear
+			const Type distanceFirstSegment{ DistanceSquared(p1, Point<2, Type>{v1.x, v1.y}) };
+
+			if (DistanceSquared(p1, p2) <= distanceFirstSegment || DistanceSquared(p1, Point<2, Type>{v2.x, v2.y}) <= distanceFirstSegment)
+			{
+				// vectors are intersecting
+				if (pIntersectionPoint) // does the user care about the intersection point
+					*pIntersectionPoint = Point<2, Type>{ p1 + v1 * firstLineParameter };
+
+				return true;
+			}
+		}
+		else if (Utils::AreEqual(vectorsCross, static_cast<Type>(0.f)) && !Utils::AreEqual(pointVectorVectorOneCross, static_cast<Type>(0.f)))
+			return false; // the vectors are parallel
+		else if (!Utils::AreEqual(vectorsCross, static_cast<Type>(0.f)) && Utils::IsInRange(firstLineParameter, static_cast<Type>(0.f), static_cast<Type>(1.f)) &&
+			Utils::IsInRange(secondLineParameter, static_cast<Type>(0.f), static_cast<Type>(1.f)))
+		{
+			// vectors are intersecting
+			if (pIntersectionPoint) // does the user care about the intersection point
+				*pIntersectionPoint = Point<2, Type>{ p1 + v1 * firstLineParameter };
+
+			return true;
+		}
+		else // the vectors are not parallel and they do not intersect
+			return false;
+	}
 #pragma endregion
 
 #pragma region Miscellaneous Operators
