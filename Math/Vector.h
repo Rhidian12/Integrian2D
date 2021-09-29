@@ -42,10 +42,4 @@ namespace Integrian2D
 		Normalize(temp);
 		return temp;
 	}
-
-	template<int V, typename Type>
-	bool DoVectorsIntersect(const Point<V, Type>& p1, const Vector<V, Type>& v1, const Point<V, Type>& p2, const Vector<V, Type>& v2, Point<V, Type>* pIntersectionPoint)
-	{
-		
-	}
 }
