@@ -207,7 +207,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	bool DoVectorsIntersect(const Point<2, Type>& p1, const Vector<2, Type>& v1, const Point<2, Type>& p2, const Vector<2, Type>& v2, Point<2, Type>* pIntersectionPoint)
+	bool DoVectorsIntersect(const Point<2, Type>& p1, const Vector<2, Type>& v1, const Point<2, Type>& p2, const Vector<2, Type>& v2, void* pIntersectionPoint)
 	{
 		// Reference: https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
 
@@ -227,7 +227,7 @@ namespace Integrian2D
 			{
 				// vectors are intersecting
 				if (pIntersectionPoint) // does the user care about the intersection point
-					*pIntersectionPoint = Point<2, Type>{ p1 + v1 * firstLineParameter };
+					*static_cast<Point<2, Type>*>(pIntersectionPoint) = Point<2, Type>{ p1 + v1 * firstLineParameter };
 
 				return true;
 			}
@@ -239,12 +239,14 @@ namespace Integrian2D
 		{
 			// vectors are intersecting
 			if (pIntersectionPoint) // does the user care about the intersection point
-				*pIntersectionPoint = Point<2, Type>{ p1 + v1 * firstLineParameter };
+				*static_cast<Point<2, Type>*>(pIntersectionPoint) = Point<2, Type>{ p1 + v1 * firstLineParameter };
 
 			return true;
 		}
 		else // the vectors are not parallel and they do not intersect
 			return false;
+
+		return false; // Random visual studio warning???
 	}
 #pragma endregion
 
