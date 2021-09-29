@@ -56,7 +56,7 @@ namespace Integrian2D
 	float NavGraphPolygon::GetMaxXVertex() const noexcept
 	{
 		float maxXPosition{ std::numeric_limits<float>::min() };
-		
+
 		for (const Point2f& position : m_Vertices)
 			if (position.x > maxXPosition)
 				maxXPosition = position.x;
@@ -97,18 +97,41 @@ namespace Integrian2D
 		return minYPosition;
 	}
 
-	bool NavGraphPolygon::IsOverlapping(const NavGraphPolygon& polygon) const noexcept
+	bool NavGraphPolygon::IsOverlapping(const NavGraphPolygon& p) const noexcept
 	{
 		// == Check if they CERTAINLY cannot overlap ==
-		if (GetMinXVertex() > polygon.GetMaxXVertex() || GetMaxXVertex() < polygon.GetMinXVertex())
+		if (GetMinXVertex() > p.GetMaxXVertex() || GetMaxXVertex() < p.GetMinXVertex())
 			return false;
 
 		// == Check if they CERTAINLY cannot overlap ==
-		if (GetMinYVertex() > polygon.GetMaxYVertex() || GetMaxYVertex() < polygon.GetMinYVertex())
+		if (GetMinYVertex() > p.GetMaxYVertex() || GetMaxYVertex() < p.GetMinYVertex())
 			return false;
 
+		// == The Expensive way to check if they overlap ==
+		for (size_t i{}; i < m_Vertices.size(); ++i)
+		{
+			const Point2f& startVertex{ m_Vertices[i] };
+			Point2f endVertex{ m_Vertices[i + 1] };
 
-		return true;
+			if (i == m_Vertices.size() - 1)
+				endVertex = m_Vertices[0];
+
+			for (size_t j{}; j < p.m_Vertices.size(); ++j)
+			{
+				if (j == p.m_Vertices.size() - 1)
+				{
+					if (DoVectorsIntersect(startVertex, Vector2f{ startVertex,  endVertex }, p.m_Vertices[i], Vector2f{ p.m_Vertices[i], p.m_Vertices[0] }, nullptr))
+						return true;
+				}
+				else
+				{
+					if (DoVectorsIntersect(startVertex, Vector2f{ startVertex,  endVertex }, p.m_Vertices[i], Vector2f{ p.m_Vertices[i], p.m_Vertices[i + 1] }, nullptr))
+						return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	const std::vector<Point2f>& NavGraphPolygon::GetVertices() const noexcept
