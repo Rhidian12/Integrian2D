@@ -120,12 +120,12 @@ namespace Integrian2D
 			{
 				if (j == p.m_Vertices.size() - 1)
 				{
-					if (DoVectorsIntersect(startVertex, Vector2f{ startVertex,  endVertex }, p.m_Vertices[i], Vector2f{ p.m_Vertices[i], p.m_Vertices[0] }, nullptr))
+					if (DoVectorsIntersect(startVertex, Vector2f{ startVertex,  endVertex }, p.m_Vertices[j], Vector2f{ p.m_Vertices[j], p.m_Vertices[0] }, nullptr))
 						return true;
 				}
 				else
 				{
-					if (DoVectorsIntersect(startVertex, Vector2f{ startVertex,  endVertex }, p.m_Vertices[i], Vector2f{ p.m_Vertices[i], p.m_Vertices[i + 1] }, nullptr))
+					if (DoVectorsIntersect(startVertex, Vector2f{ startVertex,  endVertex }, p.m_Vertices[j], Vector2f{ p.m_Vertices[j], p.m_Vertices[j + 1] }, nullptr))
 						return true;
 				}
 			}
