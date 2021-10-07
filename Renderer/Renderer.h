@@ -26,6 +26,8 @@ namespace Integrian2D
 		void RenderRectangle(const PRectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 		void RenderFilledRectangle(const Rectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 		void RenderFilledRectangle(const PRectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		void RenderTriangle(const PTrianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		void RenderFilledTriangle(const PTrianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 		// TODO: Add Circle and Triangle
 		void RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
