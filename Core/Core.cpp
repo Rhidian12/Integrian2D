@@ -134,6 +134,9 @@ namespace Integrian2D
 		Mix_CloseAudio();
 		Mix_Quit();
 
+		TTF_Quit();
+		IMG_Quit();
+
 		Utils::SafeDelete(m_pWindow);
 		SDL_Quit();
 	}
