@@ -168,12 +168,12 @@ namespace Integrian2D
 
 		iterator end() noexcept
 		{
-			return iterator{ &points.center + 1 };
+			return iterator{ &points.pointThree + 1 };
 		}
 
 		const_iterator end() const noexcept
 		{
-			return const_iterator{ &points.center + 1 };
+			return const_iterator{ &points.pointThree + 1 };
 		}
 #pragma endregion
 	};
