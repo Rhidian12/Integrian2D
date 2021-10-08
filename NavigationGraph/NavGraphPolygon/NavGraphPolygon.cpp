@@ -22,6 +22,14 @@ namespace Integrian2D
 			AddChild(vector);
 	}
 
+	void NavGraphPolygon::Triangulate() noexcept
+	{
+		m_IsTriangulated = true;
+
+		// First, decompose the polygon into trapezoids
+
+	}
+
 	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f> vertices) noexcept
 	{
 		m_ChildPolygons.push_back(NavGraphPolygon{ vertices });
