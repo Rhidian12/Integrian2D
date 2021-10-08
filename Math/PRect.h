@@ -144,7 +144,7 @@ namespace Integrian2D
 					&& (pivotPoint == rhs.pivotPoint) && (center == rhs.center);
 			}
 
-			bool operator!=(const Points& rhs) noexcept
+			bool operator!=(const Points& rhs) const noexcept
 			{
 				return !(*this == rhs);
 			}
