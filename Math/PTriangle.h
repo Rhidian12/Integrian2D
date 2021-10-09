@@ -5,6 +5,11 @@
 #include "Vector2.h"
 #include "../Utils/Utils.h"
 
+#include <algorithm>
+
+#undef min
+#undef max
+
 namespace Integrian2D
 {
 	// == Specialisation of Polygon, being a Triangle ==
@@ -40,6 +45,30 @@ namespace Integrian2D
 			points.pointThree = { _center.x + halfWidth, _center.y - halfHeight };
 			width = _width;
 			height = _height;
+			scaleX = _scale.x;
+			scaleY = _scale.y;
+			angle = _angle;
+
+			if (!Utils::AreEqual(scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(scaleY, static_cast<Type>(1.f)))
+				SetScale(*this, _scale);
+
+			if (!Utils::AreEqual(_angle, static_cast<Type>(0.f)))
+				SetRotation(*this, _angle);
+		}
+		explicit Polygon<3, Type>(const Point<2, Type>& _pointOne, const Point<2, Type>& _pointTwo, const Point<2, Type>& _pointThree,
+			const Point<2, Type>& _scale, const Type _angle)
+			: points{}
+		{
+			points.center = (_pointOne + _pointTwo + _pointThree) / static_cast<Type>(3.f);
+			points.pivotPoint = points.center;
+
+			points.pointOne = _pointOne;
+			points.pointTwo = _pointTwo;
+			points.pointThree = _pointThree;
+
+			width = std::max(std::max(_pointOne.x, _pointTwo.x), _pointThree.x) - std::min(std::min(_pointOne.x, _pointTwo.x), _pointThree.x);
+			height = std::max(std::max(_pointOne.y, _pointTwo.y), _pointThree.y) - std::min(std::min(_pointOne.y, _pointTwo.y), _pointThree.y);
+
 			scaleX = _scale.x;
 			scaleY = _scale.y;
 			angle = _angle;
