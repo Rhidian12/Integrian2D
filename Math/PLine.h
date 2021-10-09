@@ -110,6 +110,21 @@ namespace Integrian2D
 #pragma endregion
 	};
 
+#pragma region Relational Operators
+	template<typename Type>
+	bool operator==(const Polygon<2, Type>& p1, const Polygon<2, Type>& p2) noexcept
+	{
+		return p1.points == p2.points && p1.begin == p2.begin && p1.end == p2.end && p1.width == p2.width &&
+			p1.height == p2.height && p1.scaleX == p2.scaleX && p1.scaleY == p2.scaleY && p1.angle == p2.angle;
+	}
+
+	template<typename Type>
+	bool operator!=(const Polygon<2, Type>& p1, const Polygon<2, Type>& p2) noexcept
+	{
+		return !(p1 == p2);
+	}
+#pragma endregion
+
 #pragma region Functions
 	template<int V, typename Type>
 	void Translate(Polygon<2, Type>& p, const Vector<V, Type>& v) noexcept
