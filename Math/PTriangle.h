@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Polygon.h"
+#include "PLine.h"
 #include "Point2.h"
 #include "Vector2.h"
 #include "../Utils/Utils.h"
@@ -115,7 +116,13 @@ namespace Integrian2D
 			template<typename Type>
 			friend Type GetArea(const Polygon<3, Type>& p) noexcept;
 			template<typename Type>
-			friend bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p) noexcept
+			friend bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p) noexcept;
+			template<typename Type>
+			friend Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t) noexcept;
+			template<typename Type>
+			friend Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t) noexcept;
+			template<typename Type>
+			friend Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t) noexcept;
 
 			Point<2, Type> pointOne, pointTwo, pointThree, center, pivotPoint;
 
@@ -416,6 +423,24 @@ namespace Integrian2D
 
 		return (parameterOne >= static_cast<Type>(0.f)) && (parameterTwo >= static_cast<Type>(0.f)) &&
 			((static_cast<Type>(1.f) - parameterOne - parameterTwo) >= static_cast<Type>(0.f));
+	}
+
+	template<typename Type>
+	Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t) noexcept
+	{
+		return Polygon<2, Type>{ p.points.pointOne, p.points.pointTwo };
+	}
+
+	template<typename Type>
+	Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t) noexcept
+	{
+		return Polygon<2, Type>{ p.points.pointTwo, p.points.pointThree };
+	}
+
+	template<typename Type>
+	Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t) noexcept
+	{
+		return Polygon<2, Type>{ p.points.pointThree, p.points.pointOne };
 	}
 #pragma endregion
 }
