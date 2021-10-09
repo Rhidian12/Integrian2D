@@ -41,6 +41,21 @@ namespace Integrian2D
 					Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[i + 1], 3.f);
 			}
 		}
+
+		const float minX{ GetMinXVertex() };
+		const float minY{ GetMinYVertex() };
+		const float maxX{ GetMaxXVertex() };
+		const float maxY{ GetMaxYVertex() };
+
+		const float deltaX{ maxX - minX };
+		const float deltaY{ maxY - minY };
+		const float biggestDifference{ std::max(deltaX, deltaY) };
+
+		const PTrianglef superTriangle{ Point2f{minX - biggestDifference, minY - biggestDifference},
+			Point2f{GetCenterOfPolygon().x, maxY + biggestDifference},
+			Point2f{maxX + biggestDifference, minY - biggestDifference} };
+
+		Renderer::GetInstance()->RenderTriangle(superTriangle);
 	}
 
 	void NavGraphPolygon::Triangulate() noexcept
@@ -52,8 +67,18 @@ namespace Integrian2D
 		std::vector<Point2f> sortedVertices{ m_Vertices };
 
 		// Make a triangle that encompasses our entire polygon
-		const PTrianglef superTriangle{ Point2f{GetMinXVertex(), GetMinYVertex()}, Point2f{GetMaxXVertex(), GetMinYVertex()},
-			Point2f{GetCenterOfPolygon().x, GetMaxYVertex()} };
+		const float minX{ GetMinXVertex() };
+		const float minY{ GetMinYVertex() };
+		const float maxX{ GetMaxXVertex() };
+		const float maxY{ GetMaxYVertex() };
+
+		const float deltaX{ maxX - minX };
+		const float deltaY{ maxY - minY };
+		const float biggestDifference{ std::max(deltaX, deltaY) };
+
+		const PTrianglef superTriangle{ Point2f{minX - biggestDifference, minY - biggestDifference},
+			Point2f{GetCenterOfPolygon().x, maxY + biggestDifference},
+			Point2f{maxX + biggestDifference, minY - biggestDifference} };
 
 		m_Triangles.push_back(superTriangle);
 

@@ -120,7 +120,7 @@ namespace Integrian2D
 	void Renderer::RenderTriangle(const PTrianglef& triangle, const RGBColour& colour) noexcept
 	{
 		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINES);
+		glBegin(GL_LINE_LOOP);
 		{
 			for (const Point2f& p : triangle)
 				glVertex2f(p.x, p.y);
