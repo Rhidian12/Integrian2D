@@ -51,61 +51,146 @@ namespace Integrian2D
 		// Use a local copy of the vertices
 		std::vector<Point2f> sortedVertices{ m_Vertices };
 
-		// Select a starting point (I'll just take the first vertex in m_Vertices)
-		const Point2f startVertex{ sortedVertices[0] };
+		// Make a triangle that encompasses our entire polygon
+		const PTrianglef superTriangle{ Point2f{GetMinXVertex(), GetMinYVertex()}, Point2f{GetMaxXVertex(), GetMinYVertex()},
+			Point2f{GetCenterOfPolygon().x, GetMaxYVertex()} };
 
-		// Sort the vertices based on distance from the startVertex
-		std::sort(sortedVertices.begin(), sortedVertices.end(), [&startVertex](const Point2f& a, const Point2f& b)->bool
-			{
-				return DistanceSquared(a, startVertex) <= DistanceSquared(b, startVertex);
-			});
+		m_Triangles.push_back(superTriangle);
 
-		// Find the closest point to the starting vertex, which SHOULD be the first element in the sorted vertices
-		const Point2f vertexOne{ sortedVertices[1] }; // take 1, instead of 0, since 0 is startVertex itself
-
-		// Find the point that creates the smallest circumcircle with the startVertex and vertexOne
-		float smallestCircumCircle{ std::numeric_limits<float>::max() };
-		Point2f vertexTwo{};
-		Point2f centerOfCircumCircle{};
-
-		for (const Point2f& p : sortedVertices)
+		for (const Point2f& p : m_Vertices)
 		{
-			PTrianglef triangle{ startVertex, vertexOne, p };
+			std::vector<PTrianglef> badTriangles{};
 
-			const Point2f& center{ GetCenter(triangle) };
-			const float distance{ DistanceSquared(center, p) };
-
-			if (distance <= smallestCircumCircle)
+			for (const PTrianglef& t : m_Triangles)
 			{
-				smallestCircumCircle = distance;
-				vertexTwo = p;
-				centerOfCircumCircle = center;
+				const float squaredDistance{ DistanceSquared(p, GetCenter(t)) };
+				const float radiusSquared{ DistanceSquared(GetCenter(t), *t.begin()) };
+
+				if (squaredDistance <= radiusSquared)
+					badTriangles.push_back(t);
 			}
+
+			std::vector<PLinef> polygon{};
+
+			for (size_t i{}; i < badTriangles.size(); ++i)
+			{
+				const PLinef edges[3]{ GetEdgeOne(badTriangles[i]), GetEdgeTwo(badTriangles[i]), GetEdgeThree(badTriangles[i]) };
+				bool foundEdges[3]{};
+
+				for (size_t j{}; j < badTriangles.size(); ++j)
+				{
+					if (i == j)
+						continue;
+
+					// only check the edges if they havent been found yet
+
+					if (!foundEdges[0])
+						if (edges[0] == GetEdgeOne(badTriangles[j]))
+							foundEdges[0] = true;
+
+					if (!foundEdges[1])
+						if (edges[1] == GetEdgeTwo(badTriangles[j]))
+							foundEdges[1] = true;
+
+					if (!foundEdges[2])
+						if (edges[2] == GetEdgeThree(badTriangles[j]))
+							foundEdges[2] = true;
+				}
+
+				// Add edges to polygon if they werent found
+				for (size_t j{}; j < 3; ++j)
+					if (!foundEdges[j])
+						polygon.push_back(edges[j]);
+			}
+
+			// remove all the bad triangles from our eventual triangle vector
+			for (const PTrianglef& t : badTriangles)
+				m_Triangles.erase(std::remove(m_Triangles.begin(), m_Triangles.end(), t), m_Triangles.end());
+
+			// create new triangles
+			for (const PLinef& l : polygon)
+				m_Triangles.push_back(PTrianglef{ l.begin, l.end, p });
 		}
 
-		// Order these 3 points for a right handed system(???)
+		// clean up
+		std::vector<PTrianglef> trianglesToRemove{};
 
-		// Remove these 3 points from our sortedVertices
-		sortedVertices.erase(std::remove_if(sortedVertices.begin(), sortedVertices.end(), [&startVertex, &vertexOne, &vertexTwo](const Point2f& p)->bool
-			{
-				return p == startVertex || p == vertexOne || p == vertexTwo;
-			}), sortedVertices.end());
+		for (const PTrianglef& t : m_Triangles)
+			for (const Point2f& p : t)
+				for (const Point2f& superTrianglePoint : superTriangle)
+					if (p == superTrianglePoint)
+						trianglesToRemove.push_back(t);
 
-		// now sort the remaining vertices based on the distance from the center of the circumcircle
-		std::sort(sortedVertices.begin(), sortedVertices.end(), [&centerOfCircumCircle](const Point2f& a, const Point2f& b)->bool
-			{
-				return DistanceSquared(a, centerOfCircumCircle) <= DistanceSquared(b, centerOfCircumCircle);
-			});
-
-		// now start adding these points to the root triangle we made
-		for (size_t i{}; i < sortedVertices.size(); ++i)
-		{
-			m_Triangles.push_back(PTrianglef{ sortedVertices[i], sortedVertices[i + 1], sortedVertices[i + 2] });
-
-			if (i == sortedVertices.size() - 3) // final triangle
-				break; // stop the loop
-		}
+		for (const PTrianglef& t : trianglesToRemove)
+			m_Triangles.erase(std::remove(m_Triangles.begin(), m_Triangles.end(), t), m_Triangles.end());
 	}
+
+	//void NavGraphPolygon::Triangulate() noexcept
+	//{
+	//	m_IsTriangulated = true;
+	//	m_Triangles.clear();
+
+	//	// Use a local copy of the vertices
+	//	std::vector<Point2f> sortedVertices{ m_Vertices };
+
+	//	// Select a starting point (I'll just take the first vertex in m_Vertices)
+	//	const Point2f startVertex{ sortedVertices[0] };
+
+	//	// Remove the start vertex from our vertices
+	//	sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), startVertex), sortedVertices.end());
+
+	//	// Sort the vertices based on distance from the startVertex
+	//	std::sort(sortedVertices.begin(), sortedVertices.end(), [&startVertex](const Point2f& a, const Point2f& b)->bool
+	//		{
+	//			return DistanceSquared(a, startVertex) <= DistanceSquared(b, startVertex);
+	//		});
+
+	//	// Find the closest point to the starting vertex, which SHOULD be the first element in the sorted vertices
+	//	const Point2f vertexOne{ sortedVertices[0] };
+
+	//	// Remove vertexOne from our vertices
+	//	sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), vertexOne), sortedVertices.end());
+
+	//	// Find the point that creates the smallest circumcircle with the startVertex and vertexOne
+	//	float smallestCircumCircle{ std::numeric_limits<float>::max() };
+	//	Point2f vertexTwo{};
+	//	Point2f centerOfCircumCircle{};
+
+	//	for (const Point2f& p : sortedVertices)
+	//	{
+	//		PTrianglef triangle{ startVertex, vertexOne, p };
+
+	//		const Point2f& center{ GetCenter(triangle) };
+	//		const float distance{ DistanceSquared(center, p) };
+
+	//		if (distance <= smallestCircumCircle)
+	//		{
+	//			smallestCircumCircle = distance;
+	//			vertexTwo = p;
+	//			centerOfCircumCircle = center;
+	//		}
+	//	}
+
+	//	// Order these 3 points for a right handed system(???)
+
+	//	// Remove vertexTwo from our vertices
+	//	sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), vertexTwo), sortedVertices.end());
+
+	//	// now sort the remaining vertices based on the distance from the center of the circumcircle
+	//	std::sort(sortedVertices.begin(), sortedVertices.end(), [&centerOfCircumCircle](const Point2f& a, const Point2f& b)->bool
+	//		{
+	//			return DistanceSquared(a, centerOfCircumCircle) <= DistanceSquared(b, centerOfCircumCircle);
+	//		});
+
+	//	// now start adding these points to the root triangle we made
+	//	for (size_t i{}; i < sortedVertices.size(); ++i)
+	//	{
+	//		m_Triangles.push_back(PTrianglef{ sortedVertices[i], sortedVertices[i + 1], sortedVertices[i + 2] });
+
+	//		if (i == sortedVertices.size() - 3) // final triangle
+	//			break; // stop the loop
+	//	}
+	//}
 
 	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f> vertices) noexcept
 	{
