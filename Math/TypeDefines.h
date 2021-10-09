@@ -28,7 +28,7 @@ namespace Integrian2D
 
 	typedef Rect<float> Rectf;
 
-	typedef Polyon<2, float> PLinef;
+	typedef Polygon<2, float> PLinef;
 	typedef Polygon<3, float> PTrianglef;
 	typedef Polygon<4, float> PRectf;
 

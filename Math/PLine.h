@@ -25,8 +25,8 @@ namespace Integrian2D
 			: begin{ from }
 			, end{ to }
 		{
-			center = Point<2, Type>{ to.x - from.x, to.y - from.y };
-			pivotPoint = center;
+			points.center = Point<2, Type>{ to.x - from.x, to.y - from.y };
+			points.pivotPoint = points.center;
 
 			width = to.x >= from.x ? to.x - from.x : from.x - to.x;
 			height = to.y >= from.y ? to.y - from.y : from.y - to.y;
@@ -104,6 +104,7 @@ namespace Integrian2D
 			}
 		};
 
+		Points points;
 		Point<2, Type> begin, end;
 		Type width, height, scaleX, scaleY, angle;
 #pragma endregion
@@ -232,19 +233,19 @@ namespace Integrian2D
 		}
 		else
 		{
-			p.begin.x = center.x - halfWidth;
-			p.end.x = center.x + halfWidth;
+			p.begin.x = _center.x - halfWidth;
+			p.end.x = _center.x + halfWidth;
 		}
 
 		if (p.begin.y >= p.end.y)
 		{
-			p.begin.y = center.y + halfHeight;
-			p.end.y = center.y - halfHeight;
+			p.begin.y = _center.y + halfHeight;
+			p.end.y = _center.y - halfHeight;
 		}
 		else
 		{
-			p.begin.y = center.y - halfHeight;
-			p.end.y = center.y + halfHeight;
+			p.begin.y = _center.y - halfHeight;
+			p.end.y = _center.y + halfHeight;
 		}
 
 		// == Rotate, but only if the angle is not 0 ==
