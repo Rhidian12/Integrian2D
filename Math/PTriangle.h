@@ -55,6 +55,9 @@ namespace Integrian2D
 			if (!Utils::AreEqual(_angle, static_cast<Type>(0.f)))
 				SetRotation(*this, _angle);
 		}
+		explicit Polygon<3, Type>(const Point<2, Type>& _pointOne, const Point<2, Type>& _pointTwo, const Point<2, Type>& _pointThree)
+			: Polygon<3, Type>{ _pointOne, _pointTwo, _pointThree, Point<2, Type>{static_cast<Type>(1.f), static_cast<Type>(1.f)}, static_cast<Type>(0.f) }
+		{}
 		explicit Polygon<3, Type>(const Point<2, Type>& _pointOne, const Point<2, Type>& _pointTwo, const Point<2, Type>& _pointThree,
 			const Point<2, Type>& _scale, const Type _angle)
 			: points{}
