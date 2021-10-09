@@ -13,13 +13,13 @@ namespace Integrian2D
 	{
 #pragma region Constructors
 		explicit Polygon<2, Type>()
-			: Polygon<2, Type>{ Point<2, Type>{}, Point<2, Type>{}, static_cast<Type>(1.f), static_cast<Type>(1.f) }
+			: Polygon<2, Type>{ Point<2, Type>{}, Point<2, Type>{}, static_cast<Type>(1.f), static_cast<Type>(1.f), static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to)
-			: Polygon<2, Type>{ from, to, static_cast<Type>(1.f), static_cast<Type>(1.f) }
+			: Polygon<2, Type>{ from, to, static_cast<Type>(1.f), static_cast<Type>(1.f), static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to, const Type& _scaleX, const Type& _scaleY)
-			: Polygon<2, Type>{ from, to, static_cast<Type>(1.f), static_cast<Type>(1.f), static_cast<Type>(0.f) }
+			: Polygon<2, Type>{ from, to, _scaleX, _scaleY, static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to, const Type& _scaleX, const Type& _scaleY, const Type& _angle)
 			: begin{ from }
