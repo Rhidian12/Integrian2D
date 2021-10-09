@@ -1,4 +1,5 @@
 #include "NavGraphPolygon.h"
+
 #include <algorithm>
 #include <limits>
 
@@ -26,8 +27,29 @@ namespace Integrian2D
 	{
 		m_IsTriangulated = true;
 
-		// First, decompose the polygon into trapezoids
+		// Step 1: Decompose the polygon into trapezoids
 
+		// Get the outer Lines of our polygon
+		std::vector<PLinef> outerLines{};
+	
+		for (size_t i{}; i < m_Vertices.size(); ++i)
+		{
+			if (i == m_Vertices.size() - 1)
+				outerLines.push_back(PLinef{ m_Vertices[i], m_Vertices[0] });
+			else
+				outerLines.push_back(PLinef{ m_Vertices[i], m_Vertices[i + 1] });
+		}
+
+		// Sort all vertices by their X coordinate
+		std::vector<Point2f> sortedVertices{ m_Vertices };
+
+		std::sort(sortedVertices.begin(), sortedVertices.end(), [](const Point2f& a, const Point2f& b)->bool
+			{
+				if (Utils::AreEqual(a.x, b.x))
+					return a.y < b.y;
+				else
+					return a.x < b.x;
+			});
 	}
 
 	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f> vertices) noexcept
