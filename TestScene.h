@@ -79,6 +79,10 @@ public:
 
 		std::vector<NavGraphPolygon> polygons{ NavGraphPolygon{ { Point2f{10.f, 10.f}, Point2f{10.f, 60.f}, Point2f{20.f, 90.f},
 			Point2f{50.f, 100.f}, Point2f{90.f, 180.f}, Point2f{160.f, 200.f}, Point2f{180.f, 120.f}, Point2f{200.f, 40.f}, Point2f{200.f, 0.f} } } };
+
+		for (NavGraphPolygon& polygon : polygons)
+			polygon.Triangulate();
+
 		m_pGameObject->AddComponent(new NavigationGraph{ m_pGameObject, polygons });
 
 		AddGameObject("Test", m_pGameObject);
