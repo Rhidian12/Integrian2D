@@ -51,8 +51,6 @@ namespace Integrian2D
 	{
 		ASSERT(m_IsNewFrame, "Renderer::Render() > This function was called twice this frame, don't call this function manually!");
 
-		StartRenderLoop();
-
 		RenderAllTextures();
 
 		EndRenderLoop();
@@ -63,6 +61,8 @@ namespace Integrian2D
 	void Renderer::SetNewFrame() noexcept
 	{
 		m_IsNewFrame = true;
+
+		StartRenderLoop();
 	}
 
 	void Renderer::RenderRectangle(const Rectf& rect, const RGBColour& colour) noexcept
