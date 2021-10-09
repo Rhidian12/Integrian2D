@@ -221,6 +221,21 @@ namespace Integrian2D
 #pragma endregion
 	};
 
+#pragma region Relational Operators
+	template<typename Type>
+	bool operator==(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
+	{
+		return a.points == b.points && a.width == b.width && a.height == b.height && a.scaleX == b.scaleX
+			&& a.angle == b.angle;
+	}
+
+	template<typename Type>
+	bool operator!=(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
+	{
+		return !(a == b);
+	}
+#pragma endregion
+
 #pragma region Functions
 	template<int V, typename Type>
 	void Translate(Polygon<3, Type>& p, const Vector<V, Type>& v) noexcept
@@ -428,19 +443,19 @@ namespace Integrian2D
 	template<typename Type>
 	Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t) noexcept
 	{
-		return Polygon<2, Type>{ p.points.pointOne, p.points.pointTwo };
+		return Polygon<2, Type>{ t.points.pointOne, t.points.pointTwo };
 	}
 
 	template<typename Type>
 	Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t) noexcept
 	{
-		return Polygon<2, Type>{ p.points.pointTwo, p.points.pointThree };
+		return Polygon<2, Type>{ t.points.pointTwo, t.points.pointThree };
 	}
 
 	template<typename Type>
 	Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t) noexcept
 	{
-		return Polygon<2, Type>{ p.points.pointThree, p.points.pointOne };
+		return Polygon<2, Type>{ t.points.pointThree, t.points.pointOne };
 	}
 #pragma endregion
 }
