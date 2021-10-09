@@ -78,13 +78,17 @@ namespace Integrian2D
 			template<typename Type>
 			friend void SetScale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept;
 			template<typename Type>
-			friend void SetCenter(Polygon<2, Type>& p, const Point<2, Type> _center) noexcept;
+			friend void SetCenter(Polygon<2, Type>& p, const Point<2, Type>& _center) noexcept;
 			template<typename Type>
 			friend const Point<2, Type>& GetCenter(const Polygon<2, Type>& p) noexcept;
 			template<typename Type>
-			friend void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type> _pivotPoint) noexcept;
+			friend void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type>& _pivotPoint) noexcept;
 			template<typename Type>
 			friend const Point<2, Type>& GetPivotPoint(const Polygon<2, Type>& p) noexcept;
+			template<typename Type>
+			friend void SetWidth(Polygon<2, Type>& p, const Type _width) noexcept;
+			template<typename Type>
+			friend void SetHeight(Polygon<2, Type>& p, const Type _height) noexcept;
 
 			Point<2, Type> center, pivotPoint;
 
@@ -204,7 +208,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetCenter(Polygon<2, Type>& p, const Point<2, Type> _center) noexcept
+	void SetCenter(Polygon<2, Type>& p, const Point<2, Type>& _center) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -259,12 +263,89 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type> _pivotPoint) noexcept
+	void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type>& _pivotPoint) noexcept
 	{
+		p.points.pivotPoint = _pivotPoint;
 
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+			SetRotation(p, p.angle);
 	}
 
 	template<typename Type>
-	friend const Point<2, Type>& GetPivotPoint(const Polygon<2, Type>& p) noexcept;
+	const Point<2, Type>& GetPivotPoint(const Polygon<2, Type>& p) noexcept
+	{
+		return p.points.pivotPoint;
+	}
+
+	template<typename Type>
+	void SetWidth(Polygon<2, Type>& p, const Type _width) noexcept
+	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
+		p.width = _width;
+
+		const Point<2, Type>& center{ p.points.center };
+		const Type halfWidth{ _width * static_cast<Type>(0.5f) };
+
+		if (p.begin.x >= p.end.x)
+		{
+			p.begin.x = center.x + halfWidth;
+			p.end.x = center.x - halfWidth;
+		}
+		else
+		{
+			p.begin.x = center.x - halfWidth;
+			p.end.x = center.x + halfWidth;
+		}
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
+
+		// == Scale, but only if the scale is not 1 ==
+		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
+			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+	}
+
+	template<typename Type>
+	void SetHeight(Polygon<2, Type>& p, const Type _height) noexcept
+	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
+		p.height = _height;
+
+		const Point<2, Type>& center{ p.points.center };
+		const Type halfHeight{ _height * static_cast<Type>(0.5f) };
+
+		if (p.begin.y >= p.end.y)
+		{
+			p.begin.y = center.y + halfHeight;
+			p.end.y = center.y - halfHeight;
+		}
+		else
+		{
+			p.begin.y = center.y - halfHeight;
+			p.end.y = center.y + halfHeight;
+		}
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
+
+		// == Scale, but only if the scale is not 1 ==
+		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
+			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+	}
 #pragma endregion
 }

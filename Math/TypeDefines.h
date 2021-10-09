@@ -10,6 +10,7 @@
 #include "Rect.h"
 
 #include "Polygon.h"
+#include "PLine.h"
 #include "PTriangle.h"
 #include "PRect.h"
 
@@ -27,6 +28,7 @@ namespace Integrian2D
 
 	typedef Rect<float> Rectf;
 
+	typedef Polyon<2, float> PLinef;
 	typedef Polygon<3, float> PTrianglef;
 	typedef Polygon<4, float> PRectf;
 
