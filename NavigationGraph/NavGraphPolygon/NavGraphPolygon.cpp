@@ -1,4 +1,5 @@
 #include "NavGraphPolygon.h"
+#include "../../Renderer/Renderer.h"
 
 #include <algorithm>
 #include <limits>
@@ -23,33 +24,87 @@ namespace Integrian2D
 			AddChild(vector);
 	}
 
+	void NavGraphPolygon::Render() const noexcept
+	{
+		if (m_IsTriangulated)
+		{
+			for (const PTrianglef& triangle : m_Triangles)
+				Renderer::GetInstance()->RenderTriangle(triangle);
+		}
+		else
+		{
+			for (size_t i{}; i < m_Vertices.size(); ++i)
+			{
+				if (i == m_Vertices.size() - 1)
+					Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[0], 3.f);
+				else
+					Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[i + 1], 3.f);
+			}
+		}
+	}
+
 	void NavGraphPolygon::Triangulate() noexcept
 	{
 		m_IsTriangulated = true;
+		m_Triangles.clear();
 
-		// Step 1: Decompose the polygon into trapezoids
-
-		// Get the outer Lines of our polygon
-		std::vector<PLinef> outerLines{};
-	
-		for (size_t i{}; i < m_Vertices.size(); ++i)
-		{
-			if (i == m_Vertices.size() - 1)
-				outerLines.push_back(PLinef{ m_Vertices[i], m_Vertices[0] });
-			else
-				outerLines.push_back(PLinef{ m_Vertices[i], m_Vertices[i + 1] });
-		}
-
-		// Sort all vertices by their X coordinate
+		// Use a local copy of the vertices
 		std::vector<Point2f> sortedVertices{ m_Vertices };
 
-		std::sort(sortedVertices.begin(), sortedVertices.end(), [](const Point2f& a, const Point2f& b)->bool
+		// Select a starting point (I'll just take the first vertex in m_Vertices)
+		const Point2f startVertex{ sortedVertices[0] };
+
+		// Sort the vertices based on distance from the startVertex
+		std::sort(sortedVertices.begin(), sortedVertices.end(), [&startVertex](const Point2f& a, const Point2f& b)->bool
 			{
-				if (Utils::AreEqual(a.x, b.x))
-					return a.y < b.y;
-				else
-					return a.x < b.x;
+				return DistanceSquared(a, startVertex) <= DistanceSquared(b, startVertex);
 			});
+
+		// Find the closest point to the starting vertex, which SHOULD be the first element in the sorted vertices
+		const Point2f vertexOne{ sortedVertices[1] }; // take 1, instead of 0, since 0 is startVertex itself
+
+		// Find the point that creates the smallest circumcircle with the startVertex and vertexOne
+		float smallestCircumCircle{ std::numeric_limits<float>::max() };
+		Point2f vertexTwo{};
+		Point2f centerOfCircumCircle{};
+
+		for (const Point2f& p : sortedVertices)
+		{
+			PTrianglef triangle{ startVertex, vertexOne, p };
+
+			const Point2f& center{ GetCenter(triangle) };
+			const float distance{ DistanceSquared(center, p) };
+
+			if (distance <= smallestCircumCircle)
+			{
+				smallestCircumCircle = distance;
+				vertexTwo = p;
+				centerOfCircumCircle = center;
+			}
+		}
+
+		// Order these 3 points for a right handed system(???)
+
+		// Remove these 3 points from our sortedVertices
+		sortedVertices.erase(std::remove_if(sortedVertices.begin(), sortedVertices.end(), [&startVertex, &vertexOne, &vertexTwo](const Point2f& p)->bool
+			{
+				return p == startVertex || p == vertexOne || p == vertexTwo;
+			}), sortedVertices.end());
+
+		// now sort the remaining vertices based on the distance from the center of the circumcircle
+		std::sort(sortedVertices.begin(), sortedVertices.end(), [&centerOfCircumCircle](const Point2f& a, const Point2f& b)->bool
+			{
+				return DistanceSquared(a, centerOfCircumCircle) <= DistanceSquared(b, centerOfCircumCircle);
+			});
+
+		// now start adding these points to the root triangle we made
+		for (size_t i{}; i < sortedVertices.size(); ++i)
+		{
+			m_Triangles.push_back(PTrianglef{ sortedVertices[i], sortedVertices[i + 1], sortedVertices[i + 2] });
+
+			if (i == sortedVertices.size() - 3) // final triangle
+				break; // stop the loop
+		}
 	}
 
 	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f> vertices) noexcept
@@ -68,7 +123,7 @@ namespace Integrian2D
 		m_ChildPolygons.erase(std::remove(m_ChildPolygons.begin(), m_ChildPolygons.end(), childToRemove), m_ChildPolygons.end());
 	}
 
-	Point2f NavGraphPolygon::GetCenter() const noexcept
+	Point2f NavGraphPolygon::GetCenterOfPolygon() const noexcept
 	{
 		Point2f average{};
 

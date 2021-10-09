@@ -11,13 +11,15 @@ namespace Integrian2D
 		NavGraphPolygon(const std::vector<Point2f>& vertices);
 		NavGraphPolygon(const std::vector<Point2f>& outerVertices, const std::vector<std::vector<Point2f>>& innerVertices);
 
+		void Render() const noexcept;
+
 		void Triangulate() noexcept;
 
 		NavGraphPolygon* AddChild(const std::vector<Point2f> vertices) noexcept;
 		void AddChild(const NavGraphPolygon child) noexcept;
 		void RemoveChild(const NavGraphPolygon& childToRemove) noexcept;
 
-		Point2f GetCenter() const noexcept;
+		Point2f GetCenterOfPolygon() const noexcept;
 		bool IsTriangulated() const noexcept;
 		float GetMaxXVertex() const noexcept;
 		float GetMaxYVertex() const noexcept;
