@@ -112,6 +112,10 @@ namespace Integrian2D
 			friend void SetWidth(Polygon<3, Type>& p, const Type _width) noexcept;
 			template<typename Type>
 			friend void SetHeight(Polygon<3, Type>& p, const Type _height) noexcept;
+			template<typename Type>
+			friend Type GetArea(const Polygon<3, Type>& p) noexcept;
+			template<typename Type>
+			friend bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p) noexcept
 
 			Point<2, Type> pointOne, pointTwo, pointThree, center, pivotPoint;
 
@@ -384,6 +388,34 @@ namespace Integrian2D
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
 			SetRotation(p, originalAngle);
+	}
+
+	template<typename Type>
+	Type GetArea(const Polygon<3, Type>& p) noexcept
+	{
+		const Point<2, Type>& pointOne{ p.points.pointOne };
+		const Point<2, Type>& pointTwo{ p.points.pointTwo };
+		const Point<2, Type>& pointThree{ p.points.pointThree };
+
+		return static_cast<Type>(0.5f) * (-pointTwo.y * pointThree.x + pointOne.y * (-pointTwo.x + pointThree.x) +
+			pointOne.x * (pointTwo.y - pointThree.y) + pointTwo.x * pointThree.y);
+	}
+
+	template<typename Type>
+	bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p) noexcept
+	{
+		const Point<2, Type>& pointOne{ t.points.pointOne };
+		const Point<2, Type>& pointTwo{ t.points.pointTwo };
+		const Point<2, Type>& pointThree{ t.points.pointThree };
+		const Type area{ -GetArea(t) }; // since we have clockwise numbering, we need to invert the area
+
+		const Type parameterOne{ static_cast<Type>(1.f) / (static_cast<Type>(2.f) * area) * (pointOne.y * pointThree.x - pointOne.x * pointThree.y +
+			p.x * (pointThree.y - pointOne.y) + p.y * (pointOne.x - pointThree.x)) };
+		const Type parameterTwo{ static_cast<Type>(1.f) / (static_cast<Type>(2.f) * area) * (pointOne.x * pointTwo.y - pointOne.y * pointTwo.x +
+			p.x * (pointOne.y - pointTwo.y) + p.y * (pointTwo.x - pointOne.x) ) };
+
+		return (parameterOne >= static_cast<Type>(0.f)) && (parameterTwo >= static_cast<Type>(0.f)) &&
+			((static_cast<Type>(1.f) - parameterOne - parameterTwo) >= static_cast<Type>(0.f));
 	}
 #pragma endregion
 }
