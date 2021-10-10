@@ -40,15 +40,33 @@ namespace Integrian2D
 		Polygon<2, Type>(const Polygon<2, Type>& other) noexcept
 			: begin{ other.begin }
 			, end{ other.end }
+			, points{ other.points }
+			, width{ other.width }
+			, height{ other.height }
+			, scaleX{ other.scaleX }
+			, scaleY{ other.scaleY }
+			, angle{ other.angle }
 		{}
 		Polygon<2, Type>(Polygon<2, Type>&& other) noexcept
 			: begin{ std::move(other.begin) }
 			, end{ std::move(other.end) }
+			, points{ std::move(other.points) }
+			, width{ std::move(other.width) }
+			, height{ std::move(other.height) }
+			, scaleX{ std::move(other.scaleX) }
+			, scaleY{ std::move(other.scaleY) }
+			, angle{ std::move(other.angle) }
 		{}
 		Polygon<2, Type>& operator=(const Polygon<2, Type>& other) noexcept
 		{
 			begin = other.begin;
 			end = other.end;
+			points = other.points;
+			width = other.width;
+			height = other.height;
+			scaleX = other.scaleX;
+			scaleY = other.scaleY;
+			angle = other.angle;
 
 			return *this;
 		}
@@ -56,6 +74,12 @@ namespace Integrian2D
 		{
 			begin = std::move(other.begin);
 			end = std::move(other.end);
+			points = std::move(other.points);
+			width = std::move(other.width);
+			height = std::move(other.height);
+			scaleX = std::move(other.scaleX);
+			scaleY = std::move(other.scaleY);
+			angle = std::move(other.angle);
 
 			return *this;
 		}
@@ -136,7 +160,7 @@ namespace Integrian2D
 		p.points.center += v;
 		p.points.pivotPoint += v;
 	}
-	
+
 	template<typename Type>
 	void Rotate(Polygon<2, Type>& p, const Type& _angleChange) noexcept
 	{
@@ -144,7 +168,7 @@ namespace Integrian2D
 
 		SetRotation(p, p.angle);
 	}
-	
+
 	template<typename Type>
 	void Scale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
 	{
@@ -153,7 +177,7 @@ namespace Integrian2D
 
 		SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
 	}
-	
+
 	template<typename Type>
 	void SetRotation(Polygon<2, Type>& p, const Type& _angle) noexcept
 	{
@@ -178,7 +202,7 @@ namespace Integrian2D
 		p.end += pivotPoint;
 		p.points.center += pivotPoint;
 	}
-	
+
 	template<typename Type>
 	void SetScale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
 	{
@@ -217,7 +241,7 @@ namespace Integrian2D
 			p.begin.y = center.y - halfHeight * scale.y;
 			p.end.y = center.y + halfHeight * scale.y;
 		}
-		
+
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
 			SetRotation(p, originalAngle);
@@ -240,7 +264,7 @@ namespace Integrian2D
 
 		p.points.center = _center;
 		p.points.pivotPoint = _center; // pivot point is in the center by default
-		
+
 		if (p.begin.x >= p.end.x)
 		{
 			p.begin.x = _center.x + halfWidth;
