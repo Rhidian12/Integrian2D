@@ -163,6 +163,8 @@ namespace Integrian2D
 			iterator& operator++(int) noexcept { iterator tmp = *this; ++(*this); return tmp; }
 			iterator& operator--() noexcept { --m_Pointer; return *this; }
 			iterator& operator--(int) noexcept { iterator tmp = *this; --(*this); return tmp; }
+			iterator& operator+(const int v) noexcept { m_Pointer += v; return *this; }
+			iterator& operator-(const int v) noexcept { m_Pointer -= v; return *this; }
 
 			bool operator==(const iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
 			bool operator!=(const iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
@@ -191,6 +193,8 @@ namespace Integrian2D
 			const_iterator& operator++(int) noexcept { const_iterator tmp = *this; ++(*this); return tmp; }
 			const_iterator& operator--() noexcept { --m_Pointer; return *this; }
 			const_iterator& operator--(int) noexcept { const_iterator tmp = *this; --(*this); return tmp; }
+			const_iterator& operator+(const int v) noexcept { m_Pointer += v; return *this; }
+			const_iterator& operator-(const int v) noexcept { m_Pointer -= v; return *this; }
 
 			bool operator==(const const_iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
 			bool operator!=(const const_iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
