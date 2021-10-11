@@ -2,6 +2,7 @@
 
 #include "Polygon.h"
 #include "Point2.h"
+#include "Vector2.h"
 
 #include <utility>
 
@@ -113,6 +114,8 @@ namespace Integrian2D
 			friend void SetWidth(Polygon<2, Type>& p, const Type _width) noexcept;
 			template<typename Type>
 			friend void SetHeight(Polygon<2, Type>& p, const Type _height) noexcept;
+			template<typename Type>
+			friend bool AreLinesIntersecting(const Polygon<2, Type>& a, const Polygon<2, Type>& b) noexcept;
 
 			Point<2, Type> center, pivotPoint;
 
@@ -386,6 +389,12 @@ namespace Integrian2D
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
 			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+	}
+
+	template<typename Type>
+	bool AreLinesIntersecting(const Polygon<2, Type>& a, const Polygon<2, Type>& b) noexcept
+	{
+		return DoVectorsIntersect(a.begin, Vector<2, Type>{ a.begin, a.end }, b.begin, Vector<2, Type>{ b.begin, b.end }, nullptr);
 	}
 #pragma endregion
 }
