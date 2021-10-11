@@ -315,18 +315,31 @@ namespace Integrian2D
 			// Identify overlapping triangles
 			for (size_t i{}; i < m_Triangles.size(); ++i)
 			{
-				for (size_t j{ i + 1 }; j < m_Triangles.size(); ++j)
+				for (size_t j{}; j < m_Triangles.size(); ++j)
 				{
-					for (int k{}; k < 3; ++k)
+					if (i == j)
+						continue;
+
+					if (AreLinesIntersecting(GetEdgeOne(m_Triangles[i]), GetEdgeOne(m_Triangles[j])))
 					{
-						const Point2f& triangleOnePoint{ *(m_Triangles[i].begin() + k) };
-						if (DoVectorsIntersect(m_Triangles[i].begin() + k, m_Triangles[j].begin() + k, GetEdgeOne(m_Triangles[j])))
-						{
-							if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[i]) == overlappingTriangles.cend())
-								overlappingTriangles.push_back(m_Triangles[i]);
-							if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[j]) == overlappingTriangles.cend())
-								overlappingTriangles.push_back(m_Triangles[j]);
-						}
+						if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[i]) == overlappingTriangles.cend())
+							overlappingTriangles.push_back(m_Triangles[i]);
+						if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[j]) == overlappingTriangles.cend())
+							overlappingTriangles.push_back(m_Triangles[j]);
+					}
+					else if (AreLinesIntersecting(GetEdgeTwo(m_Triangles[i]), GetEdgeOne(m_Triangles[j])))
+					{
+						if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[i]) == overlappingTriangles.cend())
+							overlappingTriangles.push_back(m_Triangles[i]);
+						if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[j]) == overlappingTriangles.cend())
+							overlappingTriangles.push_back(m_Triangles[j]);
+					}
+					else if (AreLinesIntersecting(GetEdgeThree(m_Triangles[i]), GetEdgeOne(m_Triangles[j])))
+					{
+						if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[i]) == overlappingTriangles.cend())
+							overlappingTriangles.push_back(m_Triangles[i]);
+						if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[j]) == overlappingTriangles.cend())
+							overlappingTriangles.push_back(m_Triangles[j]);
 					}
 				}
 			}
