@@ -32,31 +32,14 @@ namespace Integrian2D
 			for (const PTrianglef& triangle : m_Triangles)
 				Renderer::GetInstance()->RenderTriangle(triangle);
 		}
-		else
+
+		for (size_t i{}; i < m_Vertices.size(); ++i)
 		{
-			for (size_t i{}; i < m_Vertices.size(); ++i)
-			{
-				if (i == m_Vertices.size() - 1)
-					Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[0], 3.f);
-				else
-					Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[i + 1], 3.f);
-			}
+			if (i == m_Vertices.size() - 1)
+				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[0], 3.f);
+			else
+				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[i + 1], 3.f);
 		}
-
-		const float minX{ GetMinXVertex() };
-		const float minY{ GetMinYVertex() };
-		const float maxX{ GetMaxXVertex() };
-		const float maxY{ GetMaxYVertex() };
-
-		const float deltaX{ maxX - minX };
-		const float deltaY{ maxY - minY };
-		const float biggestDifference{ std::max(deltaX, deltaY) };
-
-		const PTrianglef superTriangle{ Point2f{minX - biggestDifference, minY - biggestDifference},
-			Point2f{GetCenterOfPolygon().x, maxY + biggestDifference},
-			Point2f{maxX + biggestDifference, minY - biggestDifference} };
-
-		Renderer::GetInstance()->RenderTriangle(superTriangle);
 	}
 
 	//void NavGraphPolygon::Triangulate() noexcept
@@ -219,71 +202,229 @@ namespace Integrian2D
 	//		}), m_Triangles.end());
 	//}
 
+	//void NavGraphPolygon::Triangulate() noexcept
+	//{
+	//	m_IsTriangulated = true;
+	//	m_Triangles.clear();
+
+	//	// Use a local copy of the vertices
+	//	std::vector<Point2f> sortedVertices{ m_Vertices };
+
+	//	// Select a starting point (I'll just take the first vertex in m_Vertices)
+	//	const Point2f startVertex{ sortedVertices[0] };
+
+	//	// Remove the start vertex from our vertices
+	//	sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), startVertex), sortedVertices.end());
+
+	//	// Sort the vertices based on distance from the startVertex
+	//	std::sort(sortedVertices.begin(), sortedVertices.end(), [&startVertex](const Point2f& a, const Point2f& b)->bool
+	//		{
+	//			return DistanceSquared(a, startVertex) <= DistanceSquared(b, startVertex);
+	//		});
+
+	//	// Find the closest point to the starting vertex, which SHOULD be the first element in the sorted vertices
+	//	const Point2f vertexOne{ sortedVertices[0] };
+
+	//	// Remove vertexOne from our vertices
+	//	sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), vertexOne), sortedVertices.end());
+
+	//	// Find the point that creates the smallest circumcircle with the startVertex and vertexOne
+	//	float smallestCircumCircle{ std::numeric_limits<float>::max() };
+	//	Point2f vertexTwo{};
+	//	Point2f centerOfCircumCircle{};
+
+	//	for (const Point2f& p : sortedVertices)
+	//	{
+	//		PTrianglef triangle{ startVertex, vertexOne, p };
+
+	//		const Point2f& center{ GetCenter(triangle) };
+	//		const float distance{ DistanceSquared(center, p) };
+
+	//		if (distance <= smallestCircumCircle)
+	//		{
+	//			smallestCircumCircle = distance;
+	//			vertexTwo = p;
+	//			centerOfCircumCircle = center;
+	//		}
+	//	}
+
+	//	// Order these 3 points for a right handed system(???)
+
+	//	// Remove vertexTwo from our vertices
+	//	sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), vertexTwo), sortedVertices.end());
+
+	//	// now sort the remaining vertices based on the distance from the center of the circumcircle
+	//	std::sort(sortedVertices.begin(), sortedVertices.end(), [&centerOfCircumCircle](const Point2f& a, const Point2f& b)->bool
+	//		{
+	//			return DistanceSquared(a, centerOfCircumCircle) <= DistanceSquared(b, centerOfCircumCircle);
+	//		});
+
+	//	// now start adding these points to the root triangle we made
+	//	for (size_t i{}; i < sortedVertices.size(); ++i)
+	//	{
+	//		m_Triangles.push_back(PTrianglef{ sortedVertices[i], sortedVertices[i + 2], sortedVertices[i + 1] });
+
+	//		if (i == sortedVertices.size() - 3) // final triangle
+	//			break; // stop the loop
+	//	}
+	//}
+
 	void NavGraphPolygon::Triangulate() noexcept
 	{
 		m_IsTriangulated = true;
 		m_Triangles.clear();
 
-		// Use a local copy of the vertices
-		std::vector<Point2f> sortedVertices{ m_Vertices };
+		std::vector<Point2f> vertices{ m_Vertices };
 
-		// Select a starting point (I'll just take the first vertex in m_Vertices)
-		const Point2f startVertex{ sortedVertices[0] };
+		const Point2f& startVertex{ m_Vertices[0] };
 
-		// Remove the start vertex from our vertices
-		sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), startVertex), sortedVertices.end());
+		vertices.erase(std::remove(vertices.begin(), vertices.end(), startVertex), vertices.end());
 
-		// Sort the vertices based on distance from the startVertex
-		std::sort(sortedVertices.begin(), sortedVertices.end(), [&startVertex](const Point2f& a, const Point2f& b)->bool
+		std::sort(vertices.begin(), vertices.end(), [&startVertex](const Point2f& a, const Point2f& b)->bool
 			{
 				return DistanceSquared(a, startVertex) <= DistanceSquared(b, startVertex);
 			});
 
-		// Find the closest point to the starting vertex, which SHOULD be the first element in the sorted vertices
-		const Point2f vertexOne{ sortedVertices[0] };
-
-		// Remove vertexOne from our vertices
-		sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), vertexOne), sortedVertices.end());
-
-		// Find the point that creates the smallest circumcircle with the startVertex and vertexOne
-		float smallestCircumCircle{ std::numeric_limits<float>::max() };
-		Point2f vertexTwo{};
-		Point2f centerOfCircumCircle{};
-
-		for (const Point2f& p : sortedVertices)
+		for (size_t i{}; i < vertices.size(); ++i)
 		{
-			PTrianglef triangle{ startVertex, vertexOne, p };
-
-			const Point2f& center{ GetCenter(triangle) };
-			const float distance{ DistanceSquared(center, p) };
-
-			if (distance <= smallestCircumCircle)
+			if (!Utils::AreEqual(startVertex.x, vertices[i].x) || !Utils::AreEqual(startVertex.x, vertices[i + 1].x))
 			{
-				smallestCircumCircle = distance;
-				vertexTwo = p;
-				centerOfCircumCircle = center;
+				if (!Utils::AreEqual(startVertex.y, vertices[i].y) || !Utils::AreEqual(startVertex.y, vertices[i + 1].y))
+				{
+					m_Triangles.push_back(PTrianglef{ startVertex, vertices[i], vertices[i + 1] });
+					break;
+				}
 			}
 		}
 
-		// Order these 3 points for a right handed system(???)
-
-		// Remove vertexTwo from our vertices
-		sortedVertices.erase(std::remove(sortedVertices.begin(), sortedVertices.end(), vertexTwo), sortedVertices.end());
-
-		// now sort the remaining vertices based on the distance from the center of the circumcircle
-		std::sort(sortedVertices.begin(), sortedVertices.end(), [&centerOfCircumCircle](const Point2f& a, const Point2f& b)->bool
-			{
-				return DistanceSquared(a, centerOfCircumCircle) <= DistanceSquared(b, centerOfCircumCircle);
-			});
-
-		// now start adding these points to the root triangle we made
-		for (size_t i{}; i < sortedVertices.size(); ++i)
+		for (size_t i{ 1 }; i < vertices.size(); ++i)
 		{
-			m_Triangles.push_back(PTrianglef{ sortedVertices[i], sortedVertices[i + 2], sortedVertices[i + 1] });
+			m_Triangles.push_back(PTrianglef{ vertices[i], vertices[i + 2], vertices[i + 1] });
 
-			if (i == sortedVertices.size() - 3) // final triangle
+			if (i == vertices.size() - 3) // final triangle
 				break; // stop the loop
 		}
+
+		std::vector<PTrianglef> overlappingTriangles{};
+
+		bool areThereNoOverlappingTriangles{ false };
+		do
+		{
+			overlappingTriangles.clear();
+
+			// Identify overlapping triangles
+			for (size_t i{}; i < m_Triangles.size(); ++i)
+			{
+				for (size_t j{ i + 1 }; j < m_Triangles.size(); ++j)
+				{
+					for (int k{}; k < 3; ++k)
+					{
+						const Point2f& triangleOnePoint{ *(m_Triangles[i].begin() + k) };
+						if (DoVectorsIntersect(m_Triangles[i].begin() + k, m_Triangles[j].begin() + k, GetEdgeOne(m_Triangles[j])))
+						{
+							if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[i]) == overlappingTriangles.cend())
+								overlappingTriangles.push_back(m_Triangles[i]);
+							if (std::find(overlappingTriangles.cbegin(), overlappingTriangles.cend(), m_Triangles[j]) == overlappingTriangles.cend())
+								overlappingTriangles.push_back(m_Triangles[j]);
+						}
+					}
+				}
+			}
+
+			// Make new non overlapping triangles
+			std::vector<Point2f> unusedVertices{};
+			for (const PTrianglef& t : overlappingTriangles)
+			{
+				m_Triangles.erase(std::remove(m_Triangles.begin(), m_Triangles.end(), t), m_Triangles.end());
+
+				for (const Point2f& p : t)
+					unusedVertices.push_back(p);
+			}
+
+			unusedVertices.erase(std::unique(unusedVertices.begin(), unusedVertices.end()), unusedVertices.end());
+
+			for (size_t i{}; i < overlappingTriangles.size(); ++i)
+			{
+				if (unusedVertices.size() > 2)
+				{
+					int indexOne{ int(rand() % unusedVertices.size()) };
+					int indexTwo{ int(rand() % unusedVertices.size()) };
+					int indexThree{ int(rand() % unusedVertices.size()) };
+
+					while (indexOne == indexTwo || indexOne == indexThree || indexTwo == indexThree)
+					{
+						indexTwo = int(rand() % unusedVertices.size());
+						indexOne = int(rand() % unusedVertices.size());
+						indexThree = int(rand() % unusedVertices.size());
+					}
+
+					m_Triangles.push_back(PTrianglef{ unusedVertices[indexOne], unusedVertices[indexTwo], unusedVertices[indexThree] });
+				}
+				else if (unusedVertices.size() == 2)
+				{
+					int indexOne{ int(rand() % unusedVertices.size()) };
+					int indexTwo{ int(rand() % unusedVertices.size()) };
+
+					while (indexOne == indexTwo)
+					{
+						indexOne = int(rand() % unusedVertices.size());
+						indexTwo = int(rand() % unusedVertices.size());
+					}
+
+					float distance{ std::numeric_limits<float>::max() };
+					const Point2f centerPoint{ (unusedVertices[indexOne] + unusedVertices[indexTwo]) / 2.f };
+					Point2f thirdVertex{};
+					do
+					{
+						thirdVertex = *std::find_if(m_Vertices.cbegin(), m_Vertices.cend(), [&distance, &centerPoint](const Point2f& a)->bool
+							{
+								const float newDistance{ DistanceSquared(a, centerPoint) };
+								if (newDistance <= distance)
+								{
+									distance = newDistance;
+									return true;
+								}
+								else
+									return false;
+							});
+					} while (thirdVertex == unusedVertices[indexOne] || thirdVertex == unusedVertices[indexTwo]);
+
+					m_Triangles.push_back(PTrianglef{ unusedVertices[indexOne], unusedVertices[indexTwo], thirdVertex });
+				}
+				else if (unusedVertices.size() == 1)
+				{
+					int indexOne{ int(rand() % unusedVertices.size()) };
+					Point2f closestVertices[2]{ Point2f{}, Point2f{} };
+
+					for (int j{}; j < 2; ++j)
+					{
+						float distance{ std::numeric_limits<float>::max() };
+						Point2f newVertex{};
+						do
+						{
+							newVertex = *std::find_if(m_Vertices.cbegin(), m_Vertices.cend(), [&distance, &unusedVertices, indexOne](const Point2f& a)->bool
+								{
+									const float newDistance{ DistanceSquared(a, unusedVertices[indexOne]) };
+									if (newDistance <= distance)
+									{
+										distance = newDistance;
+										return true;
+									}
+									else
+										return false;
+								});
+						} while (newVertex == unusedVertices[indexOne] || newVertex == closestVertices[(j == 0 ? 1 : 0)]);
+					}
+
+					m_Triangles.push_back(PTrianglef{ unusedVertices[indexOne], closestVertices[0], closestVertices[1] });
+				}
+				else
+					break;
+			}
+
+			areThereNoOverlappingTriangles = overlappingTriangles.empty();
+
+		} while (!areThereNoOverlappingTriangles);
 	}
 
 	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f> vertices) noexcept
