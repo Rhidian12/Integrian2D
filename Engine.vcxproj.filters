@@ -257,5 +257,8 @@
     <ClInclude Include="Math\PLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NavigationGraph\NavGraphPolygon\delaunator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
