@@ -56,13 +56,13 @@ namespace Integrian2D
 			pG->LateUpdate();
 	}
 
-	void GameObject::Render() const
+	void GameObject::Render(const Point2f& offset) const
 	{
 		for (Component* pC : m_pComponents)
-			pC->Render();
+			pC->Render(pTransform->GetPosition());
 
 		for (GameObject* pG : m_pChildren)
-			pG->Render();
+			pG->Render(pTransform->GetPosition());
 	}
 
 	void GameObject::AddComponent(Component* pComponent) noexcept

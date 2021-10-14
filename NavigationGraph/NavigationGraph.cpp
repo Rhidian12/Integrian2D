@@ -33,10 +33,10 @@ namespace Integrian2D
 		}
 	}
 
-	void NavigationGraph::Render() const
+	void NavigationGraph::Render(const Point2f& offset) const
 	{
 		for (const NavGraphPolygon& polygon : m_Polygons)
-			polygon.Render();
+			polygon.Render(offset);
 	}
 
 	void NavigationGraph::AddPolygon(const NavGraphPolygon& polygon, const bool allowDuplicatePolygons) noexcept

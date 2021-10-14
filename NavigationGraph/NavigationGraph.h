@@ -16,7 +16,7 @@ namespace Integrian2D
 		virtual Component* Clone(GameObject* pOwner) noexcept override;
 
 		virtual void Update() override;
-		virtual void Render() const override;
+		virtual void Render(const Point2f& offset) const override;
 
 		void AddPolygon(const NavGraphPolygon& polygon, const bool allowDuplicatePolygons = false) noexcept;
 		void RemovePolygon(const NavGraphPolygon& polygonToRemove) noexcept;

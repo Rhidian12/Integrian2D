@@ -17,7 +17,7 @@ namespace Integrian2D
 		bool CheckCollision(const Point2f& point) noexcept;
 
 		virtual void FixedUpdate() override;
-		virtual void Render() const override;
+		virtual void Render(const Point2f& offset) const override;
 
 		void SetRenderDebug(const bool render) noexcept;
 		void SetRenderDebugColour(const RGBColour colour) noexcept;

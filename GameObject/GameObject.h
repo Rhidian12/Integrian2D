@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Math/TypeDefines.h"
+
 #include <vector>
 #include <string>
 #include <typeinfo>
@@ -19,7 +21,7 @@ namespace Integrian2D
 		void FixedUpdate();
 		void LateUpdate();
 
-		void Render() const;
+		void Render(const Point2f& offset) const;
 
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
 		Type* const GetComponentByType() const noexcept;

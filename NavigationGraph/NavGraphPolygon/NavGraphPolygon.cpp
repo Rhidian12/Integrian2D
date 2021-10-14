@@ -26,14 +26,14 @@ namespace Integrian2D
 			AddChild(vector);
 	}
 
-	void NavGraphPolygon::Render() const noexcept
+	void NavGraphPolygon::Render(const Point2f& offset) const noexcept
 	{
 		for (size_t i{}; i < m_Vertices.size(); ++i)
 		{
-			if (i == m_Vertices.size() - 1)
-				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[0], 3.f);
-			else
+			if (i != m_Vertices.size() - 1)
 				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[i + 1], 3.f);
+			else
+				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[0], 3.f);
 		}
 
 		if (m_IsTriangulated)

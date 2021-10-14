@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Math/TypeDefines.h"
+
 namespace Integrian2D
 {
 	class GameObject;
@@ -21,7 +23,7 @@ namespace Integrian2D
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}
 
-		virtual void Render() const {}
+		virtual void Render(const Point2f&) const {}
 
 		void SetOwner(GameObject* const pOwner) noexcept;
 		GameObject* const GetOwner() const noexcept;
