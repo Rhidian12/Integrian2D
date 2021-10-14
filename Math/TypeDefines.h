@@ -8,6 +8,7 @@
 #include "Vector2.h"
 
 #include "Rect.h"
+#include "Triangle.h"
 
 #include "Polygon.h"
 #include "PLine.h"
@@ -27,6 +28,7 @@ namespace Integrian2D
 	typedef Vector<3, float> Vector3f;
 
 	typedef Rect<float> Rectf;
+	typedef Triangle<float> Trianglef;
 
 	typedef Polygon<2, float> PLinef;
 	typedef Polygon<3, float> PTrianglef;
