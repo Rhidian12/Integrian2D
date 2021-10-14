@@ -260,5 +260,8 @@
     <ClInclude Include="NavigationGraph\NavGraphPolygon\delaunator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
