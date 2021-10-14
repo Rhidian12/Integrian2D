@@ -85,6 +85,8 @@ public:
 
 		m_pGameObject->AddComponent(new NavigationGraph{ m_pGameObject, polygons });
 
+		m_pGameObject->pTransform->Translate(Vector2f{ 50,50 });
+
 		AddGameObject("Test", m_pGameObject);
 	}
 

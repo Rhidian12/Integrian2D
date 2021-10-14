@@ -59,10 +59,10 @@ namespace Integrian2D
 	void GameObject::Render(const Point2f& offset) const
 	{
 		for (Component* pC : m_pComponents)
-			pC->Render(pTransform->GetPosition());
+			pC->Render(offset + pTransform->GetPosition());
 
 		for (GameObject* pG : m_pChildren)
-			pG->Render(pTransform->GetPosition());
+			pG->Render(offset + pTransform->GetPosition());
 	}
 
 	void GameObject::AddComponent(Component* pComponent) noexcept

@@ -31,14 +31,22 @@ namespace Integrian2D
 		for (size_t i{}; i < m_Vertices.size(); ++i)
 		{
 			if (i != m_Vertices.size() - 1)
-				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[i + 1], 3.f);
+				Renderer::GetInstance()->RenderLine(Point2f{ m_Vertices[i].x + offset.x, m_Vertices[i].y + offset.y },
+					Point2f{ m_Vertices[i + 1].x + offset.x, m_Vertices[i + 1].y + offset.y }, 3.f);
 			else
-				Renderer::GetInstance()->RenderLine(m_Vertices[i], m_Vertices[0], 3.f);
+				Renderer::GetInstance()->RenderLine(Point2f{ m_Vertices[i].x + offset.x, m_Vertices[i].y + offset.y },
+					Point2f{ m_Vertices[0].x + offset.x, m_Vertices[0].y + offset.y }, 3.f);
 		}
 
 		if (m_IsTriangulated)
-			for (const PTrianglef& triangle : m_Triangles)
+		{
+			for (PTrianglef& triangle : m_Triangles)
+			{
+				Translate(triangle, Vector2f{ offset.x, offset.y });
 				Renderer::GetInstance()->RenderTriangle(triangle, RGBColour{ 0, 255, 0 });
+				Translate(triangle, Vector2f{ -offset.x, -offset.y });
+			}
+		}
 	}
 
 	void NavGraphPolygon::Triangulate() noexcept
@@ -58,7 +66,7 @@ namespace Integrian2D
 
 		for (size_t i{}; i < triangulator.triangles.size(); i += 3)
 		{
-			m_Triangles.push_back(PTrianglef{ 
+			m_Triangles.push_back(PTrianglef{
 				Point2f{static_cast<float>(triangulator.coords[2 * triangulator.triangles[i]]), static_cast<float>(triangulator.coords[2 * triangulator.triangles[i] + 1])},
 				Point2f{static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 1]]), static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 1] + 1])},
 				Point2f{static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 2]]), static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 2] + 1])}

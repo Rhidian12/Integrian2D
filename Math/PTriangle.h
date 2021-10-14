@@ -27,6 +27,7 @@ namespace Integrian2D
 		//	  /					 \
 		// pointOne ========= pointThree
 		explicit Polygon<3, Type>()
+			: Polygon<3, Type>{ Point<2, Type>{}, static_cast<Type>(0.f), static_cast<Type>(0.f), Point<2, Type>{static_cast<Type>(1.f), static_cast<Type>(1.f)}, static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<3, Type>(const Point<2, Type>& _center, const Type& _width, const Type& _height)
 			: Polygon<3, Type>{ _center, _width, _height, Point<2, Type>{static_cast<Type>(1.f), static_cast<Type>(1.f)}, static_cast<Type>(0.f) }
