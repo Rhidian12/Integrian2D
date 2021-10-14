@@ -39,14 +39,9 @@ namespace Integrian2D
 		}
 
 		if (m_IsTriangulated)
-		{
-			for (PTrianglef& triangle : m_Triangles)
-			{
-				Translate(triangle, Vector2f{ offset.x, offset.y });
-				Renderer::GetInstance()->RenderTriangle(triangle, RGBColour{ 0, 255, 0 });
-				Translate(triangle, Vector2f{ -offset.x, -offset.y });
-			}
-		}
+			for (const Trianglef& triangle : m_Triangles)
+				Renderer::GetInstance()->RenderTriangle(Trianglef{ triangle.leftPoint + offset,
+					triangle.topPoint + offset, triangle.rightPoint + offset }, RGBColour{ 0, 255, 0 });
 	}
 
 	void NavGraphPolygon::Triangulate() noexcept
@@ -66,7 +61,7 @@ namespace Integrian2D
 
 		for (size_t i{}; i < triangulator.triangles.size(); i += 3)
 		{
-			m_Triangles.push_back(PTrianglef{
+			m_Triangles.push_back(Trianglef{
 				Point2f{static_cast<float>(triangulator.coords[2 * triangulator.triangles[i]]), static_cast<float>(triangulator.coords[2 * triangulator.triangles[i] + 1])},
 				Point2f{static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 1]]), static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 1] + 1])},
 				Point2f{static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 2]]), static_cast<float>(triangulator.coords[2 * triangulator.triangles[i + 2] + 1])}

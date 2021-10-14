@@ -128,6 +128,18 @@ namespace Integrian2D
 		glEnd();
 	}
 
+	void Renderer::RenderTriangle(const Trianglef& triangle, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_LINE_LOOP);
+		{
+			glVertex2f(triangle.leftPoint.x, triangle.leftPoint.y);
+			glVertex2f(triangle.topPoint.x, triangle.topPoint.y);
+			glVertex2f(triangle.rightPoint.x, triangle.rightPoint.y);
+		}
+		glEnd();
+	}
+
 	void Renderer::RenderFilledTriangle(const PTrianglef& triangle, const RGBColour& colour) noexcept
 	{
 		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
@@ -135,6 +147,18 @@ namespace Integrian2D
 		{
 			for (const Point2f& p : triangle)
 				glVertex2f(p.x, p.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderFilledTriangle(const Trianglef& triangle, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_POLYGON);
+		{
+			glVertex2f(triangle.leftPoint.x, triangle.leftPoint.y);
+			glVertex2f(triangle.topPoint.x, triangle.topPoint.y);
+			glVertex2f(triangle.rightPoint.x, triangle.rightPoint.y);
 		}
 		glEnd();
 	}

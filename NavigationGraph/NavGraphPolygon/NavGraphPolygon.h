@@ -32,7 +32,7 @@ namespace Integrian2D
 	private:
 		std::vector<Point2f> m_Vertices; // outer vertices of the polygon
 		std::vector<NavGraphPolygon> m_ChildPolygons; // inner polygons of this polygon
-		std::vector<PTrianglef> m_Triangles; // Used for rendering
+		std::vector<Trianglef> m_Triangles; // Used for rendering
 
 		bool m_IsTriangulated;
 	};
