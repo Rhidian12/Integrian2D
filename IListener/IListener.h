@@ -1,4 +1,7 @@
 #pragma once
+
+#include "../EventQueue/Event/Event.h"
+
 namespace Integrian2D
 {
 	class IListener
