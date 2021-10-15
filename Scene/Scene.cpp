@@ -38,7 +38,7 @@ namespace Integrian2D
 	void Scene::RootRender() const
 	{
 		for (const std::pair<const std::string, GameObject*>& pG : m_pGameObjects)
-			pG.second->Render(Point2f{});
+			pG.second->Render();
 	}
 
 	void Scene::AddGameObject(std::string gameObjectName, GameObject* const pGameObject) noexcept

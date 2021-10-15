@@ -102,18 +102,18 @@ namespace Integrian2D
 	const Point2f TransformComponent::GetWorldPosition() const noexcept
 	{
 		GameObject* pParent{ m_pOwner->GetParent() };
-		Point2f worldPosition{ GetPosition() };
+		Point2f worldPosition{ GetLocalPosition() };
 
 		while (pParent)
 		{
-			worldPosition += pParent->pTransform->GetPosition();
+			worldPosition += pParent->pTransform->GetLocalPosition();
 			pParent = pParent->GetParent();
 		}
 
 		return worldPosition;
 	}
 
-	const Point2f TransformComponent::GetPosition() const noexcept
+	const Point2f TransformComponent::GetLocalPosition() const noexcept
 	{
 		return Point2f{ m_TransformationMatrix(0,2), m_TransformationMatrix(1,2) };
 
@@ -154,8 +154,8 @@ namespace Integrian2D
 		RectColliderComponent* pRectCollider{ m_pOwner->GetComponentByType<RectColliderComponent>() };
 
 		if (pRectCollider)
-			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, m_Angle, m_Scale.x, m_Scale.y };
+			return PRectf{ GetLocalPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, m_Angle, m_Scale.x, m_Scale.y };
 		else
-			return PRectf{ GetPosition(), 0.f, 0.f, m_Angle, m_Scale.x, m_Scale.y };
+			return PRectf{ GetLocalPosition(), 0.f, 0.f, m_Angle, m_Scale.x, m_Scale.y };
 	}
 }

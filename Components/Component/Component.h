@@ -23,7 +23,7 @@ namespace Integrian2D
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}
 
-		virtual void Render(const Point2f&) const {}
+		virtual void Render() const {}
 
 		void SetOwner(GameObject* const pOwner) noexcept;
 		GameObject* const GetOwner() const noexcept;

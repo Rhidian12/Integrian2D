@@ -1,4 +1,6 @@
 #include "NavigationGraph.h"
+#include "../GameObject/GameObject.h"
+#include "../Components/TransformComponent/TransformComponent.h"
 
 #include <algorithm>
 
@@ -33,10 +35,10 @@ namespace Integrian2D
 		}
 	}
 
-	void NavigationGraph::Render(const Point2f& offset) const
+	void NavigationGraph::Render() const
 	{
 		for (const NavGraphPolygon& polygon : m_Polygons)
-			polygon.Render(offset);
+			polygon.Render(m_pOwner->pTransform->GetWorldPosition());
 	}
 
 	void NavigationGraph::AddPolygon(const NavGraphPolygon& polygon, const bool allowDuplicatePolygons) noexcept

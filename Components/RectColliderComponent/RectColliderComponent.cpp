@@ -52,15 +52,16 @@ namespace Integrian2D
 
 	void RectColliderComponent::FixedUpdate()
 	{
-		SetCenter(m_Collider, m_pOwner->pTransform->GetPosition());
+		SetCenter(m_Collider, m_pOwner->pTransform->GetLocalPosition());
 	}
 
-	void RectColliderComponent::Render(const Point2f& offset) const
+	void RectColliderComponent::Render() const
 	{
 		if (m_RenderDebugBox)
 		{
 			const Point2f& leftBottom{ GetLeftBottom(m_Collider) };
-			Renderer::GetInstance()->RenderRectangle(PRectf{ leftBottom.x + offset.x, leftBottom.y + offset.y, m_Collider.width, m_Collider.height }, m_ColliderColour);
+			const Point2f worldPosition{ m_pOwner->pTransform->GetWorldPosition() };
+			Renderer::GetInstance()->RenderRectangle(PRectf{ leftBottom.x + worldPosition.x, leftBottom.y + worldPosition.y, m_Collider.width, m_Collider.height }, m_ColliderColour);
 		}
 	}
 

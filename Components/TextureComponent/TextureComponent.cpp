@@ -45,7 +45,7 @@ namespace Integrian2D
 		}
 	}
 
-	void TextureComponent::Render(const Point2f& offset) const
+	void TextureComponent::Render() const
 	{
 		PRectf destRect{ m_pOwner->pTransform->GetDestRect() };
 
@@ -61,8 +61,9 @@ namespace Integrian2D
 		}
 
 		const Point2f& leftBottom{ GetLeftBottom(destRect) };
+		const Point2f worldPosition{ m_pOwner->pTransform->GetWorldPosition() };
 
-		Renderer::GetInstance()->RenderTexture(m_pTexture, PRectf{ leftBottom.x + offset.x, leftBottom.y + offset.y, destRect.width, destRect.height }, m_SourceRect);
+		Renderer::GetInstance()->RenderTexture(m_pTexture, PRectf{ leftBottom.x + worldPosition.x, leftBottom.y + worldPosition.y, destRect.width, destRect.height }, m_SourceRect);
 	}
 
 	Component* TextureComponent::Clone(GameObject* pOwner) noexcept

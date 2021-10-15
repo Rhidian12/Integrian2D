@@ -15,7 +15,7 @@ namespace Integrian2D
 		virtual void FixedUpdate() override;
 
 		const Point2f GetWorldPosition() const noexcept;
-		const Point2f GetPosition() const noexcept;
+		const Point2f GetLocalPosition() const noexcept;
 
 		void Translate(const Vector2f& velocity) noexcept;
 		void Rotate(const float angleRadians) noexcept;

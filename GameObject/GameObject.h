@@ -21,7 +21,7 @@ namespace Integrian2D
 		void FixedUpdate();
 		void LateUpdate();
 
-		void Render(const Point2f& offset) const;
+		void Render() const;
 
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
 		Type* const GetComponentByType() const noexcept;
