@@ -27,4 +27,9 @@ namespace Integrian2D
 	{
 		return &SceneManager::GetInstance()->GetActiveScene()->physicsEngine;
 	}
+	
+	EventQueue* const Locator::GetEventQueue() const noexcept
+	{
+		return &SceneManager::GetInstance()->GetActiveScene()->eventQueue;
+	}
 }

@@ -4,6 +4,7 @@ namespace Integrian2D
 {
 	class InputManager;
 	class PhysicsEngine;
+	class EventQueue;
 
 	class Locator final
 	{
@@ -13,6 +14,7 @@ namespace Integrian2D
 
 		InputManager* const GetInputManager() const noexcept;
 		PhysicsEngine* const GetPhysicsEngine() const noexcept;
+		EventQueue* const GetEventQueue() const noexcept;
 
 	private:
 		Locator() = default;
