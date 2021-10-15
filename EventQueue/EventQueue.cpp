@@ -5,6 +5,11 @@
 
 namespace Integrian2D
 {
+	EventQueue::EventQueue()
+		: m_Events{}
+		, m_pListeners{}
+	{}
+
 	void EventQueue::QueueEvent(const Event& event) noexcept
 	{
 		m_Events.push_back(event);
