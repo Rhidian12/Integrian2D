@@ -7,6 +7,7 @@ namespace Integrian2D
 	class IListener
 	{
 	public:
+		IListener();
 		virtual ~IListener() = default;
 
 		virtual bool OnEvent(const Event&) = 0;
