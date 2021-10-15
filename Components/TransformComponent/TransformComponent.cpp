@@ -99,6 +99,20 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
+	const Point2f TransformComponent::GetWorldPosition() const noexcept
+	{
+		GameObject* pParent{ m_pOwner->GetParent() };
+		Point2f worldPosition{ GetPosition() };
+
+		while (pParent)
+		{
+			worldPosition += pParent->pTransform->GetPosition();
+			pParent = pParent->GetParent();
+		}
+
+		return worldPosition;
+	}
+
 	const Point2f TransformComponent::GetPosition() const noexcept
 	{
 		return Point2f{ m_TransformationMatrix(0,2), m_TransformationMatrix(1,2) };
