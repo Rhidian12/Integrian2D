@@ -29,8 +29,10 @@ namespace Integrian2D
 		void AddComponent(Component* pComponent) noexcept;
 		void AddChild(GameObject* pChild) noexcept;
 
+		void SetParent(GameObject* const pParent) noexcept;
 		void SetTag(std::string tag) noexcept;
 
+		GameObject* GetParent() const noexcept;
 		const std::string& GetTag() const noexcept;
 
 		TransformComponent* pTransform;
@@ -43,6 +45,7 @@ namespace Integrian2D
 	private:
 		std::vector<Component*> m_pComponents;
 		std::vector<GameObject*> m_pChildren;
+		GameObject* m_pParent;
 
 		std::string m_Tag;
 	};

@@ -12,6 +12,7 @@ namespace Integrian2D
 		: m_pComponents{}
 		, m_pChildren{}
 		, m_Tag{}
+		, m_pParent{}
 		, pTransform{ new TransformComponent{ this } }
 	{
 	}
@@ -85,9 +86,19 @@ namespace Integrian2D
 			Logger::LogWarning("GameObject::AddChild() > Child is already present and is not added twice!");
 	}
 
+	void GameObject::SetParent(GameObject* const pParent) noexcept
+	{
+		m_pParent = pParent;
+	}
+
 	void GameObject::SetTag(std::string tag) noexcept
 	{
 		m_Tag = tag;
+	}
+
+	GameObject* GameObject::GetParent() const noexcept
+	{
+		return m_pParent;
 	}
 
 	const std::string& GameObject::GetTag() const noexcept
@@ -107,6 +118,7 @@ namespace Integrian2D
 		: m_pComponents{}
 		, m_pChildren{}
 		, m_Tag{ other.m_Tag }
+		, m_pParent{ other.m_pParent }
 		, pTransform{ static_cast<TransformComponent*>(other.pTransform->Clone(this)) }
 	{
 		for (Component* pC : other.m_pComponents)
@@ -119,6 +131,7 @@ namespace Integrian2D
 		: m_pComponents{ std::forward<std::vector<Component*>>(other.m_pComponents) }
 		, m_pChildren{ std::forward<std::vector<GameObject*>>(other.m_pChildren) }
 		, m_Tag{ std::forward<std::string>(other.m_Tag) }
+		, m_pParent{ std::forward<GameObject*>(other.m_pParent) }
 		, pTransform{ std::forward<TransformComponent*>(other.pTransform) }
 	{
 		pTransform->SetOwner(this);
@@ -140,6 +153,7 @@ namespace Integrian2D
 		for (GameObject* pG : other.m_pChildren)
 			m_pChildren.push_back(new GameObject{ *pG });
 
+		m_pParent = other.m_pParent;
 		m_Tag = other.m_Tag;
 
 		return *this;
@@ -151,6 +165,7 @@ namespace Integrian2D
 
 		m_pComponents = std::forward<std::vector<Component*>>(other.m_pComponents);
 		m_pChildren = std::forward<std::vector<GameObject*>>(other.m_pChildren);
+		m_pParent = std::forward<GameObject*>(m_pParent);
 		m_Tag = std::forward<std::string>(other.m_Tag);
 
 		for (Component* pC : m_pComponents)
