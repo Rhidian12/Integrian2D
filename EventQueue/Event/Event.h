@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 namespace Integrian2D
 {
@@ -36,24 +37,16 @@ namespace Integrian2D
 			, m_pData{ new EventData<Type>{data} }
 		{}
 
-		Event(const Event&) = delete;
-		Event& operator=(const Event&) = delete;
-
-		Event(Event&& other) noexcept;
-		Event& operator=(Event&& other) noexcept;
-
-		~Event();
-
 		const std::string& GetEvent() const noexcept;
 		
 		template<typename Type>
 		const Type& GetData() const noexcept
 		{
-			return static_cast<EventData<Type>*>(m_pData)->GetData();
+			return static_cast<EventData<Type>*>(m_pData.get())->GetData();
 		}
 
 	private:
 		std::string m_Event;
-		IEventData* m_pData;
+		std::shared_ptr<IEventData> m_pData;
 	};
 }
