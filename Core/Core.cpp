@@ -7,6 +7,7 @@
 #include "../TextureManager/TextureManager.h"
 #include "../Locator/Locator.h"
 #include "../Timer/Timer.h"
+#include "../ThreadManager/ThreadManager.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -35,6 +36,7 @@ namespace Integrian2D
 		TextureManager::Cleanup();
 		Locator::Cleanup();
 		Timer::Cleanup();
+		ThreadManager::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
