@@ -67,14 +67,14 @@ namespace Integrian2D
 
 	void TransformComponent::Rotate(const float angleRadians) noexcept
 	{
-		m_Angle = angleRadians + GetAngle();
+		m_Angle += angleRadians;
 
 		m_TransformChanged = true;
 	}
 
 	void TransformComponent::Scale(const Point2f scale) noexcept
 	{
-		m_Scale = Point2f{ GetScale() + scale };
+		m_Scale += scale;
 
 		m_TransformChanged = true;
 	}
@@ -87,8 +87,7 @@ namespace Integrian2D
 
 	void TransformComponent::SetScale(const Point2f scale) noexcept
 	{
-		m_TransformationMatrix(0, 0) = scale.x;
-		m_TransformationMatrix(1, 1) = scale.y;
+		m_Scale = scale;
 
 		m_TransformChanged = true;
 	}
@@ -107,10 +106,12 @@ namespace Integrian2D
 		// We can just extract this from the Matrix
 	}
 
-	const Point2f TransformComponent::GetScale() const noexcept
+	const Point2f& TransformComponent::GetScale() const noexcept
 	{
-		return Point2f{ sqrtf(powf(m_TransformationMatrix(0,0), 2) + powf(m_TransformationMatrix(1,0), 2)),
-						sqrtf(powf(m_TransformationMatrix(0,1), 2) + powf(m_TransformationMatrix(1,1), 2)) };
+		return m_Scale;
+
+		//return Point2f{ sqrtf(powf(m_TransformationMatrix(0,0), 2) + powf(m_TransformationMatrix(1,0), 2)),
+		//				sqrtf(powf(m_TransformationMatrix(0,1), 2) + powf(m_TransformationMatrix(1,1), 2)) };
 
 		// [ V1x		V2x		T1 ]
 		// [ V1y		V2y		T2 ]
@@ -123,7 +124,8 @@ namespace Integrian2D
 
 	const float TransformComponent::GetAngle() const noexcept
 	{
-		return Utils::RoundToZero(atan2(m_TransformationMatrix(1, 0), m_TransformationMatrix(0, 0)));
+		return m_Angle;
+		// return Utils::RoundToZero(atan2(m_TransformationMatrix(1, 0), m_TransformationMatrix(0, 0)));
 
 		// [ V1x		V2x		T1 ]
 		// [ V1y		V2y		T2 ]
@@ -138,8 +140,8 @@ namespace Integrian2D
 		RectColliderComponent* pRectCollider{ m_pOwner->GetComponentByType<RectColliderComponent>() };
 
 		if (pRectCollider)
-			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, GetAngle(), GetScale().x, GetScale().y };
+			return PRectf{ GetPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, m_Angle, m_Scale.x, m_Scale.y };
 		else
-			return PRectf{ GetPosition(), 0.f, 0.f, GetAngle(), GetScale().x, GetScale().y };
+			return PRectf{ GetPosition(), 0.f, 0.f, m_Angle, m_Scale.x, m_Scale.y };
 	}
 }

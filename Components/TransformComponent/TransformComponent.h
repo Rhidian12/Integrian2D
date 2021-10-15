@@ -23,7 +23,7 @@ namespace Integrian2D
 		void SetAngle(const float angle) noexcept;
 
 		const Point2f GetPosition() const noexcept;
-		const Point2f GetScale() const noexcept;
+		const Point2f& GetScale() const noexcept;
 		const float GetAngle() const noexcept;
 		const PRectf GetDestRect() const noexcept;
 
