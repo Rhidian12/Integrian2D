@@ -196,6 +196,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\ColliderComponent\ColliderComponent.cpp" />
+    <ClCompile Include="EventQueue\EventQueue.cpp" />
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp" />
     <ClCompile Include="NavigationGraph\NavigationGraph.cpp" />
     <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp" />
@@ -229,6 +230,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\ColliderComponent\ColliderComponent.h" />
+    <ClInclude Include="EventQueue\EventQueue.h" />
     <ClInclude Include="Math\PLine.h" />
     <ClInclude Include="Math\PRect.h" />
     <ClInclude Include="Math\Matrix.h" />

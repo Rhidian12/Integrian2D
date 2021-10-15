@@ -108,6 +108,9 @@
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EventQueue\EventQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -261,6 +264,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\Triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue\EventQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
