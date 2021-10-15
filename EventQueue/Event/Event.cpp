@@ -1,10 +1,11 @@
 #include "Event.h"
-#include "../../Utils/Utils.h"
 
 namespace Integrian2D
 {
-	const std::string& Event::GetEvent() const noexcept
-	{
-		return m_Event;
-	}
+	Event::Event(const EventImplementation& _event, const int _delay)
+		: event{ _event }
+		, delay{ _delay }
+		, delayCounter{}
+		, isExecuted{}
+	{}
 }

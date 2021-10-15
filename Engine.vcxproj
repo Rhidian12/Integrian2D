@@ -197,6 +197,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   <ItemGroup>
     <ClCompile Include="Components\ColliderComponent\ColliderComponent.cpp" />
     <ClCompile Include="EventQueue\Event\Event.cpp" />
+    <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp" />
@@ -233,6 +234,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   <ItemGroup>
     <ClInclude Include="Components\ColliderComponent\ColliderComponent.h" />
     <ClInclude Include="EventQueue\Event\Event.h" />
+    <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
     <ClInclude Include="IListener\IListener.h" />
     <ClInclude Include="Math\PLine.h" />

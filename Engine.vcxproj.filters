@@ -111,10 +111,13 @@
     <ClCompile Include="EventQueue\EventQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EventQueue\Event\Event.cpp">
+    <ClCompile Include="EventQueue\Event\EventImplementation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IListener\IListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue\Event\Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -276,6 +279,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IListener\IListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue\Event\EventImplementation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventQueue\Event\Event.h">
