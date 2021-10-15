@@ -5,6 +5,7 @@
 
 #include "../Input/InputManager/InputManager.h"
 #include "../PhysicsEngine/PhysicsEngine.h"
+#include "../EventQueue/EventQueue.h"
 
 namespace Integrian2D
 {
@@ -35,8 +36,9 @@ namespace Integrian2D
 #pragma warning ( disable : 4201 ) // Disable nameless struct warning
 		struct
 		{
-			InputManager inputManager{}; // TODO: Make this not a struct if not necessary
+			InputManager inputManager{};
 			PhysicsEngine physicsEngine{};
+			EventQueue eventQueue{};
 		};
 #pragma warning ( pop )
 
