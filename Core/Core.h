@@ -2,8 +2,6 @@
 
 #include <string>
 
-#include "../Math/TypeDefines.h"
-
 namespace Integrian2D
 {
 	class Scene;
@@ -12,7 +10,7 @@ namespace Integrian2D
 	class Core final
 	{
 	public:
-		Core(const int windowWidth, const int windowHeight, const std::string windowTitle);
+		Core(const int windowWidth, const int windowHeight, const std::string& windowTitle);
 		~Core();
 
 		void Run();
@@ -23,7 +21,7 @@ namespace Integrian2D
 		Core& operator=(Core&&) = delete;
 
 	private:
-		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string windowTitle) noexcept;
+		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
 		void ShutdownLibraries() noexcept;
 
 		Window* m_pWindow;

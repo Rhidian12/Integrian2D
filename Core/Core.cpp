@@ -21,7 +21,7 @@ extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
-	Core::Core(const int windowWidth, const int windowHeight, const std::string windowTitle)
+	Core::Core(const int windowWidth, const int windowHeight, const std::string& windowTitle)
 		: m_pWindow{}
 		, m_WindowWidth{windowWidth}
 		, m_WindowHeight{windowHeight}
@@ -79,7 +79,7 @@ namespace Integrian2D
 		}
 	}
 
-	void Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string windowTitle) noexcept
+	void Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept
 	{
 #pragma region SDL Stuff
 		//Create window + surfaces
