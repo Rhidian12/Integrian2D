@@ -12,11 +12,11 @@ namespace Integrian2D
 		: PhysicsComponent{ pOwner, mass, Vector2f{}, nullptr }
 	{}
 
-	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity)
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity)
 		: PhysicsComponent{ pOwner, mass, velocity, nullptr }
 	{}
 
-	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity, ColliderComponent* const pCollider)
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity, ColliderComponent* const pCollider)
 		: Component{ pOwner }
 		, m_PhysicsInfo{ mass, velocity, pCollider }
 	{
@@ -48,7 +48,7 @@ namespace Integrian2D
 		m_PhysicsInfo.mass = mass;
 	}
 
-	void PhysicsComponent::SetVelocity(const Vector2f velocity) noexcept
+	void PhysicsComponent::SetVelocity(const Vector2f& velocity) noexcept
 	{
 		m_PhysicsInfo.velocity = velocity;
 	}

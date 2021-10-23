@@ -12,8 +12,8 @@ namespace Integrian2D
 	public:
 		PhysicsComponent(GameObject* pOwner);
 		PhysicsComponent(GameObject* pOwner, const float mass);
-		PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity);
-		PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f velocity, ColliderComponent* const pCollider);
+		PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity);
+		PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity, ColliderComponent* const pCollider);
 
 		~PhysicsComponent();
 
@@ -24,7 +24,7 @@ namespace Integrian2D
 		void AddForce(const Vector2f& force) noexcept;
 
 		void SetMass(const float mass) noexcept;
-		void SetVelocity(const Vector2f velocity) noexcept;
+		void SetVelocity(const Vector2f& velocity) noexcept;
 		void SetIsAffectedByGravity(const bool isAffectedByGravity) noexcept;
 		void SetColliderComponent(ColliderComponent* const pCollider, ColliderShape shape) noexcept;
 
