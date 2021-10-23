@@ -11,8 +11,17 @@ namespace Integrian2D
 	{
 	public:
 		TextureComponent(GameObject* pOwner);
+		
+		/* 
+		The destination rect (the area where the Texture gets rendered) is set to its default,
+		which is the GameObject's position, Texture's width and Texture's height
+		*/
 		TextureComponent(GameObject* pOwner, Texture* const pTexture);
-		TextureComponent(GameObject* pOwner, Texture* const pTexture, const float width, const float height);
+
+		/*
+		The destination rect is set to the GameObject's position and the width and height defined by their respective parameters.
+		*/
+		TextureComponent(GameObject* pOwner, Texture* const pTexture, const float destRectWidth, const float destRectHeight);
 
 		virtual void Render() const override;
 
@@ -23,8 +32,8 @@ namespace Integrian2D
 		Texture* const GetTexture() const noexcept;
 		
 		Rectf m_SourceRect;
-		float m_Width;
-		float m_Height;
+		float m_DestRectWidth;
+		float m_DestRectHeight;
 
 	private:
 		Texture* m_pTexture;

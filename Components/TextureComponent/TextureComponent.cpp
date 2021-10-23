@@ -10,8 +10,8 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_pTexture{}
 		, m_SourceRect{}
-		, m_Width{}
-		, m_Height{}
+		, m_DestRectWidth{}
+		, m_DestRectHeight{}
 	{
 	}
 
@@ -19,24 +19,24 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_pTexture{ pTexture }
 		, m_SourceRect{}
-		, m_Width{}
-		, m_Height{}
+		, m_DestRectWidth{}
+		, m_DestRectHeight{}
 	{
 		if (pTexture)
 		{
 			m_SourceRect.width = pTexture->GetWidth();
 			m_SourceRect.height = pTexture->GetHeight();
-			m_Width = pTexture->GetWidth();
-			m_Height = pTexture->GetHeight();
+			m_DestRectWidth = pTexture->GetWidth();
+			m_DestRectHeight = pTexture->GetHeight();
 		}
 	}
 
-	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const float width, const float height)
+	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const float destRectWidth, const float destRectHeight)
 		: Component{ pOwner }
 		, m_pTexture{ pTexture }
 		, m_SourceRect{}
-		, m_Width{ width }
-		, m_Height{ height }
+		, m_DestRectWidth{ destRectWidth }
+		, m_DestRectHeight{ destRectHeight }
 	{
 		if (pTexture)
 		{
@@ -54,8 +54,8 @@ namespace Integrian2D
 			const float angle{ destRect.angle };
 			SetRotation(destRect, 0.f);
 
-			SetWidth(destRect, m_Width);
-			SetHeight(destRect, m_Height);
+			SetWidth(destRect, m_DestRectWidth);
+			SetHeight(destRect, m_DestRectHeight);
 
 			SetRotation(destRect, angle);
 		}
