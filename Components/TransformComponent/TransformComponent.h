@@ -23,10 +23,10 @@ namespace Integrian2D
 		/* Translates the GameObject's position by velocity multiplied by Delta Time. This does not trigger a matrix recalculation */
 		void Translate(const Vector2f& velocity) noexcept;
 
-		/* Rotates the GameObject by angleRadians multiplied by Delta Time */
+		/* Rotates the GameObject by angleRadians. This triggers a matrix recalculation */
 		void Rotate(const float angleRadians) noexcept;
 
-		/* Scales the GameObject by scale */
+		/* Scales the GameObject by scale. This triggers a matrix recalculation */
 		void Scale(const Point2f& scale) noexcept;
 
 		/* Sets the GameObject's position. This neither translates the GameObject nor triggers a matrix recalculation */
@@ -35,17 +35,19 @@ namespace Integrian2D
 		/* Sets the GameObject's scale. This triggers a matrix recalculation */
 		void SetScale(const Point2f& scale) noexcept;
 
-		/* Sets the GameObject's angle. This triggers a matrix recalculation, but does not rotate using Delta Time */
+		/* Sets the GameObject's angle. This triggers a matrix recalculation */
 		void SetAngle(const float angle) noexcept;
 
 		const Point2f& GetScale() const noexcept;
 		const float GetAngle() const noexcept;
-		const PRectf GetDestRect() const noexcept;
 
 	private:
 		bool m_TransformChanged;
+		bool m_HasPositionChanged;
 
 		Matrix3x3 m_TransformationMatrix;
+
+		Point2f m_WorldPosition;
 		
 		Point2f m_Scale;
 		float m_Angle; // Radians

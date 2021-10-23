@@ -8,7 +8,9 @@ namespace Integrian2D
 	TransformComponent::TransformComponent(GameObject* pOwner)
 		: Component{ pOwner }
 		, m_TransformChanged{}
+		, m_HasPositionChanged{}
 		, m_TransformationMatrix{}
+		, m_WorldPosition{}
 		, m_Scale{ 1.f, 1.f }
 		, m_Angle{}
 	{
@@ -29,7 +31,9 @@ namespace Integrian2D
 		pTransform->m_Scale = m_Scale;
 		pTransform->m_Angle = m_Angle;
 		pTransform->m_TransformChanged = m_TransformChanged;
+		pTransform->m_HasPositionChanged = m_HasPositionChanged;
 		pTransform->m_TransformationMatrix = m_TransformationMatrix;
+		pTransform->m_WorldPosition = m_WorldPosition;
 
 		return pTransform;
 	}
@@ -58,6 +62,27 @@ namespace Integrian2D
 
 			m_TransformationMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 		}
+
+		if (m_HasPositionChanged)
+		{
+			m_HasPositionChanged = false;
+
+			GameObject* pTopParent{ m_pOwner };
+			GameObject* pParent{ m_pOwner->GetParent() };
+
+			while (pParent)
+			{
+				pParent = pParent->GetParent();
+
+				if (pParent)
+					pTopParent = pParent;
+			}
+
+			for (GameObject* pChild : pTopParent->GetChildren())
+			{
+				pChild->pTransform->SetPosition(m_WorldPosition);
+			}
+		}
 	}
 
 	void TransformComponent::Translate(const Vector2f& velocity) noexcept
@@ -65,11 +90,13 @@ namespace Integrian2D
 		const float dt{ Timer::GetInstance()->GetElapsedSeconds() };
 		m_TransformationMatrix(0, 2) += velocity.x * dt;
 		m_TransformationMatrix(1, 2) += velocity.y * dt;
+
+		m_HasPositionChanged = true;
 	}
 
 	void TransformComponent::Rotate(const float angleRadians) noexcept
 	{
-		m_Angle += angleRadians * Timer::GetInstance()->GetElapsedSeconds();
+		m_Angle += angleRadians;
 
 		m_TransformChanged = true;
 	}
@@ -85,6 +112,8 @@ namespace Integrian2D
 	{
 		m_TransformationMatrix(0, 2) = position.x;
 		m_TransformationMatrix(1, 2) = position.y;
+
+		m_HasPositionChanged = true;
 	}
 
 	void TransformComponent::SetScale(const Point2f& scale) noexcept
@@ -149,15 +178,5 @@ namespace Integrian2D
 
 		// Formula to get Angle is:
 		// Angle = arctan2(V1y / V1x)
-	}
-
-	const PRectf TransformComponent::GetDestRect() const noexcept
-	{
-		RectColliderComponent* pRectCollider{ m_pOwner->GetComponentByType<RectColliderComponent>() };
-
-		if (pRectCollider)
-			return PRectf{ GetLocalPosition(), pRectCollider->GetCollider().width, pRectCollider->GetCollider().height, m_Angle, m_Scale.x, m_Scale.y };
-		else
-			return PRectf{ GetLocalPosition(), 0.f, 0.f, m_Angle, m_Scale.x, m_Scale.y };
 	}
 }
