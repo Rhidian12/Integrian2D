@@ -1,6 +1,7 @@
 #include "TransformComponent.h"
 #include "../../GameObject/GameObject.h"
 #include "../RectColliderComponent/RectColliderComponent.h"
+#include "../../Timer/Timer.h"
 
 namespace Integrian2D
 {
@@ -61,31 +62,32 @@ namespace Integrian2D
 
 	void TransformComponent::Translate(const Vector2f& velocity) noexcept
 	{
-		m_TransformationMatrix(0, 2) += velocity.x;
-		m_TransformationMatrix(1, 2) += velocity.y;
+		const float dt{ Timer::GetInstance()->GetElapsedSeconds() };
+		m_TransformationMatrix(0, 2) += velocity.x * dt;
+		m_TransformationMatrix(1, 2) += velocity.y * dt;
 	}
 
 	void TransformComponent::Rotate(const float angleRadians) noexcept
 	{
-		m_Angle += angleRadians;
+		m_Angle += angleRadians * Timer::GetInstance()->GetElapsedSeconds();
 
 		m_TransformChanged = true;
 	}
 
-	void TransformComponent::Scale(const Point2f scale) noexcept
+	void TransformComponent::Scale(const Point2f& scale) noexcept
 	{
 		m_Scale += scale;
 
 		m_TransformChanged = true;
 	}
 
-	void TransformComponent::SetPosition(const Point2f position) noexcept
+	void TransformComponent::SetPosition(const Point2f& position) noexcept
 	{
 		m_TransformationMatrix(0, 2) = position.x;
 		m_TransformationMatrix(1, 2) = position.y;
 	}
 
-	void TransformComponent::SetScale(const Point2f scale) noexcept
+	void TransformComponent::SetScale(const Point2f& scale) noexcept
 	{
 		m_Scale = scale;
 
