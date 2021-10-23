@@ -101,6 +101,11 @@ namespace Integrian2D
 		return m_pParent;
 	}
 
+	const std::vector<GameObject*>& GameObject::GetChildren() const noexcept
+	{
+		return m_pChildren;
+	}
+
 	const std::string& GameObject::GetTag() const noexcept
 	{
 		return m_Tag;

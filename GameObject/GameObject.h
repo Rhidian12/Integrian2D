@@ -33,6 +33,7 @@ namespace Integrian2D
 		void SetTag(std::string tag) noexcept;
 
 		GameObject* GetParent() const noexcept;
+		const std::vector<GameObject*>& GetChildren() const noexcept;
 		const std::string& GetTag() const noexcept;
 
 		TransformComponent* pTransform;
