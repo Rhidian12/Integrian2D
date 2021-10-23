@@ -8,8 +8,8 @@ namespace Integrian2D
 	class RectColliderComponent final : public ColliderComponent
 	{
 	public:
-		RectColliderComponent(GameObject* const pOwner, const PRectf collider);
-		RectColliderComponent(GameObject* const pOwner, const PRectf collider, const bool render);
+		RectColliderComponent(GameObject* const pOwner, const PRectf& collider);
+		RectColliderComponent(GameObject* const pOwner, const PRectf& collider, const bool render);
 
 		virtual Component* Clone(GameObject* const pOwner) noexcept override;
 
@@ -20,8 +20,8 @@ namespace Integrian2D
 		virtual void Render() const override;
 
 		void SetRenderDebug(const bool render) noexcept;
-		void SetRenderDebugColour(const RGBColour colour) noexcept;
-		void SetCollider(const PRectf collider) noexcept;
+		void SetRenderDebugColour(const RGBColour& colour) noexcept;
+		void SetCollider(const PRectf& collider) noexcept;
 
 		const RGBColour& GetColliderColour() const noexcept;
 		const PRectf& GetCollider() const noexcept;

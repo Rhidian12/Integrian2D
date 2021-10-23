@@ -5,11 +5,11 @@
 
 namespace Integrian2D
 {
-	RectColliderComponent::RectColliderComponent(GameObject* const pOwner, const PRectf collider)
+	RectColliderComponent::RectColliderComponent(GameObject* const pOwner, const PRectf& collider)
 		: RectColliderComponent{ pOwner, collider, true }
 	{}
 
-	RectColliderComponent::RectColliderComponent(GameObject* const pOwner, const PRectf collider, const bool render)
+	RectColliderComponent::RectColliderComponent(GameObject* const pOwner, const PRectf& collider, const bool render)
 		: ColliderComponent{ pOwner, ColliderShape::Rectangle }
 		, m_RenderDebugBox{ render }
 		, m_Collider{ collider }
@@ -70,12 +70,12 @@ namespace Integrian2D
 		m_RenderDebugBox = render;
 	}
 
-	void RectColliderComponent::SetRenderDebugColour(const RGBColour colour) noexcept
+	void RectColliderComponent::SetRenderDebugColour(const RGBColour& colour) noexcept
 	{
 		m_ColliderColour = colour;
 	}
 
-	void RectColliderComponent::SetCollider(const PRectf collider) noexcept
+	void RectColliderComponent::SetCollider(const PRectf& collider) noexcept
 	{
 		m_Collider = collider;
 	}
