@@ -47,20 +47,12 @@ namespace Integrian2D
 
 	void TextureComponent::Render() const
 	{
-		PRectf destRect{ m_pOwner->pTransform->GetDestRect() };
+		PRectf destRect{ m_pOwner->pTransform->GetLocalPosition(),
+			m_DestRectWidth, m_DestRectHeight,
+			m_pOwner->pTransform->GetAngle(),
+			m_pOwner->pTransform->GetScale().x, m_pOwner->pTransform->GetScale().y };
 
-		if (Utils::AreEqual(destRect.width, 0.f) && Utils::AreEqual(destRect.height, 0.f))
-		{
-			const float angle{ destRect.angle };
-			SetRotation(destRect, 0.f);
-
-			SetWidth(destRect, m_DestRectWidth);
-			SetHeight(destRect, m_DestRectHeight);
-
-			SetRotation(destRect, angle);
-		}
-
-		const Point2f& leftBottom{ GetLeftBottom(destRect) };
+		const Point2f& leftBottom{ m_pOwner->pTransform->GetLocalPosition() };
 		const Point2f worldPosition{ m_pOwner->pTransform->GetWorldPosition() };
 
 		Renderer::GetInstance()->RenderTexture(m_pTexture, PRectf{ leftBottom.x + worldPosition.x, leftBottom.y + worldPosition.y, destRect.width, destRect.height }, m_SourceRect);
