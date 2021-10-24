@@ -24,7 +24,8 @@ namespace Integrian2D
 			, height{ _height }
 		{}
 		explicit Rect(const Point<2, Type> _xy, const Type _width, const Type _height)
-			: xy{ _xy }
+			: x{ _xy.x }
+			, y { _xy.y }
 			, width{ _width }
 			, height{ _height }
 		{}
