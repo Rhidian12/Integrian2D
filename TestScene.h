@@ -70,24 +70,33 @@ public:
 	TestScene(std::string name)
 		: Scene{ name }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
-		, m_pGameObject2{}
+		, m_pGameObject2{ new Integrian2D::GameObject{}  }
 	{}
 
 	virtual void Start() override
 	{
 		using namespace Integrian2D;
 
-		std::vector<NavGraphPolygon> polygons{ NavGraphPolygon{ { Point2f{10.f, 10.f}, Point2f{10.f, 60.f}, Point2f{20.f, 90.f},
-			Point2f{50.f, 100.f}, Point2f{90.f, 180.f}, Point2f{160.f, 200.f}, Point2f{180.f, 120.f}, Point2f{200.f, 40.f}, Point2f{200.f, 0.f} } } };
+		inputManager.AddCommand(GameInput{ KeyboardInput::A }, [this]()->void
+			{
+				m_pGameObject->pTransform->Translate(Vector2f{ 10.f,10.f });
+			}, State::OnRelease);
 
-		for (NavGraphPolygon& polygon : polygons)
-			polygon.Triangulate();
+		inputManager.AddCommand(GameInput{ KeyboardInput::Q }, [this]()->void
+			{
+				m_pGameObject2->pTransform->Translate(Vector2f{ 10.f,10.f });
+			}, State::OnRelease);
 
-		m_pGameObject->AddComponent(new NavigationGraph{ m_pGameObject, polygons });
+		AddGameObject("Test1", m_pGameObject);
+		AddGameObject("Test2", m_pGameObject2);
+	}
 
-		m_pGameObject->pTransform->Translate(Vector2f{ 50,50 });
+	virtual void Render() const override
+	{
+		using namespace Integrian2D;
 
-		AddGameObject("Test", m_pGameObject);
+		Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{255, 0, 0});
+		Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{0, 255, 0});
 	}
 
 	Integrian2D::GameObject* m_pGameObject;
