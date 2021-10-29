@@ -228,6 +228,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Components\TransformComponent\TransformComponent.cpp" />
     <ClCompile Include="ThreadManager\ThreadManager.cpp" />
     <ClCompile Include="Timer\Timer.cpp" />
+    <ClCompile Include="TransformManager\TransformManager.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
     <ClCompile Include="Window\Window.cpp" />
     <ClCompile Include="Parsing\Writer\Writer.cpp" />
@@ -286,6 +287,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Components\TransformComponent\TransformComponent.h" />
     <ClInclude Include="ThreadManager\ThreadManager.h" />
     <ClInclude Include="Timer\Timer.h" />
+    <ClInclude Include="TransformManager\TransformManager.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="Window\Window.h" />
     <ClInclude Include="Parsing\Writer\Writer.h" />

@@ -123,6 +123,9 @@
     <ClCompile Include="ThreadManager\ThreadManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TransformManager\TransformManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -291,6 +294,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ThreadManager\ThreadManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformManager\TransformManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
