@@ -52,12 +52,7 @@ namespace Integrian2D
 		TransformManager* pTransformManager{ TransformManager::GetInstance() };
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
-		{
 			scenePair.second->Start();
-
-			for (const std::pair<std::string, GameObject*>& gameObjectPair : scenePair.second->GetGameObjects())
-				pTransformManager->AddTransformComponent(gameObjectPair.second->pTransform);
-		}
 
 		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
 
