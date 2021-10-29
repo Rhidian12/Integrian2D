@@ -25,7 +25,7 @@ namespace Integrian2D
 
 		virtual void Render() const {}
 
-		void AddGameObject(std::string gameObjectName, GameObject* const pGameObject) noexcept;
+		void AddGameObject(std::string gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd = true) noexcept;
 		void SetSceneName(std::string sceneName) noexcept;
 
 		GameObject* const GetGameObject(std::string gameObjectName) const noexcept;

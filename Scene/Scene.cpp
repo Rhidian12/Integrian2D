@@ -41,13 +41,13 @@ namespace Integrian2D
 			pG.second->Render();
 	}
 
-	void Scene::AddGameObject(std::string gameObjectName, GameObject* const pGameObject) noexcept
+	void Scene::AddGameObject(std::string gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
 	{
 		const std::unordered_map<std::string, GameObject*>::const_iterator cIt{ m_pGameObjects.find(gameObjectName) };
 
 		if (cIt == m_pGameObjects.cend())
 			m_pGameObjects.insert(std::make_pair(gameObjectName, pGameObject));
-		else
+		else if (shouldAlwaysAdd)
 		{
 			std::string newName{};
 			for (size_t i{}; i < m_pGameObjects.size() + 1; ++i)
