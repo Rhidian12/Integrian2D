@@ -8,6 +8,8 @@
 #include "../Locator/Locator.h"
 #include "../Timer/Timer.h"
 #include "../ThreadManager/ThreadManager.h"
+#include "../TransformManager/TransformManager.h"
+#include "../GameObject/GameObject.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -37,6 +39,7 @@ namespace Integrian2D
 		Locator::Cleanup();
 		Timer::Cleanup();
 		ThreadManager::Cleanup();
+		TransformManager::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
@@ -46,9 +49,15 @@ namespace Integrian2D
 		SceneManager* pSceneManager{ SceneManager::GetInstance() };
 		Renderer* pRenderer{ Renderer::GetInstance() };
 		Timer* pTimer{ Timer::GetInstance() };
+		TransformManager* pTransformManager{ TransformManager::GetInstance() };
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
+		{
 			scenePair.second->Start();
+
+			for (const std::pair<std::string, GameObject*>& gameObjectPair : scenePair.second->GetGameObjects())
+				pTransformManager->AddTransformComponent(gameObjectPair.second->pTransform);
+		}
 
 		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
 
@@ -64,6 +73,8 @@ namespace Integrian2D
 
 			pActiveScene->RootUpdate();
 			pActiveScene->Update();
+
+			pTransformManager->UpdateTransforms();
 
 			//pActiveScene->physicsEngine.FixedUpdate();
 			pActiveScene->RootFixedUpdate();
