@@ -134,6 +134,11 @@ namespace Integrian2D
 		// Angle = arctan2(V1y / V1x)
 	}
 
+	const bool TransformComponent::GetHasMoved() const noexcept
+	{
+		return m_HasWorldPositionChanged;
+	}
+
 	void TransformComponent::RecalculateTransformationMatrix() noexcept
 	{
 		if (m_TransformChanged)

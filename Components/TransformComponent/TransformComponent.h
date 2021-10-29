@@ -40,6 +40,7 @@ namespace Integrian2D
 
 		const Point2f& GetScale() const noexcept;
 		const float GetAngle() const noexcept;
+		const bool GetHasMoved() const noexcept;
 
 	private:
 		void RecalculateTransformationMatrix() noexcept;
