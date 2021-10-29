@@ -83,6 +83,11 @@ namespace Integrian2D
 		}
 	}
 
+	const std::unordered_map<std::string, GameObject*> Scene::GetGameObjects() const noexcept
+	{
+		return m_pGameObjects;
+	}
+
 	const std::string& Scene::GetSceneName() const noexcept
 	{
 		return m_SceneName;

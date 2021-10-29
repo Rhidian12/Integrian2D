@@ -29,6 +29,7 @@ namespace Integrian2D
 		void SetSceneName(std::string sceneName) noexcept;
 
 		GameObject* const GetGameObject(std::string gameObjectName) const noexcept;
+		const std::unordered_map<std::string, GameObject*> GetGameObjects() const noexcept;
 		const std::string& GetSceneName() const noexcept;
 
 	protected:
