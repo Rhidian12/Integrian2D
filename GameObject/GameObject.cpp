@@ -22,9 +22,6 @@ namespace Integrian2D
 		for (Component*& pC : m_pComponents)
 			Utils::SafeDelete(pC);
 
-		for (GameObject*& pG : m_pChildren)
-			Utils::SafeDelete(pG);
-
 		Utils::SafeDelete(pTransform);
 	}
 
