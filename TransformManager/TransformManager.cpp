@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+extern bool volatile g_IsLooping;
+
 namespace Integrian2D
 {
 	TransformManager::TransformManager()
@@ -26,6 +28,24 @@ namespace Integrian2D
 
 	void TransformManager::UpdateTransforms() noexcept
 	{
+		while (g_IsLooping)
+		{
+			/* Check if any of the transform components have moved */
+			/* Check a parent, then check its children */
+			for (const auto& [Parent, Children] : m_pTransformComponents)
+			{
+				/* The Parent has moved, so inform all of its children */
+				if (Parent->GetHasMoved())
+				{
+					for (TransformComponent* const pChild : Children)
+						pChild->SetHasMoved(true);
+				}
+				else /* The Parent has not moved, so check each of its children */
+				{
+
+				}
+			}
+		}
 	}
 
 	void TransformManager::AddTransformComponent(TransformComponent* const pTransformComponent) noexcept
