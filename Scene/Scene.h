@@ -14,7 +14,7 @@ namespace Integrian2D
 	class Scene
 	{
 	public:
-		Scene(std::string sceneName);
+		Scene(const std::string& sceneName);
 		virtual ~Scene();
 
 		virtual void Start() = 0;
@@ -25,10 +25,10 @@ namespace Integrian2D
 
 		virtual void Render() const {}
 
-		void AddGameObject(std::string gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd = true) noexcept;
-		void SetSceneName(std::string sceneName) noexcept;
+		void AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd = true) noexcept;
+		void SetSceneName(const std::string& sceneName) noexcept;
 
-		GameObject* const GetGameObject(std::string gameObjectName) const noexcept;
+		GameObject* const GetGameObject(const std::string& gameObjectName) const noexcept;
 		const std::unordered_map<std::string, GameObject*> GetGameObjects() const noexcept;
 		const std::string& GetSceneName() const noexcept;
 

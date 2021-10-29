@@ -6,7 +6,7 @@
 
 namespace Integrian2D
 {
-	Scene::Scene(std::string sceneName)
+	Scene::Scene(const std::string& sceneName)
 		: m_SceneName{ sceneName }
 		, m_pGameObjects{}
 	{
@@ -42,7 +42,7 @@ namespace Integrian2D
 			pG.second->Render();
 	}
 
-	void Scene::AddGameObject(std::string gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
+	void Scene::AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
 	{
 		const std::unordered_map<std::string, GameObject*>::const_iterator cIt{ m_pGameObjects.find(gameObjectName) };
 
@@ -70,12 +70,12 @@ namespace Integrian2D
 		}
 	}
 
-	void Scene::SetSceneName(std::string sceneName) noexcept
+	void Scene::SetSceneName(const std::string& sceneName) noexcept
 	{
 		m_SceneName = sceneName;
 	}
 
-	GameObject* const Scene::GetGameObject(std::string gameObjectName) const noexcept
+	GameObject* const Scene::GetGameObject(const std::string& gameObjectName) const noexcept
 	{
 		const std::unordered_map<std::string, GameObject*>::const_iterator cIt{ m_pGameObjects.find(gameObjectName) };
 
