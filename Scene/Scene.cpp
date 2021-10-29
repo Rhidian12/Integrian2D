@@ -2,6 +2,7 @@
 #include "../Utils/Utils.h"
 #include "../Logger/Logger.h"
 #include "../GameObject/GameObject.h"
+#include "../TransformManager/TransformManager.h"
 
 namespace Integrian2D
 {
@@ -46,7 +47,10 @@ namespace Integrian2D
 		const std::unordered_map<std::string, GameObject*>::const_iterator cIt{ m_pGameObjects.find(gameObjectName) };
 
 		if (cIt == m_pGameObjects.cend())
+		{
 			m_pGameObjects.insert(std::make_pair(gameObjectName, pGameObject));
+			TransformManager::GetInstance()->AddTransformComponent(pGameObject->pTransform);
+		}
 		else if (shouldAlwaysAdd)
 		{
 			std::string newName{};
@@ -62,6 +66,7 @@ namespace Integrian2D
 				+ newName);
 
 			m_pGameObjects.insert(std::make_pair(newName, pGameObject));
+			TransformManager::GetInstance()->AddTransformComponent(pGameObject->pTransform);
 		}
 	}
 
