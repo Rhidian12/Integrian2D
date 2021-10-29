@@ -40,28 +40,7 @@ namespace Integrian2D
 
 	void TransformComponent::FixedUpdate()
 	{
-		if (m_TransformChanged)
-		{
-			m_TransformChanged = false;
-
-			Matrix3x3 translationMatrix{ GetIdentityMatrix<3,3,float>() };
-			translationMatrix(0, 2) = m_TransformationMatrix(0, 2);
-			translationMatrix(1, 2) = m_TransformationMatrix(1, 2);
-
-			const float c{ cos(m_Angle) };
-			const float s{ sin(m_Angle) };
-			Matrix3x3 rotationMatrix{ GetIdentityMatrix<3,3,float>() };
-			rotationMatrix(0, 0) = c;
-			rotationMatrix(0, 1) = -s;
-			rotationMatrix(1, 0) = s;
-			rotationMatrix(1, 1) = c;
-
-			Matrix3x3 scaleMatrix{ GetIdentityMatrix<3,3,float>() };
-			scaleMatrix(0, 0) = m_Scale.x;
-			scaleMatrix(1, 1) = m_Scale.y;
-
-			m_TransformationMatrix = translationMatrix * rotationMatrix * scaleMatrix;
-		}
+		RecalculateTransformationMatrix();
 
 		CalculateNewWorldPosition();
 	}
@@ -153,6 +132,32 @@ namespace Integrian2D
 
 		// Formula to get Angle is:
 		// Angle = arctan2(V1y / V1x)
+	}
+
+	void TransformComponent::RecalculateTransformationMatrix() noexcept
+	{
+		if (m_TransformChanged)
+		{
+			m_TransformChanged = false;
+
+			Matrix3x3 translationMatrix{ GetIdentityMatrix<3,3,float>() };
+			translationMatrix(0, 2) = m_TransformationMatrix(0, 2);
+			translationMatrix(1, 2) = m_TransformationMatrix(1, 2);
+
+			const float c{ cos(m_Angle) };
+			const float s{ sin(m_Angle) };
+			Matrix3x3 rotationMatrix{ GetIdentityMatrix<3,3,float>() };
+			rotationMatrix(0, 0) = c;
+			rotationMatrix(0, 1) = -s;
+			rotationMatrix(1, 0) = s;
+			rotationMatrix(1, 1) = c;
+
+			Matrix3x3 scaleMatrix{ GetIdentityMatrix<3,3,float>() };
+			scaleMatrix(0, 0) = m_Scale.x;
+			scaleMatrix(1, 1) = m_Scale.y;
+
+			m_TransformationMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+		}
 	}
 
 	void TransformComponent::CalculateNewWorldPosition() noexcept

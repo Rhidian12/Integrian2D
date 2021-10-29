@@ -42,6 +42,7 @@ namespace Integrian2D
 		const float GetAngle() const noexcept;
 
 	private:
+		void RecalculateTransformationMatrix() noexcept;
 		void CalculateNewWorldPosition() noexcept;
 
 		bool m_TransformChanged;
