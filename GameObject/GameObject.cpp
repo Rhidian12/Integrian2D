@@ -72,8 +72,6 @@ namespace Integrian2D
 
 		if (cIt == m_pComponents.cend())
 			m_pComponents.push_back(pComponent);
-		else
-			Logger::LogWarning("GameObject::AddComponent() > Component is already present and is not added twice!");
 	}
 
 	void GameObject::AddChild(GameObject* pChild) noexcept
@@ -81,14 +79,16 @@ namespace Integrian2D
 		std::vector<GameObject*>::const_iterator cIt{ std::find(m_pChildren.cbegin(), m_pChildren.cend(), pChild) };
 
 		if (cIt == m_pChildren.cend())
+		{
 			m_pChildren.push_back(pChild);
-		else
-			Logger::LogWarning("GameObject::AddChild() > Child is already present and is not added twice!");
+			pChild->m_pParent = this;
+		}
 	}
 
 	void GameObject::SetParent(GameObject* const pParent) noexcept
 	{
 		m_pParent = pParent;
+		pParent->AddChild(this);
 	}
 
 	void GameObject::SetTag(std::string tag) noexcept
