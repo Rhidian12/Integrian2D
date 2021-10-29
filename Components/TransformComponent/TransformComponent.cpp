@@ -168,22 +168,24 @@ namespace Integrian2D
 			for (GameObject* const pChild : m_pOwner->GetChildren())
 				pChild->pTransform->m_HasWorldPositionChanged = true;
 
-			GameObject* pTopParent{ m_pOwner };
+			/* Cache our local position, which we need to calculate the world position */
+			Point2f newWorldPosition{ GetLocalPosition() };
+			
+			/* Get our GameObject's parent */
 			GameObject* pParent{ m_pOwner->GetParent() };
 
-			Point2f newWorldPosition{ GetLocalPosition() };
-
+			/* Check if the current parent has a parent */
 			while (pParent)
 			{
+				/* Check if the World Position in the current parent has been updated */
 				if (pParent->pTransform->m_HasWorldPositionChanged)
-					return;
+					return; /* If it doesn't, delay this calculation by a frame */
 
+				/* Add the parents local position to our new world position */
 				newWorldPosition += pParent->pTransform->GetLocalPosition();
 
+				/* Set the new parent */
 				pParent = pParent->GetParent();
-
-				if (pParent)
-					pTopParent = pParent;
 			}
 
 			m_WorldPosition = newWorldPosition;
