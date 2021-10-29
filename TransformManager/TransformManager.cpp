@@ -59,6 +59,9 @@ namespace Integrian2D
 
 	void TransformManager::RemoveTransformComponent(TransformComponent* const pTransformComponent) noexcept
 	{
-		m_pTransformComponents.erase(std::remove(m_pTransformComponents.begin(), m_pTransformComponents.end(), pTransformComponent), m_pTransformComponents.end());
+		Utils::Erase_If(m_pTransformComponents, [pTransformComponent](const std::pair<TransformComponent*, std::vector<TransformComponent*>> element)->bool
+			{
+				return element.first == pTransformComponent;
+			});
 	}
 }
