@@ -15,7 +15,7 @@ namespace Integrian2D
 		virtual void FixedUpdate() override;
 
 		/* Return the GameObject's position in World Space */
-		const Point2f GetWorldPosition() const noexcept;
+		const Point2f GetWorldPosition() noexcept;
 
 		/* Return the GameObject's position in its Local Space */
 		const Point2f GetLocalPosition() const noexcept;
@@ -42,8 +42,10 @@ namespace Integrian2D
 		const float GetAngle() const noexcept;
 
 	private:
+		void CalculateNewWorldPosition() noexcept;
+
 		bool m_TransformChanged;
-		bool m_HasPositionChanged;
+		bool m_HasWorldPositionChanged;
 
 		Matrix3x3 m_TransformationMatrix;
 
