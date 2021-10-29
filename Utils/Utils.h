@@ -126,6 +126,19 @@ namespace Integrian2D
 					return false;
 			}
 		}
+
+		template<typename Container, typename Predicate, typename key = typename Container::key_type, typename value = typename Container::mapped_type,
+			typename = std::enable_if_t<std::is_invocable_r_v<bool, Predicate, const std::pair<key, value>&>>>
+		constexpr void Erase_If(Container& items, const Predicate& predicate)
+		{
+			for (auto it{ items.begin() }; it != items.end();)
+			{
+				if (predicate(*it))
+					it = items.erase(it);
+				else
+					++it;
+			}
+		}
 	}
 }
 
