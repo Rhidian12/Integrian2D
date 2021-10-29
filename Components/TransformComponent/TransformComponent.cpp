@@ -90,6 +90,11 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
+	void TransformComponent::SetHasMoved(const bool hasMoved) noexcept
+	{
+		m_HasWorldPositionChanged = hasMoved;
+	}
+
 	const Point2f TransformComponent::GetWorldPosition() noexcept
 	{
 		if (m_HasWorldPositionChanged)

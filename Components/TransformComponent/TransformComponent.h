@@ -38,6 +38,8 @@ namespace Integrian2D
 		/* Sets the GameObject's angle. This triggers a matrix recalculation */
 		void SetAngle(const float angle) noexcept;
 
+		void SetHasMoved(const bool hasMoved) noexcept;
+
 		const Point2f& GetScale() const noexcept;
 		const float GetAngle() const noexcept;
 		const bool GetHasMoved() const noexcept;
