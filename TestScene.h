@@ -77,15 +77,17 @@ public:
 	{
 		using namespace Integrian2D;
 
+		m_pGameObject->AddChild(m_pGameObject2);
+
 		inputManager.AddCommand(GameInput{ KeyboardInput::A }, [this]()->void
 			{
 				m_pGameObject->pTransform->Translate(Vector2f{ 10.f,10.f });
-			}, State::OnRelease);
+			}, State::OnHeld);
 
 		inputManager.AddCommand(GameInput{ KeyboardInput::Q }, [this]()->void
 			{
 				m_pGameObject2->pTransform->Translate(Vector2f{ 10.f,10.f });
-			}, State::OnRelease);
+			}, State::OnHeld);
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
