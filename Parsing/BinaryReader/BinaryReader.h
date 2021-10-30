@@ -20,6 +20,9 @@ namespace Integrian2D
 		   This happens automatically on creation of the reader */
 		void Open() noexcept;
 
+		/* Open a new binary file */
+		void OpenNewFile(const std::string& newFile) noexcept;
+
 		/* Close the binary file 
 		   This happens automatically on destruction of the reader */
 		void Close() noexcept;	

@@ -21,6 +21,18 @@ namespace Integrian2D
 		m_File.open(m_FileName, std::ios::in | std::ios::binary);
 	}
 
+	void BinaryReader::OpenNewFile(const std::string& newFile) noexcept
+	{
+		/* Close the binary file */
+		m_File.close();
+
+		m_FileName = newFile;
+
+		m_File.open(m_FileName, std::ios::in | std::ios::binary);
+
+		ASSERT(m_File.is_open(), "BinaryReader::OpenNewFile() > The new file could not be opened!");
+	}
+
 	void BinaryReader::Close() noexcept
 	{
 		m_File.close();
