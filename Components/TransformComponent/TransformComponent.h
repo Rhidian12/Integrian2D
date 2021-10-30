@@ -38,6 +38,10 @@ namespace Integrian2D
 		/* Sets the GameObject's angle. This triggers a matrix recalculation */
 		void SetAngle(const float angle) noexcept;
 
+		/* This function should NOT be called manually. It is called internally and calling this manually will only waste CPU cycles. 
+		   This function checks if its parent local position has changed. If it has, it must recalculate its world position */
+		void CalculateNewWorldPosition() noexcept;
+
 		void SetHasMoved(const bool hasMoved) noexcept;
 
 		const Point2f& GetScale() const noexcept;
@@ -46,7 +50,6 @@ namespace Integrian2D
 
 	private:
 		void RecalculateTransformationMatrix() noexcept;
-		void CalculateNewWorldPosition() noexcept;
 
 		bool m_TransformChanged;
 		bool m_HasWorldPositionChanged;

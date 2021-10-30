@@ -174,10 +174,6 @@ namespace Integrian2D
 	{
 		if (m_HasWorldPositionChanged)
 		{
-			/* Tell Children that worldposition has been altered */
-			for (GameObject* const pChild : m_pOwner->GetChildren())
-				pChild->pTransform->m_HasWorldPositionChanged = true;
-
 			/* Cache our local position, which we need to calculate the world position */
 			Point2f newWorldPosition{ GetLocalPosition() };
 			
@@ -200,6 +196,7 @@ namespace Integrian2D
 
 			m_WorldPosition = newWorldPosition;
 
+			/* Flag that we've calculated our new world position */
 			m_HasWorldPositionChanged = false;
 		}
 	}
