@@ -201,7 +201,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="EventQueue\EventQueue.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp" />
-    <ClCompile Include="NavigationGraph\NavigationGraph.cpp" />
+    <ClCompile Include="NavigationGraph\NavigationGraphComponent.cpp" />
     <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp" />
     <ClCompile Include="Parsing\BinaryWriter\BinaryWriter.cpp" />
     <ClCompile Include="Components\Component\Component.cpp" />
@@ -251,7 +251,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="NavigationGraph\NavGraphPolygon\delaunator.hpp" />
     <ClInclude Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.h" />
-    <ClInclude Include="NavigationGraph\NavigationGraph.h" />
+    <ClInclude Include="NavigationGraph\NavigationGraphComponent.h" />
     <ClInclude Include="Parsing\BinaryReader\BinaryReader.h" />
     <ClInclude Include="Parsing\BinaryWriter\BinaryWriter.h" />
     <ClInclude Include="catch.hpp" />

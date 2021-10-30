@@ -7,11 +7,11 @@
 
 namespace Integrian2D
 {
-	class NavigationGraph final : public Component
+	class NavigationGraphComponent final : public Component
 	{
 	public:
-		NavigationGraph(GameObject* pOwner);
-		NavigationGraph(GameObject* pOwner, const std::vector<NavGraphPolygon>& polygons);
+		NavigationGraphComponent(GameObject* pOwner);
+		NavigationGraphComponent(GameObject* pOwner, const std::vector<NavGraphPolygon>& polygons);
 
 		virtual Component* Clone(GameObject* pOwner) noexcept override;
 

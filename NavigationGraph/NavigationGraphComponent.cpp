@@ -1,4 +1,4 @@
-#include "NavigationGraph.h"
+#include "NavigationGraphComponent.h"
 #include "../GameObject/GameObject.h"
 #include "../Components/TransformComponent/TransformComponent.h"
 
@@ -6,24 +6,24 @@
 
 namespace Integrian2D
 {
-	NavigationGraph::NavigationGraph(GameObject* pOwner)
+	NavigationGraphComponent::NavigationGraphComponent(GameObject* pOwner)
 		: Component{ pOwner }
 		, m_Polygons{}
 		, m_IsPolygonAdded{}
 	{}
 	
-	NavigationGraph::NavigationGraph(GameObject* pOwner, const std::vector<NavGraphPolygon>& polygons)
+	NavigationGraphComponent::NavigationGraphComponent(GameObject* pOwner, const std::vector<NavGraphPolygon>& polygons)
 		: Component{ pOwner }
 		, m_Polygons{ polygons }
 		, m_IsPolygonAdded{}
 	{}
 
-	Component* NavigationGraph::Clone(GameObject* pOwner) noexcept
+	Component* NavigationGraphComponent::Clone(GameObject* pOwner) noexcept
 	{
-		return new NavigationGraph{ pOwner, m_Polygons };
+		return new NavigationGraphComponent{ pOwner, m_Polygons };
 	}
 
-	void NavigationGraph::Update()
+	void NavigationGraphComponent::Update()
 	{
 		if (m_IsPolygonAdded)
 		{
@@ -35,13 +35,13 @@ namespace Integrian2D
 		}
 	}
 
-	void NavigationGraph::Render() const
+	void NavigationGraphComponent::Render() const
 	{
 		for (const NavGraphPolygon& polygon : m_Polygons)
 			polygon.Render(m_pOwner->pTransform->GetWorldPosition());
 	}
 
-	void NavigationGraph::AddPolygon(const NavGraphPolygon& polygon, const bool allowDuplicatePolygons) noexcept
+	void NavigationGraphComponent::AddPolygon(const NavGraphPolygon& polygon, const bool allowDuplicatePolygons) noexcept
 	{
 		if (allowDuplicatePolygons)
 		{
@@ -59,14 +59,14 @@ namespace Integrian2D
 		}
 	}
 
-	void NavigationGraph::RemovePolygon(const NavGraphPolygon& polygonToRemove) noexcept
+	void NavigationGraphComponent::RemovePolygon(const NavGraphPolygon& polygonToRemove) noexcept
 	{
 		const std::vector<NavGraphPolygon>::const_iterator cIt{ std::find(m_Polygons.cbegin(), m_Polygons.cend(), polygonToRemove) };
 		if (cIt != m_Polygons.cend())
 			m_Polygons.erase(cIt);
 	}
 
-	const std::vector<NavGraphPolygon>& NavigationGraph::GetPolygons() const noexcept
+	const std::vector<NavGraphPolygon>& NavigationGraphComponent::GetPolygons() const noexcept
 	{
 		return m_Polygons;
 	}

@@ -102,7 +102,7 @@
     <ClCompile Include="Timer\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NavigationGraph\NavigationGraph.cpp">
+    <ClCompile Include="NavigationGraph\NavigationGraphComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp">
@@ -263,7 +263,7 @@
     <ClInclude Include="Timer\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NavigationGraph\NavigationGraph.h">
+    <ClInclude Include="NavigationGraph\NavigationGraphComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.h">

@@ -9,7 +9,7 @@
 #include "Components/RectColliderComponent/RectColliderComponent.h"
 #include "Components/PhysicsComponent/PhysicsComponent.h"
 #include "Timer/Timer.h"
-#include "NavigationGraph/NavigationGraph.h"
+#include "NavigationGraph/NavigationGraphComponent.h"
 #include "NavigationGraph/NavGraphPolygon/NavGraphPolygon.h"
 #include "Renderer/Renderer.h"
 
