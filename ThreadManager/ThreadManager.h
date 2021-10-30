@@ -18,7 +18,6 @@ namespace Integrian2D
 
 		~ThreadManager();
 
-		static void CreateThreadManager(const int amountOfThreads) noexcept;
 		static ThreadManager* const GetInstance() noexcept;
 		static void Cleanup() noexcept;
 
@@ -28,7 +27,7 @@ namespace Integrian2D
 		const std::queue<ThreadTask>& GetThreadTasks() const noexcept;
 
 	private:
-		ThreadManager(const int amountOfThreads);
+		ThreadManager();
 		void InfiniteLoop(const int index) noexcept;
 
 		std::vector<std::thread> m_Threads;

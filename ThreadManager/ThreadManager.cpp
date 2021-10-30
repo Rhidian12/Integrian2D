@@ -15,16 +15,10 @@ namespace Integrian2D
 		m_Threads.clear();
 	}
 
-	void ThreadManager::CreateThreadManager(const int amountOfThreads) noexcept
-	{
-		ASSERT(m_pInstance == nullptr, "ThreadManager::CreateThreadManager() > This function can only be called once!");
-
-		m_pInstance = new ThreadManager{ amountOfThreads };
-	}
-
 	ThreadManager* const ThreadManager::GetInstance() noexcept
 	{
-		ASSERT(m_pInstance != nullptr, "ThreadManager::GetInstance() > First call ThreadManager::CreateThreadManager() before calling ThreadManager::GetInstance()!");
+		if (!m_pInstance)
+			m_pInstance = new ThreadManager{};
 
 		return m_pInstance;
 	}
@@ -58,16 +52,16 @@ namespace Integrian2D
 		return m_Tasks;
 	}
 
-	ThreadManager::ThreadManager(const int amountOfThreads)
+	ThreadManager::ThreadManager()
 		: m_Threads{}
 		, m_AreJobsDone{}
 		, m_Tasks{}
 		, m_Mutex{}
 		, m_CV{}
 	{
-		for (int i{}; i < amountOfThreads; ++i)
+		for (size_t i{}; i < std::thread::hardware_concurrency(); ++i)
 		{
-			m_Threads.push_back(std::thread{ std::bind(&ThreadManager::InfiniteLoop, this, i) });
+			m_Threads.push_back(std::thread{ std::bind(&ThreadManager::InfiniteLoop, this, static_cast<int>(i)) });
 			m_AreJobsDone.push_back(true);
 		}
 	}
