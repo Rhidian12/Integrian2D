@@ -2,10 +2,12 @@
 
 namespace Integrian2D
 {
-	BinaryReader::BinaryReader(std::string fileName)
+	BinaryReader::BinaryReader(const std::string& fileName)
 		: m_File{}
 	{
 		m_File.open(fileName, std::ios::in, std::ios::binary);
+
+		ASSERT(m_File.is_open(), "BinaryReader::BinaryReader() > File could not be opened!");
 	}
 
 	BinaryReader::~BinaryReader()

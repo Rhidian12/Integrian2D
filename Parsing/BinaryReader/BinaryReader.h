@@ -13,7 +13,7 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the file with path fileName */
-		BinaryReader(std::string fileName);
+		BinaryReader(const std::string& fileName);
 		~BinaryReader();
 
 		/* Close the binary file 
@@ -25,7 +25,7 @@ namespace Integrian2D
 		template<typename Type>
 		Type Read() noexcept
 		{
-			ASSERT(m_File.is_open(), "BinaryReader could not open the file!");
+			ASSERT(m_File.is_open(), "BinaryReader::Read() > The file has not been opened!");
 
 			if constexpr (std::is_same_v<Type, std::string>)
 			{
