@@ -20,6 +20,9 @@ namespace Integrian2D
 		explicit Polygon<4, Type>(const Type _x, const Type _y, const Type _width, const Type _height)
 			: Polygon<4, Type>{ _x, _y, _width, _height, static_cast<Type>(0.f) }
 		{}
+		explicit Polygon<4, Type>(const Point<2, Type> _xy, const Type _width, const Type _height)
+			: Polygon<4, Type>{ _xy, _width, _height, static_cast<Type>(0.f), static_cast<Type>(1.f), static_cast<Type>(1.f) }
+		{}
 		explicit Polygon<4, Type>(const Type _x, const Type _y, const Type _width, const Type _height, const Type _angle)
 			: Polygon<4, Type>{ _x, _y, _width, _height, _angle, static_cast<Type>(1.f), static_cast<Type>(1.f) }
 		{}
