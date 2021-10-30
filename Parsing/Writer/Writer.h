@@ -29,18 +29,21 @@ namespace Integrian2D
 		/* Write data to the non-binary file
 		   If the requested data has no operator<<, this function will result in a compiler error */
 		template<typename Type>
-		void Write(const Type& data, const bool newLine) noexcept
-		{
-			ASSERT(m_File.is_open(), "Writer could not write to the file!");
-
-			m_File << data;
-
-			if (newLine)
-				m_File << '\n';
-		}
+		void Write(const Type& data, const bool newLine) noexcept;
 
 	private:
 		std::ofstream m_File;
 		std::string m_FileName;
 	};
+
+	template<typename Type>
+	void Writer::Write(const Type& data, const bool newLine) noexcept
+	{
+		ASSERT(m_File.is_open(), "Writer::Write() > File has not been opened!");
+
+		m_File << data;
+
+		if (newLine)
+			m_File << '\n';
+	}
 }
