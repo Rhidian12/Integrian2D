@@ -11,18 +11,30 @@ namespace Integrian2D
 	class Component;
 	class TransformComponent;
 
+	/* The GameObject is the class that holds a list of Components, and calls their overridable functions, such as Render() 
+	   The GameObjects get added to the Scene via Scene::AddGameObject */
 	class GameObject final
 	{
 	public:
 		GameObject();
 		~GameObject();
 
+		/* This function calls the GameObject's Components' Update(). Do NOT call this manually */
 		void Update();
+
+		/* This function calls the GameObject's Components' FixedUpdate(). Do NOT call this manually */
 		void FixedUpdate();
+
+		/* This function calls the GameObject's Components' LateUpdate(). Do NOT call this manually */
 		void LateUpdate();
 
+		/* This function calls the GameObject's Components' Render(). Do NOT call this manually */
 		void Render() const;
 
+		/* This function returns the Component requested by the User. This function will cause a compilation error
+		   if the requested Type is class not derived from Component 
+		   If the requested Type is present, it will return a pointer to the requested component
+		   Otherwise this function returns a nullptr */
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
 		Type* const GetComponentByType() const noexcept;
 
