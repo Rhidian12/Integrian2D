@@ -28,8 +28,6 @@ namespace Integrian2D
 
 						m_TransformManager.UpdateTransforms();
 					} /* Release the lock*/
-
-					std::this_thread::sleep_for(100ms);
 				}
 			});
 	}
