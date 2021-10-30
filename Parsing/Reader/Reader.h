@@ -35,16 +35,7 @@ namespace Integrian2D
 		/* Read data from the non-binary file
 		   If the requested data is wrong, this function will result in undefined behaviour */
 		template<typename Type>
-		void Read() const noexcept
-		{
-			ASSERT(m_File.is_open(), "Reader::Read() > File is not open!");
-
-			Type data{};
-
-			m_File >> data;
-
-			return data;
-		}
+		void Read() const noexcept;
 
 		/* Get amount of lines this non-binary file contains 
 		   Note that this function has a linear time complexity */
@@ -57,4 +48,15 @@ namespace Integrian2D
 		std::fstream m_File;
 		std::string m_FileName;
 	};
+
+	template<typename Type>
+	void Reader::Read() const noexcept
+	{
+		ASSERT(m_File.is_open(), "Reader::Read() > File is not open!");
+		Type data{};
+
+		m_File >> data;
+
+		return data;
+	}
 }
