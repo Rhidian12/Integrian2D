@@ -16,6 +16,10 @@ namespace Integrian2D
 		Reader(const std::string& filePath);
 		~Reader();
 
+		/* Open the non-binary file
+		   This happens automatically on creation of the reader */
+		void Open() noexcept;
+
 		/* Open a new non-binary file */
 		void OpenNewFile(const std::string& filePath) noexcept;
 
