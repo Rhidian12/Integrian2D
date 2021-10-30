@@ -44,9 +44,16 @@ namespace Integrian2D
 	class Logger final
 	{
 	public:
+		/* Log a message to the console in green */
 		static void LogNoWarning(const std::string& message, bool newLine = true) noexcept;
+
+		/* Log a message to the console in yellow */
 		static void LogWarning(const std::string& message, bool newLine = true) noexcept;
+
+		/* Log a message to the console in light red */
 		static void LogError(const std::string& message, bool newLine = true) noexcept;
+
+		/* Log a message to the console in red */
 		static void LogSevereError(const std::string& message, bool newLine = true) noexcept;
 	};
 }
