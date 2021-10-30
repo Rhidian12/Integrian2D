@@ -8,14 +8,20 @@
 
 namespace Integrian2D
 {
+	/* This is a RAII reader to read data from binary files */
 	class BinaryReader final
 	{
 	public:
+		/* Opens the file with path fileName */
 		BinaryReader(std::string fileName);
 		~BinaryReader();
 
+		/* Close the binary file 
+		   This happens automatically on destruction of the reader */
 		void Close() noexcept;	
 
+		/* Read data from the binary file 
+		   If the requested data is wrong, this function will result in undefined behaviour */
 		template<typename Type>
 		Type Read() noexcept
 		{
