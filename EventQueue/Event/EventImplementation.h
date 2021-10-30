@@ -32,6 +32,12 @@ namespace Integrian2D
 	{
 	public:
 		template<typename Type>
+		EventImplementation(const std::string& eventName)
+			: m_Event{ eventName }
+			, m_pData{}
+		{}
+
+		template<typename Type>
 		EventImplementation(const std::string& eventName, const Type& data)
 			: m_Event{ eventName }
 			, m_pData{ new EventData<Type>{data} }
