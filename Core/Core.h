@@ -10,9 +10,12 @@ namespace Integrian2D
 	class Core final
 	{
 	public:
+		/* Create an instance of the engine, this initializes the libraries used by the engine and creates a window 
+		   Call this constructor only ONCE */
 		Core(const int windowWidth, const int windowHeight, const std::string& windowTitle);
 		~Core();
 
+		/* This function starts the Engine and should be called ONCE */
 		void Run();
 
 		Core(const Core&) = delete;
