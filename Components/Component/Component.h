@@ -17,7 +17,8 @@ namespace Integrian2D
 		Component& operator=(const Component& other) noexcept;
 		Component& operator=(Component&& other) noexcept;
 
-		// This function must return a Component* and must be overriden in any derived class
+		/* This function must return a Component * andmust be overriden in any derived component
+		   This function gets used interally whenever a Component gets copied by its owner */
 		virtual Component* Clone(GameObject* pOwner) noexcept = 0;
 		/* 
 			Example from the TextureComponent:
@@ -28,10 +29,16 @@ namespace Integrian2D
 			}
 		*/
 
+		/* Set the new owner of this component */
 		void SetOwner(GameObject* const pOwner) noexcept;
+
+		/* Get the current owner of this component */
 		GameObject* const GetOwner() const noexcept;
 
-		// All of the functions below should be overriden if necessary
+		/* All of the functions below can be overriden if desired 
+		   On their own, they do nothing
+		   Do NOT call these functions manually, once this component gets added to a GameObject,
+		   these functions get called automatically */
 		virtual void Update() {}
 		virtual void FixedUpdate() {}
 		virtual void LateUpdate() {}
