@@ -10,6 +10,7 @@ namespace Integrian2D
 		Circle = 1
 	};
 
+	/* TODO: Document this class when PhysicsEngine is complete */
 	class ColliderComponent : public Component
 	{
 	public:
