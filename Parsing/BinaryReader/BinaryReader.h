@@ -30,36 +30,39 @@ namespace Integrian2D
 		/* Read data from the binary file 
 		   If the requested data is wrong, this function will result in undefined behaviour */
 		template<typename Type>
-		Type Read() noexcept
-		{
-			ASSERT(m_File.is_open(), "BinaryReader::Read() > The file has not been opened!");
-
-			if constexpr (std::is_same_v<Type, std::string>)
-			{
-				size_t stringSize{};
-
-				m_File.read(reinterpret_cast<char*>(&stringSize), sizeof(size_t));
-
-				std::string data{};
-				data.resize(stringSize);
-
-				m_File.read(&data[0], stringSize);
-
-				return data;
-			}
-			else
-			{
-				Type data{};
-
-				m_File.read(reinterpret_cast<char*>(&data), sizeof(Type));
-
-				return data;
-			}
-		}
+		Type Read() noexcept;
 
 	private:
 		std::fstream m_File;
 		std::string m_FileName;
 	};
+
+	template<typename Type>
+	Type BinaryReader::Read() noexcept
+	{
+		ASSERT(m_File.is_open(), "BinaryReader::Read() > The file has not been opened!");
+
+		if constexpr (std::is_same_v<Type, std::string>)
+		{
+			size_t stringSize{};
+
+			m_File.read(reinterpret_cast<char*>(&stringSize), sizeof(size_t));
+
+			std::string data{};
+			data.resize(stringSize);
+
+			m_File.read(&data[0], stringSize);
+
+			return data;
+		}
+		else
+		{
+			Type data{};
+
+			m_File.read(reinterpret_cast<char*>(&data), sizeof(Type));
+
+			return data;
+		}
+	}
 }
 
