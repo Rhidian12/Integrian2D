@@ -16,6 +16,10 @@ namespace Integrian2D
 		BinaryReader(const std::string& fileName);
 		~BinaryReader();
 
+		/* Open the binary file
+		   This happens automatically on creation of the reader */
+		void Open() noexcept;
+
 		/* Close the binary file 
 		   This happens automatically on destruction of the reader */
 		void Close() noexcept;	
@@ -52,6 +56,7 @@ namespace Integrian2D
 
 	private:
 		std::fstream m_File;
+		std::string m_FileName;
 	};
 }
 
