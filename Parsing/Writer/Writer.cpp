@@ -12,8 +12,12 @@ Integrian2D::Writer::~Writer()
 	m_File.close();
 }
 
-void Integrian2D::Writer::Open(const std::string filePath) noexcept
+void Integrian2D::Writer::OpenNewFile(const std::string& filePath) noexcept
 {
+	m_File.close();
+
+	m_FileName = filePath;
+
 	m_File.open(filePath);
 }
 

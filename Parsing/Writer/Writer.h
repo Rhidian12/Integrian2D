@@ -17,7 +17,7 @@ namespace Integrian2D
 		~Writer();
 
 		/* Open a new non-binary file */
-		void Open(const std::string filePath) noexcept;
+		void OpenNewFile(const std::string& filePath) noexcept;
 
 		/* Close the non-binary file
 		   This happens automatically on destruction of the writer */
