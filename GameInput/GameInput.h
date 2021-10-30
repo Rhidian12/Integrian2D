@@ -16,6 +16,7 @@ namespace Integrian2D
 		NotPressed = 0 // internal usage
 	};
 
+	/* Interal Usage */
 	struct CommandAndButton final
 	{
 		CommandAndButton(const std::function<void()>& pCommand, const State wantedKeystate)
@@ -30,6 +31,7 @@ namespace Integrian2D
 		State previousKeystate;
 	};
 
+	/* Used by the InputManager to represent user input, either controller, mouse or keyboard input*/
 	struct GameInput final
 	{
 		explicit GameInput(const ControllerInput controllerInput)
@@ -49,6 +51,7 @@ namespace Integrian2D
 		KeyboardInput keyboardInput{ KeyboardInput::INVALID };
 		MouseButton mouseButton{ MouseButton::INVALID };
 
+		/* Internal Usage */
 		uint64_t id{ Utils::RandomNumber(uint64_t(0), std::numeric_limits<uint64_t>::max()) };
 	};
 }
