@@ -7,6 +7,8 @@
 
 namespace Integrian2D
 {
+	/* TODO: Document this class when PhysicsEngine is complete */
+
 	class PhysicsComponent final : public Component
 	{
 	public:
