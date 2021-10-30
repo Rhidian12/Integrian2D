@@ -5,7 +5,7 @@
 namespace Integrian2D
 {
 	/* An Event gets only used by the EventQueue, which sends the Event to all of the EventQueue's Listeners 
-	   An Event has an identifier - which is required, optional data and an optional delay 
+	   An Event has an identifier - which is required - optional data and an optional delay 
 	   The delay is set to 0 by default 
 	   The delay is used to indicate by how many frames an event should get delayed before it gets broadcasted by the EventQueue */
 	struct Event final
