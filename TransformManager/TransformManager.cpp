@@ -76,8 +76,12 @@ namespace Integrian2D
 
 	void TransformManager::InformChildren(TransformComponent* const pParent) noexcept
 	{
+		const std::unordered_map<TransformComponent*, std::vector<TransformComponent*>>::const_iterator cIt{ m_pTransformComponents.find(pParent) };
+		if (cIt == m_pTransformComponents.cend())
+			return;
+
 		/* Recursively call this function to inform all of the children */
-		for (TransformComponent* const pChild : m_pTransformComponents.find(pParent)->second)
+		for (TransformComponent* const pChild : cIt->second)
 		{
 			/* First check if the child hasn't been informed already */
 			if (!pChild->GetHasMoved())
@@ -90,8 +94,12 @@ namespace Integrian2D
 
 	void TransformManager::MoveChildren(TransformComponent* const pParent) noexcept
 	{
+		const std::unordered_map<TransformComponent*, std::vector<TransformComponent*>>::const_iterator cIt{ m_pTransformComponents.find(pParent) };
+		if (cIt == m_pTransformComponents.cend())
+			return;
+
 		/* Recursively call this function to move all of the children */
-		for (TransformComponent* const pChild : m_pTransformComponents.find(pParent)->second)
+		for (TransformComponent* const pChild : cIt->second)
 		{
 			/* First check if the child has been informed to move */
 			if (pChild->GetHasMoved())
