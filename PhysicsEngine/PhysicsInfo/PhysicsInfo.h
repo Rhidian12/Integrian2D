@@ -7,6 +7,7 @@ namespace Integrian2D
 {
 	class ColliderComponent;
 
+	/* TODO: Document this once PhysicsEngine is complete */
 	class PhysicsInfo final
 	{
 	public:
