@@ -13,19 +13,6 @@ namespace Integrian2D
 		: m_pTransformComponents{}
 	{}
 
-	TransformManager* const TransformManager::GetInstance() noexcept
-	{
-		if (!m_pInstance)
-			m_pInstance = new TransformManager{};
-
-		return m_pInstance;
-	}
-
-	void TransformManager::Cleanup() noexcept
-	{
-		Utils::SafeDelete(m_pInstance);
-	}
-
 	void TransformManager::UpdateTransforms() noexcept
 	{
 		while (g_IsLooping)
@@ -34,16 +21,22 @@ namespace Integrian2D
 			/* Check a parent, then check its children */
 			for (const auto& [Parent, Children] : m_pTransformComponents)
 			{
-				/* The Parent has moved, so inform all of its children */
-				if (Parent->GetHasMoved())
-				{
-					for (TransformComponent* const pChild : Children)
-						pChild->SetHasMoved(true);
-				}
+				if (Parent->GetHasMoved()) /* The Parent has moved, so inform all of its children */
+					InformChildren(Parent);
 				else /* The Parent has not moved, so check each of its children */
-				{
+					for (TransformComponent* const pChild : Children)
+						if (pChild->GetHasMoved()) /* The Child has moved so inform all of its children */
+							InformChildren(pChild);
+			}
 
-				}
+			for (const auto& [Parent, Children] : m_pTransformComponents)
+			{
+				if (Parent->GetHasMoved()) /* The Parent has moved, so move all of its children */
+					MoveChildren(Parent);
+				else
+					for (TransformComponent* const pChild : Children)
+						if (pChild->GetHasMoved()) /* The Child has moved so move all of its children */
+							MoveChildren(pChild);
 			}
 		}
 	}
@@ -83,5 +76,34 @@ namespace Integrian2D
 			{
 				return element.first == pTransformComponent;
 			});
+	}
+
+
+	void TransformManager::InformChildren(TransformComponent* const pParent) noexcept
+	{
+		/* Recursively call this function to inform all of the children */
+		for (TransformComponent* const pChild : m_pTransformComponents.find(pParent)->second)
+		{
+			/* First check if the child hasn't been informed already */
+			if (!pChild->GetHasMoved())
+			{
+				pChild->SetHasMoved(true);
+				InformChildren(pChild);
+			}
+		}
+	}
+
+	void TransformManager::MoveChildren(TransformComponent* const pParent) noexcept
+	{
+		/* Recursively call this function to move all of the children */
+		for (TransformComponent* const pChild : m_pTransformComponents.find(pParent)->second)
+		{
+			/* First check if the child has been informed to move */
+			if (pChild->GetHasMoved())
+			{
+				pChild->CalculateNewWorldPosition();
+				MoveChildren(pChild);
+			}
+		}
 	}
 }

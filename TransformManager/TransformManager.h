@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <unordered_map>
 
@@ -9,18 +10,18 @@ namespace Integrian2D
 	class TransformManager final
 	{
 	public:
-		static TransformManager* const GetInstance() noexcept;
-		static void Cleanup() noexcept;
-
 		void UpdateTransforms() noexcept;
 
 		void AddTransformComponent(TransformComponent* const pTransformComponent) noexcept;
 		void RemoveTransformComponent(TransformComponent* const pTransformComponent) noexcept;
 
 	private:
-		TransformManager();
+		friend class Scene;
 
-		inline static TransformManager* m_pInstance{};
+		TransformManager();
+		void InformChildren(TransformComponent* const pParent) noexcept;
+		void MoveChildren(TransformComponent* const pParent) noexcept;
+
 		std::unordered_map<TransformComponent*, std::vector<TransformComponent*>> m_pTransformComponents;
 	};
 }
