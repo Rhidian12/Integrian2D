@@ -41,6 +41,7 @@ inline std::string operator""_s(const char* str, std::size_t len)
 
 namespace Integrian2D
 {
+	/* TODO: Make colours customisable and add a way to log to a file */
 	class Logger final
 	{
 	public:
