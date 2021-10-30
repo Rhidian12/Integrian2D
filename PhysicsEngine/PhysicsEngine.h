@@ -9,6 +9,7 @@ namespace Integrian2D
 {
 	class PhysicsComponent;
 
+	/* TODO: Document this class once it's done */
 	class PhysicsEngine final
 	{
 	public:
