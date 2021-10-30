@@ -2,10 +2,12 @@
 
 #include <string>
 #include <unordered_map>
+#include <mutex>
 
 #include "../Input/InputManager/InputManager.h"
 #include "../PhysicsEngine/PhysicsEngine.h"
 #include "../EventQueue/EventQueue.h"
+#include "../TransformManager/TransformManager.h"
 
 namespace Integrian2D
 {
@@ -54,6 +56,9 @@ namespace Integrian2D
 
 		std::string m_SceneName;
 		std::unordered_map<std::string, GameObject*> m_pGameObjects;
+
+		std::mutex m_Mutex;
+		TransformManager m_TransformManager;
 	};
 }
 

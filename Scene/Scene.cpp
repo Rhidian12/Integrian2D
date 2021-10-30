@@ -3,13 +3,28 @@
 #include "../Logger/Logger.h"
 #include "../GameObject/GameObject.h"
 #include "../TransformManager/TransformManager.h"
+#include "../ThreadManager/ThreadManager.h"
+
+extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
 	Scene::Scene(const std::string& sceneName)
 		: m_SceneName{ sceneName }
 		, m_pGameObjects{}
+		, m_TransformManager{}
+		, m_Mutex{}
 	{
+		ThreadManager::GetInstance()->AssignThreadTask([this]()
+			{
+				while (g_IsLooping)
+				{
+					/* Acquire the lock */
+					std::unique_lock<std::mutex> lock{ m_Mutex };
+
+					m_TransformManager.UpdateTransforms();
+				}
+			});
 	}
 
 	Scene::~Scene()
@@ -44,12 +59,15 @@ namespace Integrian2D
 
 	void Scene::AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
 	{
+		/* Acquire the lock */
+		std::unique_lock<std::mutex> lock{ m_Mutex };
+
 		const std::unordered_map<std::string, GameObject*>::const_iterator cIt{ m_pGameObjects.find(gameObjectName) };
 
 		if (cIt == m_pGameObjects.cend())
 		{
 			m_pGameObjects.insert(std::make_pair(gameObjectName, pGameObject));
-			TransformManager::GetInstance()->AddTransformComponent(pGameObject->pTransform);
+			m_TransformManager.AddTransformComponent(pGameObject->pTransform);
 		}
 		else if (shouldAlwaysAdd)
 		{
@@ -66,7 +84,7 @@ namespace Integrian2D
 				+ newName);
 
 			m_pGameObjects.insert(std::make_pair(newName, pGameObject));
-			TransformManager::GetInstance()->AddTransformComponent(pGameObject->pTransform);
+			m_TransformManager.AddTransformComponent(pGameObject->pTransform);
 		}
 	}
 
