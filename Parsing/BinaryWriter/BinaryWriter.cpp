@@ -2,8 +2,9 @@
 
 namespace Integrian2D
 {
-	BinaryWriter::BinaryWriter(std::string filePath)
+	BinaryWriter::BinaryWriter(const std::string& filePath)
 		: m_File{}
+		, m_FileName{ filePath }
 	{
 		m_File.open(filePath, std::ios::out | std::ios::binary);
 	}

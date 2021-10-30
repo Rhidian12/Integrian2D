@@ -13,7 +13,7 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the file with path fileName */
-		BinaryWriter(std::string filePath);
+		BinaryWriter(const std::string& filePath);
 		~BinaryWriter();
 
 		/* Close the binary file
@@ -43,5 +43,6 @@ namespace Integrian2D
 
 	private:
 		std::fstream m_File;
+		std::string m_FileName;
 	};
 }
