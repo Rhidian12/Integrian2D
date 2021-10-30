@@ -8,14 +8,20 @@
 
 namespace Integrian2D
 {
+	/* This is a RAII writer to write data to binary files */
 	class BinaryWriter final
 	{
 	public:
+		/* Opens the file with path fileName */
 		BinaryWriter(std::string filePath);
 		~BinaryWriter();
 
+		/* Close the binary file
+		   This happens automatically on destruction of the reader */
 		void Close() noexcept;
 
+		/* Read data from the binary file
+		   If the requested data is not POD, this function might result in undefined behaviour */
 		template<typename Data>
 		void Write(const Data& data) noexcept
 		{
