@@ -1,7 +1,8 @@
 #include "Writer.h"
 
-Integrian2D::Writer::Writer(const std::string filePath)
+Integrian2D::Writer::Writer(const std::string& filePath)
 	: m_File{}
+	, m_FileName{ filePath }
 {
 	m_File.open(filePath);
 }

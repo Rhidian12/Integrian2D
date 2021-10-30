@@ -13,7 +13,7 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the non-binary file with path filePath */
-		Writer(const std::string filePath);
+		Writer(const std::string& filePath);
 		~Writer();
 
 		/* Open a new non-binary file */
@@ -38,5 +38,6 @@ namespace Integrian2D
 
 	private:
 		std::ofstream m_File;
+		std::string m_FileName;
 	};
 }
