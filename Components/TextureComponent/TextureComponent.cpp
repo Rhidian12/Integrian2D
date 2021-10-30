@@ -10,8 +10,7 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_pTexture{}
 		, m_SourceRect{}
-		, m_DestRectWidth{}
-		, m_DestRectHeight{}
+		, m_DestRect{}
 	{
 	}
 
@@ -19,24 +18,22 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_pTexture{ pTexture }
 		, m_SourceRect{}
-		, m_DestRectWidth{}
-		, m_DestRectHeight{}
+		, m_DestRect{}
 	{
 		if (pTexture)
 		{
 			m_SourceRect.width = pTexture->GetWidth();
 			m_SourceRect.height = pTexture->GetHeight();
-			m_DestRectWidth = pTexture->GetWidth();
-			m_DestRectHeight = pTexture->GetHeight();
+
+			m_DestRect = PRectf{ m_pOwner->pTransform->GetLocalPosition(), pTexture->GetWidth(), pTexture->GetHeight() };
 		}
 	}
 
-	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const float destRectWidth, const float destRectHeight)
+	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const PRectf& destRect)
 		: Component{ pOwner }
 		, m_pTexture{ pTexture }
 		, m_SourceRect{}
-		, m_DestRectWidth{ destRectWidth }
-		, m_DestRectHeight{ destRectHeight }
+		, m_DestRect{ destRect }
 	{
 		if (pTexture)
 		{
@@ -47,15 +44,7 @@ namespace Integrian2D
 
 	void TextureComponent::Render() const
 	{
-		PRectf destRect{ m_pOwner->pTransform->GetLocalPosition(),
-			m_DestRectWidth, m_DestRectHeight,
-			m_pOwner->pTransform->GetAngle(),
-			m_pOwner->pTransform->GetScale().x, m_pOwner->pTransform->GetScale().y };
-
-		const Point2f& leftBottom{ m_pOwner->pTransform->GetLocalPosition() };
-		const Point2f worldPosition{ m_pOwner->pTransform->GetWorldPosition() };
-
-		Renderer::GetInstance()->RenderTexture(m_pTexture, PRectf{ leftBottom.x + worldPosition.x, leftBottom.y + worldPosition.y, destRect.width, destRect.height }, m_SourceRect);
+		Renderer::GetInstance()->RenderTexture(m_pTexture, PRectf{ m_pOwner->pTransform->GetLocalPosition(), m_DestRect.width, m_DestRect.height }, m_SourceRect);
 	}
 
 	Component* TextureComponent::Clone(GameObject* pOwner) noexcept
