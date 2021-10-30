@@ -5,6 +5,8 @@
 #include "../TransformManager/TransformManager.h"
 #include "../ThreadManager/ThreadManager.h"
 
+#include <chrono>
+
 extern bool volatile g_IsLooping;
 
 namespace Integrian2D
@@ -15,14 +17,19 @@ namespace Integrian2D
 		, m_TransformManager{}
 		, m_Mutex{}
 	{
+		using namespace std::chrono_literals;
 		ThreadManager::GetInstance()->AssignThreadTask([this]()
 			{
 				while (g_IsLooping)
 				{
-					/* Acquire the lock */
-					std::unique_lock<std::mutex> lock{ m_Mutex };
+					{
+						/* Acquire the lock */
+						std::unique_lock<std::mutex> lock{ m_Mutex };
 
-					m_TransformManager.UpdateTransforms();
+						m_TransformManager.UpdateTransforms();
+					} /* Release the lock*/
+
+					std::this_thread::sleep_for(100ms);
 				}
 			});
 	}
