@@ -42,7 +42,7 @@ namespace Integrian2D
 	{
 		RecalculateTransformationMatrix();
 
-		CalculateNewWorldPosition();
+		//CalculateNewWorldPosition();
 	}
 
 	void TransformComponent::Translate(const Vector2f& velocity) noexcept
