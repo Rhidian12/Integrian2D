@@ -10,6 +10,7 @@ namespace Integrian2D
 	public:
 		TransformComponent(GameObject* pOwner);
 
+		/* See Component::Clone() for documentation */
 		virtual Component* Clone(GameObject* pOwner) noexcept override;
 
 		virtual void FixedUpdate() override;
@@ -39,13 +40,22 @@ namespace Integrian2D
 		void SetAngle(const float angle) noexcept;
 
 		/* This function should NOT be called manually. It is called internally and calling this manually will only waste CPU cycles. 
-		   This function checks if its parent local position has changed. If it has, it must recalculate its world position */
+		   This function checks if its parent local position has changed. If it has, it must recalculate this component's world position */
 		void CalculateNewWorldPosition() noexcept;
 
+		/* This function can be called manually, however it is not advised since this happens automatically whenever 
+		   SetPosition() or Translate() get called 
+		   This function makes sure to set the flag that the GameObject's position has been moved,
+		   thus the world position should be recalculated */
 		void SetHasMoved(const bool hasMoved) noexcept;
 
+		/* Get the GameObject's local scale */
 		const Point2f& GetScale() const noexcept;
+
+		/* Get the GameObject's local angle */
 		const float GetAngle() const noexcept;
+
+		/* Get whether or not the GameObject has been moved this frame */
 		const bool GetHasMoved() const noexcept;
 
 	private:
