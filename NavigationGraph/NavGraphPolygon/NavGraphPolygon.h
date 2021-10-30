@@ -24,10 +24,10 @@ namespace Integrian2D
 		void Triangulate() noexcept;
 
 		/* Add another polygon to this polygon */
-		NavGraphPolygon* AddChild(const std::vector<Point2f> vertices) noexcept;
+		NavGraphPolygon* AddChild(const std::vector<Point2f>& vertices) noexcept;
 		
 		/* Add another polygon to this polygon */
-		void AddChild(const NavGraphPolygon child) noexcept;
+		void AddChild(const NavGraphPolygon& child) noexcept;
 
 		/* Remove a previously added polygon from this polygon */
 		void RemoveChild(const NavGraphPolygon& childToRemove) noexcept;

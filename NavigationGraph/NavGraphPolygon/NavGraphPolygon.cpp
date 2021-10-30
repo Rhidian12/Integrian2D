@@ -69,13 +69,13 @@ namespace Integrian2D
 		}
 	}
 
-	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f> vertices) noexcept
+	NavGraphPolygon* NavGraphPolygon::AddChild(const std::vector<Point2f>& vertices) noexcept
 	{
 		m_ChildPolygons.push_back(NavGraphPolygon{ vertices });
 		return &m_ChildPolygons.back();
 	}
 
-	void NavGraphPolygon::AddChild(const NavGraphPolygon child) noexcept
+	void NavGraphPolygon::AddChild(const NavGraphPolygon& child) noexcept
 	{
 		m_ChildPolygons.push_back(child);
 	}
