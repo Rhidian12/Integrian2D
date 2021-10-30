@@ -53,6 +53,7 @@ namespace Integrian2D
 	void Reader::Read() const noexcept
 	{
 		ASSERT(m_File.is_open(), "Reader::Read() > File is not open!");
+
 		Type data{};
 
 		m_File >> data;
