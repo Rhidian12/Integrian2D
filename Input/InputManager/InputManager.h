@@ -9,18 +9,26 @@
 
 namespace Integrian2D
 {
+	/* TODO: Make an actual Command class */
 	class InputManager final
 	{
 	public:
 		/*
-		This function gets called in the App::Run() every frame.
+		This function gets called in Core::Run() every frame.
 		All input gets processed, and commands linked to those inputs get executed
 		*/
 		void HandleInput() noexcept;
 
+		/* Add a Command to the InputManager with an input, a KeyState and an optional controller index */
 		void AddCommand(const GameInput& gameInput, const std::function<void()>& pCommand, const State keyState, const uint8_t controllerIndex = 0) noexcept;
+		
+		/* Remove a previously added Command from a specific input */
 		void RemoveCommandFromInput(const GameInput& input, std::function<void()>& pCommand, const uint8_t controllerIndex = 0) noexcept;
+
+		/* Remove a previously added Command from all inputs it is linked to */
 		void RemoveCommand(const std::function<void()>& pCommand, const uint8_t controllerIndex = 0) noexcept;
+
+		/* Remove all Commands from the InputManager */
 		void RemoveAllCommands() noexcept;
 
 		/* Returns whether a keyboard key is pressed now */
@@ -35,6 +43,7 @@ namespace Integrian2D
 		/* Returns whether a mouse button is pressed now */
 		bool IsMouseButtonPressed(const MouseButton gameInput) const noexcept;
 
+		/* Get which key is being pressed at this time */
 		const KeyboardInput GetWhichKeyIsPressed() const noexcept;
 
 		/* Get current mouse position */
@@ -55,6 +64,9 @@ namespace Integrian2D
 		/* Returns the map containing all inputs (with corresponding commands) linked to controller buttons */
 		const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& GetControllerCommands(const uint8_t index) const noexcept;
 
+		/* Flush the Input states 
+		   After calling this function, all inputs will be set to NotPressed 
+		   This input state will only last for 1 frame, the next time HandleInput() gets called, all inputs get set to their current state */
 		void ResetInputs() noexcept;
 
 	private:
