@@ -20,7 +20,7 @@ namespace Integrian2D
 		if (!m_Events.empty())
 		{
 			for (Event& event : m_Events)
-				if (event.delay == 0 || event.delayCounter++ >= event.delay) // if there is no delay or the delayCounter has surpassed the expected delay
+				if (event.delay == 0 || event.delayCounter++ >= event.delay) /* If there is no delay or the delayCounter has exceeded the expected delay */
 					for (IListener* const pListener : m_pListeners)
 						if (pListener->m_IsActive)
 							if (pListener->OnEvent(event))
