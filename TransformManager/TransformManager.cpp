@@ -5,8 +5,6 @@
 
 #include <algorithm>
 
-extern bool volatile g_IsLooping;
-
 namespace Integrian2D
 {
 	TransformManager::TransformManager()
@@ -15,29 +13,26 @@ namespace Integrian2D
 
 	void TransformManager::UpdateTransforms() noexcept
 	{
-		while (g_IsLooping)
+		/* Check if any of the transform components have moved */
+		/* Check a parent, then check its children */
+		for (const auto& [Parent, Children] : m_pTransformComponents)
 		{
-			/* Check if any of the transform components have moved */
-			/* Check a parent, then check its children */
-			for (const auto& [Parent, Children] : m_pTransformComponents)
-			{
-				if (Parent->GetHasMoved()) /* The Parent has moved, so inform all of its children */
-					InformChildren(Parent);
-				else /* The Parent has not moved, so check each of its children */
-					for (TransformComponent* const pChild : Children)
-						if (pChild->GetHasMoved()) /* The Child has moved so inform all of its children */
-							InformChildren(pChild);
-			}
+			if (Parent->GetHasMoved()) /* The Parent has moved, so inform all of its children */
+				InformChildren(Parent);
+			else /* The Parent has not moved, so check each of its children */
+				for (TransformComponent* const pChild : Children)
+					if (pChild->GetHasMoved()) /* The Child has moved so inform all of its children */
+						InformChildren(pChild);
+		}
 
-			for (const auto& [Parent, Children] : m_pTransformComponents)
-			{
-				if (Parent->GetHasMoved()) /* The Parent has moved, so move all of its children */
-					MoveChildren(Parent);
-				else
-					for (TransformComponent* const pChild : Children)
-						if (pChild->GetHasMoved()) /* The Child has moved so move all of its children */
-							MoveChildren(pChild);
-			}
+		for (const auto& [Parent, Children] : m_pTransformComponents)
+		{
+			if (Parent->GetHasMoved()) /* The Parent has moved, so move all of its children */
+				MoveChildren(Parent);
+			else
+				for (TransformComponent* const pChild : Children)
+					if (pChild->GetHasMoved()) /* The Child has moved so move all of its children */
+						MoveChildren(pChild);
 		}
 	}
 
