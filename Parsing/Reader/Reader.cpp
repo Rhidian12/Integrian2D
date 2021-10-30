@@ -15,8 +15,12 @@ namespace Integrian2D
 		m_File.close();
 	}
 
-	void Reader::Open(const std::string filePath) noexcept
+	void Reader::OpenNewFile(const std::string& filePath) noexcept
 	{
+		m_File.close();
+
+		m_FileName = filePath;
+
 		m_File.open(filePath, std::ios::in);
 	}
 
