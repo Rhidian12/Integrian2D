@@ -5,6 +5,8 @@
 
 namespace Integrian2D
 {
+	/* TODO: Document this class when PhysicsEngine is complete */
+
 	class RectColliderComponent final : public ColliderComponent
 	{
 	public:
