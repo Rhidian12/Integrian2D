@@ -20,7 +20,7 @@ namespace Integrian2D
 
 		TransformManager();
 		void InformChildren(TransformComponent* const pParent) noexcept;
-		void MoveChildren(TransformComponent* const pParent) noexcept;
+		void MoveTree(TransformComponent* const pParent) noexcept;
 
 		std::unordered_map<TransformComponent*, std::vector<TransformComponent*>> m_pTransformComponents;
 	};

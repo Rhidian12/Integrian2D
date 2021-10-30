@@ -28,11 +28,11 @@ namespace Integrian2D
 		for (const auto& [Parent, Children] : m_pTransformComponents)
 		{
 			if (Parent->GetHasMoved()) /* The Parent has moved, so move all of its children */
-				MoveChildren(Parent);
+				MoveTree(Parent);
 			else
 				for (TransformComponent* const pChild : Children)
 					if (pChild->GetHasMoved()) /* The Child has moved so move all of its children */
-						MoveChildren(pChild);
+						MoveTree(pChild);
 		}
 	}
 
@@ -76,6 +76,10 @@ namespace Integrian2D
 
 	void TransformManager::InformChildren(TransformComponent* const pParent) noexcept
 	{
+		/* Make sure the Parent is informed as well */
+		pParent->SetHasMoved(true);
+
+		/* Check if this Parent has children */
 		const std::unordered_map<TransformComponent*, std::vector<TransformComponent*>>::const_iterator cIt{ m_pTransformComponents.find(pParent) };
 		if (cIt == m_pTransformComponents.cend())
 			return;
@@ -92,8 +96,12 @@ namespace Integrian2D
 		}
 	}
 
-	void TransformManager::MoveChildren(TransformComponent* const pParent) noexcept
+	void TransformManager::MoveTree(TransformComponent* const pParent) noexcept
 	{
+		/* Move the Parent */
+		pParent->CalculateNewWorldPosition();
+
+		/* Check if this Parent has children */
 		const std::unordered_map<TransformComponent*, std::vector<TransformComponent*>>::const_iterator cIt{ m_pTransformComponents.find(pParent) };
 		if (cIt == m_pTransformComponents.cend())
 			return;
@@ -105,7 +113,7 @@ namespace Integrian2D
 			if (pChild->GetHasMoved())
 			{
 				pChild->CalculateNewWorldPosition();
-				MoveChildren(pChild);
+				MoveTree(pChild);
 			}
 		}
 	}
