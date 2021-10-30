@@ -41,22 +41,14 @@ namespace Integrian2D
 			polygon.Render(m_pOwner->pTransform->GetWorldPosition());
 	}
 
-	void NavigationGraphComponent::AddPolygon(const NavGraphPolygon& polygon, const bool allowDuplicatePolygons) noexcept
+	void NavigationGraphComponent::AddPolygon(const NavGraphPolygon& polygon) noexcept
 	{
-		if (allowDuplicatePolygons)
-		{
-			m_Polygons.push_back(polygon);
-			m_IsPolygonAdded = true;
-		}
-		else
-		{
 			const std::vector<NavGraphPolygon>::const_iterator cIt{ std::find(m_Polygons.cbegin(), m_Polygons.cend(), polygon) };
 			if (cIt == m_Polygons.cend())
 			{
 				m_Polygons.push_back(polygon);
 				m_IsPolygonAdded = true;
 			}
-		}
 	}
 
 	void NavigationGraphComponent::RemovePolygon(const NavGraphPolygon& polygonToRemove) noexcept
