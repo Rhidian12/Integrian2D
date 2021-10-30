@@ -63,7 +63,7 @@ namespace Integrian2D
 			pG->Render();
 	}
 
-	void GameObject::AddComponent(Component* pComponent) noexcept
+	void GameObject::AddComponent(Component* const pComponent) noexcept
 	{
 		std::vector<Component*>::const_iterator cIt{ std::find(m_pComponents.cbegin(), m_pComponents.cend(), pComponent) };
 
@@ -71,7 +71,7 @@ namespace Integrian2D
 			m_pComponents.push_back(pComponent);
 	}
 
-	void GameObject::AddChild(GameObject* pChild) noexcept
+	void GameObject::AddChild(GameObject* const pChild) noexcept
 	{
 		std::vector<GameObject*>::const_iterator cIt{ std::find(m_pChildren.cbegin(), m_pChildren.cend(), pChild) };
 
@@ -88,12 +88,12 @@ namespace Integrian2D
 		pParent->AddChild(this);
 	}
 
-	void GameObject::SetTag(std::string tag) noexcept
+	void GameObject::SetTag(const std::string& tag) noexcept
 	{
 		m_Tag = tag;
 	}
 
-	GameObject* GameObject::GetParent() const noexcept
+	GameObject* const GameObject::GetParent() const noexcept
 	{
 		return m_pParent;
 	}

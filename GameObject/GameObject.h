@@ -41,11 +41,11 @@ namespace Integrian2D
 
 		/* Adds a Component to the GameObject, if it not already present
 		   Duplicate Component Types are allowed, but not the same Component twice */
-		void AddComponent(Component* pComponent) noexcept;
+		void AddComponent(Component* const pComponent) noexcept;
 
 		/* Sets another GameObject as this GameObject's Child
 		   The GameObject set as Child its parent is set as this GameObject */
-		void AddChild(GameObject* pChild) noexcept;
+		void AddChild(GameObject* const pChild) noexcept;
 
 		/* Set a GameObject's parent
 		   It is unnecessary to call this in conjunction with AddChild()
@@ -53,11 +53,11 @@ namespace Integrian2D
 		void SetParent(GameObject* const pParent) noexcept;
 
 		/* Set the GameObject's tag */
-		void SetTag(std::string tag) noexcept;
+		void SetTag(const std::string& tag) noexcept;
 
 		/* Get this GameObject's parent 
 		   If the GameObject has no parent, this function returns a nullptr */
-		GameObject* GetParent() const noexcept;
+		GameObject* const GetParent() const noexcept;
 
 		/* Get the GameObject's Children 
 		   If the GameObject has no Children, this functions returns an empty std::vector */
