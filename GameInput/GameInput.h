@@ -51,7 +51,7 @@ namespace Integrian2D
 		KeyboardInput keyboardInput{ KeyboardInput::INVALID };
 		MouseButton mouseButton{ MouseButton::INVALID };
 
-		/* Internal Usage */
+		/* Internal Usage, TODO: Look into this? Is it actually being used? */
 		uint64_t id{ Utils::RandomNumber(uint64_t(0), std::numeric_limits<uint64_t>::max()) };
 	};
 }
