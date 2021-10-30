@@ -16,6 +16,7 @@ namespace Integrian2D
 	class GameObject final
 	{
 	public:
+		/* Every GameObject has a TransformComponent by default! */
 		GameObject();
 		~GameObject();
 
@@ -38,16 +39,34 @@ namespace Integrian2D
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
 		Type* const GetComponentByType() const noexcept;
 
+		/* Adds a Component to the GameObject, if it not already present
+		   Duplicate Component Types are allowed, but not the same Component twice */
 		void AddComponent(Component* pComponent) noexcept;
+
+		/* Sets another GameObject as this GameObject's Child
+		   The GameObject set as Child its parent is set as this GameObject */
 		void AddChild(GameObject* pChild) noexcept;
 
+		/* Set a GameObject's parent
+		   It is unnecessary to call this in conjunction with AddChild()
+		   Since AddChild() sets the parent automatically */
 		void SetParent(GameObject* const pParent) noexcept;
+
+		/* Set the GameObject's tag */
 		void SetTag(std::string tag) noexcept;
 
+		/* Get this GameObject's parent 
+		   If the GameObject has no parent, this function returns a nullptr */
 		GameObject* GetParent() const noexcept;
+
+		/* Get the GameObject's Children 
+		   If the GameObject has no Children, this functions returns an empty std::vector */
 		const std::vector<GameObject*>& GetChildren() const noexcept;
+
+		/* Get the GameObject's tag */
 		const std::string& GetTag() const noexcept;
 
+		/* The GameObject's Transform Component */
 		TransformComponent* pTransform;
 
 		GameObject(const GameObject& other) noexcept;
