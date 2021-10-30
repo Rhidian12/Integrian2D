@@ -16,8 +16,15 @@ namespace Integrian2D
 		BinaryWriter(const std::string& filePath);
 		~BinaryWriter();
 
+		/* Open the binary file
+		   This happens automatically on creation of the writer */
+		void Open() noexcept;
+
+		/* Open a new binary file */
+		void OpenNewFile(const std::string& newFile) noexcept;
+
 		/* Close the binary file
-		   This happens automatically on destruction of the reader */
+		   This happens automatically on destruction of the writer */
 		void Close() noexcept;
 
 		/* Read data from the binary file
