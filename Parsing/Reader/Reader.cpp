@@ -3,8 +3,9 @@
 
 namespace Integrian2D
 {
-	Reader::Reader(const std::string filePath)
+	Reader::Reader(const std::string& filePath)
 		: m_File{}
+		, m_FileName{ filePath }
 	{
 		m_File.open(filePath, std::ios::in);
 	}
@@ -40,7 +41,7 @@ namespace Integrian2D
 	unsigned int Reader::GetAmountOfLines() noexcept
 	{
 		// Reference: https://stackoverflow.com/questions/3482064/counting-the-number-of-lines-in-a-text-file
-	
+
 		int lineCount{};
 
 		while (m_File.peek() != std::ios::eofbit)
