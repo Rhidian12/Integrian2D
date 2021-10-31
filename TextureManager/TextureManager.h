@@ -21,7 +21,7 @@ namespace Integrian2D
 
 		/* Add a Texture to the Texture Manager
 		   Textures with duplicate names do not get added */
-		void AddTexture(std::string textureID, Texture* const pTexture) noexcept;
+		void AddTexture(const std::string& textureID, Texture* const pTexture) noexcept;
 
 		/* Get a previously added Texture to the TextureManager */
 		Texture* const GetTexture(const std::string& textureID) const noexcept;

@@ -24,14 +24,12 @@ namespace Integrian2D
 			Utils::SafeDelete(pair.second);
 	}
 
-	void TextureManager::AddTexture(std::string textureID, Texture* const pTexture) noexcept
+	void TextureManager::AddTexture(const std::string& textureID, Texture* const pTexture) noexcept
 	{
 		const std::unordered_map<std::string, Texture*>::const_iterator cIt{ m_pTextures.find(textureID) };
 
 		if (cIt == m_pTextures.cend())
 			m_pTextures.insert(std::make_pair(textureID, pTexture));
-		else
-			Logger::LogWarning(std::string{ "TextureManager::AddTexture() > A Texture with textureID: " } + textureID + " was already added!");
 	}
 
 	Texture* const TextureManager::GetTexture(const std::string& textureID) const noexcept
@@ -41,10 +39,7 @@ namespace Integrian2D
 		if (cIt != m_pTextures.cend())
 			return cIt->second;
 		else
-		{
-			Logger::LogError(std::string{ "TextureManager::GetTexture() > There is no Texture with textureID: " } + textureID + " is present!");
 			return nullptr;
-		}
 	}
 
 	const std::unordered_map<std::string, Texture*>& TextureManager::GetTextures() const noexcept
