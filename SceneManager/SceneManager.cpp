@@ -37,6 +37,14 @@ namespace Integrian2D
 		}
 	}
 
+	void SceneManager::SetActiveScene(const std::string& sceneName) noexcept
+	{
+		const std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
+
+		if (cIt != m_pScenes.cend())
+			m_pActiveScene = cIt->second;
+	}
+
 	Scene* const SceneManager::GetActiveScene() const noexcept
 	{
 		return m_pActiveScene;
