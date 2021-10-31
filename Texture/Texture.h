@@ -19,9 +19,16 @@ namespace Integrian2D
 		explicit Texture(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor);
 		~Texture();
 
+		/* Returns the Texture width */
 		float GetWidth() const;
+
+		/* Returns the Texture height */
 		float GetHeight() const;
+
+		/* Returns whether the creation of the Texture succeeded */
 		bool IsCreationOk() const;
+
+		/* Get the ID assigned to the Texture */
 		unsigned int GetTextureID() const noexcept;
 
 		Texture(const Texture& other) noexcept;
