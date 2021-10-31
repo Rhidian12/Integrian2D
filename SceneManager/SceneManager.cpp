@@ -35,8 +35,6 @@ namespace Integrian2D
 			if (!m_pActiveScene)
 				m_pActiveScene = pScene;
 		}
-		else
-			Logger::LogWarning(std::string{ "SceneManager::AddScene() > Scene with name: " } + pScene->GetSceneName() + " is already present!");
 	}
 
 	Scene* const SceneManager::GetActiveScene() const noexcept
