@@ -9,10 +9,27 @@
 
 namespace Integrian2D
 {
-	// A Matrix (for example a 3x3 Matrix) looks like this:
-	// [ A B C ]
-	// [ D E F ]
-	// [ G H I ]
+	/* A Matrix(for example a 3x3 Matrix) looks like this internally:
+	   [ A B C ]
+	   [ D E F ]
+	   [ G H I ] */
+
+	/* A list of available operators:
+	   operator[](const int row)
+
+	   operator()(const int row, const int column)
+
+	   operator+(const Matrix&, const Matrix&)
+	   operator-(const Matrix&, const Matrix&)
+
+	   operator*(const Matrix&, const Matrix&)
+	   operator*(const Matrix&, const Type&)
+	   operator*(const Matrix&, const Point&)
+
+	   operator/(const Matrix&, const Matrix&)
+	   operator/(const Matrix&, const Type&)
+
+	   */
 	template<int Rows, int Columns, typename Type>
 	struct Matrix
 	{
