@@ -11,19 +11,32 @@
 
 namespace Integrian2D
 {
+	/* As with EVERYTHING concerning multi-threading, this is VERY USER-RELIANT
+	   This ThreadManager is a combination of a thread pool and a job system 
+	   The thread pool is only as large as std::thread::hardware_concurrency() recommends 
+	   If you do not know what that means, then I highly recommend you first read what those are before you use this class */
 	class ThreadManager final
 	{
 	public:
+		/* This is the signature any job must have */
 		using ThreadTask = std::function<void()>;
 
 		~ThreadManager();
 
+		/* Get a ThreadManager instance */
 		static ThreadManager* const GetInstance() noexcept;
+
+		/* Internal Usage
+		   Do NOT call this function manually */
 		static void Cleanup() noexcept;
 
+		/* Assign a job to a thread */
 		void AssignThreadTask(const ThreadTask& task) noexcept;
 
+		/* Check if all assigned jobs have been completed */
 		bool AreAllTasksCompleted() const noexcept;
+
+		/* Get all jobs that have not been processed yet */
 		const std::queue<ThreadTask>& GetThreadTasks() const noexcept;
 
 	private:
