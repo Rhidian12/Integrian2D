@@ -10,11 +10,11 @@ namespace Integrian2D
 	namespace Utils
 	{
 		/* I suggest using the ASSERT macro, since it gets optimised away in Release */
+		void Assert(const bool expression, const std::string& message);
+
 #ifdef _DEBUG
-		void Assert(const bool expression, std::string message);
 #define ASSERT(expression, message) Utils::Assert(expression, message);
 #else
-		void Assert(const bool expression, std::string message);
 #define ASSERT(expression, message)
 #endif
 

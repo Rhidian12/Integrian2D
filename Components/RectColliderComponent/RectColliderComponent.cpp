@@ -33,7 +33,7 @@ namespace Integrian2D
 		case ColliderShape::Circle:
 			break;
 		default:
-			ASSERT(false, "RectColliderComponent::CheckCollision() > The other shape has no collision available!")
+			ASSERT(false, "RectColliderComponent::CheckCollision() > The other shape has no collision available!");
 		}
 
 		return false;
