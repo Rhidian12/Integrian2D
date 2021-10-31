@@ -27,7 +27,7 @@ namespace Integrian2D
 		Scene* const GetActiveScene() const noexcept;
 
 		/* Get the Scene with the corresponding Scene Name */
-		Scene* const GetScene(std::string sceneName) const noexcept;
+		Scene* const GetScene(const std::string& sceneName) const noexcept;
 
 		/* Get all added Scenes 
 		   If no Scenes have been added, this will return an empty map */
