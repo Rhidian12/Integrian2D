@@ -6,7 +6,7 @@
 
 namespace Integrian2D
 {
-	Window::Window(const int windowWidth, const int windowHeight, const std::string windowTitle)
+	Window::Window(const int windowWidth, const int windowHeight, const std::string& windowTitle)
 		: m_WindowWidth{ windowWidth }
 		, m_WindowHeight{ windowHeight }
 		, m_WindowTitle{ windowTitle }
