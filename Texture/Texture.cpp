@@ -18,7 +18,7 @@ namespace Integrian2D
 		CreateFromImage(imagePath);
 	}
 
-	Texture::Texture(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor)
+	Texture::Texture(const std::string& text, const std::string& fontPath, const int ptSize, const RGBColour& textColor)
 		: m_Id{}
 		, m_Width{ 10.0f }
 		, m_Height{ 10.0f }
@@ -73,7 +73,7 @@ namespace Integrian2D
 		glDeleteTextures(1, &m_Id);
 	}
 
-	void Texture::CreateFromImage(const std::string& path)
+	void Texture::CreateFromImage(const std::string& path) noexcept
 	{
 		m_CreationOk = true;
 
@@ -91,7 +91,7 @@ namespace Integrian2D
 		SDL_FreeSurface(pLoadedSurface);
 	}
 
-	void Texture::CreateFromString(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor)
+	void Texture::CreateFromString(const std::string& text, const std::string& fontPath, const int ptSize, const RGBColour& textColor) noexcept
 	{
 		m_CreationOk = true;
 
@@ -110,7 +110,7 @@ namespace Integrian2D
 		TTF_CloseFont(pFont);
 	}
 
-	void Texture::CreateFromString(const std::string& text, TTF_Font* pFont, RGBColour color)
+	void Texture::CreateFromString(const std::string& text, TTF_Font* const pFont, RGBColour color) noexcept
 	{
 		m_CreationOk = true;
 		if (pFont == nullptr)
@@ -143,7 +143,7 @@ namespace Integrian2D
 		SDL_FreeSurface(pLoadedSurface);
 	}
 
-	void Texture::CreateFromSurface(SDL_Surface* pSurface)
+	void Texture::CreateFromSurface(SDL_Surface* const pSurface) noexcept
 	{
 		m_CreationOk = true;
 
@@ -218,17 +218,17 @@ namespace Integrian2D
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 
-	float Texture::GetWidth() const
+	float Texture::GetWidth() const noexcept
 	{
 		return m_Width;
 	}
 
-	float Texture::GetHeight() const
+	float Texture::GetHeight() const noexcept
 	{
 		return m_Height;
 	}
 
-	bool Texture::IsCreationOk() const
+	bool Texture::IsCreationOk() const noexcept
 	{
 		return m_CreationOk;
 	}
@@ -238,7 +238,7 @@ namespace Integrian2D
 		return m_Id;
 	}
 
-	void Texture::DrawFilledRect(const Rectf& rect) const
+	void Texture::DrawFilledRect(const Rectf& rect) const noexcept
 	{
 		glColor4f(1.0f, 0.0f, 1.0f, 1.0f);
 		glBegin(GL_POLYGON);

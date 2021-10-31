@@ -16,17 +16,17 @@ namespace Integrian2D
 	{
 	public:
 		explicit Texture(const std::string& imagePath);
-		explicit Texture(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor);
+		explicit Texture(const std::string& text, const std::string& fontPath, const int ptSize, const RGBColour& textColor);
 		~Texture();
 
 		/* Returns the Texture width */
-		float GetWidth() const;
+		float GetWidth() const noexcept;
 
 		/* Returns the Texture height */
-		float GetHeight() const;
+		float GetHeight() const noexcept;
 
 		/* Returns whether the creation of the Texture succeeded */
-		bool IsCreationOk() const;
+		bool IsCreationOk() const noexcept;
 
 		/* Get the ID assigned to the Texture */
 		unsigned int GetTextureID() const noexcept;
@@ -44,10 +44,12 @@ namespace Integrian2D
 		bool m_CreationOk;
 
 		// FUNCTIONS
-		void CreateFromImage(const std::string& path);
-		void CreateFromString(const std::string& text, TTF_Font* pFont, RGBColour textColor);
-		void CreateFromString(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor);
-		void CreateFromSurface(SDL_Surface* pSurface);
-		void DrawFilledRect(const Rectf& dstRect) const;
+		void CreateFromImage(const std::string& path) noexcept;
+
+		/* Function copies RGBColour by value because it calls MaxToOne */
+		void CreateFromString(const std::string& text, TTF_Font* const pFont, RGBColour textColor) noexcept;
+		void CreateFromString(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor) noexcept;
+		void CreateFromSurface(SDL_Surface* const pSurface) noexcept;
+		void DrawFilledRect(const Rectf& dstRect) const noexcept;
 	};
 }
