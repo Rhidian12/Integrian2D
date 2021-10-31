@@ -46,15 +46,12 @@ namespace Integrian2D
 
 	Scene* const SceneManager::GetScene(const std::string& sceneName) const noexcept
 	{
-		std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
+		const std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
 
 		if (cIt != m_pScenes.cend())
 			return cIt->second;
 		else
-		{
-			Logger::LogWarning(std::string{ "SceneManager::GetScene() > Scene with name: " } + sceneName + " is not present!");
 			return nullptr;
-		}
 	}
 
 	const std::unordered_map<std::string, Scene*>& SceneManager::GetScenes() const noexcept
