@@ -23,7 +23,8 @@ namespace Integrian2D
 		   Textures with duplicate names do not get added */
 		void AddTexture(const std::string& textureID, Texture* const pTexture) noexcept;
 
-		/* Get a previously added Texture to the TextureManager */
+		/* Get a previously added Texture to the TextureManager 
+		   If no Texture with identifier textureID has been added, this function will return a nullptr */
 		Texture* const GetTexture(const std::string& textureID) const noexcept;
 
 		/* Get all previously added Textures 
