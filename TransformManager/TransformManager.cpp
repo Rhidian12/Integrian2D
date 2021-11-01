@@ -15,25 +15,13 @@ namespace Integrian2D
 	{
 		/* Check if any of the transform components have moved */
 		/* Check a parent, then check its children */
-		for (const auto& [Parent, Children] : m_pTransformComponents)
-		{
-			if (Parent->GetHasMoved()) /* The Parent has moved, so inform all of its children */
-				InformChildren(Parent);
-			else /* The Parent has not moved, so check each of its children */
-				for (TransformComponent* const pChild : Children)
-					if (pChild->GetHasMoved()) /* The Child has moved so inform all of its children */
-						InformChildren(pChild);
-		}
+		for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
+			if (it->pTransform->GetHasMoved()) /* The Parent has moved, so inform all of its children */
+				InformChildren(it->pTransform);
 
-		for (const auto& [Parent, Children] : m_pTransformComponents)
-		{
-			if (Parent->GetHasMoved()) /* The Parent has moved, so move all of its children */
-				MoveTree(Parent);
-			else
-				for (TransformComponent* const pChild : Children)
-					if (pChild->GetHasMoved()) /* The Child has moved so move all of its children */
-						MoveTree(pChild);
-		}
+		for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
+			if (it->pTransform->GetHasMoved()) /* The Parent has moved, so move all of its children */
+				MoveTree(it->pTransform);
 	}
 
 	void TransformManager::AddTransformComponent(TransformComponent* const pTransformComponent) noexcept
@@ -41,38 +29,88 @@ namespace Integrian2D
 		/* If the Transform Component has no parent, it is the root parent */
 		if (pTransformComponent->GetOwner()->GetParent() == nullptr)
 		{
-			m_pTransformComponents.insert(std::make_pair(pTransformComponent, std::vector<TransformComponent*>{}));
-		}
-		else /* The Transform Component has a parent, it is a child */
-		{
-			/* Is the Transform Component's parent in the map? */
-			if (m_pTransformComponents.find(pTransformComponent->GetOwner()->GetParent()->pTransform) == m_pTransformComponents.cend())
+			/* If there are no roots yet, we can just add our first root */
+			if (m_pTransformComponents.empty())
 			{
-				/* The Transform Component's parent is not in the map,
-				so add all of the possible parents in the map by calling this function recursively */
-				AddTransformComponent(pTransformComponent->GetOwner()->GetParent()->pTransform);
+				TransformComponentNode node{ nullptr, pTransformComponent, nullptr };
+				node.pRoot = &node;
+				m_pTransformComponents.push_back(node);
+			}
+			else
+			{
+				/* Check whether the pTransformComponent its parent is in any of the roots */
+				const auto cIt{ std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pTransformComponent](const TransformComponentNode& node)->bool
+					{
+						return pTransformComponent->GetOwner()->GetParent()->pTransform == node.pRoot->pTransform;
+					}) };
+
+				/* If it's not present in the vector, we should make a new root node */
+				if (cIt == m_pTransformComponents.cend())
+				{
+					/* Make the new root node */
+					TransformComponentNode node{ nullptr, pTransformComponent, nullptr };
+					node.pRoot = &node;
+
+					/* Find the last root node */
+					for (size_t i{ m_pTransformComponents.size() - 1 }; i > 0; --i)
+					{
+						/* If the next root isn't set, we've found the end of our roots */
+						if (!m_pTransformComponents[i].pNextRoot)
+						{
+							m_pTransformComponents[i].pNextRoot = &node;
+
+							m_pTransformComponents.push_back(node);
+
+							break; /* we did what we had to do, so stop the loop*/
+						}
+					}
+				}
+			}
+		}
+		else /* The Transform Component has a parent, so it is a child */
+		{
+			/* Is the Transform Component's parent in the vector? */
+			TransformComponent* pParent{ pTransformComponent->GetOwner()->GetParent()->pTransform };
+			const auto cIt{ std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pParent](const TransformComponentNode& node)->bool
+				{
+					return node.pRoot->pTransform == pParent;
+				}) };
+
+			/* The Transform Component its parent is NOT present in the vector, so a new root must be made */
+			if (cIt == m_pTransformComponents.cend())
+			{
+				/* We'll do this by recursively calling this function with the Transform Component's parent */
+				AddTransformComponent(pParent);
 			}
 
-			/* The original Transform Component all of it's parents should have been added to the map */
+			/* The original Transform Component all of it's parents should have been added to the vector */
 #ifdef _DEBUG
-			ASSERT(m_pTransformComponents.find(pTransformComponent->GetOwner()->GetParent()->pTransform) != m_pTransformComponents.cend(),
-				"TransformManager::AddTransformComponent() > The parent has not been added to the map!");
+			auto it{ std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pParent](const TransformComponentNode& node)->bool
+				{
+					return node.pRoot->pTransform == pParent;
+				}) };
 
-			m_pTransformComponents[pTransformComponent->GetOwner()->GetParent()->pTransform].push_back(pTransformComponent);
+			std::advance(it, it->pNextRoot - it->pRoot);
+
+			m_pTransformComponents.insert(it, TransformComponentNode{ it->pRoot, pTransformComponent, it->pNextRoot });
+
+			ASSERT(std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pParent](const TransformComponentNode& node)->bool
+				{
+					return node.pRoot->pTransform == pParent;
+		}) != m_pTransformComponents.cend(), "TransformManager::AddTransformComponent() > The parent has not been added to the map!");
 #else
 			m_pTransformComponents[pTransformComponent->GetOwner()->GetParent()->pTransform].push_back(pTransformComponent);
 #endif
-		}
 	}
+}
 
 	void TransformManager::RemoveTransformComponent(TransformComponent* const pTransformComponent) noexcept
 	{
-		Utils::Erase_If(m_pTransformComponents, [pTransformComponent](const std::pair<TransformComponent*, std::vector<TransformComponent*>> element)->bool
+		m_pTransformComponents.erase(std::remove_if(m_pTransformComponents.begin(), m_pTransformComponents.end(), [pTransformComponent](const TransformComponentNode& element)->bool
 			{
-				return element.first == pTransformComponent;
-			});
+				return element.pTransform == pTransformComponent;
+			}), m_pTransformComponents.end());
 	}
-
 
 	void TransformManager::InformChildren(TransformComponent* const pParent) noexcept
 	{
@@ -80,18 +118,26 @@ namespace Integrian2D
 		pParent->SetHasMoved(true);
 
 		/* Check if this Parent has children */
-		const std::unordered_map<TransformComponent*, std::vector<TransformComponent*>>::const_iterator cIt{ m_pTransformComponents.find(pParent) };
+		const auto cIt{ std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pParent](const TransformComponentNode& node)->bool
+			{
+				return node.pRoot->pTransform == pParent;
+			}) };
+
 		if (cIt == m_pTransformComponents.cend())
 			return;
 
 		/* Recursively call this function to inform all of the children */
-		for (TransformComponent* const pChild : cIt->second)
+		for (auto it{ cIt }; it != m_pTransformComponents.end(); ++it)
 		{
-			/* First check if the child hasn't been informed already */
-			if (!pChild->GetHasMoved())
+			if (it->pRoot != cIt->pRoot)
+				break;
+			else
 			{
-				pChild->SetHasMoved(true);
-				InformChildren(pChild);
+				if (!it->pTransform->GetHasMoved())
+				{
+					it->pTransform->SetHasMoved(true);
+					InformChildren(it->pTransform);
+				}
 			}
 		}
 	}
@@ -102,18 +148,26 @@ namespace Integrian2D
 		pParent->CalculateNewWorldPosition();
 
 		/* Check if this Parent has children */
-		const std::unordered_map<TransformComponent*, std::vector<TransformComponent*>>::const_iterator cIt{ m_pTransformComponents.find(pParent) };
+		const auto cIt{ std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pParent](const TransformComponentNode& node)->bool
+			{
+				return node.pRoot->pTransform == pParent;
+			}) };
+
 		if (cIt == m_pTransformComponents.cend())
 			return;
 
 		/* Recursively call this function to move all of the children */
-		for (TransformComponent* const pChild : cIt->second)
+		for (auto it{ cIt }; it != m_pTransformComponents.end(); ++it)
 		{
-			/* First check if the child has been informed to move */
-			if (pChild->GetHasMoved())
+			if (it->pRoot != cIt->pRoot)
+				break;
+			else
 			{
-				pChild->CalculateNewWorldPosition();
-				MoveTree(pChild);
+				if (it->pTransform->GetHasMoved())
+				{
+					it->pTransform->CalculateNewWorldPosition();
+					MoveTree(it->pTransform);
+				}
 			}
 		}
 	}
