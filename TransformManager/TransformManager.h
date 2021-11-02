@@ -10,6 +10,8 @@ namespace Integrian2D
 	class TransformManager final
 	{
 	public:
+		~TransformManager() noexcept;
+
 		void UpdateTransforms() noexcept;
 
 		void AddTransformComponent(TransformComponent* const pTransformComponent) noexcept;
@@ -26,11 +28,14 @@ namespace Integrian2D
 
 		struct TransformComponentNode final
 		{
-			TransformComponentNode* pRoot;
+			TransformComponentNode* pPreviousNode;
 			TransformComponent* pTransform;
-			TransformComponentNode* pNextRoot;
+			TransformComponentNode* pNextNode;
+			TransformComponentNode* pParent;
 		};
 
-		std::vector<TransformComponentNode> m_pTransformComponents;
+		std::vector<TransformComponentNode*> m_pTransformComponents;
+
+		TransformComponentNode* m_pHead;
 	};
 }

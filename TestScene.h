@@ -89,8 +89,8 @@ public:
 				m_pGameObject2->pTransform->Translate(Vector2f{ 10.f,10.f });
 			}, State::OnHeld);
 
-		AddGameObject("Test2", m_pGameObject2);
 		AddGameObject("Test1", m_pGameObject);
+		AddGameObject("Test2", m_pGameObject2);
 	}
 
 	virtual void Render() const override
