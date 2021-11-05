@@ -8,7 +8,56 @@
 
 namespace Integrian2D
 {
-	// == Specialisation of Polygon, Being a Line ==
+	/* This class is the specialisation of the Polygon, representing a Line with 2 points
+	   This function is supposed to be a more complex Line class, holding information regarding angle, ... */
+
+	   /* A list of available operators:
+		  Assume Type is the templated type given to the Matrix
+
+		   bool operator==(const Polygon<2, Type>&, const Polygon<2, Type>&)
+		   bool operator!=(const Polygon<2, Type>&, const Polygon<2, Type>&)
+	   */
+
+	   /* A list of available functions:
+
+		  void Translate(Polygon<2, Type>& p, const Vector<V, Type>& v)
+		  =>	Translates the Line with the provided vector
+
+		  void Rotate(Polygon<2, Type>& p, const Type& _angleChange)
+		  =>	Rotates the Line by adding the provided angle to the Line's current angle
+
+		  void Scale(Polygon<2, Type>& p, const Point<2, Type>& scale)
+		  =>	Scales the Line by adding the provided scale to the Line's current scale
+
+		  void SetRotation(Polygon<2, Type>& p, const Type& _angle)
+		  =>	Set the Line's  angle to the provided angle
+
+		  void SetScale(Polygon<2, Type>& p, const Point<2, Type>& scale)
+		  =>	Set the Line's  scale to the provided scale
+
+		  void SetCenter(Polygon<2, Type>& p, const Point<2, Type>& _center)
+		  =>	Set the Line's center to the provided point
+
+		  const Point<2, Type>& GetCenter(const Polygon<2, Type>& p)
+		  =>	Returns the Line's current center
+
+		  void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type>& _pivotPoint)
+		  =>	Set the Line's pivot point to the provided pivot point
+
+		  const Point<2, Type>& GetPivotPoint(const Polygon<2, Type>& p)
+		  =>	Returns the Line's current pivot point
+
+		  void SetWidth(Polygon<2, Type>& p, const Type _width)
+		  =>	Set the Line's width to the provided width
+
+		  void SetHeight(Polygon<2, Type>& p, const Type _height)
+		  =>	Set the Line's height to the provided height
+
+		  bool AreLinesIntersecting(const Polygon<2, Type>& a, const Polygon<2, Type>& b)
+		  =>	Returns whether 2 Lines are intersecting
+	   */
+
+	   // == Specialisation of Polygon, Being a Line ==
 	template<typename Type>
 	struct Polygon<2, Type>
 	{
@@ -17,12 +66,18 @@ namespace Integrian2D
 			: Polygon<2, Type>{ Point<2, Type>{}, Point<2, Type>{}, static_cast<Type>(1.f), static_cast<Type>(1.f), static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to)
-			: Polygon<2, Type>{ from, to, static_cast<Type>(1.f), static_cast<Type>(1.f), static_cast<Type>(0.f) }
+			: Polygon<2, Type>{ from, to, Point<2, Type>{ static_cast<Type>(1.f), static_cast<Type>(1.f) }, static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to, const Type& _scaleX, const Type& _scaleY)
-			: Polygon<2, Type>{ from, to, _scaleX, _scaleY, static_cast<Type>(0.f) }
+			: Polygon<2, Type>{ from, to, Point<2, Type>{_scaleX, _scaleY}, static_cast<Type>(0.f) }
+		{}
+		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to, const Point<2, Type>& _scale)
+			: Polygon<2, Type>{ from, to, _scale, static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to, const Type& _scaleX, const Type& _scaleY, const Type& _angle)
+			: Polygon<2, Type>{ from, to, Point<2, Type>{_scaleX, _scaleY}, _angle }
+		{}
+		explicit Polygon<2, Type>(const Point<2, Type>& from, const Point<2, Type>& to, const Point<2, Type>& _scale, const Type& _angle)
 			: begin{ from }
 			, end{ to }
 		{
