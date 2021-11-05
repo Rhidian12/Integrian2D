@@ -119,8 +119,6 @@ namespace Integrian2D
 				{
 					return node->pPreviousNode->pTransform == pParent;
 				}) != m_pTransformComponents.cend(), "TransformManager::AddTransformComponent() > The parent has not been added to the map!");
-#else
-			m_pTransformComponents[pTransformComponent->GetOwner()->GetParent()->pTransform].push_back(pTransformComponent);
 #endif
 			}
 		}
