@@ -15,21 +15,52 @@ namespace Integrian2D
 	   [ G H I ] */
 
 	/* A list of available operators:
-	   operator[](const int row)
+	   Assume Type is the templated type given to the Matrix 
 
-	   operator()(const int row, const int column)
+	   Vector<Columns, Type> operator[](const int row)
 
-	   operator+(const Matrix&, const Matrix&)
-	   operator-(const Matrix&, const Matrix&)
+	   Type operator()(const int row, const int column)
 
-	   operator*(const Matrix&, const Matrix&)
-	   operator*(const Matrix&, const Type&)
-	   operator*(const Matrix&, const Point&)
+	   Matrix<Rows, Columns, Type> operator+(const Matrix&, const Matrix&)
+	   Matrix<Rows, Columns, Type> operator-(const Matrix&, const Matrix&)
 
-	   operator/(const Matrix&, const Matrix&)
-	   operator/(const Matrix&, const Type&)
+	   Matrix<Rows, Columns, Type> operator*(const Matrix&, const Matrix&)
+	   Matrix<Rows, Columns, Type> operator*(const Matrix&, const Type&)
+	   Matrix<Rows, Columns, Type> operator*(const Matrix&, const Point&)
+
+	   Matrix<Rows, Columns, Type> operator/(const Matrix&, const Matrix&)
+	   Matrix<Rows, Columns, Type> operator/(const Matrix&, const Type&)
+	   Matrix<Rows, Columns, Type> operator/(const Matrix&, const Point&)
 
 	   */
+
+	/* A list of available functions:
+	   int GetAmountOfRowsInMatrix(const Matrix<Rows, Columns, Type>& m)
+	   =>	returns the amount of rows in the provided matrix
+
+	   int GetAmountOfColumnsInMatrix(const Matrix<Rows, Columns, Type>&)
+	   =>	returns the amount of columns in the provided matrix
+
+	   static Matrix<Rows, Columns, Type> GetIdentityMatrix()
+	   =>	A static function to create an Identity Matrix. 
+	   =>	Example call: Matrix3f matrix{ GetIdentityMatrix<3, 3, float>() };
+
+	   Matrix<Rows, Columns, Type> GetMatrixCofactor(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length)
+	   =>	returns the cofactor of a matrix. This function is primarily called by GetAdjointMatrix() and GetDeterminantOfMatrix() internally
+
+	   Type GetDeterminantOfMatrix(const Matrix<Rows, Columns, Type>& m, const int length)
+	   =>	returns the determinant of a matrix. This function is primarily called by GetAdjointMatrix() internally
+	   =>	if you wish to call this function manually, provide the amount of Rows or Columns as the second parameter
+
+	   Matrix<Columns, Rows, Type> TransposeMatrix(const Matrix<Rows, Columns, Type>& m)
+	   =>	returns the transposed matrix of the provided matrix.
+
+	   Matrix<Columns, Rows, Type> GetAdjointMatrix(const Matrix<Columns, Rows, Type>& m)
+	   =>	returns the adjoint matrix of the provided matrix. This function is primarily called by GetInverseMatrix() internally
+
+	   Matrix<Rows, Columns, Type> GetInverseMatrix(const Matrix<Rows, Columns, Type>& m)
+	   =>	returns the inverse matrix of the provided matrix.
+	*/
 	template<int Rows, int Columns, typename Type>
 	struct Matrix
 	{
@@ -196,6 +227,20 @@ namespace Integrian2D
 				matrix.data[row][col] += lhs.data[row][col] / rhs;
 
 		return matrix;
+	}
+
+	template<int Rows, int Columns, int P, typename Type>
+	Matrix<Rows, Columns, Type> operator/(const Matrix<Rows, Columns, Type>& lhs, const Point<P, Type>& rhs) noexcept
+	{
+		static_assert(Columns == P, "Matrix::operator/() > Amount of Columns and Point must be equal");
+
+		Point<P, Type> point{};
+
+		for (int row{}; row < Rows; ++row)
+			for (int col{}; col < Columns; ++col)
+				point[row] += lhs.data[row][col] * rhs[row];
+
+		return point;
 	}
 #pragma endregion
 
