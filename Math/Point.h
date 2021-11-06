@@ -4,11 +4,25 @@
 
 namespace Integrian2D
 {
+	/* This is the base class representing a point
+	   I suggest using the provided Point2f type, but others can be created using this class */
+
 	template<int P, typename Type>
 	struct Point
 	{
 		// == Data ==
 		Type data[P];
+
+#pragma region Access Operators
+		Type& operator[](const int index) noexcept
+		{
+			return data[index];
+		}
+		const Type& operator(const int index) const noexcept
+		{
+			return data[index];
+		}
+#pragma endregion
 	};
 
 	// == Non-Member Functions That Are Useful For All Points ==
