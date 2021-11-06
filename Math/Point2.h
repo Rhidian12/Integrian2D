@@ -43,10 +43,10 @@ namespace Integrian2D
 	   */
 
 	/* A list of available functions:
-	   Type DistanceSquared(const Point<P, Type>& p1, const Point<P, Type>& p2) 
+	   Type DistanceSquared(const Point<2, Type>& p1, const Point<2, Type>& p2) 
 	   =>	Returns the squared distance between the two provided points 
 	   
-	   Type Distance(const Point<P, Type>& p1, const Point<P, Type>& p2)
+	   Type Distance(const Point<2, Type>& p1, const Point<2, Type>& p2)
 	   =>	Returns the distance between the two provided points
 	   */
 	template<typename Type>
