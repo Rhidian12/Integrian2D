@@ -86,8 +86,8 @@ namespace Integrian2D
 
 			width = to.x >= from.x ? to.x - from.x : from.x - to.x;
 			height = to.y >= from.y ? to.y - from.y : from.y - to.y;
-			scaleX = _scaleX;
-			scaleY = _scaleY;
+			scaleX = _scale.x;
+			scaleY = _scale.y;
 			angle = _angle;
 		}
 #pragma endregion
