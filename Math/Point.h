@@ -18,7 +18,7 @@ namespace Integrian2D
 		{
 			return data[index];
 		}
-		const Type& operator(const int index) const noexcept
+		const Type& operator[](const int index) const noexcept
 		{
 			return data[index];
 		}
