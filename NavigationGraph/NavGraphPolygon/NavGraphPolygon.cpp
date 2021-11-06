@@ -92,7 +92,7 @@ namespace Integrian2D
 		for (const Point2f& p : m_Vertices)
 			average += p;
 
-		return average / static_cast<float>(m_Vertices.size());
+		return Point2f{ average.x / static_cast<float>(m_Vertices.size()), average.y / static_cast<float>(m_Vertices.size()) };
 	}
 
 	bool NavGraphPolygon::IsTriangulated() const noexcept
