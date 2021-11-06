@@ -7,7 +7,49 @@
 
 namespace Integrian2D
 {
-	// == Point3 (Point Specialisation) == 
+	/* This class is the specialisation of Point, representing a Point with 3 dimensions */
+
+		/* A list of available operators:
+	       Assume Type is the templated type provided to the Point3
+		   
+		   Vector<3, Type> operator-(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type> operator-(const Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+
+		   Vector<3, Type> operator+(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type> operator+(const Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+
+		   Point<3, Type> operator*(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type> operator*(const Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+
+		   Point<3, Type> operator/(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type> operator/(const Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+
+		   Point<3, Type>& operator+=(Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type>& operator+=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+
+		   Point<3, Type>& operator-=(Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type>& operator-=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+
+		   Point<3, Type>& operator*=(Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type>& operator*=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+		   
+		   Point<3, Type>& operator/=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
+		   Point<3, Type>& operator/=(Point<3, Type>& lhs, const Point<3, Type>& rhs)
+
+		   bool operator==(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   bool operator!=(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
+
+			std::ostream& operator<<(std::ostream& os, const Point<3, Type>& point)
+		   */
+
+	    /* A list of available functions:
+	 	   Type DistanceSquared(const Point<3, Type>& p1, const Point<3, Type>& p2)
+	 	   =>	Returns the squared distance between the two provided points
+	 	   
+	 	   Type Distance(const Point<3, Type>& p1, const Point<3, Type>& p2)
+	 	   =>	Returns the distance between the two provided points
+	 	   */
+
 	template<typename Type>
 	struct Point<3, Type>
 	{
