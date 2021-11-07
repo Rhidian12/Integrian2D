@@ -12,29 +12,23 @@ namespace Integrian2D
 	/* A list of available operators:
 	   Assume Type is the templated type provided to the Point2 
 	   
-	   Point<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
+	   Vector<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
 	   Point<2, Type> operator-(const Point<2, Type>& lhs, const Vector<2, Type>& rhs)
 
-	   Point<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
+	   Vector<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
 	   Point<2, Type> operator+(const Point<2, Type>& lhs, const Vector<2, Type>& rhs)
 
-	   Point<2, Type> operator*(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
 	   Point<2, Type> operator*(const Point<2, Type>& lhs, const Type& rhs)
 
-	   Point<2, Type> operator/(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
-	   Point<2, Type> operator/(const Point<2, Type>& lhs, const Vector<2, Type>& rhs)
+	   Point<2, Type> operator/(const Point<2, Type>& lhs, const Type& rhs)
 
 	   Point<2, Type>& operator-=(Point<2, Type>& lhs, const Point<2, Type>& rhs)
-	   Point<2, Type>& operator-=(Point<2, Type>& lhs, const Vector<2, Type>& rhs)
 
 	   Point<2, Type>& operator+=(Point<2, Type>& lhs, const Point<2, Type>& rhs)
-	   Point<2, Type>& operator+=(Point<2, Type>& lhs, const Vector<2, Type>& rhs)
 
-	   Point<2, Type>& operator*=(Point<2, Type>& lhs, const Point<2, Type>& rhs)
-	   Point<2, Type>& operator*=(Point<2, Type>& lhs, const Vector<2, Type>& rhs)
+	   Point<2, Type>& operator*=(Point<2, Type>& lhs, Type& rhs)
 
-	   Point<2, Type>& operator/=(Point<2, Type>& lhs, const Vector<2, Type>& rhs)
-	   Point<2, Type>& operator/=(Point<2, Type>& lhs, const Point<2, Type>& rhs)
+	   Point<2, Type>& operator/=(Point<2, Type>& lhs, Type& rhs)
 
 	   bool operator==(const Point<2, Type>& lhs, const Point<2, Type>& other)
 	   bool operator!=(const Point<2, Type>& lhs, const Point<2, Type>& other)
@@ -64,6 +58,14 @@ namespace Integrian2D
 		explicit Point<2, Type>(const Point<3, Type>& p)
 			: x{ p.x }
 			, y{ p.y }
+		{}
+		explicit Point<2, Type>(const Vector<2, Type>& _xy)
+			: x{ _xy.x }
+			, y{ _xy.y }
+		{}
+		explicit Point<2, Type>(const Vector<3, Type>& _xy)
+			: x{ _xy.x }
+			, y{ _xy.y }
 		{}
 #pragma endregion
 
@@ -97,7 +99,7 @@ namespace Integrian2D
 
 #pragma region Arithmetic Operators
 	template<typename Type>
-	Point<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	Vector<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x - rhs.x, lhs.y - rhs.y};
 	}
@@ -109,9 +111,9 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	Vector<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
-		return Point<2, Type>{lhs.x + rhs.x, lhs.y + rhs.y};
+		return Vector<2, Type>{lhs.x + rhs.x, lhs.y + rhs.y};
 	}
 
 	template<typename Type>
@@ -121,52 +123,24 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<2, Type> operator*(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	Point<2, Type> operator*(const Point<2, Type>& lhs, Type& rhs) noexcept
 	{
-		return Point<2, Type>{lhs.x* rhs.x, lhs.y* rhs.y};
+		return Point<2, Type>{lhs.x* rhs, lhs.y* rhs};
 	}
 
 	template<typename Type>
-	Point<2, Type> operator*(const Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	Point<2, Type> operator/(const Point<2, Type>& lhs, Type& rhs) noexcept
 	{
-		return Point<2, Type>{lhs.x* rhs.x, lhs.y* rhs.y};
-	}
-
-	template<typename Type>
-	Point<2, Type> operator/(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
-	{
-		return Point<2, Type>{lhs.x / rhs.x, lhs.y / rhs.y};
-	}
-
-	template<typename Type>
-	Point<2, Type> operator/(const Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
-	{
-		return Point<2, Type>{lhs.x / rhs.x, lhs.y / rhs.y};
+		return Point<2, Type>{lhs.x* rhs, lhs.y* rhs};
 	}
 #pragma endregion
 
 #pragma region Compound Assignment Operators
 	template<typename Type>
-	Point<2, Type>& operator+=(Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
-	{
-		lhs.x += rhs.x;
-		lhs.y += rhs.y;
-		return lhs;
-	}
-
-	template<typename Type>
 	Point<2, Type>& operator+=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		lhs.x += rhs.x;
 		lhs.y += rhs.y;
-		return lhs;
-	}
-
-	template<typename Type>
-	Point<2, Type>& operator-=(Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
-	{
-		lhs.x -= rhs.x;
-		lhs.y -= rhs.y;
 		return lhs;
 	}
 
@@ -179,34 +153,18 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<2, Type>& operator*=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	Point<2, Type>& operator*=(Point<2, Type>& lhs, Type& rhs) noexcept
 	{
-		lhs.x *= rhs.x;
-		lhs.y *= rhs.y;
+		lhs.x *= rhs;
+		lhs.y *= rhs;
 		return lhs;
 	}
 
 	template<typename Type>
-	Point<2, Type>& operator*=(Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	Point<2, Type>& operator/=(Point<2, Type>& lhs, Type& rhs) noexcept
 	{
-		lhs.x *= rhs.x;
-		lhs.y *= rhs.y;
-		return lhs;
-	}
-
-	template<typename Type>
-	Point<2, Type>& operator/=(Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
-	{
-		lhs.x /= rhs.x;
-		lhs.y /= rhs.y;
-		return lhs;
-	}
-
-	template<typename Type>
-	Point<2, Type>& operator/=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
-	{
-		lhs.x /= rhs.x;
-		lhs.y /= rhs.y;
+		lhs.x /= rhs;
+		lhs.y /= rhs;
 		return lhs;
 	}
 #pragma endregion
