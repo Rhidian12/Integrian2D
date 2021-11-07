@@ -40,8 +40,8 @@ namespace Integrian2D
 
 		if (m_IsTriangulated)
 			for (const Trianglef& triangle : m_Triangles)
-				Renderer::GetInstance()->RenderTriangle(Trianglef{ triangle.leftPoint + offset,
-					triangle.topPoint + offset, triangle.rightPoint + offset }, RGBColour{ 0, 255, 0 });
+				Renderer::GetInstance()->RenderTriangle(Trianglef{ Point2f{ triangle.leftPoint + offset },
+					Point2f{ triangle.topPoint + offset }, Point2f{ triangle.rightPoint + offset } }, RGBColour{ 0, 255, 0 });
 	}
 
 	void NavGraphPolygon::Triangulate() noexcept
