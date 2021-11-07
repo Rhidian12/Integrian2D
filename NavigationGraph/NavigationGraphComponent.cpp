@@ -29,6 +29,7 @@ namespace Integrian2D
 
 	void NavigationGraphComponent::Render() const
 	{
+		/* TODO: Make this rendering optional */
 		for (const NavGraphPolygon& polygon : m_Polygons)
 			polygon.Render(m_pOwner->pTransform->GetWorldPosition());
 	}
