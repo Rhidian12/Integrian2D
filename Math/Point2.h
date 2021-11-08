@@ -143,7 +143,6 @@ namespace Integrian2D
 			return const_iterator{ &y + 1 };
 		}
 #pragma endregion
-
 	};
 
 #pragma region Arithmetic Operators
