@@ -30,6 +30,14 @@ namespace Integrian2D
 		   
 		   Point<3, Type>& operator/=(Point<3, Type>& lhs, const Type& rhs)
 
+		   template<typename Integral>
+		   Type& operator[](const Integral index)
+		   =>	It is important to note that the ordedr of the variables is x, y, z
+		   =>	Therefore, calling Point3f{}[1] will result in the y value being returned
+
+		   template<typename Integral>
+		   const Type& operator[](const Integral index) const
+
 		   bool operator==(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
 		   bool operator!=(const Point<3, Type>& lhs, const Point<3, Type>& rhs)
 
@@ -113,6 +121,20 @@ namespace Integrian2D
 			};
 #pragma warning ( pop )
 		};
+#pragma endregion
+
+#pragma region Access Operators
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		Type& operator[](const IntegralNumber index) noexcept
+		{
+			return data[index];
+		}
+
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		const Type& operator[](const IntegralNumber index) const noexcept
+		{
+			return data[index];
+		}
 #pragma endregion
 	};
 
