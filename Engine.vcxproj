@@ -200,7 +200,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
-    <ClCompile Include="Iterator.cpp" />
+    <ClCompile Include="Iterator\Iterator.cpp" />
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp" />
     <ClCompile Include="NavigationGraph\NavigationGraphComponent.cpp" />
     <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp" />
@@ -240,7 +240,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
     <ClInclude Include="IListener\IListener.h" />
-    <ClInclude Include="Iterator.h" />
+    <ClInclude Include="Iterator\Iterator.h" />
     <ClInclude Include="Math\PLine.h" />
     <ClInclude Include="Math\PRect.h" />
     <ClInclude Include="Math\Matrix.h" />

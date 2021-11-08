@@ -2,6 +2,7 @@
 
 #include "Point.h" // Point 
 #include "Vector.h" // Vector
+#include "../Iterator/Iterator.h"
 
 #include <utility>
 
@@ -51,6 +52,9 @@ namespace Integrian2D
 	   Type Distance(const Point<2, Type>& p1, const Point<2, Type>& p2)
 	   =>	Returns the distance between the two provided points
 	   */
+
+	/* The Point2 iterator covers the member variables x and y (in that order) */
+
 	template<typename Type>
 	struct Point<2, Type>
 	{
@@ -117,6 +121,29 @@ namespace Integrian2D
 			return data[index];
 		}
 #pragma endregion
+
+#pragma region Iterator
+		Iterator<Type> begin() noexcept
+		{
+			return iterator{ &x };
+		}
+
+		ConstIterator<Type> begin() const noexcept
+		{
+			return const_iterator{ &x };
+		}
+
+		Iterator<Type> end() noexcept
+		{
+			return iterator{ &y + 1 };
+		}
+
+		ConstIterator<Type> end() const noexcept
+		{
+			return const_iterator{ &y + 1 };
+		}
+#pragma endregion
+
 	};
 
 #pragma region Arithmetic Operators
