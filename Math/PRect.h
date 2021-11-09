@@ -1,15 +1,98 @@
 #pragma once
 
 #include "Polygon.h"
-#include "../Utils/Utils.h"
-#include "Vector.h"
 #include "Point2.h"
+#include "../Iterator/Iterator.h"
 
 #include <utility>
 
 namespace Integrian2D
 {
-	// == Specialisation of Polygon, Being a Rectangle ==
+	/* This class is the specialisation of Polygon, representing a 2D Rectangle 
+	   This class is supposed to be a more complex Rect class, holding information regarding angle, ... */
+
+		/* A list of available operators:
+		   Assume Type is the templated Type provided to the PRect 
+		   
+		   bool operator==(const Polygon<4, Type>& lhs, const Polygon<4, Type>& rhs)
+		   bool operator!=(const Polygon<4, Type>& lhs, const Polygon<4, Type>& rhs)
+		   */
+
+		/* A list of available functions:
+		   void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v)
+		   =>	Translates the PRect with the provided Vector2
+
+		   void Rotate(Polygon<4, Type>& p, const Type& _angleChange)
+		   =>	Rotates the PRect by adding the provided angle to the PRect's current angle
+		   =>	This function calls SetRotation() with the new angle internally
+		   =>	_angleChange is presumed to be in radians
+
+		   void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale)
+		   =>	Scales the PRect by adding the provided scale to the PRect's current scale
+		   =>	This function calls SetScale() with the new scale internally
+
+		   void SetRotation(Polygon<4, Type>& p, const Type& _angle)
+		   =>	Rotates the PRect by rotating around its pivot point
+		   =>	_angleChange is presumed to be in radians
+
+		   void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale)
+		   =>	Scales the PRect by scaling its 4 vertices from the center
+		   =>	If the PRect's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
+		   =>	Once the PRect has been scaled, SetRotation() will get called with the original angle
+
+		   void SetCenter(Polygon<4, Type>& p, const Point<2, Type>& _center)
+		   =>	Sets the PRect's center to the provided Point2
+		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
+				after which all vertices get recalculated using the PRect's width and height
+		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
+		   =>	Once the PRect's center has been adjusted, all of its vertices recalculated and scaled,
+				SetRotation() will get called with the original angle
+
+		   const Point<2, Type>& GetCenter(const Polygon<4, Type>& p)
+		   =>	Returns the PRect's center
+
+		   const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p)
+		   =>	Returns the PRect's left bottom vertex
+		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the left bottom one
+
+		   const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p)
+		   =>	Returns the PRect's left top vertex
+		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the left top one
+
+		   const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p)
+		   =>	Returns the PRect's right top vertex
+		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the right top one
+
+		   const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p)
+		   =>	Returns the PRect's right bottom vertex
+		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the right bottom one
+
+		   SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type>& _pivotPoint)
+		   =>	Sets the PRect's pivot point to the provided Point2
+		   =>	If the PRect's angle is not 0, SetRotation() will get called 
+
+		   const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p)
+		   =>	Returns the PRect's pivot point
+
+		   void SetWidth(Polygon<4, Type>& p, const Type& _width)
+		   =>	Set's the PRect's width to the provided value
+		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
+				after which all vertices's x-values get recalculated using the provided width
+		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
+		   =>	Once the PRect's width has been adjusted, all of its vertices recalculated and scaled,
+				SetRotation() will get called with the original angle
+
+		   void SetHeight(Polygon<4, Type>& p, const Type& _height)
+		   =>	Set's the PRect's height to the provided value
+		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
+				after which all vertices's y-values get recalculated using the provided height
+		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
+		   =>	Once the PRect's height has been adjusted, all of its vertices recalculated and scaled,
+				SetRotation() will get called with the original angle
+		*/
+
+		/* The PRect iterator covers the member variables center, leftBottom, leftTop, rightTopand rightBottom (in that order) */
+
 	template<typename Type>
 	struct Polygon<4, Type>
 	{
@@ -106,36 +189,50 @@ namespace Integrian2D
 		private:
 			friend struct Polygon<4, Type>;
 
-			template<int V, typename Type>
-			friend void Translate(Polygon<4, Type>& p, const Vector<V, Type>& v) noexcept;
 			template<typename Type>
-			friend void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept;
+			friend void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v) noexcept;
+
 			template<typename Type>
-			friend void Scale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept;
+			friend void Rotate(Polygon<4, Type>& p, const Type& _angleChange) noexcept;
+
 			template<typename Type>
-			friend void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept;
+			friend void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept;
+
 			template<typename Type>
-			friend void SetScale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept;
+			friend void SetRotation(Polygon<4, Type>& p, const Type& _angle) noexcept;
+
 			template<typename Type>
-			friend void SetCenter(Polygon<4, Type>& p, const Point<2, Type> _center) noexcept;
+			friend void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept;
+
+			template<typename Type>
+			friend void SetCenter(Polygon<4, Type>& p, const Point<2, Type>& _center) noexcept;
+
 			template<typename Type>
 			friend const Point<2, Type>& GetCenter(const Polygon<4, Type>& p) noexcept;
+
 			template<typename Type>
 			friend const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept;
+
 			template<typename Type>
 			friend const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept;
+
 			template<typename Type>
 			friend const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept;
+
 			template<typename Type>
 			friend const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept;
+
 			template<typename Type>
-			friend void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept;
+			friend void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type>& _pivotPoint) noexcept;
+
 			template<typename Type>
 			friend const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept;
+
 			template<typename Type>
-			friend void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept;
+			friend void SetWidth(Polygon<4, Type>& p, const Type& _width) noexcept;
+
 			template<typename Type>
-			friend void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept;
+			friend void SetHeight(Polygon<4, Type>& p, const Type& _height) noexcept;
 
 			Point<2, Type> center, leftBottom, leftTop, rightTop, rightBottom, pivotPoint;
 
@@ -158,80 +255,24 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Iterator
-		class iterator final
+		Iterator<Type> begin() noexcept
 		{
-		public:
-			using iterator_category = std::random_access_iterator_tag;
-			using difference_type = std::ptrdiff_t;
-			using value_type = Point<2, Type>;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-			iterator(pointer pPointer) noexcept
-				: m_Pointer{ pPointer }
-			{}
-
-			inline reference operator*() const noexcept { return *m_Pointer; }
-			inline pointer operator->() noexcept { return m_Pointer; }
-			
-			inline iterator& operator++() noexcept { ++m_Pointer; return *this; }
-			inline iterator& operator++(int) noexcept { iterator tmp = *this; ++(*this); return tmp; }
-			inline iterator& operator--() noexcept { --m_Pointer; return *this; }
-			inline iterator& operator--(int) noexcept { iterator tmp = *this; --(*this); return tmp; }
-
-			inline bool operator==(const iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
-			inline bool operator!=(const iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
-
-		private:
-			pointer m_Pointer;
-		};
-
-		class const_iterator final
-		{
-		public:
-			using iterator_category = std::random_access_iterator_tag;
-			using difference_type = std::ptrdiff_t;
-			using value_type = const Point<2, Type>;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-			const_iterator(pointer pPointer) noexcept
-				: m_Pointer{ pPointer }
-			{}
-
-			inline reference operator*() const noexcept { return *m_Pointer; }
-			inline pointer operator->() noexcept { return m_Pointer; }
-
-			inline const_iterator& operator++() noexcept { ++m_Pointer; return *this; }
-			inline const_iterator& operator++(int) noexcept { const_iterator tmp = *this; ++(*this); return tmp; }
-			inline const_iterator& operator--() noexcept { --m_Pointer; return *this; }
-			inline const_iterator& operator--(int) noexcept { const_iterator tmp = *this; --(*this); return tmp; }
-
-			inline bool operator==(const const_iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
-			inline bool operator!=(const const_iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
-
-		private:
-			pointer m_Pointer;
-		};
-
-		iterator begin() noexcept
-		{
-			return iterator{ &points.center };
+			return Iterator<Type>{ &points.center };
 		}
 
-		const_iterator begin() const noexcept
+		ConstIterator<Type> begin() const noexcept
 		{
-			return const_iterator{ &points.center };
+			return ConstIterator<Type>{ &points.center };
 		}
 
-		iterator end() noexcept
+		Iterator<Type> end() noexcept
 		{
-			return iterator{ &points.rightBottom + 1 };
+			return Iterator<Type>{ &points.rightBottom + 1 };
 		}
 
-		const_iterator end() const noexcept
+		ConstIterator<Type> end() const noexcept
 		{
-			return const_iterator{ &points.rightBottom + 1 };
+			return ConstIterator<Type>{ &points.rightBottom + 1 };
 		}
 #pragma endregion
 	};
@@ -253,11 +294,9 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Functions
-	template<int V, typename Type>
-	void Translate(Polygon<4, Type>& p, const Vector<V, Type>& v) noexcept
+	template<typename Type>
+	void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v) noexcept
 	{
-		static_assert(V > 1, "A vector needs at least two dimensions");
-
 		p.points.leftBottom += v;
 		p.points.leftTop += v;
 		p.points.rightTop += v;
@@ -267,7 +306,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void Rotate(Polygon<4, Type>& p, const Type _angleChange) noexcept
+	void Rotate(Polygon<4, Type>& p, const Type& _angleChange) noexcept
 	{
 		p.angle += _angleChange;
 
@@ -275,7 +314,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void Scale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept
+	void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		p.scaleX += scale.x;
 		p.scaleY += scale.y;
@@ -284,7 +323,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetRotation(Polygon<4, Type>& p, const Type _angle) noexcept
+	void SetRotation(Polygon<4, Type>& p, const Type& _angle) noexcept
 	{
 		p.angle = _angle;
 
@@ -315,7 +354,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetScale(Polygon<4, Type>& p, const Point<2, Type> scale) noexcept
+	void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -342,7 +381,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetCenter(Polygon<4, Type>& p, const Point<2, Type> _center) noexcept
+	void SetCenter(Polygon<4, Type>& p, const Point<2, Type>& _center) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -363,13 +402,13 @@ namespace Integrian2D
 		p.points.rightBottom = { _center.x + halfWidth, _center.y - halfHeight };
 		p.points.pivotPoint = _center; // pivot point is in the center by default
 
-		// == Rotate, but only if the angle is not 0 ==
-		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
-			SetRotation(p, originalAngle);
-
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
 			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
 	}
 
 	template<typename Type>
@@ -405,11 +444,18 @@ namespace Integrian2D
 	template<typename Type>
 	void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept
 	{
+		Type originalAngle{};
+		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
+		{
+			originalAngle = p.angle;
+			SetRotation(p, static_cast<Type>(0.f));
+		}
+
 		p.points.pivotPoint = _pivotPoint;
 
 		// == Rotate, but only if the angle is not 0 ==
-		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
-			SetRotation(p, p.angle);
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
 	}
 
 	template<typename Type>
@@ -419,7 +465,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetWidth(Polygon<4, Type>& p, const Type _width) noexcept
+	void SetWidth(Polygon<4, Type>& p, const Type& _width) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -438,17 +484,17 @@ namespace Integrian2D
 		p.points.rightTop.x = center.x + halfWidth;
 		p.points.rightBottom.x = center.x + halfWidth;
 
-		// == Rotate, but only if the angle is not 0 ==
-		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
-			SetRotation(p, originalAngle);
-
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
 			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
 	}
 
 	template<typename Type>
-	void SetHeight(Polygon<4, Type>& p, const Type _height) noexcept
+	void SetHeight(Polygon<4, Type>& p, const Type& _height) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -467,13 +513,13 @@ namespace Integrian2D
 		p.points.rightTop.y = center.y + halfHeight;
 		p.points.rightBottom.y = center.y - halfHeight;
 
-		// == Rotate, but only if the angle is not 0 ==
-		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
-			SetRotation(p, originalAngle);
-
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
 			SetScale(p, Point<2, Type>{ p.scaleX, p.scaleY });
+
+		// == Rotate, but only if the angle is not 0 ==
+		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
+			SetRotation(p, originalAngle);
 	}
 #pragma endregion
 }
