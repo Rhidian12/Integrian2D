@@ -135,12 +135,12 @@ namespace Integrian2D
 			return tmp;
 		}
 
-		bool operator==(const Iterator& other) const noexcept
+		bool operator==(const ConstIterator& other) const noexcept
 		{
 			return m_Pointer == other.m_Pointer;
 		}
 
-		bool operator!=(const Iterator& other) const noexcept
+		bool operator!=(const ConstIterator& other) const noexcept
 		{
 			return m_Pointer != other.m_Pointer;
 		}
