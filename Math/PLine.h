@@ -9,7 +9,7 @@
 namespace Integrian2D
 {
 	/* This class is the specialisation of the Polygon, representing a Line with 2 points
-	   This function is supposed to be a more complex Line class, holding information regarding angle, ... */
+	   This class is supposed to be a more complex Line class, holding information regarding angle, ... */
 
 	   /* A list of available operators:
 		  Assume Type is the templated type given to the Matrix
