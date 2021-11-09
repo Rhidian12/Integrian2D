@@ -15,15 +15,15 @@ namespace Integrian2D
 		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
 		Type& operator[](const IntegralNumber index) noexcept
 		{
-			ASSERT(i < Points, "Point<Points, Type>::operator[] > Index is out of bounds!");
-			return data[i];
+			ASSERT(index < Points, "Point<Points, Type>::operator[] > Index is out of bounds!");
+			return data[index];
 		}
 		
 		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
 		const Type& operator[](const IntegralNumber index) const noexcept
 		{
-			ASSERT(i < Points, "Polygon<Points, Type>::operator[] > Index is out of bounds!");
-			return data[i];
+			ASSERT(index < Points, "Polygon<Points, Type>::operator[] > Index is out of bounds!");
+			return data[index];
 		}
 	};
 }
