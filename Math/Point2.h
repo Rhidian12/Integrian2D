@@ -10,8 +10,8 @@ namespace Integrian2D
 	/* This class is the specialisation of Point, representing a Point with 2 dimensions */
 
 	/* A list of available operators:
-	   Assume Type is the templated type provided to the Point2 
-	   
+	   Assume Type is the templated type provided to the Point2
+
 	   Vector<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs)
 	   Point<2, Type> operator-(const Point<2, Type>& lhs, const Vector<2, Type>& rhs)
 
@@ -44,15 +44,15 @@ namespace Integrian2D
 	   std::ostream& operator<<(std::ostream& os, const Point<2, Type>& point)
 	   */
 
-	/* A list of available functions:
-	   Type DistanceSquared(const Point<2, Type>& p1, const Point<2, Type>& p2) 
-	   =>	Returns the squared distance between the two provided points 
-	   
-	   Type Distance(const Point<2, Type>& p1, const Point<2, Type>& p2)
-	   =>	Returns the distance between the two provided points
-	   */
+	   /* A list of available functions:
+		  Type DistanceSquared(const Point<2, Type>& p1, const Point<2, Type>& p2)
+		  =>	Returns the squared distance between the two provided points
 
-	/* The Point2 iterator covers the member variables x and y (in that order) */
+		  Type Distance(const Point<2, Type>& p1, const Point<2, Type>& p2)
+		  =>	Returns the distance between the two provided points
+		  */
+
+		  /* The Point2 iterator covers the member variables x and y (in that order) */
 
 	template<typename Type>
 	struct Point<2, Type>
@@ -104,7 +104,18 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Data
-		Type x, y;
+		union
+		{
+			Type data[2];
+
+#pragma warning ( push )
+#pragma warning ( disable : 4201 ) // Disable nameless struct warning
+			struct
+			{
+				Type x, y;
+			};
+#pragma warning ( pop )
+		};
 #pragma endregion
 
 #pragma region Access Operators
@@ -126,22 +137,22 @@ namespace Integrian2D
 #pragma region Iterator
 		Iterator<Type> begin() noexcept
 		{
-			return iterator{ &x };
+			return Iterator<Type>{ &x };
 		}
 
 		ConstIterator<Type> begin() const noexcept
 		{
-			return const_iterator{ &x };
+			return ConstIterator<Type>{ &x };
 		}
 
 		Iterator<Type> end() noexcept
 		{
-			return iterator{ &y + 1 };
+			return Iterator<Type>{ &y + 1 };
 		}
 
 		ConstIterator<Type> end() const noexcept
 		{
-			return const_iterator{ &y + 1 };
+			return ConstIterator<Type>{ &y + 1 };
 		}
 #pragma endregion
 	};
