@@ -4,19 +4,23 @@
 
 namespace Integrian2D
 {
+	/* This class is the base class representing a 2D polygon
+	   I suggest using the provided Polygon types - such as PTriangle - but others can be created using this class */
+
 	template<int Points, typename Type>
 	struct Polygon
 	{
 		Point<2, Type> data[Points];
 
-		// == Operator[] Is Required To Be A Member ==
-		Type& operator[](const size_t i)
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		Type& operator[](const IntegralNumber index) noexcept
 		{
 			ASSERT(i < Points, "Point<Points, Type>::operator[] > Index is out of bounds!");
 			return data[i];
 		}
-
-		const Type& operator[](const size_t i) const
+		
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		const Type& operator[](const IntegralNumber index) const noexcept
 		{
 			ASSERT(i < Points, "Polygon<Points, Type>::operator[] > Index is out of bounds!");
 			return data[i];
