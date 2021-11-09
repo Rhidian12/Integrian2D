@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Point.h" // Point 
-#include "Vector.h" // Vector
 #include "../Iterator/Iterator.h"
 
 #include <utility>
@@ -112,12 +111,14 @@ namespace Integrian2D
 		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
 		Type& operator[](const IntegralNumber index) noexcept
 		{
+			ASSERT(index < 2 && index > -1, "Point<2, Type>::operator[] > The index was out of bounds!");
 			return data[index];
 		}
 
 		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
 		const Type& operator[](const IntegralNumber index) const noexcept
 		{
+			ASSERT(index < 2 && index > -1, "Point<2, Type>::operator[] > The index was out of bounds!");
 			return data[index];
 		}
 #pragma endregion
