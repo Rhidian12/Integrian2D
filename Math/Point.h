@@ -14,11 +14,14 @@ namespace Integrian2D
 		Type data[P];
 
 #pragma region Access Operators
-		Type& operator[](const int index) noexcept
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		Type& operator[](const IntegralNumber index) noexcept
 		{
 			return data[index];
 		}
-		const Type& operator[](const int index) const noexcept
+
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		const Type& operator[](const IntegralNumber index) const noexcept
 		{
 			return data[index];
 		}
