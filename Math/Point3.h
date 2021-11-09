@@ -144,22 +144,22 @@ namespace Integrian2D
 #pragma region Iterator
 		Iterator<Type> begin() noexcept
 		{
-			return iterator{ &x };
+			return Iterator<Type>{ &x };
 		}
 
 		ConstIterator<Type> begin() const noexcept
 		{
-			return const_iterator{ &x };
+			return ConstIterator<Type>{ &x };
 		}
 
 		Iterator<Type> end() noexcept
 		{
-			return iterator{ &z + 1 };
+			return Iterator<Type>{ &z + 1 };
 		}
 
 		ConstIterator<Type> end() const noexcept
 		{
-			return const_iterator{ &z + 1 };
+			return ConstIterator<Type>{ &z + 1 };
 		}
 #pragma endregion
 	};
