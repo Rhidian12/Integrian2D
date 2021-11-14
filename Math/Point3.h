@@ -63,17 +63,17 @@ namespace Integrian2D
 			, y{}
 			, z{}
 		{}
-		explicit Point<3, Type>(const Type _x, const Type _y)
+		explicit Point<3, Type>(const Type& _x, const Type& _y)
 			: x{ _x }
 			, y{ _y }
 			, z{}
 		{}
-		explicit Point<3, Type>(const Type _x, const Type _y, const Type _z)
+		explicit Point<3, Type>(const Type& _x, const Type& _y, const Type& _z)
 			: x{ _x }
 			, y{ _y }
 			, z{ _z }
 		{}
-		explicit Point<3, Type>(const Point<2, Type> _xy)
+		explicit Point<3, Type>(const Point<2, Type>& _xy)
 			: x{ _xy.x }
 			, y{ _xy.y }
 			, z{}
