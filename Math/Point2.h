@@ -62,7 +62,7 @@ namespace Integrian2D
 			: x{}
 			, y{}
 		{}
-		explicit Point<2, Type>(const Type _x, const Type _y)
+		explicit Point<2, Type>(const Type& _x, const Type& _y)
 			: x{ _x }
 			, y{ _y }
 		{}
