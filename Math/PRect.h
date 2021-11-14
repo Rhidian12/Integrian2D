@@ -91,7 +91,7 @@ namespace Integrian2D
 				SetRotation() will get called with the original angle
 		*/
 
-		/* The PRect iterator covers the member variables center, leftBottom, leftTop, rightTopand rightBottom (in that order) */
+		/* The PRect iterator covers the member variables leftBottom, leftTop, rightTop and rightBottom (in that order) */
 
 	template<typename Type>
 	struct Polygon<4, Type>
@@ -257,12 +257,12 @@ namespace Integrian2D
 #pragma region Iterator
 		Iterator<Type> begin() noexcept
 		{
-			return Iterator<Type>{ &points.center };
+			return Iterator<Type>{ &points.leftBottom };
 		}
 
 		ConstIterator<Type> begin() const noexcept
 		{
-			return ConstIterator<Type>{ &points.center };
+			return ConstIterator<Type>{ &points.leftBottom };
 		}
 
 		Iterator<Type> end() noexcept
