@@ -67,6 +67,7 @@ namespace Integrian2D
 #pragma region Data
 		union
 		{
+			Type data[2];
 #pragma warning ( push )
 #pragma warning ( disable : 4201 ) // Disable nameless struct warning
 			struct
