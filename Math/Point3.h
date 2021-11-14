@@ -78,6 +78,16 @@ namespace Integrian2D
 			, y{ _xy.y }
 			, z{}
 		{}
+		explicit Point<3, Type>(const Vector<2, Type>& _xy)
+			: x{ _xy.x }
+			, y{ _xy.y }
+			, z{}
+		{}
+		explicit Point<3, Type>(const Vector<3, Type>& _xyz)
+			: x{ _xyz.x }
+			, y{ _xyz.y }
+			, z{ _xyz.z }
+		{}
 #pragma endregion
 
 #pragma region Rule Of 5
