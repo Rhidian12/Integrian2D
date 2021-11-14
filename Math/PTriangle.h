@@ -13,11 +13,10 @@
 
 namespace Integrian2D
 {
-	// == Specialisation of Polygon, being a Triangle ==
-	template<typename Type>
-	struct Polygon<3, Type>
-	{
-#pragma region Constructors
+	/* This class is the specialisation of Polygon, representing a 2D Triangle
+	   This class is supposed to be a more complex Triangle class, holding information regarding angle, ... */
+
+	/* IMPORTANT NOTE: The vertices of a triangle are defined in a CLOCKWISE ORDER */
 		//		    pointTwo
 		//		   /		\
 		//		  /			 \
@@ -26,10 +25,90 @@ namespace Integrian2D
 		//	   /				\
 		//	  /					 \
 		// pointOne ========= pointThree
+
+		/* A list of available operators:
+		   Assume Type is the templated Type provided to the PTriangle
+
+		   bool operator==(const Polygon<3, Type>& lhs, const Polygon<3, Type>& rhs)
+		   bool operator!=(const Polygon<3, Type>& lhs, const Polygon<3, Type>& rhs)
+		   */
+
+		   /* A list of available functions:
+			  void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v)
+			  =>	Translates the PTriangle with the provided Vector2
+
+			  void Rotate(Polygon<3, Type>& p, const Type _angleChange)
+			  =>	Rotates the PTriangle by adding the provided angle to the PTriangle's current angle
+			  =>	This function calls SetRotation() with the new angle internally
+			  =>	_angleChange is presumed to be in radians
+
+			  void Scale(Polygon<3, Type>& p, const Point<2, Type>& scale)
+			  =>	Scales the PTriangle by adding the provided scale to the PTriangle's current scale
+			  =>	This function calls SetScale() with the new scale internally
+
+			  void SetRotation(Polygon<3, Type>& p, const Type _angle)
+			  =>	Rotates the PTriangle by rotating around its pivot point
+			  =>	_angleChange is presumed to be in radians
+
+			  void SetScale(Polygon<3, Type>& p, const Point<2, Type>& scale)
+			  =>	Scales the PTriangle by scaling its 3 vertices from the center
+			  =>	If the PTriangle's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
+			  =>	Once the PTriangle has been scaled, SetRotation() will get called with the original angle
+
+			  void SetCenter(Polygon<3, Type>& p, const Point<2, Type>& _center)
+			  =>	Translates the PTriangle's center to the provided center
+
+			  const Point<2, Type>& GetCenter(const Polygon<3, Type>& p)
+			  =>	Returns the PTriangle's center
+
+			  SetPivotPoint(Polygon<3, Type>& p, const Point<2, Type>& _pivotPoint)
+			  =>	Sets the PTriangle's pivot point to the provided Point2
+			  =>	If the PTriangle's angle is not 0, SetRotation() will get called
+
+			  const Point<2, Type>& GetPivotPoint(const Polygon<3, Type>& p)
+			  =>	Returns the PTriangle's pivot point
+
+			  void SetWidth(Polygon<3, Type>& p, const Type _width)
+			  =>	Set's the PTriangle's width to the provided value
+			  =>	If the PTriangle's angle is no 0, SetRotation() will get called to set the angle to 0,
+				   after which all vertices's x-values get recalculated using the provided width
+			  =>	If the PTriangle's scale is not (1, 1), SetScale() will get called to scale the PTriangle to what it's scale is
+			  =>	Once the PTriangle's width has been adjusted, all of its vertices recalculated and scaled,
+				   SetRotation() will get called with the original angle
+
+			  void SetHeight(Polygon<3, Type>& p, const Type _height)
+			  =>	Set's the PTriangle's height to the provided value
+			  =>	If the PTriangle's angle is no 0, SetRotation() will get called to set the angle to 0,
+				   after which all vertices's y-values get recalculated using the provided height
+			  =>	If the PTriangle's scale is not (1, 1), SetScale() will get called to scale the PTriangle to what it's scale is
+			  =>	Once the PTriangle's height has been adjusted, all of its vertices recalculated and scaled,
+				   SetRotation() will get called with the original angle
+
+			 Type GetArea(const Polygon<3, Type>& p)
+			 =>		Returns the area of the PTriangle
+
+			 bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p)
+			 =>		Returns whether the provided point is inside the PTriangle
+
+			 Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t)
+			 =>		Returns the edge defined by pointOne => pointTwo
+
+			 Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t)
+			 =>		Returns the edge defined by pointTwo => pointThree
+
+			 Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t)
+			 =>		Returns the edge defined by pointThree => pointOne
+		   */
+
+	template<typename Type>
+	struct Polygon<3, Type>
+	{
+#pragma region Constructors
+
 		explicit Polygon<3, Type>()
 			: Polygon<3, Type>{ Point<2, Type>{}, static_cast<Type>(0.f), static_cast<Type>(0.f), Point<2, Type>{static_cast<Type>(1.f), static_cast<Type>(1.f)}, static_cast<Type>(0.f) }
 		{}
-		explicit Polygon<3, Type>(const Point<2, Type>& _center, const Type& _width, const Type& _height)
+		explicit Polygon<3, Type>(const Point<2, Type>& _center, const Type _width, const Type _height)
 			: Polygon<3, Type>{ _center, _width, _height, Point<2, Type>{static_cast<Type>(1.f), static_cast<Type>(1.f)}, static_cast<Type>(0.f) }
 		{}
 		explicit Polygon<3, Type>(const Point<2, Type>& _center, const Type _width, const Type _height, const Point<2, Type>& _scale)
@@ -92,8 +171,8 @@ namespace Integrian2D
 		private:
 			friend struct Polygon<3, Type>;
 
-			template<int V, typename Type>
-			friend void Translate(Polygon<3, Type>& p, const Vector<V, Type>& v) noexcept;
+			template<typename Type>
+			friend void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v) noexcept;
 			template<typename Type>
 			friend void Rotate(Polygon<3, Type>& p, const Type _angleChange) noexcept;
 			template<typename Type>
@@ -144,84 +223,24 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Iterator
-		class iterator final
+		Iterator<Type> begin() noexcept
 		{
-		public:
-			using iterator_category = std::random_access_iterator_tag;
-			using difference_type = std::ptrdiff_t;
-			using value_type = Point<2, Type>;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-			iterator(pointer pPointer) noexcept
-				: m_Pointer{ pPointer }
-			{}
-
-			reference operator*() const noexcept { return *m_Pointer; }
-			pointer operator->() noexcept { return m_Pointer; }
-
-			iterator& operator++() noexcept { ++m_Pointer; return *this; }
-			iterator& operator++(int) noexcept { iterator tmp = *this; ++(*this); return tmp; }
-			iterator& operator--() noexcept { --m_Pointer; return *this; }
-			iterator& operator--(int) noexcept { iterator tmp = *this; --(*this); return tmp; }
-			iterator& operator+(const int v) noexcept { m_Pointer += v; return *this; }
-			iterator& operator-(const int v) noexcept { m_Pointer -= v; return *this; }
-
-			bool operator==(const iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
-			bool operator!=(const iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
-
-		private:
-			pointer m_Pointer;
-		};
-
-		class const_iterator final
-		{
-		public:
-			using iterator_category = std::random_access_iterator_tag;
-			using difference_type = std::ptrdiff_t;
-			using value_type = const Point<2, Type>;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-			const_iterator(pointer pPointer) noexcept
-				: m_Pointer{ pPointer }
-			{}
-
-			reference operator*() const noexcept { return *m_Pointer; }
-			pointer operator->() noexcept { return m_Pointer; }
-
-			const_iterator& operator++() noexcept { ++m_Pointer; return *this; }
-			const_iterator& operator++(int) noexcept { const_iterator tmp = *this; ++(*this); return tmp; }
-			const_iterator& operator--() noexcept { --m_Pointer; return *this; }
-			const_iterator& operator--(int) noexcept { const_iterator tmp = *this; --(*this); return tmp; }
-			const_iterator& operator+(const int v) noexcept { m_Pointer += v; return *this; }
-			const_iterator& operator-(const int v) noexcept { m_Pointer -= v; return *this; }
-
-			bool operator==(const const_iterator& other) const noexcept { return m_Pointer == other.m_Pointer; }
-			bool operator!=(const const_iterator& other) const noexcept { return m_Pointer != other.m_Pointer; }
-
-		private:
-			pointer m_Pointer;
-		};
-
-		iterator begin() noexcept
-		{
-			return iterator{ &points.pointOne };
+			return Iterator<Type>{ &points.pointOne };
 		}
 
-		const_iterator begin() const noexcept
+		ConstIterator<Type> begin() const noexcept
 		{
-			return const_iterator{ &points.pointOne };
+			return ConstIterator<Type>{ &points.pointOne };
 		}
 
-		iterator end() noexcept
+		Iterator<Type> end() noexcept
 		{
-			return iterator{ &points.pointThree + 1 };
+			return Iterator<Type>{ &points.pointThree + 1 };
 		}
 
-		const_iterator end() const noexcept
+		ConstIterator<Type> end() const noexcept
 		{
-			return const_iterator{ &points.pointThree + 1 };
+			return ConstIterator<Type>{ &points.pointThree + 1 };
 		}
 #pragma endregion
 	};
@@ -230,8 +249,8 @@ namespace Integrian2D
 	template<typename Type>
 	bool operator==(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
 	{
-		return a.points == b.points && a.width == b.width && a.height == b.height && a.scaleX == b.scaleX
-			&& a.angle == b.angle;
+		return a.points == b.points && Utils::AreEqual(a.width, b.width) && Utils::AreEqual(a.height, b.height) && Utils::AreEqual(a.scaleX, b.scaleX)
+			&& Utils::AreEqual(a.angle, b.angle);
 	}
 
 	template<typename Type>
@@ -242,11 +261,9 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Functions
-	template<int V, typename Type>
-	void Translate(Polygon<3, Type>& p, const Vector<V, Type>& v) noexcept
+	template<typename Type>
+	void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v) noexcept
 	{
-		static_assert(V > 1, "Polygon<3, Type>(=>Trianglef)::Translate() > A vector needs at least two dimensions");
-
 		p.points.center += v;
 		p.points.pivotPoint += v;
 		p.points.pointOne += v;
