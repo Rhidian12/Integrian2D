@@ -305,5 +305,8 @@
     <ClInclude Include="Iterator\Iterator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\BetterUint8.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
