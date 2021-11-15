@@ -255,24 +255,24 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Iterator
-		Iterator<Type> begin() noexcept
+		Iterator<Point<2, Type>> begin() noexcept
 		{
-			return Iterator<Type>{ &points.leftBottom };
+			return Iterator<Point<2, Type>>{ &points.leftBottom };
 		}
 
-		ConstIterator<Type> begin() const noexcept
+		ConstIterator<Point<2, Type>> begin() const noexcept
 		{
-			return ConstIterator<Type>{ &points.leftBottom };
+			return ConstIterator<Point<2, Type>>{ &points.leftBottom };
 		}
 
-		Iterator<Type> end() noexcept
+		Iterator<Point<2, Type>> end() noexcept
 		{
-			return Iterator<Type>{ &points.rightBottom + 1 };
+			return Iterator<Point<2, Type>>{ &points.rightBottom + 1 };
 		}
 
 		ConstIterator<Type> end() const noexcept
 		{
-			return ConstIterator<Type>{ &points.rightBottom + 1 };
+			return ConstIterator<Point<2, Type>>{ &points.rightBottom + 1 };
 		}
 #pragma endregion
 	};
