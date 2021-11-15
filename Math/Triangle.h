@@ -6,6 +6,38 @@
 
 namespace Integrian2D
 {
+	/* This class is a much simpler version of PTriangle, containing only information about its 3 vertices */
+
+	/* IMPORTANT NOTE: The vertices of a triangle are defined in a CLOCKWISE ORDER */
+		//		    pointTwo
+		//		   /		\
+		//		  /			 \
+		//		 /			  \
+		//		/			   \
+		//	   /				\
+		//	  /					 \
+		// pointOne ========= pointThree
+
+		/* A list of available operators:
+		   Assume Type is the templated Type provided to the Triangle
+
+		   bool operator==(const Triangle<Type>& t1, const Triangle<Type>& t2)
+		   bool operator!=(const Triangle<Type>& t1, const Triangle<Type>& t2)
+		   */
+
+		   /* A list of available functions:
+			  Assume Type is the templated Type provided to the Triangle
+
+			  Type GetArea(const Triangle<Type>& t)
+			  =>		Returns the Triangle's area
+
+			  Type GetWidth(const Triangle<Type>& t)
+			  =>		Returns the Triangle's width
+
+			  Type GetHeight(cont Triangle<Type>& t)
+			  =>		Returns the Triangle's height
+			*/
+
 	template<typename Type>
 	struct Triangle
 	{
@@ -67,6 +99,30 @@ namespace Integrian2D
 	inline bool operator!=(const Triangle<Type>& a, const Triangle<Type>& b) noexcept
 	{
 		return !(a == b);
+	}
+#pragma endregion
+
+
+#pragma region Functions
+	template<typename Type>
+	Type GetWidth(const Triangle<Type>& t) noexcept
+	{
+		return t.rightPoint.x - t.leftPoint.x;
+	}
+
+	template<typename Type>
+	Type GetHeight(const Triangle<Type>& t) noexcept
+	{
+		return t.topPoint.y - t.leftPoint.y;
+	}
+
+	template<typename Type>
+	Type GetArea(const Triangle<Type>& t) noexcept
+	{
+		const Point<2, Type> smallestXPoint = Utils::AreEqual(std::min(t.leftPoint.x, t.rightPoint.x), t.leftPoint.x) ? t.leftPoint : t.rightPoint;
+		const Point<2, Type> biggestXPoint = smallestXPoint == t.leftPoint ? t.rightPoint : t.leftPoint;
+
+		return (GetWidth(t) * GetHeight(t)) * static_cast<Type>(0.5f);
 	}
 #pragma endregion
 }
