@@ -4,11 +4,46 @@
 
 namespace Integrian2D
 {
+	/* This is the base class representing a vector
+		I suggest using the provided Vector typedefs, but others can be created using this class */
+
+	/* Available functions:
+		Type MagnitudeSquared(const Vector<V, Type>& v1)
+		=>		Returns the squared magnitude of the provided vector
+		
+		Type Magnitude(const Vector<V, Type>& v1)
+		=>		Returns the magnitude of the provided vector
+		
+		Type Normalize(Vector<V, Type>& v1)
+		=>		Normalizes the provided vector and returns the vector's magnitude
+		
+		Vector<V, Type> GetNormalized(const Vector<V, Type>& v1)
+		=>		Returns a normalized copy of the provided vector 
+		*/
+
 	template<int V, typename Type>
 	struct Vector
 	{
 		// == Data == 
 		Type data[V];
+
+#pragma region Access Operators
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		Type& operator[](const IntegralNumber index) noexcept
+		{
+			ASSERT(index < V, "Vector::operator[]() > index is out of bounds!");
+
+			return data[index];
+		}
+
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		const Type& operator[](const IntegralNumber index) const noexcept
+		{
+			ASSERT(index < V, "Vector::operator[]() > index is out of bounds!");
+
+			return data[index];
+		}
+#pragma endregion
 	};
 
 	// == Non-Member Methods That Are Useful For All Vectors ==
