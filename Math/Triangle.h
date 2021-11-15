@@ -1,8 +1,13 @@
 #pragma once
 
 #include "Point2.h"
+#include "../Utils/Utils.h"
 
 #include <utility>
+#include <algorithm>
+
+#undef min
+#undef max
 
 namespace Integrian2D
 {
@@ -107,21 +112,24 @@ namespace Integrian2D
 	template<typename Type>
 	Type GetWidth(const Triangle<Type>& t) noexcept
 	{
-		return t.rightPoint.x - t.leftPoint.x;
+		const Point<2, Type> leftPoint = Utils::AreEqual(std::min(t.leftPoint.x, t.rightPoint.x), t.leftPoint.x) ? t.leftPoint : t.rightPoint;
+		const Point<2, Type> rightPoint = Utils::AreEqual(leftPoint.x, t.leftPoint.x) ? t.rightPoint : t.leftPoint;
+		
+		return rightPoint.x - leftPoint.x;
 	}
 
 	template<typename Type>
 	Type GetHeight(const Triangle<Type>& t) noexcept
 	{
-		return t.topPoint.y - t.leftPoint.y;
+		const Point<2, Type> topPoint = Utils::AreEqual(std::max(t.leftPoint.y, t.topPoint.y), t.topPoint.y) ? t.topPoint : t.leftPoint;
+		const Point<2, Type> bottomPoint = Utils::AreEqual(topPoint.y, t.topPoint.y) ? t.leftPoint: t.topPoint;
+
+		return topPoint.y - bottomPoint.y;
 	}
 
 	template<typename Type>
 	Type GetArea(const Triangle<Type>& t) noexcept
 	{
-		const Point<2, Type> smallestXPoint = Utils::AreEqual(std::min(t.leftPoint.x, t.rightPoint.x), t.leftPoint.x) ? t.leftPoint : t.rightPoint;
-		const Point<2, Type> biggestXPoint = smallestXPoint == t.leftPoint ? t.rightPoint : t.leftPoint;
-
 		return (GetWidth(t) * GetHeight(t)) * static_cast<Type>(0.5f);
 	}
 #pragma endregion
