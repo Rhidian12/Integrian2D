@@ -2,11 +2,28 @@
 
 #include "../Utils/Utils.h"
 #include "Point2.h"
+#include "Vector2.h"
 
 #include <utility>
 
 namespace Integrian2D
 {
+	/* This class is a much simpler version of PRect, containing only information about its position, width and height */
+
+		/* A list of available operators:
+		   Assume Type is the templated Type provided to the Rect
+		   
+		   bool operator==(const Rect<Type>& r1, const Rect<Type>& r2)
+		   bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2)
+		   */
+
+		 /* A list of available functions:
+			Assume Type is the templated Type provided to the Rect
+
+			Type GetArea(const Rect<Type>& r)
+			=>		Returns the Rect's area
+		  */
+
 	template<typename Type>
 	struct Rect
 	{
@@ -23,7 +40,7 @@ namespace Integrian2D
 			, width{ _width }
 			, height{ _height }
 		{}
-		explicit Rect(const Point<2, Type> _xy, const Type _width, const Type _height)
+		explicit Rect(const Point<2, Type>& _xy, const Type _width, const Type _height)
 			: x{ _xy.x }
 			, y { _xy.y }
 			, width{ _width }
@@ -82,6 +99,7 @@ namespace Integrian2D
 #pragma endregion
 	};
 
+#pragma region Relational Operators
 	template<typename Type>
 	bool operator==(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
 	{
@@ -93,4 +111,13 @@ namespace Integrian2D
 	{
 		return !(r1 == r2);
 	}
+#pragma endregion
+
+#pragma region Functions
+	template<typename Type>
+	Type GetArea(const Rect<Type>& r) noexcept
+	{
+		return r.width * r.height;
+	}
+#pragma endregion
 }
