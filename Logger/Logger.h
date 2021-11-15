@@ -32,6 +32,9 @@
 
 #include <iostream>
 #include <string>
+
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 inline std::string operator""_s(const char* str, std::size_t len)
