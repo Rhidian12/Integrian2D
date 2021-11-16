@@ -16,6 +16,16 @@ namespace Integrian2D
 		return *this;
 	}
 
+	void Mouse::Activate() noexcept
+	{
+		m_IsActive = true;
+	}
+
+	void Mouse::Deactivate() noexcept
+	{
+		m_IsActive = false;
+	}
+
 	Mouse::~Mouse()
 	{
 		m_MouseCommands.clear();
@@ -28,6 +38,9 @@ namespace Integrian2D
 
 	void Mouse::ExecuteCommands() noexcept
 	{
+		if (!m_IsActive)
+			return;
+
 		for (std::pair<const MouseButton, std::vector<CommandAndButton>>& commandPair : m_MouseCommands)
 		{
 			for (CommandAndButton& commandAndButton : commandPair.second)

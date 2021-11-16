@@ -23,6 +23,9 @@ namespace Integrian2D
 		Mouse& operator=(const Mouse&) = delete;
 		Mouse& operator=(Mouse&& other) noexcept;
 
+		void Activate() noexcept;
+		void Deactivate() noexcept;
+
 		void AddCommand(const MouseButton mouseButton, const State keyState, const std::function<void()>& pCommand) noexcept;
 		void ExecuteCommands() noexcept;
 
@@ -35,6 +38,7 @@ namespace Integrian2D
 
 		void ResetInputs() noexcept;
 
+		bool m_IsActive{ true };
 		std::unordered_map<MouseButton, std::vector<CommandAndButton>> m_MouseCommands{};
 	};
 }
