@@ -25,11 +25,11 @@ namespace Integrian2D
 			m_SourceRect.width = pTexture->GetWidth();
 			m_SourceRect.height = pTexture->GetHeight();
 
-			m_DestRect = PRectf{ m_pOwner->pTransform->GetLocalPosition(), pTexture->GetWidth(), pTexture->GetHeight() };
+			m_DestRect = Rectf{ m_pOwner->pTransform->GetWorldPosition(), pTexture->GetWidth(), pTexture->GetHeight() };
 		}
 	}
 
-	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const PRectf& destRect)
+	TextureComponent::TextureComponent(GameObject* pOwner, Texture* const pTexture, const Rectf& destRect)
 		: Component{ pOwner }
 		, m_pTexture{ pTexture }
 		, m_SourceRect{}

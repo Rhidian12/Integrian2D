@@ -16,7 +16,7 @@ namespace Integrian2D
 		/*
 		The destination rect is set to the respective parameter.
 		*/
-		TextureComponent(GameObject* pOwner, Texture* const pTexture, const PRectf& destRect);
+		TextureComponent(GameObject* pOwner, Texture* const pTexture, const Rectf& destRect);
 
 		/* This function should NOT get called manually. If this component is added to a GameObject,
 		the GameObject in question will call this function internally */
@@ -38,7 +38,7 @@ namespace Integrian2D
 		/*
 			The destination rect (the area where the Texture gets rendered) is set to its default,
 			which is the GameObject's position, Texture's width and Texture's height */
-		PRectf m_DestRect;
+		Rectf m_DestRect;
 
 	private:
 		Texture* m_pTexture;
