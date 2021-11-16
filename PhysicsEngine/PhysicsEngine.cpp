@@ -37,7 +37,12 @@ namespace Integrian2D
 			Vector2f normalForce{};
 
 			if (Utils::AreEqual(pPhysicsComponentTransform->GetAngle(), 0.f)) /* if the angle is 0.f, assume the object is flat */
-				normalForce = Vector2f{ 0.f, physicsInfo.mass * m_Gravity }; /* since the angle is 0.f, the normal points straight up */
+			{
+				if (physicsInfo.gravity)
+					normalForce = Vector2f{ 0.f, physicsInfo.mass * m_Gravity }; /* since the angle is 0.f, the normal force points straight up */
+				else
+					normalForce = Vector2f{ 0.f, physicsInfo.mass }; /* since the angle is 0.f, the normal force points straight up */
+			}
 			else
 			{
 				const float angle{ pPhysicsComponentTransform->GetAngle() };
