@@ -24,6 +24,9 @@ namespace Integrian2D
 		Keyboard& operator=(const Keyboard&) = delete;
 		Keyboard& operator=(Keyboard&& other) noexcept;
 
+		void Activate() noexcept;
+		void Deactivate() noexcept;
+
 		void AddCommand(const KeyboardInput keyboardInput, const State keyState, const std::function<void()>& pCommand) noexcept;
 		void ExecuteCommands() noexcept;
 
@@ -37,6 +40,7 @@ namespace Integrian2D
 
 		void RemoveCommand(const std::function<void()>& pCommand) noexcept;
 
+		bool m_IsActive{ true };
 		std::unordered_map<KeyboardInput, std::vector<CommandAndButton>> m_KeyboardCommands{};
 	};
 }

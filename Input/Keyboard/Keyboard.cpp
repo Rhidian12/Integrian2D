@@ -17,6 +17,16 @@ namespace Integrian2D
 		return *this;
 	}
 
+	void Keyboard::Activate() noexcept
+	{
+		m_IsActive = true;
+	}
+
+	void Keyboard::Deactivate() noexcept
+	{
+		m_IsActive = false;
+	}
+
 	Keyboard::~Keyboard()
 	{
 		m_KeyboardCommands.clear();
@@ -29,6 +39,9 @@ namespace Integrian2D
 
 	void Keyboard::ExecuteCommands() noexcept
 	{
+		if (!m_IsActive)
+			return;
+
 		for (std::pair<const KeyboardInput, std::vector<CommandAndButton>>& commandPair : m_KeyboardCommands)
 		{
 			for (CommandAndButton& commandAndButton : commandPair.second)
