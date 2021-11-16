@@ -103,7 +103,7 @@ namespace Integrian2D
 		explicit Polygon<4, Type>(const Type _x, const Type _y, const Type _width, const Type _height)
 			: Polygon<4, Type>{ _x, _y, _width, _height, static_cast<Type>(0.f) }
 		{}
-		explicit Polygon<4, Type>(const Point<2, Type> _xy, const Type _width, const Type _height)
+		explicit Polygon<4, Type>(const Point<2, Type>& _xy, const Type _width, const Type _height)
 			: Polygon<4, Type>{ _xy, _width, _height, static_cast<Type>(0.f), static_cast<Type>(1.f), static_cast<Type>(1.f) }
 		{}
 		explicit Polygon<4, Type>(const Type _x, const Type _y, const Type _width, const Type _height, const Type _angle)
@@ -112,7 +112,13 @@ namespace Integrian2D
 		explicit Polygon<4, Type>(const Type _x, const Type _y, const Type _width, const Type _height, const Type _angle, const Type _scaleX, const Type _scaleY)
 			: Polygon<4, Type>{ Point<2, Type>{ _x, _y }, _width, _height, _angle, _scaleX, _scaleY }
 		{}
-		explicit Polygon<4, Type>(const Point<2, Type> _xy, const Type _width, const Type _height, const Type _angle, const Type _scaleX, const Type _scaleY)
+		explicit Polygon<4, Type>(const Point<2, Type>& _xy, const Type _width, const Type _height, const Type _angle)
+			: Polygon<4, Type>{ _xy, _width, _height, _angle, static_cast<Type>(1.f), static_cast<Type>(1.f) }
+		{}
+		explicit Polygon<4, Type>(const Point<2, Type>& _xy, const Type _width, const Type _height, const Type _angle, const Type _scaleX, const Type _scaleY)
+			: Polygon<4, Type>{ _xy, _width, _height, _angle, Point<2, Type>{ _scaleX, _scaleY } }
+		{}
+		explicit Polygon<4, Type>(const Point<2, Type>& _xy, const Type _width, const Type _height, const Type _angle, const Point<2, Type>& _scale) noexcept
 			: points{}
 		{
 			const Type halfWidth{ _width * static_cast<Type>(0.5f) };
@@ -126,8 +132,8 @@ namespace Integrian2D
 			points.pivotPoint = _xy; // pivot point is in the center by default
 			width = _width;
 			height = _height;
-			scaleX = _scaleX;
-			scaleY = _scaleY;
+			scaleX = _scale.x;
+			scaleY = _scale.y;
 			angle = _angle;
 
 			// == Rotate, but only if the angle is not 0 ==
@@ -136,7 +142,7 @@ namespace Integrian2D
 
 			// == Scale, but only if the scale is not 1 ==
 			if (!Utils::AreEqual(scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(scaleY, static_cast<Type>(1.f)))
-				SetScale(*this, Point<2, Type>{ scaleX, scaleY });
+				SetScale(*this, _scale);
 		}
 #pragma endregion
 
