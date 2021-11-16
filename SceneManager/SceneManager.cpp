@@ -42,7 +42,17 @@ namespace Integrian2D
 		const std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
 
 		if (cIt != m_pScenes.cend())
+		{
+			/* Let the current active scene exit */
+			m_pActiveScene->RootOnSceneExit();
+			m_pActiveScene->OnSceneExit();
+
 			m_pActiveScene = cIt->second;
+
+			/* Let the new active scene enter */
+			m_pActiveScene->RootOnSceneEnter();
+			m_pActiveScene->OnSceneEnter();
+		}
 	}
 
 	Scene* const SceneManager::GetActiveScene() const noexcept
