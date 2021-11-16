@@ -2,12 +2,66 @@
 
 #include "Vector.h"
 #include "Point.h"
+
 #include <iostream>
 #include <utility>
 
 namespace Integrian2D
 {
-	// == Vector2f (Vector specialisation) ==
+	/* This class is the specialisation of Vector, representing a Vector with 2 dimensions */
+
+	/* A list of available operators:
+		Assume Type is the templated type provided to the Vector2
+		
+		Vector<2, Type> operator+(const Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type> operator+(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type> operator-(const Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type> operator-(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type> operator*(const Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type> operator*(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type> operator/(const Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type> operator/(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type>& operator+=(Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type>& operator+=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type>& operator-=(Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type>& operator-=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type>& operator/=(Vector<2, Type>& lhs, const Type rhs)
+		Vector<2, Type>& operator/=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		Vector<2, Type>& operator*=(Vector<2, Type>& lhs, const Type& rhs)
+		Vector<2, Type>& operator*=(Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		bool operator==(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+		bool operator!=(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+
+		std::ostream& operator<<(std::ostream& os, const Vector<2, Type>& v)
+		*/
+
+	/* A list of available functions:
+		Assume Type is the templated type provided to the Vector2:
+		
+		Type Dot(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+		=>		Returns the dot product between the two provided vectors
+
+		Type Cross(const Vector<2, Type>& lhs, const Vector<2, Type>& rhs)
+		=>		Returns the cross product between the two provided vectors
+
+		Vector<2, Type> Orthogonal(const Vector<2, Type>& v)
+		=>		Returns the orthogonal vector to the provided vector
+
+		bool DoVectorsIntersect(const Point<2, Type>& p1, const Vector<2, Type>& v1, const Point<2, Type>& p2, const Vector<2, Type>& v2, void* pIntersectionPoint)
+		=>		Returns whether two vectors intersect
+		=>		The start points of each vector are the parameters p1 and p2 respectively
+		=>		If the user wishes to know about the intersection point, then pIntersectionPoint should be a reference to a Point2
+		=>		Else, the user should provide a nullptr
+		*/
+
 	template<typename Type>
 	struct Vector<2, Type>
 	{
@@ -27,6 +81,14 @@ namespace Integrian2D
 		explicit Vector<2, Type>(const Vector<3, Type>& v)
 			: x{ v.x }
 			, y{ v.y }
+		{}
+		explicit Vector<2, Type>(const Point<2, Type>& p)
+			: x{ p.x }
+			, y{ p.y }
+		{}
+		explicit Vector<2, Type>(const Point<3, Type>& p)
+			: x{ p.x }
+			, y{ p.y }
 		{}
 #pragma endregion
 
@@ -55,11 +117,12 @@ namespace Integrian2D
 
 #pragma region Data
 		Type x, y;
+#pragma endregion
 	};
 
 #pragma region Arithmetic Operators
 	template<typename Type>
-	Vector<2, Type> operator+(const Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type> operator+(const Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x + rhs, lhs.y + rhs};
 	}
@@ -71,7 +134,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator-(const Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type> operator-(const Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x - rhs, lhs.y - rhs};
 	}
@@ -83,7 +146,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator*(const Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type> operator*(const Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x* rhs, lhs.y* rhs};
 	}
@@ -95,7 +158,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator/(const Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type> operator/(const Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x / rhs, lhs.y / rhs};
 	}
@@ -109,7 +172,7 @@ namespace Integrian2D
 
 #pragma region Compound Assignment Operators
 	template<typename Type>
-	Vector<2, Type>& operator+=(Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type>& operator+=(Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x += rhs;
 		lhs.y += rhs;
@@ -125,7 +188,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type>& operator-=(Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type>& operator-=(Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x -= rhs;
 		lhs.y -= rhs;
@@ -141,7 +204,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type>& operator/=(Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type>& operator/=(Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x /= rhs;
 		lhs.y /= rhs;
@@ -157,7 +220,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Vector<2, Type>& operator*=(Vector<2, Type>& lhs, const Type& rhs) noexcept
+	Vector<2, Type>& operator*=(Vector<2, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x *= rhs;
 		lhs.y *= rhs;
