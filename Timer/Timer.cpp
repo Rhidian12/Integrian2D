@@ -55,6 +55,11 @@ namespace Integrian2D
 		return m_ElapsedSeconds;
 	}
 
+	float Timer::GetFixedElapsedSeconds() const noexcept
+	{
+		return m_TimePerFrame;
+	}
+
 	float Timer::GetTimePerFrame() const noexcept
 	{
 		return m_TimePerFrame;

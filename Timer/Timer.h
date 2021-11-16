@@ -30,6 +30,9 @@ namespace Integrian2D
 		   To ensure stable code, this will never be more than 0.1f */
 		float GetElapsedSeconds() const noexcept;
 
+		/* Get a elapsed seconds for fixed update calculations */
+		float GetFixedElapsedSeconds() const noexcept;
+
 		/* Get how much time per frame can be spent at most */
 		float GetTimePerFrame() const noexcept;
 
