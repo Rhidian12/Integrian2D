@@ -40,16 +40,36 @@ namespace Integrian2D
 		return *this;
 	}
 
+	void GameController::Activate() noexcept
+	{
+		if (SDL_IsGameController(m_Index))
+		{
+			m_pSDLGameController = SDL_GameControllerOpen(m_Index);
+
+			if (!m_pSDLGameController)
+				Logger::LogError("Error in controller: " + std::to_string(m_Index) + "\n" + SDL_GetError());
+		}
+	}
+
+	void GameController::Deactivate() noexcept
+	{
+		if (m_pSDLGameController)
+		{
+			SDL_GameControllerClose(m_pSDLGameController);
+			m_pSDLGameController = nullptr;
+		}
+	}
+
 	GameController::~GameController()
 	{
 		// Below code SHOULD work, but does not work. Throws read access violations, even though this is the exact
 		// way SDL defines this
 	// TODO: figure out why this is happening
-	//	if (m_pSDLGameController)
-	//	{
-	//		SDL_GameControllerClose(m_pSDLGameController);
-	//		m_pSDLGameController = nullptr;
-	//	}
+		if (m_pSDLGameController)
+		{
+			SDL_GameControllerClose(m_pSDLGameController);
+			m_pSDLGameController = nullptr;
+		}
 
 		m_pCommands.clear();
 	}

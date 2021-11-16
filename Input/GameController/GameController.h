@@ -23,6 +23,9 @@ namespace Integrian2D
 		GameController& operator=(const GameController&) = delete;
 		GameController& operator=(GameController&& other) noexcept;
 
+		void Activate() noexcept;
+		void Deactivate() noexcept;
+
 		void AddCommand(const ControllerInput controllerInput, const State keyState, const std::function<void()>& pCommand) noexcept;
 		void ExecuteCommands() noexcept;
 
