@@ -11,7 +11,7 @@ namespace Integrian2D
 	class PhysicsInfo final
 	{
 	public:
-		PhysicsInfo(const float _mass, const Vector2f _velocity, ColliderComponent* const _pHitbox, const bool _gravity = true);
+		PhysicsInfo(const float _mass = 1.f, const float _drag = 0.f, const Vector2f& _velocity = Vector2f{}, ColliderComponent* const _pHitbox = nullptr, const bool _gravity = true);
 
 #pragma region Rule Of 5
 		PhysicsInfo(const PhysicsInfo& other) = default;
@@ -22,6 +22,7 @@ namespace Integrian2D
 
 		bool gravity;
 		float mass;
+		float drag;
 		Vector2f velocity;
 		ColliderComponent* pHitbox;
 	};
