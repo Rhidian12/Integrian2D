@@ -62,7 +62,8 @@ namespace Integrian2D
 				normalForce += Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
 			}
 
-			/* Apply drag */
+			/* Apply drag, which is defined as our drag coefficient (normal force * tan(theta)) * drag strength */
+			pPhysicsComponent->AddForce(normalForce * tanf(pPhysicsComponentTransform->GetAngle()) * physicsInfo.drag);
 
 			// == Apply all previously added velocity ==
 			pPhysicsComponentTransform->Translate(physicsInfo.velocity);
