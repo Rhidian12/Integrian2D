@@ -69,6 +69,12 @@ namespace Integrian2D
 		   This input state will only last for 1 frame, the next time HandleInput() gets called, all inputs get set to their current state */
 		void ResetInputs() noexcept;
 
+		/* Activate all inputs */
+		void Activate() noexcept;
+
+		/* Deactivate all inputs */
+		void Deactivate() noexcept;
+
 	private:
 		friend class Scene;
 

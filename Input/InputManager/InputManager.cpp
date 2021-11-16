@@ -137,6 +137,22 @@ namespace Integrian2D
 			m_Controllers[i].ResetInputs();
 	}
 
+	void InputManager::Activate() noexcept
+	{
+		m_Keyboard.Activate();
+		m_Mouse.Activate();
+		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+			m_Controllers[i].Activate();
+	}
+
+	void InputManager::Deactivate() noexcept
+	{
+		m_Keyboard.Deactivate();
+		m_Mouse.Deactivate();
+		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+			m_Controllers[i].Deactivate();
+	}
+
 	InputManager::InputManager()
 		: m_MousePosition{}
 		, m_WindowWidth{}
