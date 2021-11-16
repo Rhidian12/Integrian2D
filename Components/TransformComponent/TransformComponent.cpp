@@ -45,7 +45,7 @@ namespace Integrian2D
 
 	void TransformComponent::Translate(const Vector2f& velocity) noexcept
 	{
-		const float dt{ Timer::GetInstance()->GetElapsedSeconds() };
+		const float dt{ Timer::GetInstance()->GetFixedElapsedSeconds() };
 		m_TransformationMatrix(0, 2) += velocity.x * dt;
 		m_TransformationMatrix(1, 2) += velocity.y * dt;
 
