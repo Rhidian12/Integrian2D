@@ -57,6 +57,16 @@ namespace Integrian2D
 			pG.second->Render();
 	}
 
+	void Scene::RootOnSceneEnter() noexcept
+	{
+		inputManager.Activate();
+	}
+
+	void Scene::RootOnSceneExit() noexcept
+	{
+		inputManager.Deactivate();
+	}
+
 	void Scene::AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
 	{
 		/* Acquire the lock */

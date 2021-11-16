@@ -44,6 +44,14 @@ namespace Integrian2D
 		   This happens internally */
 		virtual void Render() const {}
 
+		/* An optionally overridable Scene-specific function
+			This function gets called when the scene gets set as active */
+		virtual void OnSceneEnter() noexcept {}
+
+		/* An optionally overridable Scene-specific function
+			This function gets called when the scene is active, and gets replaced by another scene as the active scene */
+		virtual void OnSceneExit() noexcept {}
+
 		/* Use this function to add GameObjects to the Scene!
 		   GameObjects with duplicate GameObject names are not allowed, except if the shouldAlwaysAdd parameter is set to true
 		   If this boolean is set to true and there is a duplicate GameObject name, the name will be the same, with (N) added to it
@@ -72,11 +80,14 @@ namespace Integrian2D
 	private:
 		friend class Core; // Make sure that only Core can access the Root functions
 		friend class Locator; // Make sure that only the Locator can access the InputManager
+		friend class SceneManager; /* The SceneManager needs access to the RootOnSceneEnter and RootOnSceneExit */
 
 		void RootUpdate();
 		void RootFixedUpdate();
 		void RootLateUpdate();
 		void RootRender() const;
+		void RootOnSceneEnter() noexcept;
+		void RootOnSceneExit() noexcept;
 
 		std::string m_SceneName;
 		std::unordered_map<std::string, GameObject*> m_pGameObjects;
