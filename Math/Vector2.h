@@ -62,6 +62,8 @@ namespace Integrian2D
 		=>		Else, the user should provide a nullptr
 		*/
 
+	/* The Vector2 iterator covers the member variables x and y (in that order) */
+
 	template<typename Type>
 	struct Vector<2, Type>
 	{
@@ -117,6 +119,28 @@ namespace Integrian2D
 
 #pragma region Data
 		Type x, y;
+#pragma endregion
+
+#pragma region Iterator
+		Iterator<Type> begin()
+		{
+			return Iterator<Type>{ &x };
+		}
+
+		ConstIterator<Type> begin()
+		{
+			return ConstIterator<Type>{ &x };
+		}
+
+		Iterator<Type> end()
+		{
+			return Iterator<Type>{ &y + 1 };
+		}
+
+		ConstIterator<Type> end()
+		{
+			return ConstIterator<Type>{ &y + 1 };
+		}
 #pragma endregion
 	};
 
