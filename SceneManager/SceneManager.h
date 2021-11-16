@@ -20,7 +20,7 @@ namespace Integrian2D
 
 		/* Adds a Scene to the SceneManager 
 		   Duplicate Scenes do not get added 
-		   The first scene to be added gets automatically sets as the active scene */
+		   The first scene to be added gets automatically set as the active scene */
 		void AddScene(Scene* const pScene) noexcept;
 
 		/* Sets a previously added Scene as the active scene 
