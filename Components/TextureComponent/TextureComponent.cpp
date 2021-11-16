@@ -52,7 +52,13 @@ namespace Integrian2D
 
 	Component* TextureComponent::Clone(GameObject* pOwner) noexcept
 	{
-		return new TextureComponent{ pOwner, m_pTexture };
+		TextureComponent* pTextureComponent{ new TextureComponent{pOwner} };
+
+		pTextureComponent->m_DestRect = m_DestRect;
+		pTextureComponent->m_SourceRect = m_SourceRect;
+		pTextureComponent->m_pTexture = m_pTexture;
+
+		return pTextureComponent;
 	}
 
 	void TextureComponent::SetTexture(Texture* const pTexture) noexcept
