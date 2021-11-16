@@ -18,24 +18,49 @@ namespace Integrian2D
 
 	void PhysicsEngine::FixedUpdate() noexcept
 	{
-		const float elapsedSeconds{ Timer::GetInstance()->GetElapsedSeconds() };
+		const float elapsedSeconds{ Timer::GetInstance()->GetFixedElapsedSeconds() };
 
 		for (size_t i{}; i < m_pComponents.size(); ++i)
 		{
-			const PhysicsInfo& physicsInfo{ m_pComponents[i]->GetPhysicsInfo() };
+			PhysicsComponent* const pPhysicsComponent{ m_pComponents[i] };
+			const PhysicsInfo& physicsInfo{ pPhysicsComponent->GetPhysicsInfo() };
+			TransformComponent* const pPhysicsComponentTransform{ pPhysicsComponent->GetOwner()->pTransform };
 
-			if (!physicsInfo.pHitbox) // If the object does not have a hitbox, it will not be used in the physics engine
-				continue;
+			/* apply gravity if gravity is enabled.
+				Force of gravity = mass * gravity strength 
+				Mass gets added in the AddForce(), so dont add it to the calculation here */
+			if (physicsInfo.gravity) 
+				pPhysicsComponent->AddForce(Vector2f{ 0.f, -m_Gravity * elapsedSeconds });
 
-			// == Cache The Transform ==
-			TransformComponent* pTransform{ m_pComponents[i]->GetOwner()->pTransform };
+			/* Calculate the normal vector. THIS IS NOT A SIMPLE NORMALIZED VECTOR
+				It is the reaction force to the gravity and works in a orthogonal way to the surface */
+			Vector2f normalForce{};
 
-			// == Apply Gravity ==
-			if (physicsInfo.gravity)
-				m_pComponents[i]->AddForce(Vector2f{ 0.f, -m_Gravity * elapsedSeconds * physicsInfo.mass });
+			if (Utils::AreEqual(pPhysicsComponentTransform->GetAngle(), 0.f)) /* if the angle is 0.f, assume the object is flat */
+				normalForce = Vector2f{ 0.f, physicsInfo.mass * m_Gravity }; /* since the angle is 0.f, the normal points straight up */
+			else
+			{
+				const float angle{ pPhysicsComponentTransform->GetAngle() };
+				const float c{ cosf(angle) };
+				const float s{ sinf(angle) };
+				
+				/* normal force =  - { cos(theta) * m * g * cos(theta), sin(theta) * m * g * cos(theta) } */
 
-			// == Apply Velocity ==
-			pTransform->Translate(physicsInfo.velocity * elapsedSeconds);
+				if (physicsInfo.gravity)
+					normalForce = -Vector2f{ c * physicsInfo.mass * m_Gravity * c, s * physicsInfo.mass * m_Gravity * c };
+				else
+					normalForce = -Vector2f{ c * physicsInfo.mass * c, s * physicsInfo.mass * c };
+
+				/* Rotate the normal vector to match the rotation of the surface */
+				normalForce -= Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
+				normalForce = Vector2f{ normalForce.x * c - normalForce.y * s, normalForce.x * s + normalForce.y * c };
+				normalForce += Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
+			}
+
+			/* Apply drag */
+
+			// == Apply all previously added velocity ==
+			pPhysicsComponentTransform->Translate(physicsInfo.velocity);
 
 			// == Check For Collision With Other GameObjects ==
 			for (size_t j{}; j < m_pComponents.size(); ++j)
@@ -53,7 +78,7 @@ namespace Integrian2D
 				// Broad: Check which gameobjects COULD collide
 				// Narrow: Check all of those gameobjects with each other
 
-				if (m_pComponents[i]->CheckCollision(m_pComponents[j]))
+				if (pPhysicsComponent->CheckCollision(m_pComponents[j]))
 				{
 					// if the gameobjects are colliding, find the shortest distance to not touch each other
 					switch (otherColliderShape)
@@ -106,7 +131,7 @@ namespace Integrian2D
 
 						const float coefficientOfRestitution{  };
 
-						m_pComponents[i]->SetVelocity(Vector2f{ outgoingVelocityOneX, outgoingVelocityOneY });
+						pPhysicsComponent->SetVelocity(Vector2f{ outgoingVelocityOneX, outgoingVelocityOneY });
 						m_pComponents[j]->SetVelocity(Vector2f{ outgoingVelocityTwoX, outgoingVelocityTwoY });
 					}
 						break;
@@ -129,8 +154,6 @@ namespace Integrian2D
 
 		if (cIt == m_pComponents.cend())
 			m_pComponents.push_back(pComponent);
-		else
-			Logger::LogWarning("PhysicsEngine::AddPhysicsComponent() > Component was already added!");
 	}
 
 	void PhysicsEngine::RemovePhysicsComponent(PhysicsComponent* const pComponent) noexcept
