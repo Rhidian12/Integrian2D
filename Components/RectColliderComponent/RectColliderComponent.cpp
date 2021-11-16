@@ -53,6 +53,8 @@ namespace Integrian2D
 	void RectColliderComponent::FixedUpdate()
 	{
 		SetCenter(m_Collider, m_pOwner->pTransform->GetWorldPosition());
+		SetScale(m_Collider, m_pOwner->pTransform->GetScale());
+		SetRotation(m_Collider, m_pOwner->pTransform->GetAngle());
 	}
 
 	void RectColliderComponent::Render() const
