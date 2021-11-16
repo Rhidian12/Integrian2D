@@ -172,6 +172,13 @@ namespace Integrian2D
 			return ConstIterator<Type>{ &z + 1 };
 		}
 #pragma endregion
+
+#pragma region Required Member Operators
+		Point<3, Type> operator-() noexcept
+		{
+			return Point<3, Type>{ -x, -y };
+		}
+#pragma endregion
 	};
 
 #pragma region Arithmetic Operators
