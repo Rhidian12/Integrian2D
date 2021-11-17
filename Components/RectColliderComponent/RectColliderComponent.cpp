@@ -52,8 +52,13 @@ namespace Integrian2D
 
 	void RectColliderComponent::FixedUpdate()
 	{
-		SetCenter(m_Collider, m_pOwner->pTransform->GetWorldPosition());
+		const Point2f worldPosition{ m_pOwner->pTransform->GetWorldPosition() };
+		const Point2f center{ worldPosition.x + m_Collider.width * 0.5f, worldPosition.y + m_Collider.height * 0.5f };
+
+		SetCenter(m_Collider, center);
+
 		SetScale(m_Collider, m_pOwner->pTransform->GetScale());
+
 		SetRotation(m_Collider, m_pOwner->pTransform->GetAngle());
 	}
 
@@ -61,9 +66,9 @@ namespace Integrian2D
 	{
 		if (m_RenderDebugBox)
 		{
-			const Point2f& leftBottom{ GetLeftBottom(m_Collider) };
+			const Point2f& center{ GetCenter(m_Collider) };
 			const Point2f worldPosition{ m_pOwner->pTransform->GetWorldPosition() };
-			Renderer::GetInstance()->RenderRectangle(PRectf{ leftBottom.x + worldPosition.x, leftBottom.y + worldPosition.y, m_Collider.width, m_Collider.height }, m_ColliderColour);
+			Renderer::GetInstance()->RenderRectangle(PRectf{ center.x + worldPosition.x, center.y + worldPosition.y, m_Collider.width, m_Collider.height }, m_ColliderColour);
 		}
 	}
 
