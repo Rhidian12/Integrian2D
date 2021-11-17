@@ -65,9 +65,9 @@ namespace Integrian2D
 			pActiveScene->RootUpdate();
 			pActiveScene->Update();
 
-			//pActiveScene->physicsEngine.FixedUpdate();
 			pActiveScene->RootFixedUpdate();
 			pActiveScene->FixedUpdate();
+			pActiveScene->physicsEngine.FixedUpdate();
 
 			pActiveScene->RootLateUpdate();
 			pActiveScene->LateUpdate();

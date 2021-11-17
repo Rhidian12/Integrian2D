@@ -70,23 +70,28 @@ public:
 	TestScene(std::string name)
 		: Scene{ name }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
-		, m_pGameObject2{ new Integrian2D::GameObject{}  }
+		, m_pGameObject2{ new Integrian2D::GameObject{} }
 	{}
 
 	virtual void Start() override
 	{
 		using namespace Integrian2D;
 
-		m_pGameObject->AddChild(m_pGameObject2);
+		m_pGameObject->AddComponent(new RectColliderComponent{ m_pGameObject, PRectf{ Point2f{}, 20.f, 20.f } });
+		m_pGameObject->AddComponent(new PhysicsComponent{ m_pGameObject, 1.f, 1.f, m_pGameObject->GetComponentByType<RectColliderComponent>() });
+		m_pGameObject->pTransform->SetPosition(Point2f{ 20.f, 70.f });
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::A }, [this]()->void
+		m_pGameObject2->AddComponent(new RectColliderComponent{ m_pGameObject2, PRectf{ Point2f{}, 640.f, 50.f } });
+		m_pGameObject2->AddComponent(new PhysicsComponent{ m_pGameObject2, 1.f, 0.f, m_pGameObject2->GetComponentByType<RectColliderComponent>() });
+		m_pGameObject2->GetComponentByType<PhysicsComponent>()->SetIsAffectedByGravity(false);
+
+		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowRight }, [this]()->void
 			{
-				m_pGameObject->pTransform->Translate(Vector2f{ 10.f,10.f });
+				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Vector2f{ 10.f,0.f });
 			}, State::OnHeld);
-
-		inputManager.AddCommand(GameInput{ KeyboardInput::Q }, [this]()->void
+		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowLeft }, [this]()->void
 			{
-				m_pGameObject2->pTransform->Translate(Vector2f{ 10.f,10.f });
+				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Vector2f{ -10.f,0.f });
 			}, State::OnHeld);
 
 		AddGameObject("Test1", m_pGameObject);
@@ -97,8 +102,8 @@ public:
 	{
 		using namespace Integrian2D;
 
-		Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{255, 0, 0});
-		Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{0, 255, 0});
+		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 255, 0, 0 });
+		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 0, 255, 0 });
 	}
 
 	Integrian2D::GameObject* m_pGameObject;

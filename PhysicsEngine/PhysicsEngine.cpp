@@ -32,38 +32,40 @@ namespace Integrian2D
 			if (physicsInfo.gravity) 
 				pPhysicsComponent->AddForce(Vector2f{ 0.f, -m_Gravity * elapsedSeconds });
 
-			/* Calculate the normal vector. THIS IS NOT A SIMPLE NORMALIZED VECTOR
-				It is the reaction force to the gravity and works in a orthogonal way to the surface */
-			Vector2f normalForce{};
-
-			if (Utils::AreEqual(pPhysicsComponentTransform->GetAngle(), 0.f)) /* if the angle is 0.f, assume the object is flat */
-			{
-				if (physicsInfo.gravity)
-					normalForce = Vector2f{ 0.f, physicsInfo.mass * m_Gravity }; /* since the angle is 0.f, the normal force points straight up */
-				else
-					normalForce = Vector2f{ 0.f, physicsInfo.mass }; /* since the angle is 0.f, the normal force points straight up */
-			}
-			else
-			{
-				const float angle{ pPhysicsComponentTransform->GetAngle() };
-				const float c{ cosf(angle) };
-				const float s{ sinf(angle) };
-				
-				/* normal force =  - { cos(theta) * m * g * cos(theta), sin(theta) * m * g * cos(theta) } */
-
-				if (physicsInfo.gravity)
-					normalForce = -Vector2f{ c * physicsInfo.mass * m_Gravity * c, s * physicsInfo.mass * m_Gravity * c };
-				else
-					normalForce = -Vector2f{ c * physicsInfo.mass * c, s * physicsInfo.mass * c };
-
-				/* Rotate the normal vector to match the rotation of the surface */
-				normalForce -= Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
-				normalForce = Vector2f{ normalForce.x * c - normalForce.y * s, normalForce.x * s + normalForce.y * c };
-				normalForce += Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
-			}
-
-			/* Apply drag, which is defined as our drag coefficient (normal force * tan(theta)) * drag strength */
-			pPhysicsComponent->AddForce(normalForce * tanf(pPhysicsComponentTransform->GetAngle()) * physicsInfo.drag);
+#pragma region Normal Force
+			// /* Calculate the normal vector. THIS IS NOT A SIMPLE NORMALIZED VECTOR
+			// 	It is the reaction force to the gravity and works in a orthogonal way to the surface */
+			// Vector2f normalForce{};
+			// 
+			// if (Utils::AreEqual(pPhysicsComponentTransform->GetAngle(), 0.f)) /* if the angle is 0.f, assume the object is flat */
+			// {
+			// 	if (physicsInfo.gravity)
+			// 		normalForce = Vector2f{ 0.f, physicsInfo.mass * m_Gravity }; /* since the angle is 0.f, the normal force points straight up */
+			// 	else
+			// 		normalForce = Vector2f{ 0.f, physicsInfo.mass }; /* since the angle is 0.f, the normal force points straight up */
+			// }
+			// else
+			// {
+			// 	const float angle{ pPhysicsComponentTransform->GetAngle() };
+			// 	const float c{ cosf(angle) };
+			// 	const float s{ sinf(angle) };
+			// 	
+			// 	/* normal force =  - { cos(theta) * m * g * cos(theta), sin(theta) * m * g * cos(theta) } */
+			// 
+			// 	if (physicsInfo.gravity)
+			// 		normalForce = -Vector2f{ c * physicsInfo.mass * m_Gravity * c, s * physicsInfo.mass * m_Gravity * c };
+			// 	else
+			// 		normalForce = -Vector2f{ c * physicsInfo.mass * c, s * physicsInfo.mass * c };
+			// 
+			// 	/* Rotate the normal vector to match the rotation of the surface */
+			// 	normalForce -= Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
+			// 	normalForce = Vector2f{ normalForce.x * c - normalForce.y * s, normalForce.x * s + normalForce.y * c };
+			// 	normalForce += Vector2f{ pPhysicsComponentTransform->GetWorldPosition() };
+			// }
+			// 
+			// /* Apply drag, which is defined as our drag coefficient (normal force * cos(theta)) * drag strength */
+			// pPhysicsComponent->AddForce(normalForce * cosf(pPhysicsComponentTransform->GetAngle()) * physicsInfo.drag * elapsedSeconds);
+#pragma endregion
 
 			// == Apply all previously added velocity ==
 			pPhysicsComponentTransform->Translate(physicsInfo.velocity);
