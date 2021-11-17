@@ -10,7 +10,7 @@ namespace Integrian2D
 		, m_FPS{}
 		, m_FPSCounter{}
 		, m_FPSTimer{}
-		, m_TimePerFrame{ 1.f / 144.f }
+		, m_TimePerFrame{ 1.f / 60.f }
 	{
 		Start();
 	}
