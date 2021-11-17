@@ -3,6 +3,8 @@
 #include "../Math/TypeDefines.h"
 #include "PhysicsInfo/PhysicsInfo.h"
 
+#include <box2d.h>
+
 #include <vector>
 
 namespace Integrian2D
@@ -18,8 +20,8 @@ namespace Integrian2D
 		void AddPhysicsComponent(PhysicsComponent* const pComponent) noexcept;
 		void RemovePhysicsComponent(PhysicsComponent* const pComponent) noexcept;
 
-		void SetGravity(const float gravity) noexcept;
-		float GetGravity() const noexcept;
+		void SetGravity(const Vector2f& gravity) noexcept;
+		const Vector2f& GetGravity() const noexcept;
 
 	private:
 		friend class Scene;
@@ -27,6 +29,8 @@ namespace Integrian2D
 		PhysicsEngine();
 
 		std::vector<PhysicsComponent*> m_pComponents;
-		float m_Gravity;
+		Vector2f m_Gravity;
+
+		b2World m_PhysicsWorld;
 	};
 }

@@ -32,7 +32,6 @@ namespace Integrian2D
 		m_Keyboard.ExecuteCommands();
 		m_Mouse.ExecuteCommands();
 
-		//SDL_GameControllerUpdate();
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
 			m_Controllers[i].ExecuteCommands();
 	}
