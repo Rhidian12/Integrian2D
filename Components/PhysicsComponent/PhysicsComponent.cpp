@@ -8,6 +8,10 @@ namespace Integrian2D
 		: PhysicsComponent{ pOwner, 1.f, 1.f, nullptr }
 	{}
 
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass)
+		: PhysicsComponent{ pOwner, mass, 1.f, nullptr }
+	{}
+
 	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const float drag)
 		: PhysicsComponent{ pOwner, mass, drag, nullptr }
 	{}
