@@ -5,20 +5,16 @@
 namespace Integrian2D
 {
 	PhysicsComponent::PhysicsComponent(GameObject* pOwner)
-		: PhysicsComponent{ pOwner, 1.f, Vector2f{}, nullptr }
+		: PhysicsComponent{ pOwner, 1.f, 1.f, nullptr }
 	{}
 
-	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass)
-		: PhysicsComponent{ pOwner, mass, Vector2f{}, nullptr }
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const float drag)
+		: PhysicsComponent{ pOwner, mass, drag, nullptr }
 	{}
 
-	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity)
-		: PhysicsComponent{ pOwner, mass, velocity, nullptr }
-	{}
-
-	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity, ColliderComponent* const pCollider)
+	PhysicsComponent::PhysicsComponent(GameObject* pOwner, const float mass, const float drag, ColliderComponent* const pCollider)
 		: Component{ pOwner }
-		, m_PhysicsInfo{ mass, velocity, pCollider }
+		, m_PhysicsInfo{ mass, drag, Vector2f{}, pCollider }
 	{
 		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this);
 	}
@@ -30,7 +26,11 @@ namespace Integrian2D
 
 	Component* PhysicsComponent::Clone(GameObject* const pOwner) noexcept
 	{
-		return new PhysicsComponent{ pOwner, m_PhysicsInfo.mass, m_PhysicsInfo.velocity, m_PhysicsInfo.pHitbox };
+		PhysicsComponent* pPhysicsComponent{ new PhysicsComponent{ pOwner } };
+
+		pPhysicsComponent->m_PhysicsInfo = m_PhysicsInfo;
+
+		return pPhysicsComponent;
 	}
 
 	bool PhysicsComponent::CheckCollision(PhysicsComponent* const pOtherCollider) noexcept

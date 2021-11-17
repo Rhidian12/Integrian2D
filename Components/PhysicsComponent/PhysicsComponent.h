@@ -14,8 +14,8 @@ namespace Integrian2D
 	public:
 		PhysicsComponent(GameObject* pOwner);
 		PhysicsComponent(GameObject* pOwner, const float mass);
-		PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity);
-		PhysicsComponent(GameObject* pOwner, const float mass, const Vector2f& velocity, ColliderComponent* const pCollider);
+		PhysicsComponent(GameObject* pOwner, const float mass, const float drag);
+		PhysicsComponent(GameObject* pOwner, const float mass, const float drag, ColliderComponent* const pCollider);
 
 		~PhysicsComponent();
 
