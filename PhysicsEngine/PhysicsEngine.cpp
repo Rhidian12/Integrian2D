@@ -1,10 +1,8 @@
 #include "PhysicsEngine.h"
 #include "../Logger/Logger.h"
-#include "../Components/PhysicsComponent/PhysicsComponent.h"
 #include "../GameObject/GameObject.h"
 #include "../Components/TransformComponent/TransformComponent.h"
 #include "../Timer/Timer.h"
-#include "../Components/RectColliderComponent/RectColliderComponent.h"
 #include "../Utils/Utils.h"
 
 #include <algorithm>
@@ -23,15 +21,20 @@ namespace Integrian2D
 		m_PhysicsWorld.Step(Timer::GetInstance()->GetFixedElapsedSeconds(), 8, 3);
 	}
 
-	void PhysicsEngine::AddPhysicsComponent(PhysicsComponent* const pComponent) noexcept
+	void PhysicsEngine::AddPhysicsComponent(RigidbodyComponent* const pComponent, const b2BodyDef& body, const b2FixtureDef& fixture) noexcept
 	{
-		const std::vector<PhysicsComponent*>::const_iterator cIt{ std::find(m_pComponents.cbegin(), m_pComponents.cend(), pComponent) };
+		const std::vector<RigidbodyComponent*>::const_iterator cIt{ std::find(m_pComponents.cbegin(), m_pComponents.cend(), pComponent) };
 
 		if (cIt == m_pComponents.cend())
+		{
+			b2Body* const pBody{ m_PhysicsWorld.CreateBody(&body) };
+			pBody->CreateFixture(&fixture);
+
 			m_pComponents.push_back(pComponent);
+		}
 	}
 
-	void PhysicsEngine::RemovePhysicsComponent(PhysicsComponent* const pComponent) noexcept
+	void PhysicsEngine::RemovePhysicsComponent(RigidbodyComponent* const pComponent) noexcept
 	{
 		m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), pComponent), m_pComponents.end());
 	}

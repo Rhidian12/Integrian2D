@@ -6,8 +6,6 @@
 #include "TextureManager/TextureManager.h"
 #include "Components/TransformComponent/TransformComponent.h"
 #include "Input/InputManager/InputManager.h"
-#include "Components/RectColliderComponent/RectColliderComponent.h"
-#include "Components/PhysicsComponent/PhysicsComponent.h"
 #include "Timer/Timer.h"
 #include "NavigationGraph/NavigationGraphComponent.h"
 #include "NavigationGraph/NavGraphPolygon/NavGraphPolygon.h"
@@ -76,14 +74,6 @@ public:
 	virtual void Start() override
 	{
 		using namespace Integrian2D;
-
-		m_pGameObject->AddComponent(new RectColliderComponent{ m_pGameObject, PRectf{ Point2f{}, 20.f, 20.f } });
-		m_pGameObject->AddComponent(new PhysicsComponent{ m_pGameObject, 1.f, 1.f, m_pGameObject->GetComponentByType<RectColliderComponent>() });
-		m_pGameObject->pTransform->SetPosition(Point2f{ 20.f, 70.f });
-
-		m_pGameObject2->AddComponent(new RectColliderComponent{ m_pGameObject2, PRectf{ Point2f{}, 640.f, 50.f } });
-		m_pGameObject2->AddComponent(new PhysicsComponent{ m_pGameObject2, 1.f, 0.f, m_pGameObject2->GetComponentByType<RectColliderComponent>() });
-		m_pGameObject2->GetComponentByType<PhysicsComponent>()->SetIsAffectedByGravity(false);
 
 		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowRight }, [this]()->void
 			{

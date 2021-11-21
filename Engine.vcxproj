@@ -195,7 +195,6 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Components\ColliderComponent\ColliderComponent.cpp" />
     <ClCompile Include="EventQueue\Event\Event.cpp" />
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
@@ -215,12 +214,10 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Input\Mouse\Mouse.cpp" />
-    <ClCompile Include="Components\RectColliderComponent\RectColliderComponent.cpp" />
     <ClCompile Include="Parsing\Reader\Reader.cpp" />
-    <ClCompile Include="Components\PhysicsComponent\PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine\PhysicsEngine.cpp" />
-    <ClCompile Include="PhysicsEngine\PhysicsInfo\PhysicsInfo.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Components\RigidbodyComponent\RigidbodyComponent.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Components\TextureComponent\TextureComponent.cpp" />
@@ -235,7 +232,6 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Parsing\Writer\Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\ColliderComponent\ColliderComponent.h" />
     <ClInclude Include="EventQueue\Event\Event.h" />
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
@@ -275,12 +271,10 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Math\Vector.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Parsing\DataType\DataType.h" />
-    <ClInclude Include="Components\RectColliderComponent\RectColliderComponent.h" />
     <ClInclude Include="Parsing\Reader\Reader.h" />
-    <ClInclude Include="Components\PhysicsComponent\PhysicsComponent.h" />
     <ClInclude Include="PhysicsEngine\PhysicsEngine.h" />
-    <ClInclude Include="PhysicsEngine\PhysicsInfo\PhysicsInfo.h" />
     <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Components\RigidbodyComponent\RigidbodyComponent.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Components\TextureComponent\TextureComponent.h" />
