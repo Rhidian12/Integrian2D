@@ -82,6 +82,7 @@ namespace Integrian2D
 		friend class Locator; // Make sure that only the Locator can access the InputManager
 		friend class SceneManager; /* The SceneManager needs access to the RootOnSceneEnter and RootOnSceneExit */
 
+		void RootStart();
 		void RootUpdate();
 		void RootFixedUpdate();
 		void RootLateUpdate();

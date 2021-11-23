@@ -33,6 +33,12 @@ namespace Integrian2D
 			Utils::SafeDelete(pG.second);
 	}
 
+	void Scene::RootStart()
+	{
+		for (const std::pair<const std::string, GameObject*>& pG : m_pGameObjects)
+			pG.second->Start();
+	}
+
 	void Scene::RootUpdate()
 	{
 		for (const std::pair<const std::string, GameObject*>& pG : m_pGameObjects)
