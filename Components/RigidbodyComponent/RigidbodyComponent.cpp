@@ -16,4 +16,8 @@ namespace Integrian2D
 	{
 		return new RigidbodyComponent{ pOwner };
 	}
+
+	void RigidbodyComponent::RootStart() noexcept
+	{
+	}
 }

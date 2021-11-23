@@ -38,6 +38,9 @@ namespace Integrian2D
 #pragma endregion
 
 		Component* Clone(GameObject* const pOwner) noexcept override;
+
+	private:
+		virtual void RootStart() noexcept override;
 	};
 
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool>>
