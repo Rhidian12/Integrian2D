@@ -22,7 +22,8 @@ extern bool volatile g_IsLooping;
 namespace Integrian2D
 {
 	Core::Core(const int windowWidth, const int windowHeight, const std::string& windowTitle)
-		: m_pWindow{}
+		: m_IsEngineRunning{}
+		, m_pWindow{}
 		, m_WindowWidth{windowWidth}
 		, m_WindowHeight{windowHeight}
 	{
@@ -55,6 +56,8 @@ namespace Integrian2D
 
 		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
 
+		m_IsEngineRunning = true;
+
 		while (g_IsLooping)
 		{
 			pTimer->Update();
@@ -80,6 +83,13 @@ namespace Integrian2D
 
 			pRenderer->Render();
 		}
+
+		m_IsEngineRunning = false;
+	}
+
+	bool Core::IsEngineRunning() const noexcept
+	{
+		return m_IsEngineRunning;
 	}
 
 	void Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept

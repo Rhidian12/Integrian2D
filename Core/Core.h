@@ -18,6 +18,9 @@ namespace Integrian2D
 		/* This function starts the Engine and should be called ONCE */
 		void Run();
 
+		/* Is the Engine running? */
+		bool IsEngineRunning() const noexcept;
+
 		Core(const Core&) = delete;
 		Core(Core&&) = delete;
 		Core& operator=(const Core&) = delete;
@@ -26,6 +29,8 @@ namespace Integrian2D
 	private:
 		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
 		void ShutdownLibraries() noexcept;
+
+		bool m_IsEngineRunning;
 
 		Window* m_pWindow;
 		int m_WindowWidth;
