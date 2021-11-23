@@ -54,6 +54,6 @@ namespace Integrian2D
 	private:
 		friend class GameObject;
 
-		virtual void RootStart() noexcept = 0;
+		virtual void RootStart() noexcept {};
 	};
 }
