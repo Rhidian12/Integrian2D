@@ -48,7 +48,10 @@ namespace Integrian2D
 		Timer* pTimer{ Timer::GetInstance() };
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
+		{
+			scenePair.second->RootStart();
 			scenePair.second->Start();
+		}
 
 		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
 
