@@ -80,7 +80,7 @@ namespace Integrian2D
 
 			pRenderer->SetNewFrame();
 
-			Scene* pActiveScene{ pSceneManager->GetActiveScene() };
+			Scene* const pActiveScene{ pSceneManager->GetActiveScene() };
 
 			pActiveScene->inputManager.HandleInput();
 
