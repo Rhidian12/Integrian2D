@@ -25,6 +25,15 @@ namespace Integrian2D
 		Utils::SafeDelete(pTransform);
 	}
 
+	void GameObject::Start()
+	{
+		for (Component* const pC : m_pComponents)
+		{
+			pC->RootStart();
+			pC->Start();
+		}
+	}
+
 	void GameObject::Update()
 	{
 		for (Component* pC : m_pComponents)

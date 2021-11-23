@@ -20,6 +20,9 @@ namespace Integrian2D
 		GameObject();
 		~GameObject();
 
+		/* This function calls the GameObject's Component's Start(). Do NOT call this manually */
+		void Start();
+
 		/* This function calls the GameObject's Components' Update(). Do NOT call this manually */
 		void Update();
 
