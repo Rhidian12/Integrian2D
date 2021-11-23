@@ -24,8 +24,8 @@ namespace Integrian2D
 	Core::Core(const int windowWidth, const int windowHeight, const std::string& windowTitle)
 		: m_IsEngineRunning{}
 		, m_pWindow{}
-		, m_WindowWidth{windowWidth}
-		, m_WindowHeight{windowHeight}
+		, m_WindowWidth{ windowWidth }
+		, m_WindowHeight{ windowHeight }
 	{
 		InitializeLibraries(windowWidth, windowHeight, windowTitle);
 	}
@@ -37,6 +37,7 @@ namespace Integrian2D
 
 	Core* const Core::CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept
 	{
+		ASSERT(!m_pInstance, "Core::CreateEngine() > The Engine has already been created! Do not call this function twice!");
 		return m_pInstance = new Core{ windowWidth, windowHeight, windowTitle };
 	}
 
@@ -140,7 +141,7 @@ namespace Integrian2D
 		const int pngFlags{ IMG_INIT_PNG };
 		const int jpgFlags{ IMG_INIT_JPG };
 		ASSERT((IMG_Init(pngFlags) & pngFlags) || !(IMG_Init(jpgFlags) & jpgFlags), "Core::InitializeLibraries() > SDL_image could not initialize! "_s + SDL_GetError());
-		
+
 		ASSERT(TTF_Init() == 0, "Core::InitializeLibraries() > SDL_ttf could not initialize!"_s + SDL_GetError());
 #pragma endregion
 
