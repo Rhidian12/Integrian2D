@@ -273,13 +273,15 @@ int main(int, char*[])
 {
 	using namespace Integrian2D;
 
-	Core engine{ 640,480, "TestWindow" };
+	Core* pEngine{ Core::CreateEngine(640,480, "TestWindow") };
 
 	Scene* pScene{ new TestScene{"TestScene"} };
 
 	SceneManager::GetInstance()->AddScene(pScene);
 
-	engine.Run();
+	pEngine->Run();
+
+	pEngine->Cleanup();
 
 	return 0;
 }

@@ -30,6 +30,21 @@ namespace Integrian2D
 		InitializeLibraries(windowWidth, windowHeight, windowTitle);
 	}
 
+	Core* const Core::GetInstance() noexcept
+	{
+		return m_pInstance;
+	}
+
+	Core* const Core::CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept
+	{
+		return m_pInstance = new Core{ windowWidth, windowHeight, windowTitle };
+	}
+
+	void Core::Cleanup() noexcept
+	{
+		Utils::SafeDelete(m_pInstance);
+	}
+
 	Core::~Core()
 	{
 		SceneManager::Cleanup();

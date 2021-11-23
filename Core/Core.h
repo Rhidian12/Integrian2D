@@ -10,9 +10,16 @@ namespace Integrian2D
 	class Core final
 	{
 	public:
-		/* Create an instance of the engine, this initializes the libraries used by the engine and creates a window 
-		   Call this constructor only ONCE */
-		Core(const int windowWidth, const int windowHeight, const std::string& windowTitle);
+		/* Get the earlier created Engine instance */
+		static Core* const GetInstance() noexcept;
+
+		/* Create an instance of the engine, this initializes the libraries used by the engine and creates a window
+		   Call this function only ONCE */
+		static Core* const CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
+
+		/* Delete the earlier created Engine instance */
+		static void Cleanup() noexcept;
+
 		~Core();
 
 		/* This function starts the Engine and should be called ONCE */
@@ -27,6 +34,7 @@ namespace Integrian2D
 		Core& operator=(Core&&) = delete;
 
 	private:
+		Core(const int windowWidth, const int windowHeight, const std::string& windowTitle);
 		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
 		void ShutdownLibraries() noexcept;
 
@@ -35,5 +43,7 @@ namespace Integrian2D
 		Window* m_pWindow;
 		int m_WindowWidth;
 		int m_WindowHeight;
+
+		inline static Core* m_pInstance{};
 	};
 }
