@@ -3,8 +3,11 @@
 #include "../Component/Component.h"
 #include "../../Utils/Utils.h"
 #include "../../Locator/Locator.h"
+#include "../../GameObject/GameObject.h"
+#include "../TransformComponent/TransformComponent.h"
 
 #include <type_traits>
+#include <box2d.h>
 
 namespace Integrian2D
 {
@@ -43,7 +46,8 @@ namespace Integrian2D
 	{
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Circle) > Density may not be 0!");
 
-		b2BodyDef bodyDef;
+		b2BodyDef bodyDef{};
+
 		bodyDef.type = static_cast<b2BodyType>(rigidBodyType);
 		bodyDef.position.Set(pOwner->pTransform->GetWorldPosition().x, pOwner->pTransform->GetWorldPosition().y);
 
@@ -55,6 +59,6 @@ namespace Integrian2D
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
 
-		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this);
+		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 }

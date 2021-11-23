@@ -72,22 +72,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(SolutionDir)Libraries\Box2D\include</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\SDL2_image-2.0.5\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_mixer-2.0.4\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2-2.0.14\lib\$(PlatformTarget);$(SolutionDir)Libraries\VLD\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(SolutionDir)Libraries\Box2D\include</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\SDL2_image-2.0.5\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_mixer-2.0.4\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2-2.0.14\lib\$(PlatformTarget);$(SolutionDir)Libraries\VLD\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(SolutionDir)Libraries\Box2D\include</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\SDL2_image-2.0.5\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_mixer-2.0.4\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2-2.0.14\lib\$(PlatformTarget);$(SolutionDir)Libraries\VLD\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libaries\SDL2_image-2.0.5\include;$(SolutionDir)Libaries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libaries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libaries\SDL2-2.0.14\include;$(SolutionDir)Libaries\VLD\include;$(SolutionDir)Libraries\Box2D\include</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\SDL2_image-2.0.5\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_mixer-2.0.4\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget);$(SolutionDir)Libraries\SDL2-2.0.14\lib\$(PlatformTarget);$(SolutionDir)Libraries\VLD\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

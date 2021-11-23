@@ -1,6 +1,5 @@
 #include "TransformComponent.h"
 #include "../../GameObject/GameObject.h"
-#include "../RectColliderComponent/RectColliderComponent.h"
 #include "../../Timer/Timer.h"
 
 namespace Integrian2D

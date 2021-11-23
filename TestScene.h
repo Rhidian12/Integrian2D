@@ -75,15 +75,6 @@ public:
 	{
 		using namespace Integrian2D;
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowRight }, [this]()->void
-			{
-				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Vector2f{ 10.f,0.f });
-			}, State::OnHeld);
-		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowLeft }, [this]()->void
-			{
-				m_pGameObject->GetComponentByType<PhysicsComponent>()->AddForce(Vector2f{ -10.f,0.f });
-			}, State::OnHeld);
-
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
 	}
