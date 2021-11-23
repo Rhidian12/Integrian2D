@@ -35,6 +35,9 @@ namespace Integrian2D
 		/* Get the current owner of this component */
 		GameObject* const GetOwner() const noexcept;
 
+		/* This function gets called once right before the first frame update */
+		virtual void Start() {}
+
 		/* All of the functions below can be overriden if desired 
 		   On their own, they do nothing
 		   Do NOT call these functions manually, once this component gets added to a GameObject,
@@ -47,5 +50,10 @@ namespace Integrian2D
 
 	protected:
 		GameObject* m_pOwner;
+
+	private:
+		friend class GameObject;
+
+		virtual void RootStart() noexcept = 0;
 	};
 }
