@@ -2,6 +2,7 @@
 #include "../Utils/Utils.h"
 #include "../Scene/Scene.h"
 #include "../Logger/Logger.h"
+#include "../Core/Core.h"
 
 namespace Integrian2D
 {
@@ -26,14 +27,15 @@ namespace Integrian2D
 
 	void SceneManager::AddScene(Scene* const pScene) noexcept
 	{
-		std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(pScene->GetSceneName()) };
+		const std::string& sceneName{ pScene->GetSceneName() };
+		std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
 
 		if (cIt == m_pScenes.cend())
 		{
-			m_pScenes.insert(std::make_pair(pScene->GetSceneName(), pScene));
+			m_pScenes.insert(std::make_pair(sceneName, pScene));
 
 			if (!m_pActiveScene)
-				m_pActiveScene = pScene;
+				SetActiveScene(sceneName);
 		}
 	}
 
@@ -44,8 +46,11 @@ namespace Integrian2D
 		if (cIt != m_pScenes.cend())
 		{
 			/* Let the current active scene exit */
-			m_pActiveScene->RootOnSceneExit();
-			m_pActiveScene->OnSceneExit();
+			if (m_pActiveScene)
+			{
+				m_pActiveScene->RootOnSceneExit();
+				m_pActiveScene->OnSceneExit();
+			}
 
 			m_pActiveScene = cIt->second;
 
