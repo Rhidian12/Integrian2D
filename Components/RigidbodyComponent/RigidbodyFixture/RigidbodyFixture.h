@@ -22,6 +22,7 @@ namespace Integrian2D
 	struct RigidbodyFixture final
 	{
 	public:
+		/* The RigidbodyShape this Fixture is attached to */
 		RigidbodyShape* pShape{};
 
 		/* The friction coefficient. This is usually in the range [0, 1] */
