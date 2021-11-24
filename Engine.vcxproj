@@ -218,6 +218,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="PhysicsEngine\PhysicsEngine.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Components\RigidbodyComponent\RigidbodyComponent.cpp" />
+    <ClCompile Include="Components\RigidbodyComponent\RigidBodyShape\RigidbodyShape.cpp" />
+    <ClCompile Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Components\TextureComponent\TextureComponent.cpp" />
@@ -275,6 +277,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="PhysicsEngine\PhysicsEngine.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Components\RigidbodyComponent\RigidbodyComponent.h" />
+    <ClInclude Include="Components\RigidbodyComponent\RigidBodyShape\RigidbodyShape.h" />
+    <ClInclude Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Components\TextureComponent\TextureComponent.h" />
