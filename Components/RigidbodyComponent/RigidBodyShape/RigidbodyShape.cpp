@@ -20,6 +20,8 @@ namespace Integrian2D
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
 
+		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Circle;
+
 		pRigidbodyShape->m_pShapeDefinition = new b2CircleShape{};
 		pRigidbodyShape->m_pShapeDefinition->m_radius = circleRadius;
 
@@ -44,6 +46,8 @@ namespace Integrian2D
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+
+		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Edge;
 
 		pRigidbodyShape->m_pShapeDefinition = new b2EdgeShape{};
 		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex1 = b2Vec2{ edge.begin.x, edge.begin.y };
@@ -71,6 +75,8 @@ namespace Integrian2D
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+
+		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Polygon;
 
 		b2Vec2 pPoints[b2_maxPolygonVertices]{};
 		for (size_t i{}; i < points.size(); ++i)
@@ -101,6 +107,8 @@ namespace Integrian2D
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+
+		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Edge;
 
 		b2Vec2 pPoints[b2_maxPolygonVertices]{};
 		for (size_t i{}; i < points.size(); ++i)
