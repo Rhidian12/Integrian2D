@@ -3,8 +3,6 @@
 #include "../Component/Component.h"
 #include "../../Utils/Utils.h"
 #include "../../Locator/Locator.h"
-#include "../../GameObject/GameObject.h"
-#include "../TransformComponent/TransformComponent.h"
 
 #include <type_traits>
 #include <vector>
@@ -68,9 +66,7 @@ namespace Integrian2D
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Circle) > Density may not be 0!");
 
 		b2BodyDef bodyDef{};
-
 		bodyDef.type = static_cast<b2BodyType>(rigidBodyType);
-		bodyDef.position.Set(pOwner->pTransform->GetWorldPosition().x, pOwner->pTransform->GetWorldPosition().y);
 
 		b2CircleShape shape{};
 		shape.m_radius = circleRadius;
@@ -93,9 +89,7 @@ namespace Integrian2D
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Edge) > Density may not be 0!");
 
 		b2BodyDef bodyDef{};
-
 		bodyDef.type = static_cast<b2BodyType>(rigidBodyType);
-		bodyDef.position.Set(pOwner->pTransform->GetWorldPosition().x, pOwner->pTransform->GetWorldPosition().y);
 
 		b2EdgeShape shape{};
 		shape.m_vertex1 = edge.begin;
@@ -120,9 +114,7 @@ namespace Integrian2D
 		ASSERT(points.size() <= b2_maxPolygonVertices, std::string{ "RigidbodyComponent(RigidbodyShape::Polygon) > There may only be " } + std::to_string(b2_maxPolygonVertices) + " vertices in a polygon");
 
 		b2BodyDef bodyDef{};
-
 		bodyDef.type = static_cast<b2BodyType>(rigidBodyType);
-		bodyDef.position.Set(pOwner->pTransform->GetWorldPosition().x, pOwner->pTransform->GetWorldPosition().y);
 
 		b2PolygonShape shape{};
 		b2Vec2* pPoints[b2_maxPolygonVertices]{};
@@ -151,9 +143,7 @@ namespace Integrian2D
 		ASSERT(points.size() <= m_MaxVerticesInChain, std::string{ "RigidbodyComponent(RigidbodyShape::Chain) > There may only be " } + std::to_string(m_MaxVerticesInChain) + " vertices in a chain");
 
 		b2BodyDef bodyDef{};
-
 		bodyDef.type = static_cast<b2BodyType>(rigidBodyType);
-		bodyDef.position.Set(pOwner->pTransform->GetWorldPosition().x, pOwner->pTransform->GetWorldPosition().y);
 
 		b2ChainShape shape{};
 		b2Vec2* pPoints[m_MaxVerticesInChain]{};

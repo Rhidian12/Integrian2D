@@ -20,5 +20,7 @@ namespace Integrian2D
 
 	void RigidbodyComponent::RootStart() noexcept
 	{
+		if (m_pBox2DBody)
+			m_pBox2DBody->SetTransform(b2Vec2{ m_pOwner->pTransform->GetWorldPosition().x, m_pOwner->pTransform->GetWorldPosition().y }, 0.f);
 	}
 }
