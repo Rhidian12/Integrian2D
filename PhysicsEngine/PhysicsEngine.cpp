@@ -31,6 +31,8 @@ namespace Integrian2D
 			pBody->CreateFixture(&fixture);
 
 			m_pComponents.push_back(pComponent);
+
+			return pBody;
 		}
 		else
 			return nullptr;
