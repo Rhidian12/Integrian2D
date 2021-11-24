@@ -51,6 +51,7 @@ namespace Integrian2D
 
 		RigidbodyType m_RigidbodyType;
 		RigidbodyShape m_RigidbodyShape;
+		b2Body* m_pBox2DBody;
 	};
 
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool>>
@@ -58,6 +59,7 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
+		, m_pBox2DBody{}
 	{
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Circle) > Density may not be 0!");
 
@@ -74,7 +76,7 @@ namespace Integrian2D
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
 
-		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
+		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Edge, bool>>
@@ -82,6 +84,7 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
+		, m_pBox2DBody{}
 	{
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Edge) > Density may not be 0!");
 
@@ -99,7 +102,7 @@ namespace Integrian2D
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
 
-		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
+		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Polygon, bool>>
@@ -107,6 +110,7 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
+		, m_pBox2DBody{}
 	{
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Polygon) > Density may not be 0!");
 		ASSERT(points.size() <= b2_maxPolygonVertices, std::string{ "RigidbodyComponent(RigidbodyShape::Polygon) > There may only be " } + std::to_string(b2_maxPolygonVertices) + " vertices in a polygon");
@@ -129,7 +133,7 @@ namespace Integrian2D
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
 
-		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
+		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Chain, bool>>
@@ -137,6 +141,7 @@ namespace Integrian2D
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
+		, m_pBox2DBody{}
 	{
 		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Polygon) > Density may not be 0!");
 		ASSERT(points.size() <= b2_maxPolygonVertices, std::string{ "RigidbodyComponent(RigidbodyShape::Polygon) > There may only be " } + std::to_string(b2_maxPolygonVertices) + " vertices in a polygon");
@@ -159,6 +164,6 @@ namespace Integrian2D
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
 
-		Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
+		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 }
