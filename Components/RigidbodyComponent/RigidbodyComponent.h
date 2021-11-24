@@ -16,7 +16,8 @@ namespace Integrian2D
 	{
 		Static = 0,
 		Dynamic = 1,
-		Kinematic = 2
+		Kinematic = 2,
+		None = 3
 	};
 
 	enum class RigidbodyShape
@@ -25,7 +26,8 @@ namespace Integrian2D
 		Edge = 1,
 		Polygon = 2,
 		Chain = 3,
-		TypeCount = 4
+		TypeCount = 4,
+		None = 5
 	};
 
 	class RigidbodyComponent final : public Component
@@ -52,6 +54,8 @@ namespace Integrian2D
 		RigidbodyType m_RigidbodyType;
 		RigidbodyShape m_RigidbodyShape;
 		b2Body* m_pBox2DBody;
+
+		constexpr inline static int m_MaxVerticesInChain{ 16 };
 	};
 
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool>>
@@ -143,8 +147,8 @@ namespace Integrian2D
 		, m_RigidbodyShape{ _RigidBodyShape }
 		, m_pBox2DBody{}
 	{
-		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Polygon) > Density may not be 0!");
-		ASSERT(points.size() <= b2_maxPolygonVertices, std::string{ "RigidbodyComponent(RigidbodyShape::Polygon) > There may only be " } + std::to_string(b2_maxPolygonVertices) + " vertices in a polygon");
+		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyComponent(RigidbodyShape::Chain) > Density may not be 0!");
+		ASSERT(points.size() <= m_MaxVerticesInChain, std::string{ "RigidbodyComponent(RigidbodyShape::Chain) > There may only be " } + std::to_string(m_MaxVerticesInChain) + " vertices in a chain");
 
 		b2BodyDef bodyDef{};
 
@@ -152,12 +156,12 @@ namespace Integrian2D
 		bodyDef.position.Set(pOwner->pTransform->GetWorldPosition().x, pOwner->pTransform->GetWorldPosition().y);
 
 		b2ChainShape shape{};
-		b2Vec2* pPoints[b2_maxPolygonVertices]{};
+		b2Vec2* pPoints[m_MaxVerticesInChain]{};
 
 		for (size_t i{}; i < points.size(); ++i)
 			pPoints[i] = b2Vec2{ points[i].x, points[i].y };
 
-		shape.Set(pPoints, points.size());
+		shape.CreateLoop(pPoints, points.size());
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &shape;

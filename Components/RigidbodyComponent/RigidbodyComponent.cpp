@@ -8,9 +8,10 @@ namespace Integrian2D
 {
 	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner)
 		: Component{ pOwner }
-	{
-		//Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this);
-	}
+		, m_RigidbodyType{ RigidbodyType::None }
+		, m_RigidbodyShape{ RigidbodyShape::None }
+		, m_pBox2DBody{}
+	{}
 
 	Component* RigidbodyComponent::Clone(GameObject* const pOwner) noexcept
 	{
