@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../../Math/TypeDefines.h"
+#include "../RigidbodyFixture/RigidbodyFixture.h"
 
 #include <box2d.h>
 #include <vector>
@@ -27,10 +28,10 @@ namespace Integrian2D
 	class RigidbodyShape final
 	{
 	public:
-		static RigidbodyShape* const CreateCircle(const RigidbodyType rigidBodyType, const float circleRadius, const float density = 1.f, const float friction = 0.1f) noexcept;
-		static RigidbodyShape* const CreateEdge(const RigidbodyType rigidBodyType, const PLinef& edge, const float density = 1.f, const float friction = 0.1f) noexcept;
-		static RigidbodyShape* const CreatePolygon(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density = 1.f, const float friction = 0.1f) noexcept;
-		static RigidbodyShape* const CreateChain(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density = 1.f, const float friction = 0.1f) noexcept;
+		static RigidbodyShape* const CreateCircle(const RigidbodyType rigidBodyType, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept;
+		static RigidbodyShape* const CreateEdge(const RigidbodyType rigidBodyType, const PLinef& edge, const RigidbodyFixture& rigidbodyFixture) noexcept;
+		static RigidbodyShape* const CreatePolygon(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept;
+		static RigidbodyShape* const CreateChain(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept;
 		
 		RigidbodyType GetRigidbodyType() const noexcept;
 		PossibleRigidbodyShapes GetRigidbodyShape() const noexcept;
@@ -40,6 +41,8 @@ namespace Integrian2D
 
 		RigidbodyType m_RigidbodyType;
 		PossibleRigidbodyShapes m_RigidbodyShape;
+
+		RigidbodyFixture m_RigidbodyFixture;
 
 		b2BodyDef m_BodyDefinition;
 		b2Shape* m_pShapeDefinition;

@@ -8,13 +8,14 @@ namespace Integrian2D
 		: m_RigidbodyType{ RigidbodyType::None }
 		, m_RigidbodyShape{ PossibleRigidbodyShapes::None }
 		, m_BodyDefinition{}
+		, m_RigidbodyFixture{}
 		, m_pShapeDefinition{}
 		, m_FixtureDefinition{}
 	{}
 
-	RigidbodyShape* const RigidbodyShape::CreateCircle(const RigidbodyType rigidBodyType, const float circleRadius, const float density, const float friction) noexcept
+	RigidbodyShape* const RigidbodyShape::CreateCircle(const RigidbodyType rigidBodyType, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
-		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyShape::CreateCircle() > Density may not be 0!");
+		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateCircle() > Density may not be 0!");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
@@ -23,15 +24,23 @@ namespace Integrian2D
 		pRigidbodyShape->m_pShapeDefinition->m_radius = circleRadius;
 
 		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = density;
-		pRigidbodyShape->m_FixtureDefinition.friction = friction;
+		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+
+		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
 
 		return pRigidbodyShape;
 	}
 
-	RigidbodyShape* const RigidbodyShape::CreateEdge(const RigidbodyType rigidBodyType, const PLinef& edge, const float density, const float friction) noexcept
+	RigidbodyShape* const RigidbodyShape::CreateEdge(const RigidbodyType rigidBodyType, const PLinef& edge, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
-		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyShape::CreateEdge() > Density may not be 0!");
+		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateEdge() > Density may not be 0!");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
@@ -41,15 +50,23 @@ namespace Integrian2D
 		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex1 = b2Vec2{ edge.end.x, edge.end.y };
 
 		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = density;
-		pRigidbodyShape->m_FixtureDefinition.friction = friction;
+		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+
+		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
 
 		return pRigidbodyShape;
 	}
 
-	RigidbodyShape* const RigidbodyShape::CreatePolygon(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density, const float friction) noexcept
+	RigidbodyShape* const RigidbodyShape::CreatePolygon(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
-		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyShape::CreatePolygon() > Density may not be 0!");
+		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreatePolygon() > Density may not be 0!");
 		ASSERT(points.size() <= b2_maxPolygonVertices, std::string{ "RigidbodyShape::CreatePolygon() > There may only be " } + std::to_string(b2_maxPolygonVertices) + " vertices in a polygon");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
@@ -63,15 +80,23 @@ namespace Integrian2D
 		static_cast<b2PolygonShape*>(pRigidbodyShape->m_pShapeDefinition)->Set(pPoints, points.size());
 
 		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = density;
-		pRigidbodyShape->m_FixtureDefinition.friction = friction;
+		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+
+		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
 
 		return pRigidbodyShape;
 	}
 
-	RigidbodyShape* const RigidbodyShape::CreateChain(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density, const float friction) noexcept
+	RigidbodyShape* const RigidbodyShape::CreateChain(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
-		ASSERT(!Utils::AreEqual(density, 0.f), "RigidbodyShape::CreateChain() > Density may not be 0!");
+		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateChain() > Density may not be 0!");
 		ASSERT(points.size() <= m_MaxVerticesInChain, std::string{ "RigidbodyShape::CreateChain() > There may only be " } + std::to_string(m_MaxVerticesInChain) + " vertices in a chain");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
@@ -85,8 +110,16 @@ namespace Integrian2D
 		static_cast<b2ChainShape*>(pRigidbodyShape->m_pShapeDefinition)->CreateLoop(pPoints, points.size());
 
 		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = density;
-		pRigidbodyShape->m_FixtureDefinition.friction = friction;
+		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+
+		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
 
 		return pRigidbodyShape;
 	}
