@@ -35,10 +35,13 @@ namespace Integrian2D
 #pragma region Templated Constructors
 		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const float circleRadius, const float density = 1.f, const float friction = 0.1f);
+
 		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Edge, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const PLinef& edge, const float density = 1.f, const float friction = 0.1f);
+
 		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Chain, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density = 1.f, const float friction = 0.1f);
+
 		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Polygon, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density = 1.f, const float friction = 0.1f);
 #pragma endregion
