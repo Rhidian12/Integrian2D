@@ -16,7 +16,7 @@ namespace Integrian2D
 	public:
 		void FixedUpdate() noexcept;
 
-		void AddPhysicsComponent(RigidbodyComponent* const pComponent, const b2BodyDef& body, const b2FixtureDef& fixture) noexcept;
+		b2Body* const AddPhysicsComponent(RigidbodyComponent* const pComponent, const b2BodyDef& body, const b2FixtureDef& fixture) noexcept;
 		void RemovePhysicsComponent(RigidbodyComponent* const pComponent) noexcept;
 
 		void SetGravity(const Vector2f& gravity) noexcept;

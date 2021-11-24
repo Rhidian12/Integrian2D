@@ -21,7 +21,7 @@ namespace Integrian2D
 		m_PhysicsWorld.Step(Timer::GetInstance()->GetFixedElapsedSeconds(), 8, 3);
 	}
 
-	void PhysicsEngine::AddPhysicsComponent(RigidbodyComponent* const pComponent, const b2BodyDef& body, const b2FixtureDef& fixture) noexcept
+	b2Body* const PhysicsEngine::AddPhysicsComponent(RigidbodyComponent* const pComponent, const b2BodyDef& body, const b2FixtureDef& fixture) noexcept
 	{
 		const std::vector<RigidbodyComponent*>::const_iterator cIt{ std::find(m_pComponents.cbegin(), m_pComponents.cend(), pComponent) };
 
