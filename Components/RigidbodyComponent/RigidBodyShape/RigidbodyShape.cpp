@@ -108,7 +108,7 @@ namespace Integrian2D
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
 		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
 
-		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Edge;
+		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Chain;
 
 		b2Vec2 pPoints[b2_maxPolygonVertices]{};
 		for (size_t i{}; i < points.size(); ++i)
