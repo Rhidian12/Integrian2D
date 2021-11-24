@@ -15,7 +15,13 @@ namespace Integrian2D
 
 	Component* RigidbodyComponent::Clone(GameObject* const pOwner) noexcept
 	{
-		return new RigidbodyComponent{ pOwner };
+		RigidbodyComponent* const pRigidbody{ new RigidbodyComponent{pOwner} };
+
+		pRigidbody->m_pBox2DBody = m_pBox2DBody;
+		pRigidbody->m_RigidbodyShape = m_RigidbodyShape;
+		pRigidbody->m_RigidbodyType = m_RigidbodyType;
+
+		return pRigidbody;
 	}
 
 	void RigidbodyComponent::RootStart() noexcept

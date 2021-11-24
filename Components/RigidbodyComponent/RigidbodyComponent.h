@@ -27,22 +27,23 @@ namespace Integrian2D
 		None = 4
 	};
 
+	template<RigidbodyShape RigidBodyShape>
 	class RigidbodyComponent final : public Component
 	{
 	public:
 		RigidbodyComponent(GameObject* const pOwner);
 
 #pragma region Templated Constructors
-		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool> = true>
+		template<RigidbodyShape _RigidBodyShape = RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const float circleRadius, const float density = 1.f, const float friction = 0.1f);
 
-		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Edge, bool> = true>
+		template<RigidbodyShape _RigidBodyShape = RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Edge, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const PLinef& edge, const float density = 1.f, const float friction = 0.1f);
 
-		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Chain, bool> = true>
+		template<RigidbodyShape _RigidBodyShape = RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Chain, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density = 1.f, const float friction = 0.1f);
 
-		template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Polygon, bool> = true>
+		template<RigidbodyShape _RigidBodyShape = RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Polygon, bool> = true>
 		RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density = 1.f, const float friction = 0.1f);
 #pragma endregion
 
@@ -58,8 +59,9 @@ namespace Integrian2D
 		constexpr inline static int m_MaxVerticesInChain{ 16 };
 	};
 
+	template<RigidbodyShape RigidBodyShape>
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Circle, bool>>
-	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const float circleRadius, const float density, const float friction)
+	RigidbodyComponent<RigidBodyShape>::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const float circleRadius, const float density, const float friction)
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
@@ -81,8 +83,9 @@ namespace Integrian2D
 		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 
+	template<RigidbodyShape RigidBodyShape>
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Edge, bool>>
-	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const PLinef& edge, const float density, const float friction)
+	RigidbodyComponent<RigidBodyShape>::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const PLinef& edge, const float density, const float friction)
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
@@ -105,8 +108,9 @@ namespace Integrian2D
 		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 
+	template<RigidbodyShape RigidBodyShape>
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Polygon, bool>>
-	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density, const float friction)
+	RigidbodyComponent<RigidBodyShape>::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density, const float friction)
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
@@ -134,8 +138,9 @@ namespace Integrian2D
 		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this, bodyDef, fixtureDef);
 	}
 
+	template<RigidbodyShape RigidBodyShape>
 	template<RigidbodyShape _RigidBodyShape, std::enable_if_t<_RigidBodyShape == RigidbodyShape::Chain, bool>>
-	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density, const float friction)
+	RigidbodyComponent<RigidBodyShape>::RigidbodyComponent(GameObject* const pOwner, const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const float density, const float friction)
 		: Component{ pOwner }
 		, m_RigidbodyType{ rigidBodyType }
 		, m_RigidbodyShape{ _RigidBodyShape }
