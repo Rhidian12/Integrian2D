@@ -32,6 +32,8 @@ namespace Integrian2D
 
 			m_pComponents.push_back(pComponent);
 		}
+		else
+			return nullptr;
 	}
 
 	void PhysicsEngine::RemovePhysicsComponent(RigidbodyComponent* const pComponent) noexcept
