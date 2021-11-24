@@ -24,8 +24,7 @@ namespace Integrian2D
 		Edge = 1,
 		Polygon = 2,
 		Chain = 3,
-		TypeCount = 4,
-		None = 5
+		None = 4
 	};
 
 	class RigidbodyComponent final : public Component
