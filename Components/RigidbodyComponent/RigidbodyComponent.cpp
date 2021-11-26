@@ -1,34 +1,39 @@
 #include "RigidbodyComponent.h"
 #include "../TransformComponent/TransformComponent.h"
 #include "../../GameObject/GameObject.h"
-
-#include <box2d.h>
+#include "../../Locator/Locator.h"
+#include "../../PhysicsEngine/PhysicsEngine.h"
+#include "RigidBodyShape/RigidbodyShape.h"
 
 namespace Integrian2D
 {
 	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner)
 		: Component{ pOwner }
+		, m_pRigidbody{}
+		, m_pBox2DBody{}
+	{}
+
+	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, RigidbodyShape* const pRigidBody)
+		: Component{ pOwner }
+		, m_pRigidbody{ pRigidBody }
 		, m_pBox2DBody{}
 	{
+		m_pBox2DBody = Locator::GetInstance()->GetPhysicsEngine()->AddPhysicsComponent(this);
 	}
 
-	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, const std::vector<RigidbodyShape*>& rigidBodies)
-		: Component{ pOwner }
-		, m_pBox2DBody{}
+	RigidbodyComponent::~RigidbodyComponent()
 	{
-		for (const RigidbodyShape* const pShape : rigidBodies)
-		{
-
-		}
+		Utils::SafeDelete(m_pRigidbody);
 	}
 
 	Component* RigidbodyComponent::Clone(GameObject* const pOwner) noexcept
 	{
-		RigidbodyComponent* const pRigidbody{ new RigidbodyComponent{pOwner} };
+		return new RigidbodyComponent{ pOwner, m_pRigidbody };
+	}
 
-		pRigidbody->m_pBox2DBody = m_pBox2DBody;
-
-		return pRigidbody;
+	RigidbodyShape* const RigidbodyComponent::GetRigidbodyShape() const noexcept
+	{
+		return m_pRigidbody;
 	}
 
 	void RigidbodyComponent::RootStart() noexcept
