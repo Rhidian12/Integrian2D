@@ -8,18 +8,25 @@ namespace Integrian2D
 {
 	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner)
 		: Component{ pOwner }
-		, m_RigidbodyType{ RigidbodyType::None }
-		, m_RigidbodyShape{ RigidbodyShape::None }
 		, m_pBox2DBody{}
-	{}
+	{
+	}
+
+	RigidbodyComponent::RigidbodyComponent(GameObject* const pOwner, const std::vector<RigidbodyShape*>& rigidBodies)
+		: Component{ pOwner }
+		, m_pBox2DBody{}
+	{
+		for (const RigidbodyShape* const pShape : rigidBodies)
+		{
+
+		}
+	}
 
 	Component* RigidbodyComponent::Clone(GameObject* const pOwner) noexcept
 	{
 		RigidbodyComponent* const pRigidbody{ new RigidbodyComponent{pOwner} };
 
 		pRigidbody->m_pBox2DBody = m_pBox2DBody;
-		pRigidbody->m_RigidbodyShape = m_RigidbodyShape;
-		pRigidbody->m_RigidbodyType = m_RigidbodyType;
 
 		return pRigidbody;
 	}
