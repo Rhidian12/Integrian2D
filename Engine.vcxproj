@@ -219,8 +219,6 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Components\RigidbodyComponent\RigidbodyComponent.cpp" />
     <ClCompile Include="Components\RigidbodyComponent\RigidBodyShape\RigidbodyShape.cpp" />
-    <ClCompile Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.cpp" />
-    <ClCompile Include="Components\RigidbodyComponent\RigidbodyDefinition\RigidbodyDefinition.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Components\TextureComponent\TextureComponent.cpp" />

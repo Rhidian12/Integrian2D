@@ -123,12 +123,6 @@
     <ClCompile Include="Components\RigidbodyComponent\RigidBodyShape\RigidbodyShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\RigidbodyComponent\RigidbodyDefinition\RigidbodyDefinition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
