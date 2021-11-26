@@ -4,6 +4,7 @@
 #include "../Components/TransformComponent/TransformComponent.h"
 #include "../Timer/Timer.h"
 #include "../Utils/Utils.h"
+#include "../Components/RigidbodyComponent/RigidbodyComponent.h"
 
 #include <algorithm>
 
@@ -21,14 +22,20 @@ namespace Integrian2D
 		m_PhysicsWorld.Step(Timer::GetInstance()->GetFixedElapsedSeconds(), 8, 3);
 	}
 
-	b2Body* const PhysicsEngine::AddPhysicsComponent(RigidbodyComponent* const pComponent, const b2BodyDef& body, const b2FixtureDef& fixture) noexcept
+	b2Body* const PhysicsEngine::AddPhysicsComponent(RigidbodyComponent* const pComponent) noexcept
 	{
 		const std::vector<RigidbodyComponent*>::const_iterator cIt{ std::find(m_pComponents.cbegin(), m_pComponents.cend(), pComponent) };
 
 		if (cIt == m_pComponents.cend())
 		{
-			b2Body* const pBody{ m_PhysicsWorld.CreateBody(&body) };
-			pBody->CreateFixture(&fixture);
+			const RigidbodyShape* const pRigidbodyShape{ pComponent->GetRigidbodyShape() };
+			
+			const b2BodyDef bodyDef{ pRigidbodyShape->GetBox2DBodyDefinition() };
+
+			b2Body* const pBody{ m_PhysicsWorld.CreateBody(&bodyDef) };
+
+			for (const b2FixtureDef& fixtureDef : pRigidbodyShape->GetBox2DFixtureDefinitions())
+				pBody->CreateFixture(&fixtureDef);
 
 			m_pComponents.push_back(pComponent);
 
