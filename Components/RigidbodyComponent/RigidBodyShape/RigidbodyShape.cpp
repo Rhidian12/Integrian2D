@@ -8,44 +8,76 @@ namespace Integrian2D
 		: m_RigidbodyType{ RigidbodyType::None }
 		, m_RigidbodyShape{ PossibleRigidbodyShapes::None }
 		, m_BodyDefinition{}
-		, m_RigidbodyFixture{}
+		, m_RigidbodyFixtures{}
 		, m_pShapeDefinition{}
-		, m_FixtureDefinition{}
+		, m_FixtureDefinitions{}
+		, m_RigidbodyDefinition{}
 	{}
 
-	RigidbodyShape* const RigidbodyShape::CreateCircle(const RigidbodyType rigidBodyType, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept
+	RigidbodyShape* const RigidbodyShape::CreateCircle(const RigidbodyDefinition& rigidbodyDefinition, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
 		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateCircle() > Density may not be 0!");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
-		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+		pRigidbodyShape->m_RigidbodyDefinition = rigidbodyDefinition;
+		pRigidbodyShape->m_RigidbodyDefinition.pShape = pRigidbodyShape;
+
+		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidbodyDefinition.rigidbodyType);
+		pRigidbodyShape->m_BodyDefinition.position = b2Vec2{ rigidbodyDefinition.position.x, rigidbodyDefinition.position.y };
+		pRigidbodyShape->m_BodyDefinition.angle = rigidbodyDefinition.angle;
+		pRigidbodyShape->m_BodyDefinition.linearVelocity = b2Vec2{ rigidbodyDefinition.linearVelocity.x, rigidbodyDefinition.linearVelocity.y };
+		pRigidbodyShape->m_BodyDefinition.angularVelocity = rigidbodyDefinition.angularVelocity;
+		pRigidbodyShape->m_BodyDefinition.linearDamping = rigidbodyDefinition.linearDamping;
+		pRigidbodyShape->m_BodyDefinition.angularDamping = rigidbodyDefinition.angularDamping;
+		pRigidbodyShape->m_BodyDefinition.allowSleep = rigidbodyDefinition.allowSleep;
+		pRigidbodyShape->m_BodyDefinition.awake = rigidbodyDefinition.isAwake;
+		pRigidbodyShape->m_BodyDefinition.fixedRotation = rigidbodyDefinition.fixedRotation;
+		pRigidbodyShape->m_BodyDefinition.bullet = rigidbodyDefinition.isBullet;
+		pRigidbodyShape->m_BodyDefinition.enabled = rigidbodyDefinition.isEnabled;
+		pRigidbodyShape->m_BodyDefinition.gravityScale = rigidbodyDefinition.gravityScale;
 
 		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Circle;
 
 		pRigidbodyShape->m_pShapeDefinition = new b2CircleShape{};
 		pRigidbodyShape->m_pShapeDefinition->m_radius = circleRadius;
 
-		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
-		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
-		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
-		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
-		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
-		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
-		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
-		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
+		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
+		pRigidbodyShape->m_FixtureDefinitions.back().density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinitions.back().friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitutionThreshold = rigidbodyFixture.restitutionThreshold;
 
-		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
+		pRigidbodyShape->m_RigidbodyFixtures.push_back(rigidbodyFixture);
 
 		return pRigidbodyShape;
 	}
 
-	RigidbodyShape* const RigidbodyShape::CreateEdge(const RigidbodyType rigidBodyType, const PLinef& edge, const RigidbodyFixture& rigidbodyFixture) noexcept
+	RigidbodyShape* const RigidbodyShape::CreateEdge(const RigidbodyDefinition& rigidbodyDefinition, const PLinef& edge, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
 		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateEdge() > Density may not be 0!");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
-		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+		pRigidbodyShape->m_RigidbodyDefinition = rigidbodyDefinition;
+		pRigidbodyShape->m_RigidbodyDefinition.pShape = pRigidbodyShape;
+
+		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidbodyDefinition.rigidbodyType);
+		pRigidbodyShape->m_BodyDefinition.position = b2Vec2{ rigidbodyDefinition.position.x, rigidbodyDefinition.position.y };
+		pRigidbodyShape->m_BodyDefinition.angle = rigidbodyDefinition.angle;
+		pRigidbodyShape->m_BodyDefinition.linearVelocity = b2Vec2{ rigidbodyDefinition.linearVelocity.x, rigidbodyDefinition.linearVelocity.y };
+		pRigidbodyShape->m_BodyDefinition.angularVelocity = rigidbodyDefinition.angularVelocity;
+		pRigidbodyShape->m_BodyDefinition.linearDamping = rigidbodyDefinition.linearDamping;
+		pRigidbodyShape->m_BodyDefinition.angularDamping = rigidbodyDefinition.angularDamping;
+		pRigidbodyShape->m_BodyDefinition.allowSleep = rigidbodyDefinition.allowSleep;
+		pRigidbodyShape->m_BodyDefinition.awake = rigidbodyDefinition.isAwake;
+		pRigidbodyShape->m_BodyDefinition.fixedRotation = rigidbodyDefinition.fixedRotation;
+		pRigidbodyShape->m_BodyDefinition.bullet = rigidbodyDefinition.isBullet;
+		pRigidbodyShape->m_BodyDefinition.enabled = rigidbodyDefinition.isEnabled;
+		pRigidbodyShape->m_BodyDefinition.gravityScale = rigidbodyDefinition.gravityScale;
 
 		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Edge;
 
@@ -53,28 +85,44 @@ namespace Integrian2D
 		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex1 = b2Vec2{ edge.begin.x, edge.begin.y };
 		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex1 = b2Vec2{ edge.end.x, edge.end.y };
 
-		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
-		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
-		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
-		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
-		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
-		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
-		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
-		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
+		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
+		pRigidbodyShape->m_FixtureDefinitions.back().density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinitions.back().friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitutionThreshold = rigidbodyFixture.restitutionThreshold;
 
-		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
+		pRigidbodyShape->m_RigidbodyFixtures.push_back(rigidbodyFixture);
 
 		return pRigidbodyShape;
 	}
 
-	RigidbodyShape* const RigidbodyShape::CreatePolygon(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept
+	RigidbodyShape* const RigidbodyShape::CreatePolygon(const RigidbodyDefinition& rigidbodyDefinition, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
 		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreatePolygon() > Density may not be 0!");
 		ASSERT(points.size() <= b2_maxPolygonVertices, std::string{ "RigidbodyShape::CreatePolygon() > There may only be " } + std::to_string(b2_maxPolygonVertices) + " vertices in a polygon");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
-		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+		pRigidbodyShape->m_RigidbodyDefinition = rigidbodyDefinition;
+		pRigidbodyShape->m_RigidbodyDefinition.pShape = pRigidbodyShape;
+
+		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidbodyDefinition.rigidbodyType);
+		pRigidbodyShape->m_BodyDefinition.position = b2Vec2{ rigidbodyDefinition.position.x, rigidbodyDefinition.position.y };
+		pRigidbodyShape->m_BodyDefinition.angle = rigidbodyDefinition.angle;
+		pRigidbodyShape->m_BodyDefinition.linearVelocity = b2Vec2{ rigidbodyDefinition.linearVelocity.x, rigidbodyDefinition.linearVelocity.y };
+		pRigidbodyShape->m_BodyDefinition.angularVelocity = rigidbodyDefinition.angularVelocity;
+		pRigidbodyShape->m_BodyDefinition.linearDamping = rigidbodyDefinition.linearDamping;
+		pRigidbodyShape->m_BodyDefinition.angularDamping = rigidbodyDefinition.angularDamping;
+		pRigidbodyShape->m_BodyDefinition.allowSleep = rigidbodyDefinition.allowSleep;
+		pRigidbodyShape->m_BodyDefinition.awake = rigidbodyDefinition.isAwake;
+		pRigidbodyShape->m_BodyDefinition.fixedRotation = rigidbodyDefinition.fixedRotation;
+		pRigidbodyShape->m_BodyDefinition.bullet = rigidbodyDefinition.isBullet;
+		pRigidbodyShape->m_BodyDefinition.enabled = rigidbodyDefinition.isEnabled;
+		pRigidbodyShape->m_BodyDefinition.gravityScale = rigidbodyDefinition.gravityScale;
 
 		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Polygon;
 
@@ -85,28 +133,44 @@ namespace Integrian2D
 		pRigidbodyShape->m_pShapeDefinition = new b2PolygonShape{};
 		static_cast<b2PolygonShape*>(pRigidbodyShape->m_pShapeDefinition)->Set(pPoints, points.size());
 
-		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
-		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
-		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
-		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
-		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
-		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
-		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
-		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
+		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
+		pRigidbodyShape->m_FixtureDefinitions.back().density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinitions.back().friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitutionThreshold = rigidbodyFixture.restitutionThreshold;
 
-		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
+		pRigidbodyShape->m_RigidbodyFixtures.push_back(rigidbodyFixture);
 
 		return pRigidbodyShape;
 	}
 
-	RigidbodyShape* const RigidbodyShape::CreateChain(const RigidbodyType rigidBodyType, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept
+	RigidbodyShape* const RigidbodyShape::CreateChain(const RigidbodyDefinition& rigidbodyDefinition, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
 		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateChain() > Density may not be 0!");
 		ASSERT(points.size() <= m_MaxVerticesInChain, std::string{ "RigidbodyShape::CreateChain() > There may only be " } + std::to_string(m_MaxVerticesInChain) + " vertices in a chain");
 
 		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
-		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidBodyType);
+		pRigidbodyShape->m_RigidbodyDefinition = rigidbodyDefinition;
+		pRigidbodyShape->m_RigidbodyDefinition.pShape = pRigidbodyShape;
+
+		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidbodyDefinition.rigidbodyType);
+		pRigidbodyShape->m_BodyDefinition.position = b2Vec2{ rigidbodyDefinition.position.x, rigidbodyDefinition.position.y };
+		pRigidbodyShape->m_BodyDefinition.angle = rigidbodyDefinition.angle;
+		pRigidbodyShape->m_BodyDefinition.linearVelocity = b2Vec2{ rigidbodyDefinition.linearVelocity.x, rigidbodyDefinition.linearVelocity.y };
+		pRigidbodyShape->m_BodyDefinition.angularVelocity = rigidbodyDefinition.angularVelocity;
+		pRigidbodyShape->m_BodyDefinition.linearDamping = rigidbodyDefinition.linearDamping;
+		pRigidbodyShape->m_BodyDefinition.angularDamping = rigidbodyDefinition.angularDamping;
+		pRigidbodyShape->m_BodyDefinition.allowSleep = rigidbodyDefinition.allowSleep;
+		pRigidbodyShape->m_BodyDefinition.awake = rigidbodyDefinition.isAwake;
+		pRigidbodyShape->m_BodyDefinition.fixedRotation = rigidbodyDefinition.fixedRotation;
+		pRigidbodyShape->m_BodyDefinition.bullet = rigidbodyDefinition.isBullet;
+		pRigidbodyShape->m_BodyDefinition.enabled = rigidbodyDefinition.isEnabled;
+		pRigidbodyShape->m_BodyDefinition.gravityScale = rigidbodyDefinition.gravityScale;
 
 		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Chain;
 
@@ -117,17 +181,18 @@ namespace Integrian2D
 		pRigidbodyShape->m_pShapeDefinition = new b2ChainShape{};
 		static_cast<b2ChainShape*>(pRigidbodyShape->m_pShapeDefinition)->CreateLoop(pPoints, points.size());
 
-		pRigidbodyShape->m_FixtureDefinition.shape = pRigidbodyShape->m_pShapeDefinition;
-		pRigidbodyShape->m_FixtureDefinition.density = rigidbodyFixture.density;
-		pRigidbodyShape->m_FixtureDefinition.friction = rigidbodyFixture.friction;
-		pRigidbodyShape->m_FixtureDefinition.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
-		pRigidbodyShape->m_FixtureDefinition.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
-		pRigidbodyShape->m_FixtureDefinition.filter.maskBits = rigidbodyFixture.filter.maskBits;
-		pRigidbodyShape->m_FixtureDefinition.isSensor = rigidbodyFixture.isTrigger;
-		pRigidbodyShape->m_FixtureDefinition.restitution = rigidbodyFixture.restitution;
-		pRigidbodyShape->m_FixtureDefinition.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
+		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
+		pRigidbodyShape->m_FixtureDefinitions.back().density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinitions.back().friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitutionThreshold = rigidbodyFixture.restitutionThreshold;
 
-		pRigidbodyShape->m_RigidbodyFixture = rigidbodyFixture;
+		pRigidbodyShape->m_RigidbodyFixtures.push_back(rigidbodyFixture);
 
 		return pRigidbodyShape;
 	}
@@ -140,5 +205,15 @@ namespace Integrian2D
 	PossibleRigidbodyShapes RigidbodyShape::GetRigidbodyShape() const noexcept
 	{
 		return m_RigidbodyShape;
+	}
+
+	const RigidbodyDefinition& RigidbodyShape::GetRigidbodyDefinition() const noexcept
+	{
+		return m_RigidbodyDefinition;
+	}
+
+	const std::vector<RigidbodyFixture>& RigidbodyShape::GetRigidbodyFixtures() const noexcept
+	{
+		return m_RigidbodyFixtures;
 	}
 }
