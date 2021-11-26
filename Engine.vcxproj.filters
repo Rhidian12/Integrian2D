@@ -126,6 +126,9 @@
     <ClCompile Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Components\RigidbodyComponent\RigidbodyDefinition\RigidbodyDefinition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -300,6 +303,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\RigidbodyComponent\RigidbodyDefinition\RigidbodyDefinition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
