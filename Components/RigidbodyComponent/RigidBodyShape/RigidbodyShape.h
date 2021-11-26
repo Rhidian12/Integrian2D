@@ -26,13 +26,19 @@ namespace Integrian2D
 		static RigidbodyShape* const CreatePolygon(const RigidbodyDefinition& rigidbodyDefinition, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept;
 		static RigidbodyShape* const CreateChain(const RigidbodyDefinition& rigidbodyDefinition, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept;
 		
+		void AddFixture(const RigidbodyFixture& rigidbodyFixture) noexcept;
+
 		RigidbodyType GetRigidbodyType() const noexcept;
 		PossibleRigidbodyShapes GetRigidbodyShape() const noexcept;
 		const RigidbodyDefinition& GetRigidbodyDefinition() const noexcept;
 		const std::vector<RigidbodyFixture>& GetRigidbodyFixtures() const noexcept;
 
 	private:
+		friend class PhysicsEngine;
+
 		RigidbodyShape();
+		const b2BodyDef& GetBox2DBodyDefinition() const noexcept;
+		const std::vector<b2FixtureDef>& GetBox2DFixtureDefinitions() const noexcept;
 
 		RigidbodyType m_RigidbodyType;
 		PossibleRigidbodyShapes m_RigidbodyShape;

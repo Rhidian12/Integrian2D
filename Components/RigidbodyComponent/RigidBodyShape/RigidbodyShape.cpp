@@ -14,6 +14,16 @@ namespace Integrian2D
 		, m_RigidbodyDefinition{}
 	{}
 
+	const b2BodyDef& RigidbodyShape::GetBox2DBodyDefinition() const noexcept
+	{
+		return m_BodyDefinition;
+	}
+
+	const std::vector<b2FixtureDef>& RigidbodyShape::GetBox2DFixtureDefinitions() const noexcept
+	{
+		return m_FixtureDefinitions;
+	}
+
 	RigidbodyShape* const RigidbodyShape::CreateCircle(const RigidbodyDefinition& rigidbodyDefinition, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
 		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateCircle() > Density may not be 0!");
@@ -195,6 +205,24 @@ namespace Integrian2D
 		pRigidbodyShape->m_RigidbodyFixtures.push_back(rigidbodyFixture);
 
 		return pRigidbodyShape;
+	}
+
+	void RigidbodyShape::AddFixture(const RigidbodyFixture& rigidbodyFixture) noexcept
+	{
+		m_FixtureDefinitions.push_back(b2FixtureDef{});
+		b2FixtureDef& fixtureDef{ m_FixtureDefinitions.back() };
+
+		fixtureDef.shape = m_pShapeDefinition;
+		fixtureDef.density = rigidbodyFixture.density;
+		fixtureDef.friction = rigidbodyFixture.friction;
+		fixtureDef.filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		fixtureDef.filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		fixtureDef.filter.maskBits = rigidbodyFixture.filter.maskBits;
+		fixtureDef.isSensor = rigidbodyFixture.isTrigger;
+		fixtureDef.restitution = rigidbodyFixture.restitution;
+		fixtureDef.restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+
+		m_RigidbodyFixtures.push_back(rigidbodyFixture);
 	}
 
 	RigidbodyType RigidbodyShape::GetRigidbodyType() const noexcept
