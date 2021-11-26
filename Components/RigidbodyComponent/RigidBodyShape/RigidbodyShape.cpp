@@ -1,5 +1,6 @@
 #include "RigidbodyShape.h"
 
+#include <stdint.h>
 #include <string>
 
 namespace Integrian2D
@@ -141,7 +142,7 @@ namespace Integrian2D
 			pPoints[i] = b2Vec2{ points[i].x, points[i].y };
 
 		pRigidbodyShape->m_pShapeDefinition = new b2PolygonShape{};
-		static_cast<b2PolygonShape*>(pRigidbodyShape->m_pShapeDefinition)->Set(pPoints, points.size());
+		static_cast<b2PolygonShape*>(pRigidbodyShape->m_pShapeDefinition)->Set(pPoints, static_cast<int32_t>(points.size()));
 
 		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
 		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
@@ -189,7 +190,7 @@ namespace Integrian2D
 			pPoints[i] = b2Vec2{ points[i].x, points[i].y };
 
 		pRigidbodyShape->m_pShapeDefinition = new b2ChainShape{};
-		static_cast<b2ChainShape*>(pRigidbodyShape->m_pShapeDefinition)->CreateLoop(pPoints, points.size());
+		static_cast<b2ChainShape*>(pRigidbodyShape->m_pShapeDefinition)->CreateLoop(pPoints, static_cast<int32_t>(points.size()));
 
 		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
 		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
