@@ -6,10 +6,21 @@ namespace Integrian2D
 {
 	class RigidbodyShape;
 
+	enum class RigidbodyType
+	{
+		Static = 0,
+		Dynamic = 1,
+		Kinematic = 2,
+		None = 3
+	};
+
 	struct RigidbodyDefinition final
 	{
 		/* The RigidbodyShape this Definition is attached to */
 		RigidbodyShape* pShape{};
+
+		/* The Rigidbody's type */
+		RigidbodyType rigidbodyType{ RigidbodyType::Static };
 
 		/* The Rigidbody's world position. Avoid making many bodies at the origin to prevent overlap issues */
 		Point2f position{};
