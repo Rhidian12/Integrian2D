@@ -16,7 +16,7 @@ namespace Integrian2D
 		virtual void FixedUpdate() override;
 
 		/* Return the GameObject's position in World Space */
-		const Point2f& GetWorldPosition() noexcept;
+		const Point2f& GetWorldPosition() const noexcept;
 
 		/* Return the GameObject's position in its Local Space */
 		const Point2f GetLocalPosition() const noexcept;
