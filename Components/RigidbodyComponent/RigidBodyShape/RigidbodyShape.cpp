@@ -25,6 +25,11 @@ namespace Integrian2D
 		return m_FixtureDefinitions;
 	}
 
+	RigidbodyShape::~RigidbodyShape()
+	{
+		Utils::SafeDelete(m_pShapeDefinition);
+	}
+
 	RigidbodyShape* const RigidbodyShape::CreateCircle(const RigidbodyDefinition& rigidbodyDefinition, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept
 	{
 		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateCircle() > Density may not be 0!");

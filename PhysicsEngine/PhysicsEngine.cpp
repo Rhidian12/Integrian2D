@@ -19,12 +19,15 @@ namespace Integrian2D
 	PhysicsEngine::~PhysicsEngine()
 	{
 		b2Body* pCurrentBody{ m_PhysicsWorld.GetBodyList() };
-		b2Body* pNextBody{ pCurrentBody->GetNext() };
+		b2Body* pNextBody{};
 
-		while (pNextBody)
+		while (pCurrentBody)
 		{
 			pNextBody = pCurrentBody->GetNext();
+			
 			m_PhysicsWorld.DestroyBody(pCurrentBody);
+
+			pCurrentBody = pNextBody;
 		}
 	}
 

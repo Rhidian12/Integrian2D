@@ -21,6 +21,8 @@ namespace Integrian2D
 	class RigidbodyShape final
 	{
 	public:
+		~RigidbodyShape();
+
 		static RigidbodyShape* const CreateCircle(const RigidbodyDefinition& rigidbodyDefinition, const float circleRadius, const RigidbodyFixture& rigidbodyFixture) noexcept;
 		static RigidbodyShape* const CreateEdge(const RigidbodyDefinition& rigidbodyDefinition, const PLinef& edge, const RigidbodyFixture& rigidbodyFixture) noexcept;
 		static RigidbodyShape* const CreatePolygon(const RigidbodyDefinition& rigidbodyDefinition, const std::vector<Point2f>& points, const RigidbodyFixture& rigidbodyFixture) noexcept;
