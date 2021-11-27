@@ -302,5 +302,8 @@
     <ClInclude Include="Components\RigidbodyComponent\RigidbodyDefinition\RigidbodyDefinition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\Circle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

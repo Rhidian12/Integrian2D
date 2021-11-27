@@ -239,6 +239,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="IListener\IListener.h" />
     <ClInclude Include="Iterator\Iterator.h" />
     <ClInclude Include="Math\BetterUint8.h" />
+    <ClInclude Include="Math\Circle.h" />
     <ClInclude Include="Math\PLine.h" />
     <ClInclude Include="Math\PRect.h" />
     <ClInclude Include="Math\Matrix.h" />
