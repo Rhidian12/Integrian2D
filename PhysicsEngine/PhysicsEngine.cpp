@@ -16,6 +16,18 @@ namespace Integrian2D
 		, m_PhysicsWorld{ b2Vec2{ m_Gravity.x, m_Gravity.y } }
 	{}
 
+	PhysicsEngine::~PhysicsEngine()
+	{
+		b2Body* pCurrentBody{ m_PhysicsWorld.GetBodyList() };
+		b2Body* pNextBody{ pCurrentBody->GetNext() };
+
+		while (pNextBody)
+		{
+			pNextBody = pCurrentBody->GetNext();
+			m_PhysicsWorld.DestroyBody(pCurrentBody);
+		}
+	}
+
 	void PhysicsEngine::FixedUpdate() noexcept
 	{
 		/* Box2D recommends 8 and 3 */

@@ -14,6 +14,8 @@ namespace Integrian2D
 	class PhysicsEngine final
 	{
 	public:
+		~PhysicsEngine();
+
 		void FixedUpdate() noexcept;
 
 		b2Body* const AddPhysicsComponent(RigidbodyComponent* const pComponent) noexcept;

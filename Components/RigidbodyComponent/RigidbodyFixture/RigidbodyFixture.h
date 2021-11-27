@@ -36,7 +36,7 @@ namespace Integrian2D
 		float restitutionThreshold{ 1.f };
 
 		/* The density. This is measured in kg/m^2 */
-		float density{};
+		float density{ 1.f };
 
 		/* If the RigidbodyFixture is a trigger, it will collect data, but will not generate collisions */
 		bool isTrigger{};
