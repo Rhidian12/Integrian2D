@@ -59,9 +59,22 @@ namespace Integrian2D
 		void RenderFilledTriangle(const Trianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 		
 		/* Render a line to the screen */
+		void RenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+
+		/* Render a line to the screen */
 		void RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
-		// TODO: Add Circle
+		/* Render a circle to the screen */
+		void RenderCircle(const Circlef& circle, const RGBColour& colour = RGBColour{ 255, 0, 0 }) noexcept;
+
+		/* Render a filled circle to the screen */
+		void RenderFilledCircle(const Circlef& circle, const RGBColour& colour = RGBColour{ 255, 0, 0 }) noexcept;
+
+		/* Render a polygon to the screen */
+		void RenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+
+		/* Render a filled polygon to the screen */
+		void RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) = delete;

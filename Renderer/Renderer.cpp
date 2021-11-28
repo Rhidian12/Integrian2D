@@ -163,6 +163,18 @@ namespace Integrian2D
 		glEnd();
 	}
 
+	void Renderer::RenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glLineWidth(lineWidth);
+		glBegin(GL_LINES);
+		{
+			glVertex2f(edge.begin.x, edge.begin.y);
+			glVertex2f(edge.end.x, edge.end.y);
+		}
+		glEnd();
+	}
+
 	void Renderer::RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour) noexcept
 	{
 		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
@@ -171,6 +183,50 @@ namespace Integrian2D
 		{
 			glVertex2f(start.x, start.y);
 			glVertex2f(end.x, end.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderCircle(const Circlef& circle, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_LINES);
+		{
+			for (float i{}; i < 360.f; ++i)
+				glVertex2f(circle.position.x + circle.radius * cosf(i), circle.position.y + circle.radius * sinf(i));
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderFilledCircle(const Circlef& circle, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_POLYGON);
+		{
+			for (float i{}; i < 360.f; ++i)
+				glVertex2f(circle.position.x + circle.radius * cosf(i), circle.position.y + circle.radius * sinf(i));
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_LINES);
+		{
+			for (const Point2f& p : points)
+				glVertex2f(p.x, p.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glBegin(GL_POLYGON);
+		{
+			for (const Point2f& p : points)
+				glVertex2f(p.x, p.y);
 		}
 		glEnd();
 	}

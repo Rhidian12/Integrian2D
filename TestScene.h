@@ -80,10 +80,12 @@ public:
 		RigidbodyFixture groundFixture{};
 		RigidbodyShape* pGround{ RigidbodyShape::CreatePolygon(groundDefinition,
 			std::vector<Point2f>{ Point2f{}, Point2f{0.f, 20.f}, Point2f{640.f, 20.f}, Point2f{640.f, 0.f} }, groundFixture) };
-		m_pGameObject->AddComponent(new RigidbodyComponent{ m_pGameObject, pGround });
+		m_pGameObject->AddComponent(new RigidbodyComponent{ m_pGameObject, pGround, true });
 
 		RigidbodyShape* pBall{ RigidbodyShape::CreateCircle(RigidbodyDefinition{}, 3.f, RigidbodyFixture{}) };
-		m_pGameObject2->AddComponent(new RigidbodyComponent{ m_pGameObject2, pBall });
+		m_pGameObject2->AddComponent(new RigidbodyComponent{ m_pGameObject2, pBall, true });
+
+		m_pGameObject2->pTransform->SetPosition(Point2f{ 300.f, 70.f });
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
@@ -92,6 +94,8 @@ public:
 	virtual void Render() const override
 	{
 		using namespace Integrian2D;
+
+		//Renderer::GetInstance()->RenderRectangle(Rectf{ Point2f{}, 640.f, 20.f });
 
 		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 255, 0, 0 });
 		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 0, 255, 0 });

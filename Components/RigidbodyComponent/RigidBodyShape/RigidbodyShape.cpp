@@ -99,7 +99,7 @@ namespace Integrian2D
 
 		pRigidbodyShape->m_pShapeDefinition = new b2EdgeShape{};
 		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex1 = b2Vec2{ edge.begin.x, edge.begin.y };
-		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex1 = b2Vec2{ edge.end.x, edge.end.y };
+		static_cast<b2EdgeShape*>(pRigidbodyShape->m_pShapeDefinition)->m_vertex2 = b2Vec2{ edge.end.x, edge.end.y };
 
 		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
 		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
@@ -190,12 +190,56 @@ namespace Integrian2D
 
 		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Chain;
 
-		b2Vec2 pPoints[b2_maxPolygonVertices]{};
+		b2Vec2 pPoints[m_MaxVerticesInChain]{};
 		for (size_t i{}; i < points.size(); ++i)
 			pPoints[i] = b2Vec2{ points[i].x, points[i].y };
 
 		pRigidbodyShape->m_pShapeDefinition = new b2ChainShape{};
 		static_cast<b2ChainShape*>(pRigidbodyShape->m_pShapeDefinition)->CreateLoop(pPoints, static_cast<int32_t>(points.size()));
+
+		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
+		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
+		pRigidbodyShape->m_FixtureDefinitions.back().density = rigidbodyFixture.density;
+		pRigidbodyShape->m_FixtureDefinitions.back().friction = rigidbodyFixture.friction;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.categoryBits = rigidbodyFixture.filter.categoryBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.groupIndex = rigidbodyFixture.filter.groupIndex;
+		pRigidbodyShape->m_FixtureDefinitions.back().filter.maskBits = rigidbodyFixture.filter.maskBits;
+		pRigidbodyShape->m_FixtureDefinitions.back().isSensor = rigidbodyFixture.isTrigger;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitution = rigidbodyFixture.restitution;
+		pRigidbodyShape->m_FixtureDefinitions.back().restitutionThreshold = rigidbodyFixture.restitutionThreshold;
+
+		pRigidbodyShape->m_RigidbodyFixtures.push_back(rigidbodyFixture);
+
+		return pRigidbodyShape;
+	}
+
+	RigidbodyShape* const RigidbodyShape::CreateRectangle(const RigidbodyDefinition& rigidbodyDefinition, const PRectf& rect, const RigidbodyFixture& rigidbodyFixture) noexcept
+	{
+		ASSERT(!Utils::AreEqual(rigidbodyFixture.density, 0.f), "RigidbodyShape::CreateRectangle() > Density may not be 0!");
+
+		RigidbodyShape* pRigidbodyShape{ new RigidbodyShape{} };
+		pRigidbodyShape->m_RigidbodyDefinition = rigidbodyDefinition;
+		pRigidbodyShape->m_RigidbodyDefinition.pShape = pRigidbodyShape;
+
+		pRigidbodyShape->m_BodyDefinition.type = static_cast<b2BodyType>(rigidbodyDefinition.rigidbodyType);
+		pRigidbodyShape->m_BodyDefinition.position = b2Vec2{ rigidbodyDefinition.position.x, rigidbodyDefinition.position.y };
+		pRigidbodyShape->m_BodyDefinition.angle = rigidbodyDefinition.angle;
+		pRigidbodyShape->m_BodyDefinition.linearVelocity = b2Vec2{ rigidbodyDefinition.linearVelocity.x, rigidbodyDefinition.linearVelocity.y };
+		pRigidbodyShape->m_BodyDefinition.angularVelocity = rigidbodyDefinition.angularVelocity;
+		pRigidbodyShape->m_BodyDefinition.linearDamping = rigidbodyDefinition.linearDamping;
+		pRigidbodyShape->m_BodyDefinition.angularDamping = rigidbodyDefinition.angularDamping;
+		pRigidbodyShape->m_BodyDefinition.allowSleep = rigidbodyDefinition.allowSleep;
+		pRigidbodyShape->m_BodyDefinition.awake = rigidbodyDefinition.isAwake;
+		pRigidbodyShape->m_BodyDefinition.fixedRotation = rigidbodyDefinition.fixedRotation;
+		pRigidbodyShape->m_BodyDefinition.bullet = rigidbodyDefinition.isBullet;
+		pRigidbodyShape->m_BodyDefinition.enabled = rigidbodyDefinition.isEnabled;
+		pRigidbodyShape->m_BodyDefinition.gravityScale = rigidbodyDefinition.gravityScale;
+
+		pRigidbodyShape->m_RigidbodyShape = PossibleRigidbodyShapes::Rectangle;
+
+		pRigidbodyShape->m_pShapeDefinition = new b2PolygonShape{};
+		static_cast<b2PolygonShape*>(pRigidbodyShape->m_pShapeDefinition)->SetAsBox(rect.width / 2.f, rect.height / 2.f, 
+			b2Vec2{ GetCenter(rect).x, GetCenter(rect).y }, rect.angle);
 
 		pRigidbodyShape->m_FixtureDefinitions.push_back(b2FixtureDef{});
 		pRigidbodyShape->m_FixtureDefinitions.back().shape = pRigidbodyShape->m_pShapeDefinition;
