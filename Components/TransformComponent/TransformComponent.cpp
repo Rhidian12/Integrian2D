@@ -49,8 +49,6 @@ namespace Integrian2D
 		const float dt{ Timer::GetInstance()->GetFixedElapsedSeconds() };
 		m_TransformationMatrix(0, 2) += velocity.x * dt;
 		m_TransformationMatrix(1, 2) += velocity.y * dt;
-
-		m_HasWorldPositionChanged = true;
 	}
 
 	void TransformComponent::Rotate(const float angleRadians) noexcept
@@ -79,7 +77,7 @@ namespace Integrian2D
 
 		m_HasWorldPositionChanged = true;
 
-		m_pTransformManager->ForceRecalculation(this);
+		m_pTransformManager->NotifyRecalculation();
 	}
 
 	void TransformComponent::SetScale(const Point2f& scale) noexcept
@@ -101,8 +99,11 @@ namespace Integrian2D
 		m_HasWorldPositionChanged = hasMoved;
 	}
 
-	const Point2f& TransformComponent::GetWorldPosition() const noexcept
+	const Point2f& TransformComponent::GetWorldPosition() noexcept
 	{
+		if (m_HasWorldPositionChanged)
+			m_pTransformManager->ForceImmediateRecalculation(this);
+
 		return m_WorldPosition;
 	}
 
