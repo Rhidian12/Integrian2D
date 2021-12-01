@@ -40,12 +40,12 @@ namespace Integrian2D
 		   =>	If the PRect's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
 		   =>	Once the PRect has been scaled, SetRotation() will get called with the original angle
 
-		   void SetCenter(Polygon<4, Type>& p, const Point<2, Type>& _center)
-		   =>	Sets the PRect's center to the provided Point2
+		   void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _center)
+		   =>	Sets the PRect's leftBottom to the provided Point2
 		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
 				after which all vertices get recalculated using the PRect's width and height
 		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
-		   =>	Once the PRect's center has been adjusted, all of its vertices recalculated and scaled,
+		   =>	Once the PRect's leftBottom has been adjusted, all of its vertices recalculated and scaled,
 				SetRotation() will get called with the original angle
 
 		   const Point<2, Type>& GetCenter(const Polygon<4, Type>& p)
@@ -124,12 +124,12 @@ namespace Integrian2D
 			const Type halfWidth{ _width * static_cast<Type>(0.5f) };
 			const Type halfHeight{ _height * static_cast<Type>(0.5f) };
 
-			points.center = _xy;
-			points.leftBottom = { _xy.x - halfWidth, _xy.y - halfHeight };
-			points.leftTop = { _xy.x - halfWidth, _xy.y + halfHeight };
-			points.rightTop = { _xy.x + halfWidth, _xy.y + halfHeight };
-			points.rightBottom = { _xy.x + halfWidth, _xy.y - halfHeight };
-			points.pivotPoint = _xy; // pivot point is in the center by default
+			points.leftBottom = _xy;
+			points.center = { _xy.x + halfWidth, _xy.y + halfHeight };
+			points.leftTop = { _xy.x, _xy.y + _height };
+			points.rightTop = { _xy.x + _width, _xy.y + _height };
+			points.rightBottom = { _xy.x + _width, _xy.y };
+			points.pivotPoint = { _xy.x + halfWidth, _xy.y + halfHeight }; // pivot point is in the center by default
 			width = _width;
 			height = _height;
 			scaleX = _scale.x;
@@ -211,7 +211,7 @@ namespace Integrian2D
 			friend void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept;
 
 			template<typename Type>
-			friend void SetCenter(Polygon<4, Type>& p, const Point<2, Type>& _center) noexcept;
+			friend void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _center) noexcept;
 
 			template<typename Type>
 			friend const Point<2, Type>& GetCenter(const Polygon<4, Type>& p) noexcept;
@@ -395,7 +395,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetCenter(Polygon<4, Type>& p, const Point<2, Type>& _center) noexcept
+	void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _leftBottom) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -404,17 +404,15 @@ namespace Integrian2D
 			SetRotation(p, static_cast<Type>(0.f));
 		}
 
-		p.points.center = _center;
-
 		const Type halfWidth{ p.width * static_cast<Type>(0.5f) };
 		const Type halfHeight{ p.height * static_cast<Type>(0.5f) };
 
-		p.points.center = _center;
-		p.points.leftBottom = { _center.x - halfWidth, _center.y - halfHeight };
-		p.points.leftTop = { _center.x - halfWidth, _center.y + halfHeight };
-		p.points.rightTop = { _center.x + halfWidth, _center.y + halfHeight };
-		p.points.rightBottom = { _center.x + halfWidth, _center.y - halfHeight };
-		p.points.pivotPoint = _center; // pivot point is in the center by default
+		points.leftBottom = _leftBottom;
+		points.center = { _leftBottom.x + halfWidth, _leftBottom.y + halfHeight };
+		points.leftTop = { _leftBottom.x, _leftBottom.y + p.height };
+		points.rightTop = { _leftBottom.x + p.width, _leftBottom.y + p.height };
+		points.rightBottom = { _leftBottom.x + p.width, _leftBottom.y };
+		points.pivotPoint = { _leftBottom.x + halfWidth, _leftBottom.y + halfHeight }; // pivot point is in the center by default
 
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
