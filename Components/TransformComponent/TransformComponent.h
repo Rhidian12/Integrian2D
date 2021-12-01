@@ -5,6 +5,8 @@
 
 namespace Integrian2D
 {
+	class TransformManager;
+
 	class TransformComponent final : public Component
 	{
 	public:
@@ -31,7 +33,11 @@ namespace Integrian2D
 		void Scale(const Point2f& scale) noexcept;
 
 		/* Sets the GameObject's position. This neither translates the GameObject nor triggers a matrix recalculation */
-		void SetPosition(const Point2f& position) noexcept;
+		void SetLocalPosition(const Point2f& position) noexcept;
+
+		/* Sets the GameObject's world position. This neither translates the GameObject nor triggers a matrix recalculation 
+			However, if the Transform Component is part of a bigger tree, it will lead to the tree being recalculated */
+		void SetWorldPosition(const Point2f& position) noexcept;
 
 		/* Sets the GameObject's scale. This triggers a matrix recalculation */
 		void SetScale(const Point2f& scale) noexcept;
@@ -57,6 +63,9 @@ namespace Integrian2D
 
 		/* Get whether or not the GameObject has been moved this frame */
 		const bool GetHasMoved() const noexcept;
+
+		/* The Transform Manager this Transform Component is attached to */
+		TransformManager* m_pTransformManager;
 
 	private:
 		void RecalculateTransformationMatrix() noexcept;

@@ -1,6 +1,7 @@
 #include "TransformComponent.h"
 #include "../../GameObject/GameObject.h"
 #include "../../Timer/Timer.h"
+#include "../../TransformManager/TransformManager.h"
 
 namespace Integrian2D
 {
@@ -12,6 +13,7 @@ namespace Integrian2D
 		, m_WorldPosition{}
 		, m_Scale{ 1.f, 1.f }
 		, m_Angle{}
+		, m_pTransformManager{}
 	{
 		const Matrix3x3 translationMatrix{ GetIdentityMatrix<3,3,float>() };
 
@@ -65,12 +67,19 @@ namespace Integrian2D
 		m_TransformChanged = true;
 	}
 
-	void TransformComponent::SetPosition(const Point2f& position) noexcept
+	void TransformComponent::SetLocalPosition(const Point2f& position) noexcept
 	{
 		m_TransformationMatrix(0, 2) = position.x;
 		m_TransformationMatrix(1, 2) = position.y;
+	}
+
+	void TransformComponent::SetWorldPosition(const Point2f& position) noexcept
+	{
+		m_WorldPosition = position;
 
 		m_HasWorldPositionChanged = true;
+
+		m_pTransformManager->ForceRecalculation(this);
 	}
 
 	void TransformComponent::SetScale(const Point2f& scale) noexcept
