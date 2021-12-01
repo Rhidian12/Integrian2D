@@ -8,6 +8,7 @@
 #include <queue> // std::queue
 #include <functional> // std::function
 #include <type_traits> // std::is_assignable_v
+#include <chrono>
 
 namespace Integrian2D
 {
@@ -39,7 +40,31 @@ namespace Integrian2D
 		/* Get all jobs that have not been processed yet */
 		const std::queue<ThreadTask>& GetThreadTasks() const noexcept;
 
-		void SleepThreadWhile(const std::function<bool()>& predicate) const noexcept;
+		/* Sleeps the thread for the time provided 
+			Example:
+				ThreadManager::GetInstance()->AssignThreadTask([this]()
+					{
+						using namespace std::chrono_literals;
+
+						ThreadManager* const pInstance{ ThreadManager::GetInstance() };
+
+						while (ProgramIsRunnning)
+						{
+							pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
+								{
+									return FunctionReturningABoolean();
+								}, 10ms);
+
+							DoSomething();
+						}
+					});
+
+			The provided code assigna a thread task. The task keeps running while ProgramIsRunning is true,
+			Before the task calls DoSomething(), FunctionReturningABoolean's return value gets checked, until it is true
+			If FunctionReturningABoolean's return value is false, the thread sleeps for 10 ms
+			*/
+		template <typename _Rep, typename _Period>
+		void SleepThreadWhile(const std::function<bool()>& predicate, const std::chrono::duration<_Rep, _Period>& time) const noexcept;
 
 	private:
 		ThreadManager();
@@ -53,4 +78,13 @@ namespace Integrian2D
 
 		inline static ThreadManager* m_pInstance{};
 	};
+
+	template <typename _Rep, typename _Period>
+	void ThreadManager::SleepThreadWhile(const std::function<bool()>& predicate, const std::chrono::duration<_Rep, _Period>& time) const noexcept
+	{
+		using namespace std::chrono_literals;
+
+		while (!predicate())
+			std::this_thread::sleep_for(time);
+	}
 }
