@@ -17,7 +17,8 @@ namespace Integrian2D
 		void AddTransformComponent(TransformComponent* const pTransformComponent) noexcept;
 		void RemoveTransformComponent(TransformComponent* const pTransformComponent) noexcept;
 
-		void ForceRecalculation(TransformComponent* const pTransformComponent) noexcept;
+		void ForceImmediateRecalculation(TransformComponent* const pTransformComponent) noexcept;
+		void NotifyRecalculation() noexcept;
 
 	private:
 		friend class Scene;
@@ -25,8 +26,7 @@ namespace Integrian2D
 		TransformManager();
 		void InformChildren(TransformComponent* const pParent) noexcept;
 		void MoveTree(TransformComponent* const pParent) noexcept;
-
-		//std::unordered_map<TransformComponent*, std::vector<TransformComponent*>> m_pTransformComponents;
+		bool ShouldRecalculate() const noexcept;
 
 		struct TransformComponentNode final
 		{
@@ -35,6 +35,8 @@ namespace Integrian2D
 			TransformComponentNode* pNextNode;
 			TransformComponentNode* pParent;
 		};
+
+		bool m_HasATransformBeenChanged;
 
 		std::vector<TransformComponentNode*> m_pTransformComponents;
 

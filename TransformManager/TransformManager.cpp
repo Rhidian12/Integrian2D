@@ -10,6 +10,7 @@ namespace Integrian2D
 	TransformManager::TransformManager()
 		: m_pTransformComponents{}
 		, m_pHead{}
+		, m_HasATransformBeenChanged{}
 	{}
 
 	TransformManager::~TransformManager() noexcept
@@ -20,17 +21,22 @@ namespace Integrian2D
 
 	void TransformManager::UpdateTransforms() noexcept
 	{
-		std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
+		if (m_HasATransformBeenChanged)
+		{
+			std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
 
-		/* Check if any of the transform components have moved */
-		/* Check a parent, then check its children */
-		for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
-			if ((*it)->pTransform->GetHasMoved()) /* The Parent has moved, so inform all of its children */
-				InformChildren((*it)->pTransform);
+			/* Check if any of the transform components have moved */
+			/* Check a parent, then check its children */
+			for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
+				if ((*it)->pTransform->GetHasMoved()) /* The Parent has moved, so inform all of its children */
+					InformChildren((*it)->pTransform);
 
-		for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
-			if ((*it)->pTransform->GetHasMoved()) /* The Parent has moved, so move all of its children */
-				MoveTree((*it)->pTransform);
+			for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
+				if ((*it)->pTransform->GetHasMoved()) /* The Parent has moved, so move all of its children */
+					MoveTree((*it)->pTransform);
+
+			m_HasATransformBeenChanged = false;
+		}
 	}
 
 	void TransformManager::AddTransformComponent(TransformComponent* const pTransformComponent) noexcept
@@ -141,12 +147,17 @@ namespace Integrian2D
 			}), m_pTransformComponents.end());
 	}
 
-	void TransformManager::ForceRecalculation(TransformComponent* const pTransformComponent) noexcept
+	void TransformManager::ForceImmediateRecalculation(TransformComponent* const pTransformComponent) noexcept
 	{
 		std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
 
 		InformChildren(pTransformComponent);
 		MoveTree(pTransformComponent);
+	}
+
+	void TransformManager::NotifyRecalculation() noexcept
+	{
+		m_HasATransformBeenChanged = true;
 	}
 
 	void TransformManager::InformChildren(TransformComponent* const pParent) noexcept
@@ -207,5 +218,10 @@ namespace Integrian2D
 				}
 			}
 		}
+	}
+
+	bool TransformManager::ShouldRecalculate() const noexcept
+	{
+		return m_HasATransformBeenChanged;
 	}
 }
