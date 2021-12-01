@@ -66,8 +66,8 @@ namespace Integrian2D
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
 		{
-			scenePair.second->RootStart();
 			scenePair.second->Start();
+			scenePair.second->RootStart();
 		}
 
 		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
