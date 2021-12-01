@@ -407,12 +407,12 @@ namespace Integrian2D
 		const Type halfWidth{ p.width * static_cast<Type>(0.5f) };
 		const Type halfHeight{ p.height * static_cast<Type>(0.5f) };
 
-		points.leftBottom = _leftBottom;
-		points.center = { _leftBottom.x + halfWidth, _leftBottom.y + halfHeight };
-		points.leftTop = { _leftBottom.x, _leftBottom.y + p.height };
-		points.rightTop = { _leftBottom.x + p.width, _leftBottom.y + p.height };
-		points.rightBottom = { _leftBottom.x + p.width, _leftBottom.y };
-		points.pivotPoint = { _leftBottom.x + halfWidth, _leftBottom.y + halfHeight }; // pivot point is in the center by default
+		p.points.leftBottom = _leftBottom;
+		p.points.center = { _leftBottom.x + halfWidth, _leftBottom.y + halfHeight };
+		p.points.leftTop = { _leftBottom.x, _leftBottom.y + p.height };
+		p.points.rightTop = { _leftBottom.x + p.width, _leftBottom.y + p.height };
+		p.points.rightBottom = { _leftBottom.x + p.width, _leftBottom.y };
+		p.points.pivotPoint = { _leftBottom.x + halfWidth, _leftBottom.y + halfHeight }; // pivot point is in the center by default
 
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
