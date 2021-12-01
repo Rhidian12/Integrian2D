@@ -52,6 +52,14 @@ namespace Integrian2D
 		return m_Tasks;
 	}
 
+	void ThreadManager::SleepThreadWhile(const std::function<bool()>& predicate) const noexcept
+	{
+		using namespace std::chrono_literals;
+
+		while (!predicate())
+			std::this_thread::sleep_for(10ms);
+	}
+
 	ThreadManager::ThreadManager()
 		: m_Threads{}
 		, m_AreJobsDone{}

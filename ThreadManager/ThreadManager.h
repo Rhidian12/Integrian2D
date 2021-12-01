@@ -39,6 +39,8 @@ namespace Integrian2D
 		/* Get all jobs that have not been processed yet */
 		const std::queue<ThreadTask>& GetThreadTasks() const noexcept;
 
+		void SleepThreadWhile(const std::function<bool()>& predicate) const noexcept;
+
 	private:
 		ThreadManager();
 		void InfiniteLoop(const int index) noexcept;
