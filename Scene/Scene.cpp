@@ -19,9 +19,6 @@ namespace Integrian2D
 			{
 				while (g_IsLooping)
 				{
-					/* Acquire the lock */
-					std::unique_lock<std::mutex> lock{ m_Mutex };
-
 					m_TransformManager.UpdateTransforms();
 				}
 			});
