@@ -20,6 +20,8 @@ namespace Integrian2D
 
 	void TransformManager::UpdateTransforms() noexcept
 	{
+		std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
+
 		/* Check if any of the transform components have moved */
 		/* Check a parent, then check its children */
 		for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)
@@ -33,6 +35,8 @@ namespace Integrian2D
 
 	void TransformManager::AddTransformComponent(TransformComponent* const pTransformComponent) noexcept
 	{
+		std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
+
 		/* If the Transform Component has no parent, it is the root parent */
 		if (pTransformComponent->GetOwner()->GetParent() == nullptr)
 		{
@@ -45,6 +49,8 @@ namespace Integrian2D
 				m_pTransformComponents.push_back(pNode);
 
 				m_pHead = pNode;
+
+				pTransformComponent->m_pTransformManager = this;
 			}
 			else
 			{
@@ -64,6 +70,8 @@ namespace Integrian2D
 					m_pHead->pPreviousNode = pNode;
 
 					m_pTransformComponents.push_back(pNode);
+
+					pTransformComponent->m_pTransformManager = this;
 				}
 			}
 		}
@@ -84,7 +92,6 @@ namespace Integrian2D
 			}
 
 			/* The original Transform Component all of it's parents should have been added to the vector */
-#ifdef _DEBUG
 			auto wantedParent = m_pTransformComponents.begin();
 			while ((*wantedParent)->pTransform != pParent)
 				++wantedParent;
@@ -99,11 +106,12 @@ namespace Integrian2D
 			if (nextParent == m_pTransformComponents.end())
 			{
 				TransformComponentNode* pNode{ new TransformComponentNode{ m_pHead->pPreviousNode, pTransformComponent, m_pHead, *wantedParent} };
-			
+
 				m_pHead->pPreviousNode->pNextNode = pNode;
 				m_pHead->pPreviousNode = pNode;
-				
+
 				m_pTransformComponents.push_back(pNode);
+				pTransformComponent->m_pTransformManager = this;
 			}
 			else
 			{
@@ -113,22 +121,32 @@ namespace Integrian2D
 				(*nextParent)->pNextNode = pNode;
 
 				m_pTransformComponents.insert(nextParent, pNode);
+				pTransformComponent->m_pTransformManager = this;
 			}
 
 			ASSERT(std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pParent](const TransformComponentNode* node)->bool
 				{
 					return node->pPreviousNode->pTransform == pParent;
 				}) != m_pTransformComponents.cend(), "TransformManager::AddTransformComponent() > The parent has not been added to the map!");
-#endif
-			}
 		}
+	}
 
 	void TransformManager::RemoveTransformComponent(TransformComponent* const pTransformComponent) noexcept
 	{
+		std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
+
 		m_pTransformComponents.erase(std::remove_if(m_pTransformComponents.begin(), m_pTransformComponents.end(), [pTransformComponent](const TransformComponentNode* element)->bool
 			{
 				return element->pTransform == pTransformComponent;
 			}), m_pTransformComponents.end());
+	}
+
+	void TransformManager::ForceRecalculation(TransformComponent* const pTransformComponent) noexcept
+	{
+		std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
+
+		InformChildren(pTransformComponent);
+		MoveTree(pTransformComponent);
 	}
 
 	void TransformManager::InformChildren(TransformComponent* const pParent) noexcept

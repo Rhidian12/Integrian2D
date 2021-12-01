@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <unordered_map>
+#include <mutex>
 
 namespace Integrian2D
 {
@@ -16,6 +16,8 @@ namespace Integrian2D
 
 		void AddTransformComponent(TransformComponent* const pTransformComponent) noexcept;
 		void RemoveTransformComponent(TransformComponent* const pTransformComponent) noexcept;
+
+		void ForceRecalculation(TransformComponent* const pTransformComponent) noexcept;
 
 	private:
 		friend class Scene;
@@ -37,5 +39,7 @@ namespace Integrian2D
 		std::vector<TransformComponentNode*> m_pTransformComponents;
 
 		TransformComponentNode* m_pHead;
+
+		std::mutex m_Mutex;
 	};
 }
