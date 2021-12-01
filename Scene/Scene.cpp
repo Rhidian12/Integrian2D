@@ -13,12 +13,18 @@ namespace Integrian2D
 		: m_SceneName{ sceneName }
 		, m_pGameObjects{}
 		, m_TransformManager{}
-		, m_Mutex{}
 	{
 		ThreadManager::GetInstance()->AssignThreadTask([this]()
 			{
+				ThreadManager* const pInstance{ ThreadManager::GetInstance() };
+
 				while (g_IsLooping)
 				{
+					pInstance->SleepThreadWhile([this]()->bool
+						{
+							return m_TransformManager.ShouldRecalculate();
+						});
+
 					m_TransformManager.UpdateTransforms();
 				}
 			});
@@ -72,9 +78,6 @@ namespace Integrian2D
 
 	void Scene::AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
 	{
-		/* Acquire the lock */
-		std::unique_lock<std::mutex> lock{ m_Mutex };
-
 		const std::unordered_map<std::string, GameObject*>::const_iterator cIt{ m_pGameObjects.find(gameObjectName) };
 
 		if (cIt == m_pGameObjects.cend())
