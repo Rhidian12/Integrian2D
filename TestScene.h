@@ -78,17 +78,20 @@ public:
 
 		RigidbodyDefinition groundDefinition{};
 		RigidbodyFixture groundFixture{};
-		RigidbodyShape* pGround{ RigidbodyShape::CreatePolygon(groundDefinition,
-			std::vector<Point2f>{ Point2f{}, Point2f{0.f, 20.f}, Point2f{640.f, 20.f}, Point2f{640.f, 0.f} }, groundFixture) };
+		RigidbodyShape* pGround{ RigidbodyShape::CreateRectangle(groundDefinition,
+			PRectf{ Point2f{}, 640.f, 20.f }, groundFixture) };
 		m_pGameObject->AddComponent(new RigidbodyComponent{ m_pGameObject, pGround, true });
 
 		RigidbodyShape* pBall{ RigidbodyShape::CreateCircle(RigidbodyDefinition{}, 3.f, RigidbodyFixture{}) };
 		m_pGameObject2->AddComponent(new RigidbodyComponent{ m_pGameObject2, pBall, true });
 
-		m_pGameObject2->pTransform->SetPosition(Point2f{ 300.f, 70.f });
+		m_pGameObject2->pTransform->SetWorldPosition(Point2f{ 300.f, 70.f });
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
+
+		m_pGameObject->SetTag("Ground");
+		m_pGameObject2->SetTag("Ball");
 	}
 
 	virtual void Render() const override
