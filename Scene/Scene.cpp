@@ -21,7 +21,7 @@ namespace Integrian2D
 
 				ThreadManager* const pInstance{ ThreadManager::GetInstance() };
 
-				while (g_IsLooping)
+				while (m_IsActive)
 				{
 					pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
 						{
@@ -30,7 +30,7 @@ namespace Integrian2D
 
 					m_TransformManager.UpdateTransforms();
 				}
-			});
+			}, 0);
 	}
 
 	Scene::~Scene()
