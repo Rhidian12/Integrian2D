@@ -50,6 +50,7 @@ namespace Integrian2D
 			{
 				m_pActiveScene->RootOnSceneExit();
 				m_pActiveScene->OnSceneExit();
+				m_pActiveScene->m_IsActive = false;
 			}
 
 			m_pActiveScene = cIt->second;
@@ -57,6 +58,8 @@ namespace Integrian2D
 			/* Let the new active scene enter */
 			m_pActiveScene->RootOnSceneEnter();
 			m_pActiveScene->OnSceneEnter();
+
+			m_pActiveScene->m_IsActive = true;
 		}
 	}
 
