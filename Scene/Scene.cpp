@@ -13,17 +13,20 @@ namespace Integrian2D
 		: m_SceneName{ sceneName }
 		, m_pGameObjects{}
 		, m_TransformManager{}
+		, m_IsActive{}
 	{
 		ThreadManager::GetInstance()->AssignThreadTask([this]()
 			{
+				using namespace std::chrono_literals;
+
 				ThreadManager* const pInstance{ ThreadManager::GetInstance() };
 
 				while (g_IsLooping)
 				{
-					pInstance->SleepThreadWhile([this]()->bool
+					pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
 						{
 							return m_TransformManager.ShouldRecalculate();
-						});
+						}, 10ms);
 
 					m_TransformManager.UpdateTransforms();
 				}
@@ -130,5 +133,10 @@ namespace Integrian2D
 	const std::string& Scene::GetSceneName() const noexcept
 	{
 		return m_SceneName;
+	}
+
+	bool Scene::IsSceneActive() const noexcept
+	{
+		return m_IsActive;
 	}
 }

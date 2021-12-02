@@ -71,6 +71,9 @@ namespace Integrian2D
 		/* Get the Scene's name */
 		const std::string& GetSceneName() const noexcept;
 
+		/* Is the Scene active? */
+		bool IsSceneActive() const noexcept;
+
 	protected:
 		InputManager inputManager{};
 		PhysicsEngine physicsEngine{};
@@ -91,6 +94,7 @@ namespace Integrian2D
 
 		std::string m_SceneName;
 		std::unordered_map<std::string, GameObject*> m_pGameObjects;
+		bool m_IsActive;
 
 		TransformManager m_TransformManager;
 	};
