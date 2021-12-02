@@ -72,6 +72,23 @@ namespace Integrian2D
 	void Scene::RootOnSceneEnter() noexcept
 	{
 		inputManager.Activate();
+
+		ThreadManager::GetInstance()->AssignThreadTask([this]()
+			{
+				using namespace std::chrono_literals;
+
+				ThreadManager* const pInstance{ ThreadManager::GetInstance() };
+
+				while (m_IsActive)
+				{
+					pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
+						{
+							return m_TransformManager.ShouldRecalculate();
+						}, 10ms);
+
+					m_TransformManager.UpdateTransforms();
+				}
+			}, 0);
 	}
 
 	void Scene::RootOnSceneExit() noexcept

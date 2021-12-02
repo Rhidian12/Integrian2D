@@ -48,18 +48,18 @@ namespace Integrian2D
 			/* Let the current active scene exit */
 			if (m_pActiveScene)
 			{
+				m_pActiveScene->m_IsActive = false;
 				m_pActiveScene->RootOnSceneExit();
 				m_pActiveScene->OnSceneExit();
-				m_pActiveScene->m_IsActive = false;
 			}
 
 			m_pActiveScene = cIt->second;
 
 			/* Let the new active scene enter */
+			m_pActiveScene->m_IsActive = true;
+
 			m_pActiveScene->RootOnSceneEnter();
 			m_pActiveScene->OnSceneEnter();
-
-			m_pActiveScene->m_IsActive = true;
 		}
 	}
 
