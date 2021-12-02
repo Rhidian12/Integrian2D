@@ -1,6 +1,8 @@
 #include "ThreadManager.h"
 #include "../Utils/Utils.h"
 
+#include <algorithm>
+
 extern bool volatile g_IsLooping;
 
 namespace Integrian2D
@@ -28,11 +30,11 @@ namespace Integrian2D
 		Utils::SafeDelete(m_pInstance);
 	}
 
-	void ThreadManager::AssignThreadTask(const ThreadTask& task) noexcept
+	void ThreadManager::AssignThreadTask(const ThreadJob& task, const int id) noexcept
 	{
 		{
 			std::unique_lock<std::mutex> lock{ m_Mutex }; // acquire the mutex
-			m_Tasks.push(task);
+			m_Tasks.push_back(ThreadTask{ task, static_cast<int>(m_Tasks.size() - 1), id, false });
 		} // Release the mutex
 
 		m_CV.notify_one(); // alert a waiting thread
@@ -47,9 +49,22 @@ namespace Integrian2D
 		return true;
 	}
 
-	const std::queue<ThreadManager::ThreadTask>& ThreadManager::GetThreadTasks() const noexcept
+	const std::vector<ThreadTask>& ThreadManager::GetThreadTasks() const noexcept
 	{
 		return m_Tasks;
+	}
+
+	bool ThreadManager::IsJobBeingExecuted(const int userID) const noexcept
+	{
+		const auto it = std::find_if(m_Tasks.cbegin(), m_Tasks.cend(), [this, userID](const ThreadTask& t)->bool
+			{
+				return userID == t.userID;
+			});
+
+		if (it != m_Tasks.cend())
+			return it->isBusy;
+		else
+			return false;
 	}
 
 	ThreadManager::ThreadManager()
@@ -70,13 +85,16 @@ namespace Integrian2D
 	{
 		while (g_IsLooping)
 		{
-			ThreadTask task{};
+			ThreadTask* pTask{};
 			{
 				std::unique_lock<std::mutex> lock{ m_Mutex }; // acquire lock
 
 				m_CV.wait(lock, [this]()
 					{
-						return !g_IsLooping || !m_Tasks.empty(); // Wait until the program has ended OR there is a task to be executed
+						return !g_IsLooping || std::find_if(m_Tasks.cbegin(), m_Tasks.cend(), [this](const ThreadTask& t)->bool
+							{
+								return !t.isBusy;
+							}) != m_Tasks.cend(); // Wait until the program has ended OR there is a task to be executed
 					});
 
 				if (!g_IsLooping)
@@ -85,17 +103,34 @@ namespace Integrian2D
 				if (!m_Tasks.empty()) // safety check
 				{
 					m_AreJobsDone[index] = false; // Flag that we're doing a task
-					task = m_Tasks.front(); // get the task
-					m_Tasks.pop(); // remove the task from the queue
+
+					for (ThreadTask& t : m_Tasks)
+					{
+						if (!t.isBusy)
+						{
+							pTask = &t;
+							break;
+						}
+					}
+
+					//m_Tasks.pop(); // remove the task from the queue
+					pTask->isBusy = true; // flag that the task is being done
+					pTask->threadIndex = index;
 				}
 			} // let the lock go out of scope
 
-			if (task) // if we have a task
-				task(); // execute the task
+			if (pTask) // if we have a task
+				if (pTask->job)
+					pTask->job(); // execute the task
 
 			{ // the job has been finished
 				std::unique_lock<std::mutex> lock{ m_Mutex }; // re-acquire lock
 				m_AreJobsDone[index] = true; // flag the job to be complete
+
+				m_Tasks.erase(std::remove_if(m_Tasks.begin(), m_Tasks.end(), [this, pTask](const ThreadTask& t)->bool
+					{
+						return *pTask == t;
+					}), m_Tasks.end());
 			}
 		}
 	}

@@ -12,6 +12,22 @@
 
 namespace Integrian2D
 {
+	/* This is the signature any job must have */
+	using ThreadJob = std::function<void()>;
+
+	struct ThreadTask final
+	{
+		ThreadJob job;
+		int threadIndex;
+		int userID;
+		bool isBusy;
+
+		bool operator==(const ThreadTask& other) const noexcept
+		{
+			return threadIndex == other.threadIndex && isBusy == other.isBusy && userID == other.userID;
+		}
+	};
+
 	/* As with EVERYTHING concerning multi-threading, this is VERY USER-RELIANT
 	   This ThreadManager is a combination of a thread pool and a job system 
 	   The thread pool is only as large as std::thread::hardware_concurrency() recommends 
@@ -19,9 +35,6 @@ namespace Integrian2D
 	class ThreadManager final
 	{
 	public:
-		/* This is the signature any job must have */
-		using ThreadTask = std::function<void()>;
-
 		~ThreadManager();
 
 		/* Get a ThreadManager instance */
@@ -31,14 +44,15 @@ namespace Integrian2D
 		   Do NOT call this function manually */
 		static void Cleanup() noexcept;
 
-		/* Assign a job to a thread */
-		void AssignThreadTask(const ThreadTask& task) noexcept;
+		/* Assign a job to a thread
+			The ID you assign to the job is to identify the job */
+		void AssignThreadTask(const ThreadJob& task, const int id) noexcept;
 
 		/* Check if all assigned jobs have been completed */
 		bool AreAllTasksCompleted() const noexcept;
 
 		/* Get all jobs that have not been processed yet */
-		const std::queue<ThreadTask>& GetThreadTasks() const noexcept;
+		const std::vector<ThreadTask>& GetThreadTasks() const noexcept;
 
 		/* Sleeps the thread for the time provided 
 			Example:
@@ -57,7 +71,7 @@ namespace Integrian2D
 
 							DoSomething();
 						}
-					});
+					}, 0);
 
 			The provided code assigna a thread task. The task keeps running while ProgramIsRunning is true,
 			Before the task calls DoSomething(), FunctionReturningABoolean's return value gets checked, until it is true
@@ -66,13 +80,16 @@ namespace Integrian2D
 		template <typename _Rep, typename _Period>
 		void SleepThreadWhile(const std::function<bool()>& predicate, const std::chrono::duration<_Rep, _Period>& time) const noexcept;
 
+		/* Check whether the job with the user-assigned ID is being executed */
+		bool IsJobBeingExecuted(const int userID) const noexcept;
+
 	private:
 		ThreadManager();
 		void InfiniteLoop(const int index) noexcept;
 
 		std::vector<std::thread> m_Threads;
 		std::vector<bool> m_AreJobsDone;
-		std::queue<ThreadTask> m_Tasks;
+		std::vector<ThreadTask> m_Tasks;
 		std::mutex m_Mutex;
 		std::condition_variable m_CV;
 
