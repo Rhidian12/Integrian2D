@@ -77,7 +77,8 @@ namespace Integrian2D
 
 		m_HasWorldPositionChanged = true;
 
-		m_pTransformManager->NotifyRecalculation();
+		if (m_pTransformManager)
+			m_pTransformManager->NotifyRecalculation();
 	}
 
 	void TransformComponent::SetScale(const Point2f& scale) noexcept
@@ -102,7 +103,8 @@ namespace Integrian2D
 	const Point2f& TransformComponent::GetWorldPosition() noexcept
 	{
 		if (m_HasWorldPositionChanged)
-			m_pTransformManager->ForceImmediateRecalculation(this);
+			if (m_pTransformManager)
+				m_pTransformManager->ForceImmediateRecalculation(this);
 
 		return m_WorldPosition;
 	}
