@@ -182,7 +182,7 @@ namespace Integrian2D
 		{
 			/* Cache our local position, which we need to calculate the world position */
 			Point2f newWorldPosition{ GetLocalPosition() };
-			
+
 			/* Get our GameObject's parent */
 			GameObject* pParent{ m_pOwner->GetParent() };
 
@@ -196,11 +196,17 @@ namespace Integrian2D
 				/* Add the parents local position to our new world position */
 				newWorldPosition += pParent->pTransform->GetLocalPosition();
 
+				/* As soon as we reach the root, add the world position */
+				if (!pParent->GetParent())
+					newWorldPosition += pParent->pTransform->GetWorldPosition();
+
 				/* Set the new parent */
 				pParent = pParent->GetParent();
 			}
 
-			m_WorldPosition = newWorldPosition;
+			/* newWorldPosition is the world position from all the parent transforms
+				while m_WorldPosition should be the world position set by the user */
+			m_WorldPosition = Point2f{ newWorldPosition + m_WorldPosition };
 
 			/* Flag that we've calculated our new world position */
 			m_HasWorldPositionChanged = false;

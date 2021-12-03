@@ -9,8 +9,8 @@ namespace Integrian2D
 	enum class RigidbodyType
 	{
 		Static = 0,
-		Dynamic = 1,
-		Kinematic = 2,
+		Kinematic = 1,
+		Dynamic = 2,
 		None = 3
 	};
 

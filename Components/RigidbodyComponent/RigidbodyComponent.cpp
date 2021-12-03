@@ -39,8 +39,10 @@ namespace Integrian2D
 	void RigidbodyComponent::FixedUpdate()
 	{
 		TransformComponent* const pTransform{ m_pOwner->pTransform };
-		Point2f worldPosition{ pTransform->GetWorldPosition() };
-		m_pBox2DBody->SetTransform(b2Vec2{ worldPosition.x, worldPosition.y }, pTransform->GetAngle());
+		//Point2f worldPosition{ pTransform->GetWorldPosition() };
+		//m_pBox2DBody->SetTransform(b2Vec2{ worldPosition.x, worldPosition.y }, pTransform->GetAngle());
+
+		pTransform->SetWorldPosition(Point2f{ m_pBox2DBody->GetPosition().x, m_pBox2DBody->GetPosition().y });
 
 		/* TODO: Let RigidbodyShape change the definitions */
 		// m_pRigidbody->GetRigidbodyDefinition().position = pTransform->GetWorldPosition();

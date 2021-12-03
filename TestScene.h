@@ -82,7 +82,9 @@ public:
 			PRectf{ Point2f{}, 640.f, 20.f }, groundFixture) };
 		m_pGameObject->AddComponent(new RigidbodyComponent{ m_pGameObject, pGround, true });
 
-		RigidbodyShape* pBall{ RigidbodyShape::CreateCircle(RigidbodyDefinition{}, 3.f, RigidbodyFixture{}) };
+		RigidbodyDefinition ballDefinition{};
+		ballDefinition.rigidbodyType = RigidbodyType::Dynamic;
+		RigidbodyShape* pBall{ RigidbodyShape::CreateCircle(ballDefinition, 3.f, RigidbodyFixture{}) };
 		m_pGameObject2->AddComponent(new RigidbodyComponent{ m_pGameObject2, pBall, true });
 
 		m_pGameObject2->pTransform->SetWorldPosition(Point2f{ 300.f, 70.f });

@@ -14,7 +14,12 @@ namespace Integrian2D
 		: m_pComponents{}
 		, m_Gravity{ 0.f, -9.81f }
 		, m_PhysicsWorld{ b2Vec2{ m_Gravity.x, m_Gravity.y } }
-	{}
+	{
+		m_PhysicsWorld.SetAllowSleeping(true);
+		m_PhysicsWorld.SetWarmStarting(true);
+		m_PhysicsWorld.SetContinuousPhysics(true);
+		m_PhysicsWorld.SetSubStepping(false);
+	}
 
 	PhysicsEngine::~PhysicsEngine()
 	{

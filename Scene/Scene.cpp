@@ -26,7 +26,7 @@ namespace Integrian2D
 					pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
 						{
 							return m_TransformManager.ShouldRecalculate();
-						}, 10ms);
+						}, 10us);
 
 					m_TransformManager.UpdateTransforms();
 				}
