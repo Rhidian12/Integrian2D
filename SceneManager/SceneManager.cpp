@@ -49,6 +49,7 @@ namespace Integrian2D
 			if (m_pActiveScene)
 			{
 				m_pActiveScene->m_IsActive = false;
+
 				m_pActiveScene->RootOnSceneExit();
 				m_pActiveScene->OnSceneExit();
 			}
