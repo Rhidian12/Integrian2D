@@ -49,7 +49,7 @@ namespace Integrian2D
 			/* If there are no roots yet, we can just add our first root */
 			if (m_pTransformComponents.empty())
 			{
-				TransformComponentNode* pNode{ new TransformComponentNode{ nullptr, pTransformComponent, nullptr, nullptr} };
+				TransformComponentNode* pNode{ new TransformComponentNode{ nullptr, pTransformComponent, nullptr, nullptr } };
 				pNode->pPreviousNode = pNode;
 				pNode->pNextNode = pNode;
 				m_pTransformComponents.push_back(pNode);
@@ -60,25 +60,15 @@ namespace Integrian2D
 			}
 			else
 			{
-				/* Check whether the pTransformComponent its parent is in any of the roots */
-				const auto cIt{ std::find_if(m_pTransformComponents.cbegin(), m_pTransformComponents.cend(), [pTransformComponent](const TransformComponentNode* node)->bool
-					{
-						return pTransformComponent == node->pPreviousNode->pTransform;
-					}) };
+				/* Make the new root node */
+				TransformComponentNode* pNode{ new TransformComponentNode{ m_pHead->pPreviousNode, pTransformComponent, m_pHead, nullptr } };
 
-				/* If it's not present in the vector, we should make a new root node */
-				if (cIt == m_pTransformComponents.cend())
-				{
-					/* Make the new root node */
-					TransformComponentNode* pNode{ new TransformComponentNode{ m_pHead->pPreviousNode, pTransformComponent, m_pHead, nullptr } };
+				m_pHead->pPreviousNode->pNextNode = pNode;
+				m_pHead->pPreviousNode = pNode;
 
-					m_pHead->pPreviousNode->pNextNode = pNode;
-					m_pHead->pPreviousNode = pNode;
+				m_pTransformComponents.push_back(pNode);
 
-					m_pTransformComponents.push_back(pNode);
-
-					pTransformComponent->m_pTransformManager = this;
-				}
+				pTransformComponent->m_pTransformManager = this;
 			}
 		}
 		else /* The Transform Component has a parent, so it is a child */
