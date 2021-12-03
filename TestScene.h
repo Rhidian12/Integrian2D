@@ -87,11 +87,11 @@ public:
 
 		m_pGameObject2->pTransform->SetWorldPosition(Point2f{ 300.f, 70.f });
 
-		AddGameObject("Test1", m_pGameObject);
-		AddGameObject("Test2", m_pGameObject2);
-
 		m_pGameObject->SetTag("Ground");
 		m_pGameObject2->SetTag("Ball");
+
+		AddGameObject("Test1", m_pGameObject);
+		AddGameObject("Test2", m_pGameObject2);
 	}
 
 	virtual void Render() const override
