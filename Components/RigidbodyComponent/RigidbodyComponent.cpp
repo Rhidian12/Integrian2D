@@ -42,6 +42,7 @@ namespace Integrian2D
 		//Point2f worldPosition{ pTransform->GetWorldPosition() };
 		//m_pBox2DBody->SetTransform(b2Vec2{ worldPosition.x, worldPosition.y }, pTransform->GetAngle());
 
+		//pTransform->SetWorldPosition(Point2f{ m_pBox2DBody->GetPosition().x * PhysicsEngine::PixelsPerMeter, m_pBox2DBody->GetPosition().y * PhysicsEngine::PixelsPerMeter });
 		pTransform->SetWorldPosition(Point2f{ m_pBox2DBody->GetPosition().x, m_pBox2DBody->GetPosition().y });
 
 		/* TODO: Let RigidbodyShape change the definitions */
@@ -95,6 +96,7 @@ namespace Integrian2D
 	void RigidbodyComponent::RootStart() noexcept
 	{
 		TransformComponent* const pTransform{ m_pOwner->pTransform };
+		//m_pBox2DBody->SetTransform(b2Vec2{ pTransform->GetWorldPosition().x / PhysicsEngine::PixelsPerMeter, pTransform->GetWorldPosition().y / PhysicsEngine::PixelsPerMeter }, pTransform->GetAngle());
 		m_pBox2DBody->SetTransform(b2Vec2{ pTransform->GetWorldPosition().x, pTransform->GetWorldPosition().y }, pTransform->GetAngle());
 	}
 }

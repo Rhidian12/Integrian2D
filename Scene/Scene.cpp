@@ -5,8 +5,6 @@
 #include "../TransformManager/TransformManager.h"
 #include "../ThreadManager/ThreadManager.h"
 
-extern bool volatile g_IsLooping;
-
 namespace Integrian2D
 {
 	Scene::Scene(const std::string& sceneName)
@@ -35,6 +33,8 @@ namespace Integrian2D
 
 	Scene::~Scene()
 	{
+		m_IsActive = false;
+
 		for (std::pair<const std::string, GameObject*>& pG : m_pGameObjects)
 			Utils::SafeDelete(pG.second);
 	}
@@ -71,6 +71,8 @@ namespace Integrian2D
 
 	void Scene::RootOnSceneEnter() noexcept
 	{
+		m_IsActive = true;
+
 		inputManager.Activate();
 
 		ThreadManager::GetInstance()->AssignThreadTask([this]()
@@ -93,6 +95,8 @@ namespace Integrian2D
 
 	void Scene::RootOnSceneExit() noexcept
 	{
+		m_IsActive = false;
+
 		inputManager.Deactivate();
 	}
 

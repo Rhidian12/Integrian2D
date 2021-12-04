@@ -25,6 +25,10 @@ namespace Integrian2D
 		{
 			std::unique_lock<std::mutex> lock{ m_Mutex }; /* Acquire the lock */
 
+			/* safety check */
+			if (m_pTransformComponents.empty())
+				return;
+
 			/* Check if any of the transform components have moved */
 			/* Check a parent, then check its children */
 			for (auto it{ m_pTransformComponents.begin() }; it != m_pTransformComponents.end(); ++it)

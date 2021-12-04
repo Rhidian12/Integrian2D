@@ -27,6 +27,9 @@ namespace Integrian2D
 		   If the Scene with sceneName has not been added to the SceneManager,
 		   then this function will not replace the current active scene */
 		void SetActiveScene(const std::string& sceneName) noexcept;
+
+		/* Sets all scene to inactive */
+		void DeactivateAllScenes() noexcept;
 		
 		/* Get the currently active scene 
 		   If no scene is marked as the active scene, this will return a nullptr */

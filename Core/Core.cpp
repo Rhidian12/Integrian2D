@@ -48,12 +48,14 @@ namespace Integrian2D
 
 	Core::~Core()
 	{
+		SceneManager::GetInstance()->DeactivateAllScenes();
+
+		ThreadManager::Cleanup();
 		SceneManager::Cleanup();
 		Renderer::Cleanup();
 		TextureManager::Cleanup();
 		Locator::Cleanup();
 		Timer::Cleanup();
-		ThreadManager::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}

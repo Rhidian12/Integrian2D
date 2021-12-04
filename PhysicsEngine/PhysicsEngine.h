@@ -24,6 +24,8 @@ namespace Integrian2D
 		void SetGravity(const Vector2f& gravity) noexcept;
 		const Vector2f& GetGravity() const noexcept;
 
+		inline static float PixelsPerMeter{ 100.f };
+
 	private:
 		friend class Scene;
 

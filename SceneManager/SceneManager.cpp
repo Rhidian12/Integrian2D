@@ -64,6 +64,12 @@ namespace Integrian2D
 		}
 	}
 
+	void SceneManager::DeactivateAllScenes() noexcept
+	{
+		for (const std::pair<std::string, Scene*> pair : m_pScenes)
+			pair.second->m_IsActive = false;
+	}
+
 	Scene* const SceneManager::GetActiveScene() const noexcept
 	{
 		return m_pActiveScene;
