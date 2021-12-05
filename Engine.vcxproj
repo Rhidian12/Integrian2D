@@ -196,9 +196,11 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AI\AIComponent\AIComponent.cpp" />
+    <ClCompile Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.cpp" />
     <ClCompile Include="EventQueue\Event\Event.cpp" />
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
+    <ClCompile Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
     <ClCompile Include="Iterator\Iterator.cpp" />
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp" />
@@ -232,9 +234,11 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI\AIComponent\AIComponent.h" />
+    <ClInclude Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.h" />
     <ClInclude Include="EventQueue\Event\Event.h" />
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
+    <ClInclude Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.h" />
     <ClInclude Include="IListener\IListener.h" />
     <ClInclude Include="Iterator\Iterator.h" />
     <ClInclude Include="Math\BetterUint8.h" />

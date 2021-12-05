@@ -117,6 +117,12 @@
     <ClCompile Include="AI\AIComponent\AIComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -285,6 +291,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AI\AIComponent\AIComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
