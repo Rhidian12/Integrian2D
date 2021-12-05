@@ -12,30 +12,28 @@ namespace Integrian2D
 	class State final : public BaseDecisionMaking
 	{
 	public:
-		using Action = std::function<BehaviourState()>;
+		using Action = std::function<BehaviourState(Blackboard* const)>;
 
 		State(AIComponent* const pAIComponent, FiniteStateMachine* const pFSM, const Action& action);
 
-		virtual BehaviourState Update() override;
+		virtual BehaviourState Update(Blackboard* const pBlackboard) override;
 
 		FiniteStateMachine* const GetFiniteStateMachine() const noexcept;
 		const Action& GetAction() const noexcept;
-		const BehaviourState GetCurrentState() const noexcept;
 
 	private:
 		FiniteStateMachine* m_pFSM;
 		Action m_Action;
-		BehaviourState m_CurrentState;
 	};
 
 	class Transition final
 	{
 	public:
-		using Predicate = std::function<bool()>;
+		using Predicate = std::function<bool(Blackboard* const)>;
 
 		Transition(FiniteStateMachine* const pFSM, State* const pFrom, State* const pTo, const Predicate& predicate);
 
-		bool Update();
+		bool Update(Blackboard* const pBlackboard);
 
 		FiniteStateMachine* const GetFiniteStateMachine() const noexcept;
 		State* const GetFrom() const noexcept;
@@ -56,7 +54,7 @@ namespace Integrian2D
 		void AddState(State* const pState) noexcept;
 		void AddTransition(Transition* const pTransition) noexcept;
 
-		virtual BehaviourState Update() override;
+		virtual BehaviourState Update(Blackboard* const pBlackboard) override;
 
 	private:
 		std::vector<BaseDecisionMaking*> m_pStates;

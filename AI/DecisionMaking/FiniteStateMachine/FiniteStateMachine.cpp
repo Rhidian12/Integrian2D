@@ -21,11 +21,11 @@ namespace Integrian2D
 		m_pTransitions.push_back(pTransition);
 	}
 
-	BehaviourState FiniteStateMachine::Update()
+	BehaviourState FiniteStateMachine::Update(Blackboard* const pBlackboard)
 	{
 		if (m_pCurrentState)
 		{
-			switch (m_pCurrentState->Update())
+			switch (m_pCurrentState->Update(pBlackboard))
 			{
 			case BehaviourState::Failure:
 				break;
@@ -44,7 +44,7 @@ namespace Integrian2D
 						}) };
 
 					/* If the transition's requirements are met, change the State */
-					if ((*it)->Update())
+					if ((*it)->Update(pBlackboard))
 						m_pCurrentState = (*it)->GetTo();
 					break;
 				}
@@ -59,12 +59,11 @@ namespace Integrian2D
 		: BaseDecisionMaking{ pAIComponent }
 		, m_pFSM{ pFSM }
 		, m_Action{ action }
-		, m_CurrentState{ BehaviourState::Failure }
 	{}
 
-	BehaviourState State::Update()
+	BehaviourState State::Update(Blackboard* const pBlackboard)
 	{
-		return m_CurrentState = m_Action();
+		return m_CurrentState = m_Action(pBlackboard);
 	}
 
 	FiniteStateMachine* const State::GetFiniteStateMachine() const noexcept
@@ -77,11 +76,6 @@ namespace Integrian2D
 		return m_Action;
 	}
 
-	const BehaviourState State::GetCurrentState() const noexcept
-	{
-		return m_CurrentState;
-	}
-
 	Transition::Transition(FiniteStateMachine* const pFSM, State* const pFrom, State* const pTo, const Predicate& predicate)
 		: m_pFSM{ pFSM }
 		, m_Predicate{ predicate }
@@ -90,9 +84,9 @@ namespace Integrian2D
 	{
 	}
 
-	bool Transition::Update()
+	bool Transition::Update(Blackboard* const pBlackboard)
 	{
-		return m_Predicate();
+		return m_Predicate(pBlackboard);
 	}
 
 	FiniteStateMachine* const Transition::GetFiniteStateMachine() const noexcept
