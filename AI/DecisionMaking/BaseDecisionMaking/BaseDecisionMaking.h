@@ -3,6 +3,7 @@
 namespace Integrian2D
 {
 	class AIComponent;
+	class Blackboard;
 
 	enum class BehaviourState
 	{
@@ -16,9 +17,12 @@ namespace Integrian2D
 	public:
 		BaseDecisionMaking(AIComponent* const pAIComponent);
 
-		virtual BehaviourState Update() = 0;
+		virtual BehaviourState Update(Blackboard* const) = 0;
+
+		BehaviourState GetCurrentState() const noexcept;
 
 	protected:
 		AIComponent* m_pAIComponent;
+		BehaviourState m_CurrentState;
 	};
 }
