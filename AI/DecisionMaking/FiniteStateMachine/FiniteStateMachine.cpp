@@ -64,8 +64,7 @@ namespace Integrian2D
 
 	BehaviourState State::Update()
 	{
-		if (m_Action)
-			m_CurrentState = m_Action();
+		return m_CurrentState = m_Action();
 	}
 
 	FiniteStateMachine* const State::GetFiniteStateMachine() const noexcept
