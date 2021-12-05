@@ -16,7 +16,7 @@ namespace Integrian2D
 	public:
 		BaseDecisionMaking(AIComponent* const pAIComponent);
 
-		virtual void Execute() noexcept = 0;
+		virtual void Update() noexcept = 0;
 
 	protected:
 		AIComponent* m_pAIComponent;
