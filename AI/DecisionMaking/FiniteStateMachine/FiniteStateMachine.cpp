@@ -1,8 +1,10 @@
 #include "FiniteStateMachine.h"
 
+#include <algorithm>
+
 namespace Integrian2D
 {
-	FiniteStateMachine::FiniteStateMachine(AIComponent* const pAIComponent, State* const pStartState)
+	FiniteStateMachine::FiniteStateMachine(AIComponent* const pAIComponent, BaseDecisionMaking* const pStartState)
 		: BaseDecisionMaking{ pAIComponent }
 		, m_pCurrentState{ pStartState }
 	{
@@ -19,8 +21,38 @@ namespace Integrian2D
 		m_pTransitions.push_back(pTransition);
 	}
 
-	void FiniteStateMachine::Update()
+	BehaviourState FiniteStateMachine::Update()
 	{
+		if (m_pCurrentState)
+		{
+			switch (m_pCurrentState->Update())
+			{
+			case BehaviourState::Failure:
+				break;
+			case BehaviourState::Running:
+				break;
+			case BehaviourState::Success:
+			{
+				/* we need to know whether it's a State or a BHT */
+				State* const pState{ dynamic_cast<State*>(m_pCurrentState) };
+				if (pState)
+				{
+					/* it's a simple state in a FSM */
+					auto it{ std::find_if(m_pTransitions.cbegin(), m_pTransitions.cend(), [pState](const Transition* const pT)->bool
+						{
+							return pState == pT->GetFrom();
+						}) };
+
+					/* If the transition's requirements are met, change the State */
+					if ((*it)->Update())
+						m_pCurrentState = (*it)->GetTo();
+					break;
+				}
+
+				/* TODO: ADD BHT */
+			}
+			}
+		}
 	}
 
 	State::State(AIComponent* const pAIComponent, FiniteStateMachine* const pFSM, const Action& action)
@@ -30,9 +62,9 @@ namespace Integrian2D
 		, m_CurrentState{ BehaviourState::Failure }
 	{}
 
-	void State::Update()
+	BehaviourState State::Update()
 	{
-		if (m_Action)	
+		if (m_Action)
 			m_CurrentState = m_Action();
 	}
 
@@ -59,8 +91,23 @@ namespace Integrian2D
 	{
 	}
 
-	bool Transition::Execute()
+	bool Transition::Update()
 	{
 		return m_Predicate();
+	}
+
+	FiniteStateMachine* const Transition::GetFiniteStateMachine() const noexcept
+	{
+		return m_pFSM;
+	}
+
+	State* const Transition::GetFrom() const noexcept
+	{
+		return m_pFrom;
+	}
+
+	State* const Transition::GetTo() const noexcept
+	{
+		return m_pTo;
 	}
 }

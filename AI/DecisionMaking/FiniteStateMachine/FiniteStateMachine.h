@@ -16,7 +16,7 @@ namespace Integrian2D
 
 		State(AIComponent* const pAIComponent, FiniteStateMachine* const pFSM, const Action& action);
 
-		virtual void Update() override;
+		virtual BehaviourState Update() override;
 
 		FiniteStateMachine* const GetFiniteStateMachine() const noexcept;
 		const Action& GetAction() const noexcept;
@@ -35,7 +35,11 @@ namespace Integrian2D
 
 		Transition(FiniteStateMachine* const pFSM, State* const pFrom, State* const pTo, const Predicate& predicate);
 
-		bool Execute();
+		bool Update();
+
+		FiniteStateMachine* const GetFiniteStateMachine() const noexcept;
+		State* const GetFrom() const noexcept;
+		State* const GetTo() const noexcept;
 
 	private:
 		FiniteStateMachine* m_pFSM;
@@ -47,17 +51,17 @@ namespace Integrian2D
 	class FiniteStateMachine final : public BaseDecisionMaking
 	{
 	public:
-		FiniteStateMachine(AIComponent* const pAIComponent, State* const pStartState);
+		FiniteStateMachine(AIComponent* const pAIComponent, BaseDecisionMaking* const pStartState);
 
 		void AddState(State* const pState) noexcept;
 		void AddTransition(Transition* const pTransition) noexcept;
 
-		virtual void Update() override;
+		virtual BehaviourState Update() override;
 
 	private:
-		std::vector<State*> m_pStates;
+		std::vector<BaseDecisionMaking*> m_pStates;
 		std::vector<Transition*> m_pTransitions;
 
-		State* m_pCurrentState;
+		BaseDecisionMaking* m_pCurrentState;
 	};
 }
