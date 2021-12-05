@@ -197,6 +197,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   <ItemGroup>
     <ClCompile Include="AI\AIComponent\AIComponent.cpp" />
     <ClCompile Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.cpp" />
+    <ClCompile Include="AI\Blackboard\Blackboard.cpp" />
     <ClCompile Include="EventQueue\Event\Event.cpp" />
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
@@ -235,6 +236,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   <ItemGroup>
     <ClInclude Include="AI\AIComponent\AIComponent.h" />
     <ClInclude Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.h" />
+    <ClInclude Include="AI\Blackboard\Blackboard.h" />
     <ClInclude Include="EventQueue\Event\Event.h" />
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
