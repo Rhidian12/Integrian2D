@@ -126,6 +126,9 @@
     <ClCompile Include="AI\Blackboard\Blackboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -303,6 +306,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AI\Blackboard\Blackboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
