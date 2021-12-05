@@ -28,8 +28,10 @@ namespace Integrian2D
 			switch (m_pCurrentState->Update(pBlackboard))
 			{
 			case BehaviourState::Failure:
+				m_CurrentState = BehaviourState::Failure;
 				break;
 			case BehaviourState::Running:
+				m_CurrentState = BehaviourState::Running;
 				break;
 			case BehaviourState::Success:
 			{
@@ -46,13 +48,19 @@ namespace Integrian2D
 					/* If the transition's requirements are met, change the State */
 					if ((*it)->Update(pBlackboard))
 						m_pCurrentState = (*it)->GetTo();
+
+					m_CurrentState = BehaviourState::Success;
 					break;
 				}
 
 				/* TODO: ADD BHT */
 			}
 			}
+
+			return m_CurrentState;
 		}
+		else
+			return m_CurrentState = BehaviourState::Failure;
 	}
 
 	State::State(AIComponent* const pAIComponent, FiniteStateMachine* const pFSM, const Action& action)
