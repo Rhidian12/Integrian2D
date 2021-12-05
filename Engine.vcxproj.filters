@@ -84,9 +84,6 @@
     <ClCompile Include="Parsing\Reader\Reader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsEngine\PhysicsEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Timer\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -115,12 +112,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Iterator\Iterator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\RigidbodyComponent\RigidbodyComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\RigidbodyComponent\RigidBodyShape\RigidbodyShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,9 +233,6 @@
     <ClInclude Include="Parsing\Reader\Reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsEngine\PhysicsEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Timer\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -288,18 +276,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\BetterUint8.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\RigidbodyComponent\RigidbodyComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\RigidbodyComponent\RigidBodyShape\RigidbodyShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\RigidbodyComponent\RigidbodyFixture\RigidbodyFixture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\RigidbodyComponent\RigidbodyDefinition\RigidbodyDefinition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\Circle.h">

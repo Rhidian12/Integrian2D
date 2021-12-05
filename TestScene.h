@@ -10,7 +10,6 @@
 #include "NavigationGraph/NavigationGraphComponent.h"
 #include "NavigationGraph/NavGraphPolygon/NavGraphPolygon.h"
 #include "Renderer/Renderer.h"
-#include "Components/RigidbodyComponent/RigidbodyComponent.h"
 
 #include <string>
 class TestScene final : public Integrian2D::Scene
@@ -75,22 +74,6 @@ public:
 	virtual void Start() override
 	{
 		using namespace Integrian2D;
-
-		RigidbodyDefinition groundDefinition{};
-		RigidbodyFixture groundFixture{};
-		RigidbodyShape* pGround{ RigidbodyShape::CreateRectangle(groundDefinition,
-			PRectf{ Point2f{}, 640.f, 20.f }, groundFixture) };
-		m_pGameObject->AddComponent(new RigidbodyComponent{ m_pGameObject, pGround, true });
-
-		RigidbodyDefinition ballDefinition{};
-		ballDefinition.rigidbodyType = RigidbodyType::Dynamic;
-		RigidbodyShape* pBall{ RigidbodyShape::CreateCircle(ballDefinition, 3.f, RigidbodyFixture{}) };
-		m_pGameObject2->AddComponent(new RigidbodyComponent{ m_pGameObject2, pBall, true });
-
-		m_pGameObject2->pTransform->SetWorldPosition(Point2f{ 300.f, 70.f });
-
-		m_pGameObject->SetTag("Ground");
-		m_pGameObject2->SetTag("Ball");
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);

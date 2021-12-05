@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 #include "../Input/InputManager/InputManager.h"
-#include "../PhysicsEngine/PhysicsEngine.h"
 #include "../EventQueue/EventQueue.h"
 #include "../TransformManager/TransformManager.h"
 
@@ -76,7 +75,6 @@ namespace Integrian2D
 
 	protected:
 		InputManager inputManager{};
-		PhysicsEngine physicsEngine{};
 		EventQueue eventQueue{};
 
 	private:

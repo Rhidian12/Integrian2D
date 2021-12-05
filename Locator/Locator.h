@@ -3,7 +3,6 @@
 namespace Integrian2D
 {
 	class InputManager;
-	class PhysicsEngine;
 	class EventQueue;
 
 	/* This class can be used to get access to Scene-specific classes in a Singleton-manner */
@@ -17,7 +16,6 @@ namespace Integrian2D
 		static void Cleanup() noexcept;
 
 		InputManager* const GetInputManager() const noexcept;
-		PhysicsEngine* const GetPhysicsEngine() const noexcept;
 		EventQueue* const GetEventQueue() const noexcept;
 
 	private:
