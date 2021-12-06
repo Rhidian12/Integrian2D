@@ -1,4 +1,5 @@
 #include "BehaviourTree.h"
+#include "../../../Utils/Utils.h"
 
 namespace Integrian2D
 {
@@ -6,6 +7,12 @@ namespace Integrian2D
 		: m_Nodes{ nodes }
 		, m_pCurrentNode{}
 	{
+	}
+
+	BehaviourTree::~BehaviourTree()
+	{
+		for (BehaviourTreeNode* pNode : m_Nodes)
+			Utils::SafeDelete(pNode);
 	}
 
 	BehaviourState BehaviourTree::Update(Blackboard* const pBlackboard)

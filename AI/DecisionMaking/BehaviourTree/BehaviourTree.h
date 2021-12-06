@@ -69,6 +69,7 @@ namespace Integrian2D
 	{
 	public:
 		BehaviourTree(const std::vector<BehaviourTreeNode*>& nodes);
+		~BehaviourTree();
 
 		virtual BehaviourState Update(Blackboard* const pBlackboard) override;
 
