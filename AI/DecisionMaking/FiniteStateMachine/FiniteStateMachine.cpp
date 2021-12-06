@@ -5,9 +5,8 @@
 
 namespace Integrian2D
 {
-	FiniteStateMachine::FiniteStateMachine(AIComponent* const pAIComponent, BaseDecisionMaking* const pStartState)
-		: BaseDecisionMaking{ pAIComponent }
-		, m_pCurrentState{ pStartState }
+	FiniteStateMachine::FiniteStateMachine(BaseDecisionMaking* const pStartState)
+		: m_pCurrentState{ pStartState }
 	{
 		m_pStates.push_back(pStartState);
 	}
@@ -60,9 +59,8 @@ namespace Integrian2D
 			return m_CurrentState = BehaviourState::Failure;
 	}
 
-	State::State(AIComponent* const pAIComponent, FiniteStateMachine* const pFSM, const Action& action)
-		: BaseDecisionMaking{ pAIComponent }
-		, m_pFSM{ pFSM }
+	State::State(FiniteStateMachine* const pFSM, const Action& action)
+		: m_pFSM{ pFSM }
 		, m_Action{ action }
 	{}
 

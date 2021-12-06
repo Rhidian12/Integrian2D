@@ -2,9 +2,8 @@
 
 namespace Integrian2D
 {
-	BehaviourTree::BehaviourTree(AIComponent* const pAIComponent, const std::vector<BehaviourTreeNode*>& nodes)
-		: BaseDecisionMaking{ pAIComponent }
-		, m_Nodes{ nodes }
+	BehaviourTree::BehaviourTree(const std::vector<BehaviourTreeNode*>& nodes)
+		: m_Nodes{ nodes }
 		, m_pCurrentNode{}
 	{
 	}

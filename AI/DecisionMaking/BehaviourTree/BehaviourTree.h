@@ -68,7 +68,7 @@ namespace Integrian2D
 	class BehaviourTree final : public BaseDecisionMaking
 	{
 	public:
-		BehaviourTree(AIComponent* const pAIComponent, const std::vector<BehaviourTreeNode*>& nodes);
+		BehaviourTree(const std::vector<BehaviourTreeNode*>& nodes);
 
 		virtual BehaviourState Update(Blackboard* const pBlackboard) override;
 

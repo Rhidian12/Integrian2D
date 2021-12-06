@@ -15,14 +15,11 @@ namespace Integrian2D
 	class BaseDecisionMaking 
 	{
 	public:
-		BaseDecisionMaking(AIComponent* const pAIComponent);
-
 		virtual BehaviourState Update(Blackboard* const) = 0;
 
 		BehaviourState GetCurrentState() const noexcept;
 
 	protected:
-		AIComponent* m_pAIComponent;
 		BehaviourState m_CurrentState;
 	};
 }

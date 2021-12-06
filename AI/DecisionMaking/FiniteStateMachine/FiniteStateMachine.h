@@ -14,7 +14,7 @@ namespace Integrian2D
 	public:
 		using Action = std::function<BehaviourState(Blackboard* const)>;
 
-		State(AIComponent* const pAIComponent, FiniteStateMachine* const pFSM, const Action& action);
+		State(FiniteStateMachine* const pFSM, const Action& action);
 
 		virtual BehaviourState Update(Blackboard* const pBlackboard) override;
 
@@ -49,7 +49,7 @@ namespace Integrian2D
 	class FiniteStateMachine final : public BaseDecisionMaking
 	{
 	public:
-		FiniteStateMachine(AIComponent* const pAIComponent, BaseDecisionMaking* const pStartState);
+		FiniteStateMachine(BaseDecisionMaking* const pStartState);
 
 		void AddState(State* const pState) noexcept;
 		void AddTransition(Transition* const pTransition) noexcept;
