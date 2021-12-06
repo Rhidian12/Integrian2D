@@ -1,4 +1,5 @@
 #include "FiniteStateMachine.h"
+#include "../BehaviourTree/BehaviourTree.h"
 
 #include <algorithm>
 
@@ -36,25 +37,21 @@ namespace Integrian2D
 			case BehaviourState::Success:
 			{
 				/* we need to know whether it's a State or a BHT */
-				State* const pState{ dynamic_cast<State*>(m_pCurrentState) };
-				if (pState)
-				{
-					/* it's a simple state in a FSM */
-					auto it{ std::find_if(m_pTransitions.cbegin(), m_pTransitions.cend(), [pState](const Transition* const pT)->bool
-						{
-							return pState == pT->GetFrom();
-						}) };
+				BaseDecisionMaking* const pState{ static_cast<BaseDecisionMaking*>(m_pCurrentState) };
 
-					/* If the transition's requirements are met, change the State */
-					if ((*it)->Update(pBlackboard))
-						m_pCurrentState = (*it)->GetTo();
+				/* Find the state */
+				auto it{ std::find_if(m_pTransitions.cbegin(), m_pTransitions.cend(), [pState](const Transition* const pT)->bool
+					{
+						return pState == pT->GetFrom();
+					}) };
 
-					m_CurrentState = BehaviourState::Success;
-					break;
-				}
+				/* If the transition's requirements are met, change the State */
+				if ((*it)->Update(pBlackboard))
+					m_pCurrentState = (*it)->GetTo();
 
-				/* TODO: ADD BHT */
+				m_CurrentState = BehaviourState::Success;
 			}
+			break;
 			}
 
 			return m_CurrentState;
