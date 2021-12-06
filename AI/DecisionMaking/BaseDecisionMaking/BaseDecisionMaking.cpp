@@ -2,9 +2,8 @@
 
 namespace Integrian2D
 {
-	BaseDecisionMaking::BaseDecisionMaking(AIComponent* const pAIComponent)
-		: m_pAIComponent{ pAIComponent }
-		, m_CurrentState{ BehaviourState::Failure }
+	BaseDecisionMaking::BaseDecisionMaking()
+		: m_CurrentState{ BehaviourState::Failure }
 	{
 	}
 

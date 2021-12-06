@@ -15,6 +15,8 @@ namespace Integrian2D
 	class BaseDecisionMaking 
 	{
 	public:
+		BaseDecisionMaking();
+
 		virtual BehaviourState Update(Blackboard* const) = 0;
 
 		BehaviourState GetCurrentState() const noexcept;
