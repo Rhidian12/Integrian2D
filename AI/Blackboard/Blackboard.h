@@ -22,6 +22,11 @@ namespace Integrian2D
 			: m_Data{ data }
 		{}
 
+		void ChangeData(const Type& data) noexcept
+		{
+			m_Data = data;
+		}
+
 		Type GetData() const noexcept
 		{
 			return m_Data;
@@ -37,17 +42,17 @@ namespace Integrian2D
 		template<typename Type>
 		void AddData(const std::string& id, const Type& data) noexcept
 		{
-			m_pData.insert(std::make_pair(id, std::make_shared<Type>(data)));
+			m_pData.insert(std::make_pair(id, std::make_shared<BlackboardData<Type>>(data)));
 		}
 
 		template<typename Type>
-		const Type& GetData(const std::string& id) const noexcept
+		Type GetData(const std::string& id) const noexcept
 		{
 			auto it{ m_pData.find(id) };
 
 			ASSERT(it != m_pData.cend(), std::string{ "Blackboard::GetData() > the string with id" } + id + " was not found!");
 			
-			return std::static_pointer_cast<Type>(it->second)->GetData();
+			return std::static_pointer_cast<BlackboardData<Type>>(it->second)->GetData();
 		}
 
 		template<typename Type>
@@ -57,7 +62,7 @@ namespace Integrian2D
 			
 			ASSERT(it != m_pData.cend(), std::string{ "Blackboard::ChangeData() > the string with id" } + id + " was not found!");
 
-			m_pData[id] = data;
+			std::static_pointer_cast<BlackboardData<Type>>(it->second)->ChangeData(data);
 		}
 
 	private:
