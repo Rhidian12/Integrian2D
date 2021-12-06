@@ -1,6 +1,7 @@
 #include "ThreadManager.h"
 #include "../Utils/Utils.h"
 
+#include <iostream>
 #include <algorithm>
 
 extern bool volatile g_IsLooping;
@@ -112,7 +113,7 @@ namespace Integrian2D
 							break;
 						}
 					}
-
+					
 					//m_Tasks.pop(); // remove the task from the queue
 					pTask->isBusy = true; // flag that the task is being done
 					pTask->threadIndex = index;

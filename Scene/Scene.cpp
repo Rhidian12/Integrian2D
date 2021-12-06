@@ -27,24 +27,6 @@ namespace Integrian2D
 	{
 		for (const std::pair<const std::string, GameObject*>& pG : m_pGameObjects)
 			pG.second->Start();
-
-		ThreadManager::GetInstance()->AssignThreadTask([this]()
-			{
-				using namespace std::chrono_literals;
-
-				//ThreadManager* const pInstance{ ThreadManager::GetInstance() };
-
-				while (m_IsActive.load())
-				{
-					std::cout << std::boolalpha << m_IsActive.load() << std::endl;
-					//pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
-					//	{
-					//		return !m_IsActive || m_TransformManager.ShouldRecalculate();
-					//	}, 10us);
-
-					//m_TransformManager.UpdateTransforms();
-				}
-			}, 0);
 	}
 
 	void Scene::RootUpdate()
@@ -83,12 +65,12 @@ namespace Integrian2D
 
 				ThreadManager* const pInstance{ ThreadManager::GetInstance() };
 
-				while (m_IsActive)
+				while (m_IsActive.load())
 				{
 					pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
 						{
-							return m_TransformManager.ShouldRecalculate();
-						}, 10ms);
+							return !m_IsActive.load() || m_TransformManager.ShouldRecalculate();
+						}, 10us);
 
 					m_TransformManager.UpdateTransforms();
 				}
