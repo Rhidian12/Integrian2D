@@ -58,6 +58,7 @@ namespace Integrian2D
 	{
 	public:
 		SequenceNode(const std::vector<BehaviourTreeNode*>& nodes);
+		~SequenceNode();
 
 		virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
 

@@ -1,4 +1,7 @@
 #include "AIComponent.h"
+#include "../Blackboard/Blackboard.h"
+#include "../DecisionMaking/BaseDecisionMaking/BaseDecisionMaking.h"
+#include "../../Utils/Utils.h"
 
 namespace Integrian2D
 {
@@ -7,6 +10,12 @@ namespace Integrian2D
 		, m_pBlackboard{ pBlackboard }
 		, m_pDecisionMaking{ pAI }
 	{}
+
+	AIComponent::~AIComponent()
+	{
+		Utils::SafeDelete(m_pBlackboard);
+		Utils::SafeDelete(m_pDecisionMaking);
+	}
 
 	Component* AIComponent::Clone(GameObject* pOwner) noexcept
 	{

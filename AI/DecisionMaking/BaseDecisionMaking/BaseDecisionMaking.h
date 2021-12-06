@@ -16,6 +16,7 @@ namespace Integrian2D
 	{
 	public:
 		BaseDecisionMaking();
+		virtual ~BaseDecisionMaking() = default;
 
 		virtual BehaviourState Update(Blackboard* const) = 0;
 

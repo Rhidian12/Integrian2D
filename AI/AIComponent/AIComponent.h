@@ -11,6 +11,7 @@ namespace Integrian2D
 	{
 	public:
 		AIComponent(GameObject* const pOwner, Blackboard* const pBlackboard, BaseDecisionMaking* const pAI);
+		~AIComponent();
 
 		virtual Component* Clone(GameObject* pOwner) noexcept override;
 

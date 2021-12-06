@@ -85,6 +85,12 @@ namespace Integrian2D
 	{
 	}
 
+	SequenceNode::~SequenceNode()
+	{
+		for (BehaviourTreeNode* pNode : m_Nodes)
+			Utils::SafeDelete(pNode);
+	}
+
 	BehaviourState SequenceNode::Execute(Blackboard* const pBlackboard) const
 	{
 		for (const BehaviourTreeNode* const pNode : m_Nodes)
