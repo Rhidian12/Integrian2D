@@ -92,8 +92,8 @@ namespace Integrian2D
 
 		std::string m_SceneName;
 		std::unordered_map<std::string, GameObject*> m_pGameObjects;
-		bool m_IsActive;
-
+		std::atomic_bool m_IsActive;
+		
 		TransformManager m_TransformManager;
 	};
 }
