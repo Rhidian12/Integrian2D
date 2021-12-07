@@ -189,7 +189,7 @@ namespace Integrian2D
 
 		/* We start the for-loop at the root node's first child
 			and we keep going until we encounter a node that doesn't have a pParent */
-		for (auto it{ rootNodeCIt + 1 }; (*it)->pParent != nullptr; ++it)
+		for (auto it{ rootNodeCIt + 1 }; it != m_pTransformComponents.cend() && (*it)->pParent != nullptr; ++it)
 		{
 			/* if the child hasnt moved already */
 			if (!(*it)->pTransform->GetHasMoved())
@@ -223,7 +223,7 @@ namespace Integrian2D
 
 		/* We start the for-loop at the root node's first child
 			and we keep going until we encounter a node that doesn't have a pParent */
-		for (auto it{ rootNodeCIt + 1 }; (*it)->pParent != nullptr; ++it)
+		for (auto it{ rootNodeCIt + 1 }; it != m_pTransformComponents.cend() && (*it)->pParent != nullptr; ++it)
 		{
 			/* if the child hasnt moved already */
 			if ((*it)->pTransform->GetHasMoved())
