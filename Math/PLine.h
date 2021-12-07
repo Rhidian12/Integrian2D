@@ -239,10 +239,6 @@ namespace Integrian2D
 	template<typename Type>
 	void SetRotation(Polygon<2, Type>& p, const Type& _angle) noexcept
 	{
-		/* Check if we're dealing with a different scale before we do an expensive calculation */
-		if (Utils::AreEqual(p.angle, _angle))
-			return;
-
 		p.angle = _angle;
 
 		const Type c{ static_cast<Type>(cos(_angle)) };
@@ -268,10 +264,6 @@ namespace Integrian2D
 	template<typename Type>
 	void SetScale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
 	{
-		/* Check if we're dealing with a different scale before we do an expensive calculation */
-		if (Utils::AreEqual(p.scaleX, scale.x) && Utils::AreEqual(p.scaleY, scale.y))
-			return;
-
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
 		{
