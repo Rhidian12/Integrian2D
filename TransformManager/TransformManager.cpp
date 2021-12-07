@@ -200,7 +200,7 @@ namespace Integrian2D
 	void TransformManager::MoveTree(TransformComponent* const pRoot) noexcept
 	{
 		/* Move the root node */
-		pRoot->CalculateNewWorldPosition();
+		pRoot->RecalculateWorldData();
 
 		/* Check if this root node has children */
 
@@ -227,7 +227,7 @@ namespace Integrian2D
 		{
 			/* if the child hasnt moved already */
 			if ((*it)->pTransform->GetHasMoved())
-				(*it)->pTransform->CalculateNewWorldPosition();
+				(*it)->pTransform->RecalculateWorldData();
 		}
 	}
 

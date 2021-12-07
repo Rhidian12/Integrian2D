@@ -23,6 +23,12 @@ namespace Integrian2D
 		/* Return the GameObject's position in its Local Space */
 		const Point2f GetLocalPosition() const noexcept;
 
+		/* Return the GameObject's scale in its World Space */
+		const Point2f& GetWorldScale() const noexcept;
+
+		/* Return the GameObject's angle in its World Space */
+		const float GetWorldAngle() const noexcept;
+
 		/* Translates the GameObject's position by velocity multiplied by Delta Time. This does not trigger a matrix recalculation */
 		void Translate(const Vector2f& velocity) noexcept;
 
@@ -36,15 +42,15 @@ namespace Integrian2D
 			However, if the Transform Component is part of a bigger tree, it will lead to the tree being recalculated */
 		void SetPosition(const Point2f& position) noexcept;
 
-		/* Sets the GameObject's scale. This triggers a matrix recalculation */
+		/* Sets the GameObject's local scale. This triggers a matrix recalculation */
 		void SetScale(const Point2f& scale) noexcept;
 
-		/* Sets the GameObject's angle. This triggers a matrix recalculation */
+		/* Sets the GameObject's local angle. This triggers a matrix recalculation */
 		void SetAngle(const float angle) noexcept;
 
 		/* This function should NOT be called manually. It is called internally and calling this manually will only waste CPU cycles. 
 		   This function checks if its parent local position has changed. If it has, it must recalculate this component's world position */
-		void CalculateNewWorldPosition() noexcept;
+		void RecalculateWorldData() noexcept;
 
 		/* This function can be called manually, however it is not advised since this happens automatically whenever 
 		   SetPosition() or Translate() get called 
@@ -53,10 +59,10 @@ namespace Integrian2D
 		void SetHasMoved(const bool hasMoved) noexcept;
 
 		/* Get the GameObject's local scale */
-		const Point2f& GetScale() const noexcept;
+		const Point2f& GetLocalScale() const noexcept;
 
 		/* Get the GameObject's local angle */
-		const float GetAngle() const noexcept;
+		const float GetLocalAngle() const noexcept;
 
 		/* Get whether or not the GameObject has been moved this frame */
 		const bool GetHasMoved() const noexcept;
@@ -68,14 +74,16 @@ namespace Integrian2D
 		void RecalculateTransformationMatrix() noexcept;
 
 		bool m_TransformChanged;
-		bool m_HasWorldPositionChanged;
+		bool m_HasWorldDataChanged;
 
 		Matrix3x3 m_TransformationMatrix;
 
 		Point2f m_WorldPosition;
+		Point2f m_WorldScale;
+		float m_WorldAngle;
 		
-		Point2f m_Scale;
-		float m_Angle; // Radians
+		Point2f m_LocalScale;
+		float m_LocalAngle; // Radians
 	};
 }
 

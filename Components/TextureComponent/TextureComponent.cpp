@@ -46,7 +46,7 @@ namespace Integrian2D
 	{
 		Renderer::GetInstance()->RenderTexture(m_pTexture,
 			PRectf{ m_pOwner->pTransform->GetWorldPosition(), m_DestRect.width, m_DestRect.height,
-			m_pOwner->pTransform->GetAngle(), m_pOwner->pTransform->GetScale() },
+			m_pOwner->pTransform->GetWorldAngle(), m_pOwner->pTransform->GetWorldScale() },
 			m_SourceRect);
 	}
 
