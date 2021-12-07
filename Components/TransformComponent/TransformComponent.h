@@ -32,12 +32,9 @@ namespace Integrian2D
 		/* Scales the GameObject by scale. This triggers a matrix recalculation */
 		void Scale(const Point2f& scale) noexcept;
 
-		/* Sets the GameObject's position. This neither translates the GameObject nor triggers a matrix recalculation */
-		void SetLocalPosition(const Point2f& position) noexcept;
-
-		/* Sets the GameObject's world position. This neither translates the GameObject nor triggers a matrix recalculation 
+		/* Sets the GameObject's local position. This neither translates the GameObject nor triggers a matrix recalculation 
 			However, if the Transform Component is part of a bigger tree, it will lead to the tree being recalculated */
-		void SetWorldPosition(const Point2f& position) noexcept;
+		void SetPosition(const Point2f& position) noexcept;
 
 		/* Sets the GameObject's scale. This triggers a matrix recalculation */
 		void SetScale(const Point2f& scale) noexcept;
