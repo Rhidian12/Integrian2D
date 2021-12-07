@@ -66,6 +66,10 @@ namespace Integrian2D
 		m_LocalAngle += angleRadians;
 
 		m_TransformChanged = true;
+		m_HasWorldDataChanged = true;
+
+		if (m_pTransformManager)
+			m_pTransformManager->NotifyRecalculation();
 	}
 
 	void TransformComponent::Scale(const Point2f& scale) noexcept
@@ -73,6 +77,10 @@ namespace Integrian2D
 		m_LocalScale += scale;
 
 		m_TransformChanged = true;
+		m_HasWorldDataChanged = true;
+
+		if (m_pTransformManager)
+			m_pTransformManager->NotifyRecalculation();
 	}
 
 	void TransformComponent::SetPosition(const Point2f& position) noexcept
@@ -91,6 +99,10 @@ namespace Integrian2D
 		m_LocalScale = scale;
 
 		m_TransformChanged = true;
+		m_HasWorldDataChanged = true;
+
+		if (m_pTransformManager)
+			m_pTransformManager->NotifyRecalculation();
 	}
 
 	void TransformComponent::SetAngle(const float angle) noexcept
@@ -98,6 +110,10 @@ namespace Integrian2D
 		m_LocalAngle = angle;
 
 		m_TransformChanged = true;
+		m_HasWorldDataChanged = true;
+
+		if (m_pTransformManager)
+			m_pTransformManager->NotifyRecalculation();
 	}
 
 	void TransformComponent::SetHasMoved(const bool hasMoved) noexcept
