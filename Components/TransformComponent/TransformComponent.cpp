@@ -14,7 +14,7 @@ namespace Integrian2D
 		, m_LocalScale{ 1.f, 1.f }
 		, m_LocalAngle{}
 		, m_pTransformManager{}
-		, m_WorldScale{}
+		, m_WorldScale{ 1.f, 1.f }
 		, m_WorldAngle{}
 	{
 		const Matrix3x3 translationMatrix{ GetIdentityMatrix<3,3,float>() };
@@ -225,12 +225,11 @@ namespace Integrian2D
 
 				/* Add the parents local position to our new world position */
 				worldPosition += pParent->pTransform->GetLocalPosition();
-				worldScale += pParent->pTransform->GetLocalScale();
-				worldAngle += pParent->pTransform->GetLocalAngle();
 
-				/* As soon as we reach the root, add the world position */
-				// if (!pParent->GetParent())
-				// 	worldPosition += pParent->pTransform->GetLocalPosition();
+				Point2f localScale{ pParent->pTransform->GetLocalScale() };
+				worldScale = Point2f{ worldScale.x * localScale.x, worldScale.y * localScale.y };
+				
+				worldAngle += pParent->pTransform->GetLocalAngle();
 
 				/* Set the new parent */
 				pParent = pParent->GetParent();
