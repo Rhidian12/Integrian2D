@@ -22,7 +22,10 @@ public:
 		: Scene{ name }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
 		, m_pGameObject2{ new Integrian2D::GameObject{} }
-	{}
+	{
+		Integrian2D::TextureManager::GetInstance()->AddTexture("Dino", new Integrian2D::Texture{ "dinoHappy.png" });
+		Integrian2D::TextureManager::GetInstance()->AddTexture("Kat", new Integrian2D::Texture{ "katHappy.png" });
+	}
 
 	virtual void Start() override
 	{
@@ -85,6 +88,9 @@ public:
 				}
 			} });*/
 
+		m_pGameObject->AddComponent(new TextureComponent{m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino")});
+		m_pGameObject2->AddComponent(new TextureComponent{m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat")});
+
 		m_pGameObject->AddChild(m_pGameObject2);
 
 		AddGameObject("Test1", m_pGameObject);
@@ -132,6 +138,26 @@ public:
 			{
 				m_pGameObject2->pTransform->Translate(Vector2f{ 5.f, 0.f });
 			}, State::OnHeld);
+
+		inputManager.AddCommand(GameInput{ KeyboardInput::T }, [this]()
+			{
+				m_pGameObject->pTransform->Scale(Point2f{ -1.f, -1.f });
+			}, State::OnRelease);
+
+		inputManager.AddCommand(GameInput{ KeyboardInput::Y }, [this]()
+			{
+				m_pGameObject->pTransform->Scale(Point2f{ 1.f, 1.f });
+			}, State::OnRelease);
+
+		inputManager.AddCommand(GameInput{ KeyboardInput::G }, [this]()
+			{
+				m_pGameObject2->pTransform->Scale(Point2f{ -1.f, -1.f });
+			}, State::OnRelease);
+
+		inputManager.AddCommand(GameInput{ KeyboardInput::H }, [this]()
+			{
+				m_pGameObject2->pTransform->Scale(Point2f{ 1.f, 1.f });
+			}, State::OnRelease);
 	}
 
 	virtual void Render() const override
@@ -140,8 +166,8 @@ public:
 
 		//Renderer::GetInstance()->RenderRectangle(Rectf{ Point2f{}, 640.f, 20.f });
 
-		Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 255, 0, 0 });
-		Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 0, 255, 0 });
+		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 255, 0, 0 });
+		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 0, 255, 0 });
 	}
 
 	Integrian2D::GameObject* m_pGameObject;

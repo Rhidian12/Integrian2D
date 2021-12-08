@@ -31,6 +31,7 @@ namespace Integrian2D
 	Component* TransformComponent::Clone(GameObject* pOwner) noexcept
 	{
 		TransformComponent* pTransform{ new TransformComponent{pOwner} };
+
 		pTransform->m_LocalScale = m_LocalScale;
 		pTransform->m_LocalAngle = m_LocalAngle;
 		pTransform->m_TransformChanged = m_TransformChanged;
@@ -123,10 +124,6 @@ namespace Integrian2D
 
 	const Point2f& TransformComponent::GetWorldPosition() const noexcept
 	{
-		// if (m_HasWorldPositionChanged)
-		// 	if (m_pTransformManager)
-		// 		m_pTransformManager->ForceImmediateRecalculation(this);
-
 		return m_WorldPosition;
 	}
 
