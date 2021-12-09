@@ -244,7 +244,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="EventQueue\EventQueue.h" />
     <ClInclude Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.h" />
     <ClInclude Include="IListener\IListener.h" />
-    <ClInclude Include="Input\Axis\InputAxis.h" />
+    <ClInclude Include="Input\InputAxis\InputAxis.h" />
     <ClInclude Include="Iterator\Iterator.h" />
     <ClInclude Include="Math\BetterUint8.h" />
     <ClInclude Include="Math\Circle.h" />
