@@ -129,9 +129,6 @@
     <ClCompile Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Command\Command.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -314,7 +311,7 @@
     <ClInclude Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input\Command\Command.h">
+    <ClInclude Include="Input\Axis\Axis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
