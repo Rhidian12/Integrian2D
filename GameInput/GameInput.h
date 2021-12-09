@@ -54,4 +54,14 @@ namespace Integrian2D
 		/* Internal Usage, TODO: Look into this? Is it actually being used? */
 		uint64_t id{ Utils::RandomNumber(uint64_t(0), std::numeric_limits<uint64_t>::max()) };
 	};
+
+	inline bool operator==(const GameInput& a, const GameInput& b) noexcept
+	{
+		return a.id == b.id;
+	}
+
+	inline bool operator!=(const GameInput& a, const GameInput& b) noexcept
+	{
+		return a.id != b.id;
+	}
 }
