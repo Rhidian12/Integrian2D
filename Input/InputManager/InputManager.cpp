@@ -12,7 +12,7 @@ namespace Integrian2D
 		int x{}, y{};
 		const Uint32 mouseState = SDL_GetMouseState(&x, &y);
 
-		//m_MousePosition = Point2f{ float(x),float(m_WindowHeight - y) };
+		m_MousePosition = Point2f{ static_cast<float>(x), static_cast<float>(m_WindowHeight - y) };
 
 		m_AmountOfControllers = uint8_t(SDL_NumJoysticks()); // check if controllers have been added / removed
 
@@ -77,6 +77,60 @@ namespace Integrian2D
 		m_Mouse.m_MouseCommands.clear();
 	}
 
+	void InputManager::AddAxis(const InputAxis& inputAxis) noexcept
+	{
+		if (std::find(m_Axis.cbegin(), m_Axis.cend(), inputAxis) == m_Axis.cend())
+			m_Axis.push_back(inputAxis);
+	}
+
+	int8_t InputManager::GetAxis(const std::string& axisName, const uint8_t playerIndex)
+	{
+		const auto cIt{ std::find_if(m_Axis.cbegin(), m_Axis.cend(), [&axisName](const InputAxis& i)->bool
+			{
+				return i.axis == axisName;
+			}) };
+
+		ASSERT(cIt != m_Axis.cend(), "InputManager::GetAxis() > The provided axis name has not been added!");
+
+		if (cIt != m_Axis.cend())
+		{
+			int8_t output{};
+
+			/* first check all positive inputs */
+
+			if (cIt->positiveInput.controllerInput != ControllerInput::INVALID)
+				if (IsControllerButtonPressed(cIt->positiveInput.controllerInput, playerIndex))
+					output += 1;
+
+			if (cIt->positiveInput.keyboardInput != KeyboardInput::INVALID)
+				if (IsKeyboardKeyPressed(cIt->positiveInput.keyboardInput))
+					output += 1;
+
+			if (cIt->positiveInput.mouseButton != MouseButton::INVALID)
+				if (IsMouseButtonPressed(cIt->positiveInput.mouseButton))
+					output += 1;
+
+			/* then check all negative inputs */
+
+			if (cIt->negativeInput.controllerInput != ControllerInput::INVALID)
+				if (IsControllerButtonPressed(cIt->negativeInput.controllerInput, playerIndex))
+					output -= 1;
+
+			if (cIt->negativeInput.keyboardInput != KeyboardInput::INVALID)
+				if (IsKeyboardKeyPressed(cIt->negativeInput.keyboardInput))
+					output -= 1;
+
+			if (cIt->negativeInput.mouseButton != MouseButton::INVALID)
+				if (IsMouseButtonPressed(cIt->negativeInput.mouseButton))
+					output -= 1;
+
+			/* Clamp the final result to [-1, 1] */
+			Utils::Clamp(output, static_cast<int8_t>(-1), static_cast <int8_t>(1));
+
+			return output;
+		}
+	}
+
 	bool InputManager::IsKeyboardKeyPressed(const KeyboardInput gameInput) const noexcept
 	{
 		return m_Keyboard.IsPressed(gameInput);
@@ -95,7 +149,6 @@ namespace Integrian2D
 	const KeyboardInput InputManager::GetWhichKeyIsPressed() const noexcept
 	{
 		return m_Keyboard.GetWhichKeyIsPressed();
-
 	}
 
 	const Point2f& InputManager::GetMousePosition() const noexcept
@@ -160,6 +213,7 @@ namespace Integrian2D
 		, m_Controllers{}
 		, m_Keyboard{}
 		, m_Mouse{}
+		, m_Axis{}
 	{
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
 			m_Controllers[i] = std::move(GameController{ uint8_t(i) });

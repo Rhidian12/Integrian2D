@@ -4,12 +4,13 @@
 #include "../Keyboard/Keyboard.h"
 #include "../GameController/GameController.h"
 #include "../../Math/TypeDefines.h"
+#include "../InputAxis/InputAxis.h"
 
 #include <array>
+#include <vector>
 
 namespace Integrian2D
 {
-	/* TODO: Make an actual Command class */
 	class InputManager final
 	{
 	public:
@@ -30,6 +31,14 @@ namespace Integrian2D
 
 		/* Remove all Commands from the InputManager */
 		void RemoveAllCommands() noexcept;
+
+		/* Add a new Axis to the InputManager */
+		void AddAxis(const InputAxis& inputAxis) noexcept;
+
+		/* If the Axis' positive input is pressed, this function returns 1
+			if the Axis' negative input is pressed, this function returns -1
+			if the Axis' both inputs are pressed, this function returns 0 */
+		int8_t GetAxis(const std::string& axisName, const uint8_t playerIndex = 0);
 
 		/* Returns whether a keyboard key is pressed now */
 		bool IsKeyboardKeyPressed(const KeyboardInput gameInput) const noexcept;
@@ -85,6 +94,8 @@ namespace Integrian2D
 		uint32_t m_WindowHeight;
 		uint8_t m_AmountOfControllers;
 		inline static constexpr uint8_t m_MaxAmountOfControllers{ 4 };
+
+		std::vector<InputAxis> m_Axis;
 
 		std::array<GameController, m_MaxAmountOfControllers> m_Controllers;
 		Keyboard m_Keyboard;
