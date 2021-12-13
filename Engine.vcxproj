@@ -204,6 +204,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
     <ClCompile Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.cpp" />
+    <ClCompile Include="GameInput\GameInput.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
     <ClCompile Include="Iterator\Iterator.cpp" />
     <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp" />

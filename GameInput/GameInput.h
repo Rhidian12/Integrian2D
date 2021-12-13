@@ -20,39 +20,26 @@ namespace Integrian2D
 	/* Interal Usage */
 	struct CommandAndButton final
 	{
-		CommandAndButton(Command* const pCommand, const State wantedKeystate)
-			: pCommand{ pCommand }
-			, wantedKeystate{ wantedKeystate }
-			, previousKeystate{ State::NotPressed }
-		{
-		}
+		CommandAndButton(Command* const pCommand, const State wantedKeystate);
 
 		Command* pCommand;
 		State wantedKeystate;
 		State previousKeystate;
 	};
 
-	/* Used by the InputManager to represent user input, either controller, mouse or keyboard input*/
+	/* Used by the InputManager to represent user input, either controller, mouse or keyboard input */
 	struct GameInput final
 	{
-		explicit GameInput(const ControllerInput controllerInput)
-			: controllerInput{ controllerInput }
-		{
-		}
-		explicit GameInput(const KeyboardInput keyboardInput)
-			: keyboardInput{ keyboardInput }
-		{
-		}
-		explicit GameInput(const MouseButton mouseButton)
-			: mouseButton{ mouseButton }
-		{
-		}
+		explicit GameInput() = default;
+		explicit GameInput(const ControllerInput controllerInput);
+		explicit GameInput(const KeyboardInput keyboardInput);
+		explicit GameInput(const MouseButton mouseButton);
 
 		ControllerInput controllerInput{ ControllerInput::INVALID };
 		KeyboardInput keyboardInput{ KeyboardInput::INVALID };
 		MouseButton mouseButton{ MouseButton::INVALID };
 
-		/* Internal Usage, TODO: Look into this? Is it actually being used? */
+		/* Internal Usage, TODO: Make sure the ID is never the same */
 		uint64_t id{ Utils::RandomNumber(uint64_t(0), std::numeric_limits<uint64_t>::max()) };
 	};
 
