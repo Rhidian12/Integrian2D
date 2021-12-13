@@ -17,11 +17,6 @@ namespace Integrian2D
 	{
 		Utils::SafeDelete(m_pInstance);
 	}
-
-	InputManager* const Locator::GetInputManager() const noexcept
-	{
-		return &SceneManager::GetInstance()->GetActiveScene()->inputManager;
-	}
 	
 	EventQueue* const Locator::GetEventQueue() const noexcept
 	{

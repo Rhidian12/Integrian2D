@@ -2,7 +2,6 @@
 
 namespace Integrian2D
 {
-	class InputManager;
 	class EventQueue;
 
 	/* This class can be used to get access to Scene-specific classes in a Singleton-manner */
@@ -15,7 +14,6 @@ namespace Integrian2D
 		/* Internal Usage */
 		static void Cleanup() noexcept;
 
-		InputManager* const GetInputManager() const noexcept;
 		EventQueue* const GetEventQueue() const noexcept;
 
 	private:

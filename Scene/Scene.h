@@ -74,7 +74,6 @@ namespace Integrian2D
 		bool IsSceneActive() const noexcept;
 
 	protected:
-		InputManager inputManager{};
 		EventQueue eventQueue{};
 
 	private:
