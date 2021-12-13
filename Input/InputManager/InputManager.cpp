@@ -15,7 +15,7 @@ namespace Integrian2D
 		m_pKeyboard->Cleanup();
 		m_pMouse->Cleanup();
 
-		for (uint32_t i{}; i < m_MaxAmountOfControllers; ++i)
+		for (uint8_t i{}; i < m_MaxAmountOfControllers; ++i)
 			m_pControllers[i]->Cleanup(i);
 	}
 
@@ -57,7 +57,7 @@ namespace Integrian2D
 		m_pKeyboard->ExecuteCommands();
 		m_pMouse->ExecuteCommands();
 
-		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i]->ExecuteCommands(i);
 	}
 
@@ -200,7 +200,7 @@ namespace Integrian2D
 	{
 		m_pKeyboard->ResetInputs();
 		m_pMouse->ResetInputs();
-		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i]->ResetInputs();
 	}
 
@@ -208,7 +208,7 @@ namespace Integrian2D
 	{
 		m_pKeyboard->Activate();
 		m_pMouse->Activate();
-		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i]->Activate(i);
 	}
 
@@ -216,7 +216,7 @@ namespace Integrian2D
 	{
 		m_pKeyboard->Deactivate();
 		m_pMouse->Deactivate();
-		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i]->Deactivate(i);
 	}
 
@@ -230,7 +230,7 @@ namespace Integrian2D
 		, m_pMouse{ Mouse::CreateMouse() }
 		, m_Axis{}
 	{
-		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
+		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i] = GameController::CreateGameController(i);
 	}
 }
