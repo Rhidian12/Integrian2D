@@ -24,6 +24,7 @@ namespace Integrian2D
 		const std::vector<CommandAndButton>& GetCommands() const noexcept;
 
 		void RemoveCommand(Command* const pCommand) noexcept;
+		void RemoveAllCommands() noexcept;
 
 		void ResetInputs() noexcept;
 

@@ -73,11 +73,11 @@ namespace Integrian2D
 	void InputManager::RemoveAllCommands() noexcept
 	{
 		for (uint8_t i{}; i < 4; ++i)
-			m_pControllers[i].m_pCommands.clear();
+			m_pControllers[i]->RemoveAllCommands();
 
-		m_pKeyboard->m_KeyboardCommands.clear();
+		m_pKeyboard->RemoveAllCommands();
 
-		m_pMouse->m_MouseCommands.clear();
+		m_pMouse->RemoveAllCommands();
 	}
 
 	void InputManager::AddAxis(const InputAxis& inputAxis) noexcept

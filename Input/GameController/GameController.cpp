@@ -153,6 +153,11 @@ namespace Integrian2D
 		m_Commands.erase(std::remove(m_Commands.begin(), m_Commands.end(), pCommand), m_Commands.end());
 	}
 
+	void GameController::RemoveAllCommands() noexcept
+	{
+		m_Commands.clear();
+	}
+
 	void GameController::ResetInputs() noexcept
 	{
 		for (CommandAndButton& commandAndButton : m_Commands)

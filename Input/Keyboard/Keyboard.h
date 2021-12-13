@@ -38,6 +38,7 @@ namespace Integrian2D
 		KeyboardInput GetWhichKeyIsPressed() const noexcept;
 
 		void RemoveCommand(Command* const pCommand) noexcept;
+		void RemoveAllCommands() noexcept;
 
 		bool m_IsActive{ true };
 		inline static Keyboard* m_pInstance{};
