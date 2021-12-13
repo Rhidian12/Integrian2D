@@ -36,13 +36,13 @@ namespace Integrian2D
 		m_pMouse->ExecuteCommands();
 
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
-			m_Controllers[i].ExecuteCommands();
+			m_pControllers[i]->ExecuteCommands(i);
 	}
 
 	void InputManager::AddCommand(const GameInput& gameInput, Command* const pCommand, const State keyState, const uint8_t controllerIndex) noexcept
 	{
 		if (gameInput.controllerInput != ControllerInput::INVALID)
-			m_Controllers[controllerIndex].AddCommand(gameInput.controllerInput, keyState, pCommand);
+			m_pControllers[controllerIndex]->AddCommand(gameInput.controllerInput, keyState, pCommand);
 
 		if (gameInput.mouseButton != MouseButton::INVALID)
 			m_pMouse->AddCommand(gameInput.mouseButton, keyState, pCommand);
@@ -60,20 +60,20 @@ namespace Integrian2D
 			m_pKeyboard->RemoveCommand(pCommand);
 
 		else
-			m_Controllers[controllerIndex].RemoveCommand(pCommand);
+			m_pControllers[controllerIndex]->RemoveCommand(pCommand);
 	}
 
 	void InputManager::RemoveCommand(Command* const pCommand, const uint8_t controllerIndex) noexcept
 	{
 		m_pMouse->RemoveCommand(pCommand);
 		m_pKeyboard->RemoveCommand(pCommand);
-		m_Controllers[controllerIndex].RemoveCommand(pCommand);
+		m_pControllers[controllerIndex]->RemoveCommand(pCommand);
 	}
 
 	void InputManager::RemoveAllCommands() noexcept
 	{
 		for (uint8_t i{}; i < 4; ++i)
-			m_Controllers[i].m_pCommands.clear();
+			m_pControllers[i].m_pCommands.clear();
 
 		m_pKeyboard->m_KeyboardCommands.clear();
 
@@ -143,7 +143,7 @@ namespace Integrian2D
 
 	bool InputManager::IsControllerButtonPressed(const ControllerInput gameInput, const uint8_t playerIndex) const noexcept
 	{
-		return m_Controllers[playerIndex].IsPressed(gameInput);
+		return m_pControllers[playerIndex]->IsPressed(gameInput, playerIndex);
 	}
 
 	bool InputManager::IsMouseButtonPressed(const MouseButton gameInput) const noexcept
@@ -163,12 +163,12 @@ namespace Integrian2D
 
 	double InputManager::GetJoystickMovement(const ControllerInput axis, const uint8_t playerIndex) const noexcept
 	{
-		return m_Controllers[playerIndex].GetJoystickMovement(axis);
+		return m_pControllers[playerIndex]->GetJoystickMovement(axis, playerIndex);
 	}
 
 	double InputManager::GetTriggerMovement(const ControllerInput axis, const uint8_t playerIndex) const noexcept
 	{
-		return m_Controllers[playerIndex].GetTriggerMovement(axis);
+		return m_pControllers[playerIndex]->GetTriggerMovement(axis, playerIndex);
 	}
 
 	const std::vector<CommandAndButton>& InputManager::GetKeyboardCommands() const noexcept
@@ -181,9 +181,9 @@ namespace Integrian2D
 		return m_pMouse->GetCommands();
 	}
 
-	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& InputManager::GetControllerCommands(const uint8_t index) const noexcept
+	const std::vector<CommandAndButton>& InputManager::GetControllerCommands(const uint8_t index) const noexcept
 	{
-		return m_Controllers[index].m_pCommands;
+		return m_pControllers[index]->GetCommands();
 	}
 
 	void InputManager::ResetInputs() noexcept
@@ -191,7 +191,7 @@ namespace Integrian2D
 		m_pKeyboard->ResetInputs();
 		m_pMouse->ResetInputs();
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
-			m_Controllers[i].ResetInputs();
+			m_pControllers[i]->ResetInputs();
 	}
 
 	void InputManager::Activate() noexcept
@@ -199,7 +199,7 @@ namespace Integrian2D
 		m_pKeyboard->Activate();
 		m_pMouse->Activate();
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
-			m_Controllers[i].Activate();
+			m_pControllers[i]->Activate(i);
 	}
 
 	void InputManager::Deactivate() noexcept
@@ -207,7 +207,7 @@ namespace Integrian2D
 		m_pKeyboard->Deactivate();
 		m_pMouse->Deactivate();
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
-			m_Controllers[i].Deactivate();
+			m_pControllers[i]->Deactivate(i);
 	}
 
 	InputManager::InputManager()
@@ -215,12 +215,12 @@ namespace Integrian2D
 		, m_WindowWidth{}
 		, m_WindowHeight{}
 		, m_AmountOfControllers{ uint8_t(SDL_NumJoysticks()) }
-		, m_Controllers{}
+		, m_pControllers{}
 		, m_pKeyboard{ Keyboard::CreateKeyboard() }
 		, m_pMouse{ Mouse::CreateMouse() }
 		, m_Axis{}
 	{
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
-			m_Controllers[i] = std::move(GameController{ uint8_t(i) });
+			m_pControllers[i] = GameController::CreateGameController(i);
 	}
 }

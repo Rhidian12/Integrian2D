@@ -1,109 +1,95 @@
 #include "GameController.h" // header
 #include "../../Logger/Logger.h" // Logger
 #include "../../Utils/Utils.h"
+#include "../../Command/Command.h"
 
 namespace Integrian2D
 {
 	GameController::GameController(const uint8_t index)
-		: m_pCommands{}
-		, m_pSDLGameController{}
-		, m_Index{ index }
+		: m_Commands{}
 	{
 		if (SDL_IsGameController(index))
 		{
-			m_pSDLGameController = SDL_GameControllerOpen(index);
+			m_pSDLGameControllers[index] = SDL_GameControllerOpen(index);
 
-			if (!m_pSDLGameController)
+			if (!m_pSDLGameControllers[index])
 				Logger::LogError("Error in controller: " + std::to_string(index) + "\n" + SDL_GetError());
 		}
 	}
 
-	GameController::GameController(GameController&& other) noexcept
+	void GameController::Activate(const uint8_t index) noexcept
 	{
-		m_pCommands = other.m_pCommands;
-		m_pSDLGameController = other.m_pSDLGameController;
-		m_Index = other.m_Index;
-
-		other.m_pCommands.clear();
-		other.m_pSDLGameController = nullptr;
-	}
-
-	GameController& GameController::operator=(GameController&& other) noexcept
-	{
-		m_pCommands = other.m_pCommands;
-		m_pSDLGameController = other.m_pSDLGameController;
-		m_Index = other.m_Index;
-
-		other.m_pCommands.clear();
-		other.m_pSDLGameController = nullptr;
-
-		return *this;
-	}
-
-	void GameController::Activate() noexcept
-	{
-		if (SDL_IsGameController(m_Index))
+		if (SDL_IsGameController(index))
 		{
-			m_pSDLGameController = SDL_GameControllerOpen(m_Index);
+			m_pSDLGameControllers[index] = SDL_GameControllerOpen(index);
 
-			if (!m_pSDLGameController)
-				Logger::LogError("Error in controller: " + std::to_string(m_Index) + "\n" + SDL_GetError());
+			if (!m_pSDLGameControllers[index])
+				Logger::LogError("Error in controller: " + std::to_string(index) + "\n" + SDL_GetError());
 		}
 	}
 
-	void GameController::Deactivate() noexcept
+	void GameController::Deactivate(const uint8_t index) noexcept
 	{
-		if (m_pSDLGameController)
+		if (m_pSDLGameControllers[index])
 		{
-			SDL_GameControllerClose(m_pSDLGameController);
-			m_pSDLGameController = nullptr;
+			SDL_GameControllerClose(m_pSDLGameControllers[index]);
+			m_pSDLGameControllers[index] = nullptr;
 		}
+	}
+
+	GameController* GameController::CreateGameController(const uint8_t index) noexcept
+	{
+		ASSERT(m_pInstances[index] == nullptr, "GameController::CreateGameController() > Input Manager default creates controllers!");
+		return m_pInstances[index] = new GameController{ index };
+	}
+
+	void GameController::Cleanup() noexcept
+	{
+		for (int i{}; i < m_MaxAmountOfJoysticks; ++i)
+			Utils::SafeDelete(m_pInstances[i]);
 	}
 
 	GameController::~GameController()
 	{
-		// Below code SHOULD work, but does not work. Throws read access violations, even though this is the exact
-		// way SDL defines this
-	// TODO: figure out why this is happening
-		if (m_pSDLGameController)
+		for (int i{}; i < m_MaxAmountOfJoysticks; ++i)
 		{
-			SDL_GameControllerClose(m_pSDLGameController);
-			m_pSDLGameController = nullptr;
-		}
-
-		m_pCommands.clear();
-	}
-
-	void GameController::AddCommand(const ControllerInput controllerInput, const State keyState, const std::function<void()>& pCommand) noexcept
-	{
-		m_pCommands[controllerInput].push_back(CommandAndButton{ pCommand,keyState });
-	}
-
-	void GameController::ExecuteCommands() noexcept
-	{
-		for (std::pair<const ControllerInput, std::vector<CommandAndButton>>& commandPair : m_pCommands)
-		{
-			for (CommandAndButton& commandAndButton : commandPair.second)
+			if (m_pSDLGameControllers[i])
 			{
-				const State currentKeystate{ GetKeystate(commandPair.first, commandAndButton.previousKeystate) };
-				if (currentKeystate == commandAndButton.wantedKeystate)
-					commandAndButton.pCommand();
-
-				commandAndButton.previousKeystate = currentKeystate;
+				SDL_GameControllerClose(m_pSDLGameControllers[i]);
+				m_pSDLGameControllers[i] = nullptr;
 			}
 		}
+
+		m_Commands.clear();
 	}
 
-	bool GameController::IsPressed(const ControllerInput controllerInput) const noexcept
+	void GameController::AddCommand(const ControllerInput controllerInput, const State keyState, Command* const pCommand) noexcept
+	{
+		m_Commands.push_back(CommandAndButton{ pCommand,keyState,GameInput{ controllerInput } });
+	}
+
+	void GameController::ExecuteCommands(const uint8_t index) noexcept
+	{
+		for (CommandAndButton& commandButton : m_Commands)
+		{
+			const State currentKeystate{ GetKeystate(commandButton.gameInput.controllerInput, commandButton.previousKeystate, index) };
+			if (currentKeystate == commandButton.wantedKeystate)
+				commandButton.pCommand->Execute();
+
+			commandButton.previousKeystate = currentKeystate;
+		}
+	}
+
+	bool GameController::IsPressed(const ControllerInput controllerInput, const uint8_t index) const noexcept
 	{
 		if (controllerInput == ControllerInput::LeftTrigger)
-			return (SDL_GameControllerGetAxis(m_pSDLGameController, SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 0);
+			return (SDL_GameControllerGetAxis(m_pSDLGameControllers[index], SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 0);
 
 		if (controllerInput == ControllerInput::RightTrigger)
-			return (SDL_GameControllerGetAxis(m_pSDLGameController, SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0);
+			return (SDL_GameControllerGetAxis(m_pSDLGameControllers[index], SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0);
 
 		else
-			return (SDL_GameControllerGetButton(m_pSDLGameController, static_cast<SDL_GameControllerButton>(controllerInput)) > 0);
+			return (SDL_GameControllerGetButton(m_pSDLGameControllers[index], static_cast<SDL_GameControllerButton>(controllerInput)) > 0);
 	}
 
 	bool GameController::WasPressed(const State previousState) const noexcept
@@ -111,24 +97,24 @@ namespace Integrian2D
 		return (previousState == State::OnPress || previousState == State::OnHeld);
 	}
 
-	State GameController::GetKeystate(const ControllerInput controllerInput, const State previousState) const noexcept
+	State GameController::GetKeystate(const ControllerInput controllerInput, const State previousState, const uint8_t index) const noexcept
 	{
 		if (WasPressed(previousState))
 		{
-			if (IsPressed(controllerInput))
+			if (IsPressed(controllerInput, index))
 				return State::OnHeld;
 
 			else
 				return State::OnRelease;
 		}
 
-		if (IsPressed(controllerInput))
+		if (IsPressed(controllerInput, index))
 			return State::OnPress;
 
 		return State::NotPressed;
 	}
 
-	double GameController::GetJoystickMovement(const ControllerInput axis) const noexcept
+	double GameController::GetJoystickMovement(const ControllerInput axis, const uint8_t index) const noexcept
 	{
 		if (axis != ControllerInput::JoystickLeftHorizontalAxis && axis != ControllerInput::JoystickLeftVerticalAxis)
 		{
@@ -139,12 +125,12 @@ namespace Integrian2D
 			}
 		}
 
-		double movement{ static_cast<double>(SDL_GameControllerGetAxis(m_pSDLGameController, static_cast<SDL_GameControllerAxis>(axis)) / m_MaxJoystickValue) };
+		double movement{ static_cast<double>(SDL_GameControllerGetAxis(m_pSDLGameControllers[index], static_cast<SDL_GameControllerAxis>(axis)) / m_MaxJoystickValue) };
 		Utils::Clamp(movement, -1.0, 1.0); // map to [-1, 1]
 		return movement;
 	}
 
-	double GameController::GetTriggerMovement(const ControllerInput axis) const noexcept
+	double GameController::GetTriggerMovement(const ControllerInput axis, const uint8_t index) const noexcept
 	{
 		if (axis != ControllerInput::LeftTrigger && axis != ControllerInput::RightTrigger)
 		{
@@ -152,28 +138,24 @@ namespace Integrian2D
 			return 0.0;
 		}
 
-		double movement{ static_cast<double>(SDL_GameControllerGetAxis(m_pSDLGameController, static_cast<SDL_GameControllerAxis>(axis)) / m_MaxJoystickValue) };
+		double movement{ static_cast<double>(SDL_GameControllerGetAxis(m_pSDLGameControllers[index], static_cast<SDL_GameControllerAxis>(axis)) / m_MaxJoystickValue) };
 		Utils::Clamp(movement, 0.0, 1.0); // map to [-1, 1]
 		return movement;
 	}
 
-	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& GameController::GetCommands() const noexcept
+	const std::vector<CommandAndButton>& GameController::GetCommands() const noexcept
 	{
-		return m_pCommands;
+		return m_Commands;
 	}
 
-	void GameController::RemoveCommand(const std::function<void()>& pCommand) noexcept
+	void GameController::RemoveCommand(Command* const pCommand) noexcept
 	{
-		for (const CommandPair& commandPair : m_pCommands)
-			for (const CommandAndButton& commandAndButton : commandPair.second)
-				if (commandAndButton.pCommand.target_type().hash_code() == pCommand.target_type().hash_code())
-					m_pCommands.erase(commandPair.first);
+		m_Commands.erase(std::remove(m_Commands.begin(), m_Commands.end(), pCommand), m_Commands.end());
 	}
 
 	void GameController::ResetInputs() noexcept
 	{
-		for (std::pair<const ControllerInput, std::vector<CommandAndButton>>& commandPair : m_pCommands)
-			for (CommandAndButton& commandAndButton : commandPair.second)
-				commandAndButton.previousKeystate = State::NotPressed;
+		for (CommandAndButton& commandAndButton : m_Commands)
+			commandAndButton.previousKeystate = State::NotPressed;
 	}
 }

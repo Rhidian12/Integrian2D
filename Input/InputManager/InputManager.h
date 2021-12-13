@@ -8,6 +8,10 @@
 
 namespace Integrian2D
 {
+	class Mouse;
+	class Keyboard;
+	class GameController;
+
 	class InputManager final
 	{
 	public:
@@ -68,7 +72,7 @@ namespace Integrian2D
 		const std::vector<CommandAndButton>& GetMouseCommands() const noexcept;
 
 		/* Returns the map containing all inputs (with corresponding commands) linked to controller buttons */
-		const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& GetControllerCommands(const uint8_t index) const noexcept;
+		const std::vector<CommandAndButton>& GetControllerCommands(const uint8_t index) const noexcept;
 
 		/* Flush the Input states 
 		   After calling this function, all inputs will be set to NotPressed 
@@ -94,7 +98,7 @@ namespace Integrian2D
 
 		std::vector<InputAxis> m_Axis;
 
-		std::array<GameController, m_MaxAmountOfControllers> m_Controllers;
+		std::array<GameController*, m_MaxAmountOfControllers> m_pControllers;
 		Keyboard* m_pKeyboard;
 		Mouse* m_pMouse;
 	};
