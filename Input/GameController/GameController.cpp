@@ -149,7 +149,10 @@ namespace Integrian2D
 
 	void GameController::RemoveCommand(Command* const pCommand) noexcept
 	{
-		m_Commands.erase(std::remove(m_Commands.begin(), m_Commands.end(), pCommand), m_Commands.end());
+		m_Commands.erase(std::remove_if(m_Commands.begin(), m_Commands.end(), [pCommand](const CommandAndButton& c)
+			{
+				return pCommand == c.pCommand;
+			}), m_Commands.end());
 	}
 
 	void GameController::RemoveAllCommands() noexcept

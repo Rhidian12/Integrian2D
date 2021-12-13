@@ -106,7 +106,10 @@ namespace Integrian2D
 
 	void Keyboard::RemoveCommand(Command* const pCommand) noexcept
 	{
-		m_KeyboardCommands.erase(std::remove(m_KeyboardCommands.begin(), m_KeyboardCommands.end(), pCommand), m_KeyboardCommands.end());
+		m_KeyboardCommands.erase(std::remove(m_KeyboardCommands.begin(), m_KeyboardCommands.end(), [pCommand](const CommandAndButton& c)
+			{
+				return pCommand == c.pCommand;
+			}), m_KeyboardCommands.end());
 	}
 
 	void Keyboard::RemoveAllCommands() noexcept

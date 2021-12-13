@@ -85,7 +85,10 @@ namespace Integrian2D
 
 	void Mouse::RemoveCommand(Command* const pCommand) noexcept
 	{
-		m_MouseCommands.erase(std::remove(m_MouseCommands.begin(), m_MouseCommands.end(), pCommand), m_MouseCommands.end());
+		m_MouseCommands.erase(std::remove(m_MouseCommands.begin(), m_MouseCommands.end(), [pCommand](const CommandAndButton& c)
+			{
+				return pCommand == c.pCommand;
+			}), m_MouseCommands.end());
 	}
 
 	void Mouse::RemoveAllCommands() noexcept
