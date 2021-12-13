@@ -19,9 +19,9 @@ namespace Integrian2D
 
 		Keyboard() = default;
 		Keyboard(const Keyboard&) = delete;
-		Keyboard(Keyboard&& other) noexcept;
+		Keyboard(Keyboard&& other) = delete;
 		Keyboard& operator=(const Keyboard&) = delete;
-		Keyboard& operator=(Keyboard&& other) noexcept;
+		Keyboard& operator=(Keyboard&& other) = delete;
 
 		void Activate() noexcept;
 		void Deactivate() noexcept;

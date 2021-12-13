@@ -4,20 +4,6 @@
 
 namespace Integrian2D
 {
-	Keyboard::Keyboard(Keyboard&& other) noexcept
-	{
-		m_KeyboardCommands = other.m_KeyboardCommands;
-		other.m_KeyboardCommands.clear();
-	}
-
-	Keyboard& Keyboard::operator=(Keyboard&& other) noexcept
-	{
-		m_KeyboardCommands = other.m_KeyboardCommands;
-		other.m_KeyboardCommands.clear();
-
-		return *this;
-	}
-
 	void Keyboard::Activate() noexcept
 	{
 		m_IsActive = true;
