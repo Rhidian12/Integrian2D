@@ -143,6 +143,9 @@ public:
 		pInputManager->AddAxis(InputAxis{ "ChildVerticalMovement", GameInput{ KeyboardInput::ArrowUp }, GameInput{ KeyboardInput::ArrowDown } });
 		pInputManager->AddAxis(InputAxis{ "ChildHorizontalMovement", GameInput{ KeyboardInput::ArrowRight }, GameInput{ KeyboardInput::ArrowLeft } });
 
+		pInputManager->AddAxis(InputAxis{ "ParentRotation", GameInput{ KeyboardInput::I }, GameInput{ KeyboardInput::U } });
+		pInputManager->AddAxis(InputAxis{ "ChildRotation", GameInput{ KeyboardInput::L }, GameInput{ KeyboardInput::K } });
+
 		pInputManager->AddCommand(GameInput{ KeyboardInput::T }, new ScaleDownCommand{ this,m_pGameObject->pTransform }, State::OnRelease);
 		pInputManager->AddCommand(GameInput{ KeyboardInput::Y }, new ScaleUpCommand{ this,m_pGameObject->pTransform }, State::OnRelease);
 
@@ -167,6 +170,12 @@ public:
 
 		if (int8_t value = pInputManager->GetAxis("ChildHorizontalMovement") != 0)
 			m_pGameObject2->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
+
+		if (int8_t value = pInputManager->GetAxis("ParentRotation") != 0)
+			m_pGameObject->pTransform->Rotate(Utils::ToRadians(5.f) * value);
+
+		if (int8_t value = pInputManager->GetAxis("ChildRotation") != 0)
+			m_pGameObject2->pTransform->Rotate(Utils::ToRadians(5.f) * value);
 	}
 
 	Integrian2D::GameObject* m_pGameObject;
