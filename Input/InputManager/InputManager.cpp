@@ -170,12 +170,12 @@ namespace Integrian2D
 
 	const std::vector<CommandAndButton>& InputManager::GetKeyboardCommands() const noexcept
 	{
-		return m_Keyboard.m_KeyboardCommands;
+		return m_Keyboard.GetCommands();
 	}
 
-	const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& InputManager::GetMouseCommands() const noexcept
+	const std::vector<CommandAndButton>& InputManager::GetMouseCommands() const noexcept
 	{
-		return m_Mouse.m_MouseCommands;
+		return m_Mouse.GetCommands();
 	}
 
 	const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& InputManager::GetControllerCommands(const uint8_t index) const noexcept

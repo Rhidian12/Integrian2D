@@ -1,4 +1,5 @@
 #include "Mouse.h" // Header
+#include "../../Command/Command.h"
 
 namespace Integrian2D
 {
@@ -26,14 +27,27 @@ namespace Integrian2D
 		m_IsActive = false;
 	}
 
+	Mouse* const Mouse::GetInstance() noexcept
+	{
+		if (!m_pInstance)
+			m_pInstance = new Mouse{};
+
+		return m_pInstance;
+	}
+
+	void Mouse::Cleanup() noexcept
+	{
+		Utils::SafeDelete(m_pInstance);
+	}
+
 	Mouse::~Mouse()
 	{
 		m_MouseCommands.clear();
 	}
 
-	void Mouse::AddCommand(const MouseButton mouseButton, const State keyState, const std::function<void()>& pCommand) noexcept
+	void Mouse::AddCommand(const MouseButton mouseButton, const State keyState, Command* const pCommand) noexcept
 	{
-		m_MouseCommands[mouseButton].push_back(CommandAndButton{ pCommand,keyState });
+		m_MouseCommands.push_back(CommandAndButton{ pCommand,keyState,GameInput{ mouseButton } });
 	}
 
 	void Mouse::ExecuteCommands() noexcept
@@ -41,22 +55,19 @@ namespace Integrian2D
 		if (!m_IsActive)
 			return;
 
-		for (std::pair<const MouseButton, std::vector<CommandAndButton>>& commandPair : m_MouseCommands)
+		for (CommandAndButton& commandButton : m_MouseCommands)
 		{
-			for (CommandAndButton& commandAndButton : commandPair.second)
-			{
-				const State currentKeystate{ GetKeystate(commandPair.first, commandAndButton.previousKeystate) };
-				if (currentKeystate == commandAndButton.wantedKeystate)
-					commandAndButton.pCommand();
+				const State currentKeystate{ GetKeystate(commandButton.gameInput.mouseButton, commandButton.previousKeystate) };
+				if (currentKeystate == commandButton.wantedKeystate)
+					commandButton.pCommand->Execute();
 
-				commandAndButton.previousKeystate = currentKeystate;
-			}
+				commandButton.previousKeystate = currentKeystate;
 		}
 	}
 
 	bool Mouse::IsPressed(const MouseButton gameInput) const noexcept
 	{
-		return static_cast<std::underlying_type<MouseButton>::type>(gameInput) == SDL_GetMouseState(NULL, NULL);
+		return static_cast<std::underlying_type_t<MouseButton>>(gameInput) == SDL_GetMouseState(NULL, NULL);
 	}
 
 	bool Mouse::WasPressed(const State previousState) const noexcept
@@ -70,7 +81,6 @@ namespace Integrian2D
 		{
 			if (IsPressed(mouseButton))
 				return State::OnHeld;
-
 			else
 				return State::OnRelease;
 		}
@@ -81,23 +91,19 @@ namespace Integrian2D
 		return State::NotPressed;
 	}
 
-	const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& Mouse::GetCommands() const noexcept
+	const std::vector<CommandAndButton>& Mouse::GetCommands() const noexcept
 	{
 		return m_MouseCommands;
 	}
 
-	void Mouse::RemoveCommand(const std::function<void()>& pCommand) noexcept
+	void Mouse::RemoveCommand(Command* const pCommand) noexcept
 	{
-		for (const CommandPair& commandPair : m_MouseCommands)
-			for (const CommandAndButton& commandAndButton : commandPair.second)
-				if (commandAndButton.pCommand.target_type().hash_code() == pCommand.target_type().hash_code())
-					m_MouseCommands.erase(commandPair.first);
+		m_MouseCommands.erase(std::remove(m_MouseCommands.begin(), m_MouseCommands.end(), pCommand), m_MouseCommands.end());
 	}
 
 	void Mouse::ResetInputs() noexcept
 	{
-		for (std::pair<const MouseButton, std::vector<CommandAndButton>>& commandPair : m_MouseCommands)
-			for (CommandAndButton& commandAndButton : commandPair.second)
-				commandAndButton.previousKeystate = State::NotPressed;
+		for (CommandAndButton& commandButton : m_MouseCommands)
+			commandButton.previousKeystate = State::NotPressed;
 	}
 }

@@ -68,7 +68,7 @@ namespace Integrian2D
 		const std::vector<CommandAndButton>& GetKeyboardCommands() const noexcept;
 
 		/* Returns the map containing all inputs (with corresponding commands) linked to mouse buttons */
-		const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& GetMouseCommands() const noexcept;
+		const std::vector<CommandAndButton>& GetMouseCommands() const noexcept;
 
 		/* Returns the map containing all inputs (with corresponding commands) linked to controller buttons */
 		const std::unordered_map<ControllerInput, std::vector<CommandAndButton>>& GetControllerCommands(const uint8_t index) const noexcept;
