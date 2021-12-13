@@ -56,6 +56,7 @@ namespace Integrian2D
 		TextureManager::Cleanup();
 		Locator::Cleanup();
 		Timer::Cleanup();
+		InputManager::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
