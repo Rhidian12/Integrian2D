@@ -129,6 +129,8 @@ namespace Integrian2D
 
 			return output;
 		}
+		else
+			return static_cast<int8_t>(0);
 	}
 
 	bool InputManager::IsKeyboardKeyPressed(const KeyboardInput gameInput) const noexcept
