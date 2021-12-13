@@ -169,16 +169,6 @@ public:
 			m_pGameObject2->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
 	}
 
-	virtual void Render() const override
-	{
-		using namespace Integrian2D;
-
-		//Renderer::GetInstance()->RenderRectangle(Rectf{ Point2f{}, 640.f, 20.f });
-
-		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 255, 0, 0 });
-		//Renderer::GetInstance()->RenderRectangle(Rectf{ m_pGameObject2->pTransform->GetWorldPosition(), 10.f, 10.f }, RGBColour{ 0, 255, 0 });
-	}
-
 	Integrian2D::GameObject* m_pGameObject;
 	Integrian2D::GameObject* m_pGameObject2;
 };
