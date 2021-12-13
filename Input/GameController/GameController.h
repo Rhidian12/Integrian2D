@@ -13,7 +13,7 @@ namespace Integrian2D
 	{
 	public:
 		static GameController* CreateGameController(const uint8_t index) noexcept;
-		static void Cleanup() noexcept;
+		static void Cleanup(const uint8_t index) noexcept;
 		~GameController();
 
 		void Activate(const uint8_t index) noexcept;

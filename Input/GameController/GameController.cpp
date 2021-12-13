@@ -43,10 +43,9 @@ namespace Integrian2D
 		return m_pInstances[index] = new GameController{ index };
 	}
 
-	void GameController::Cleanup() noexcept
+	void GameController::Cleanup(const uint8_t index) noexcept
 	{
-		for (int i{}; i < m_MaxAmountOfJoysticks; ++i)
-			Utils::SafeDelete(m_pInstances[i]);
+		Utils::SafeDelete(m_pInstances[index]);
 	}
 
 	GameController::~GameController()

@@ -10,6 +10,28 @@ extern bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
+	InputManager::~InputManager()
+	{
+		m_pKeyboard->Cleanup();
+		m_pMouse->Cleanup();
+
+		for (uint32_t i{}; i < m_MaxAmountOfControllers; ++i)
+			m_pControllers[i]->Cleanup(i);
+	}
+
+	InputManager* const InputManager::GetInstance() noexcept
+	{
+		if (!m_pInstance)
+			m_pInstance = new InputManager{};
+
+		return m_pInstance;
+	}
+
+	void InputManager::Cleanup() noexcept
+	{
+		Utils::SafeDelete(m_pInstance);
+	}
+
 	void InputManager::HandleInput() noexcept
 	{
 		int x{}, y{};

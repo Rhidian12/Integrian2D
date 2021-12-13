@@ -15,6 +15,14 @@ namespace Integrian2D
 	class InputManager final
 	{
 	public:
+		~InputManager();
+
+		/* Get an InputManager instance */
+		static InputManager* const GetInstance() noexcept;
+		
+		/* Interal usage */
+		static void Cleanup() noexcept;
+
 		/*
 		This function gets called in Core::Run() every frame.
 		All input gets processed, and commands linked to those inputs get executed
@@ -83,8 +91,6 @@ namespace Integrian2D
 		void Deactivate() noexcept;
 
 	private:
-		friend class Scene;
-
 		InputManager();
 
 		Point2f m_MousePosition;
@@ -98,6 +104,8 @@ namespace Integrian2D
 		std::array<GameController*, m_MaxAmountOfControllers> m_pControllers;
 		Keyboard* m_pKeyboard;
 		Mouse* m_pMouse;
+
+		inline static InputManager* m_pInstance{};
 	};
 }
 
