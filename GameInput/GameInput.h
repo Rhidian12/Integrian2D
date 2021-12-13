@@ -17,16 +17,6 @@ namespace Integrian2D
 
 	class Command;
 
-	/* Interal Usage */
-	struct CommandAndButton final
-	{
-		CommandAndButton(Command* const pCommand, const State wantedKeystate);
-
-		Command* pCommand;
-		State wantedKeystate;
-		State previousKeystate;
-	};
-
 	/* Used by the InputManager to represent user input, either controller, mouse or keyboard input */
 	struct GameInput final
 	{
@@ -41,6 +31,17 @@ namespace Integrian2D
 
 		/* Internal Usage, TODO: Make sure the ID is never the same */
 		uint64_t id{ Utils::RandomNumber(uint64_t(0), std::numeric_limits<uint64_t>::max()) };
+	};
+
+	/* Interal Usage */
+	struct CommandAndButton final
+	{
+		CommandAndButton(Command* const pCommand, const State wantedKeystate, const GameInput gameInput);
+
+		Command* pCommand;
+		State wantedKeystate;
+		State previousKeystate;
+		GameInput m_GameInput;
 	};
 
 	inline bool operator==(const GameInput& a, const GameInput& b) noexcept

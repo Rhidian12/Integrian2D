@@ -2,12 +2,12 @@
 
 namespace Integrian2D
 {
-	CommandAndButton::CommandAndButton(Command* const pCommand, const State wantedKeystate)
+	CommandAndButton::CommandAndButton(Command* const pCommand, const State wantedKeystate, const GameInput gameInput)
 		: pCommand{ pCommand }
 		, wantedKeystate{ wantedKeystate }
 		, previousKeystate{ State::NotPressed }
-	{
-	}
+		, m_GameInput{ gameInput }
+	{}
 
 	GameInput::GameInput(const ControllerInput controllerInput)
 		: controllerInput{ controllerInput }
