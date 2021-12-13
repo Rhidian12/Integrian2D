@@ -28,6 +28,20 @@ namespace Integrian2D
 		m_IsActive = false;
 	}
 
+	Keyboard* Keyboard::CreateKeyboard() noexcept
+	{
+		ASSERT(m_pInstance == nullptr, "Keyboard::CreateKeyboard() > The Input Manager default creates a Keyboard!");
+
+		m_pInstance = new Keyboard{};
+
+		return m_pInstance;
+	}
+
+	void Keyboard::Cleanup() noexcept
+	{
+		Utils::SafeDelete(m_pInstance);
+	}
+
 	Keyboard::~Keyboard()
 	{
 		m_KeyboardCommands.clear();

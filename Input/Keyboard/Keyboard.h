@@ -10,6 +10,8 @@ namespace Integrian2D
 	class Keyboard final
 	{
 	public:
+		static Keyboard* CreateKeyboard() noexcept;
+		static void Cleanup() noexcept;
 		~Keyboard();
 
 	private:
@@ -38,6 +40,7 @@ namespace Integrian2D
 		void RemoveCommand(Command* const pCommand) noexcept;
 
 		bool m_IsActive{ true };
+		inline static Keyboard* m_pInstance{};
 		std::vector<CommandAndButton> m_KeyboardCommands{};
 	};
 }

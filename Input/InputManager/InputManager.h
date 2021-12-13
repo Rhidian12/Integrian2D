@@ -1,8 +1,5 @@
 #pragma once
 
-#include "../Mouse/Mouse.h"
-#include "../Keyboard/Keyboard.h"
-#include "../GameController/GameController.h"
 #include "../../Math/TypeDefines.h"
 #include "../InputAxis/InputAxis.h"
 
@@ -98,7 +95,7 @@ namespace Integrian2D
 		std::vector<InputAxis> m_Axis;
 
 		std::array<GameController, m_MaxAmountOfControllers> m_Controllers;
-		Keyboard m_Keyboard;
+		Keyboard* m_pKeyboard;
 		Mouse* m_pMouse;
 	};
 }
