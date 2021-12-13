@@ -13,8 +13,44 @@
 #include "AI/AIComponent/AIComponent.h"
 #include "AI/Blackboard/Blackboard.h"
 #include "AI/DecisionMaking/BehaviourTree/BehaviourTree.h"
+#include "Command/Command.h"
 
 #include <string>
+
+class ScaleUpCommand final : public Integrian2D::Command
+{
+public:
+	ScaleUpCommand(Integrian2D::Scene* const pScene, Integrian2D::TransformComponent* const pTransform)
+		: Command{ pScene }
+		, m_pTransform{ pTransform }
+	{}
+
+	virtual void Execute() override
+	{
+		m_pTransform->Scale(Integrian2D::Point2f{ 1.f, 1.f });
+	}
+
+private:
+	Integrian2D::TransformComponent* m_pTransform;
+};
+
+class ScaleDownCommand final : public Integrian2D::Command
+{
+public:
+	ScaleDownCommand(Integrian2D::Scene* const pScene, Integrian2D::TransformComponent* const pTransform)
+		: Command{ pScene }
+		, m_pTransform{ pTransform }
+	{}
+
+	virtual void Execute() override
+	{
+		m_pTransform->Scale(Integrian2D::Point2f{ -1.f, -1.f });
+	}
+
+private:
+	Integrian2D::TransformComponent* m_pTransform;
+};
+
 class TestScene final : public Integrian2D::Scene
 {
 public:
@@ -88,8 +124,8 @@ public:
 				}
 			} });*/
 
-		m_pGameObject->AddComponent(new TextureComponent{m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino")});
-		m_pGameObject2->AddComponent(new TextureComponent{m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat")});
+		m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino") });
+		m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat") });
 
 		m_pGameObject->AddChild(m_pGameObject2);
 
@@ -99,65 +135,38 @@ public:
 		m_pGameObject->SetTag("Parent");
 		m_pGameObject2->SetTag("Child");
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::W }, [this]()
-			{
-				m_pGameObject->pTransform->Translate(Vector2f{ 0.f, 5.f });
-			}, State::OnHeld);
+		InputManager* const pInputManager{ InputManager::GetInstance() };
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::A }, [this]()
-			{
-				m_pGameObject->pTransform->Translate(Vector2f{ -5.f, 0.f });
-			}, State::OnHeld);
+		pInputManager->AddAxis(InputAxis{ "ParentVerticalMovement", GameInput{ KeyboardInput::W }, GameInput{ KeyboardInput::S } });
+		pInputManager->AddAxis(InputAxis{ "ParentHorizontalMovement", GameInput{ KeyboardInput::D }, GameInput{ KeyboardInput::A } });
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::S }, [this]()
-			{
-				m_pGameObject->pTransform->Translate(Vector2f{ 0.f, -5.f });
-			}, State::OnHeld);
+		pInputManager->AddAxis(InputAxis{ "ChildVerticalMovement", GameInput{ KeyboardInput::ArrowUp }, GameInput{ KeyboardInput::ArrowDown } });
+		pInputManager->AddAxis(InputAxis{ "ChildHorizontalMovement", GameInput{ KeyboardInput::ArrowRight }, GameInput{ KeyboardInput::ArrowLeft } });
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::D }, [this]()
-			{
-				m_pGameObject->pTransform->Translate(Vector2f{ 5.f, 0.f });
-			}, State::OnHeld);
+		pInputManager->AddCommand(GameInput{ KeyboardInput::T }, new ScaleDownCommand{ this,m_pGameObject->pTransform }, State::OnRelease);
+		pInputManager->AddCommand(GameInput{ KeyboardInput::Y }, new ScaleUpCommand{ this,m_pGameObject->pTransform }, State::OnRelease);
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowUp }, [this]()
-			{
-				m_pGameObject2->pTransform->Translate(Vector2f{ 0.f, 5.f });
-			}, State::OnHeld);
+		pInputManager->AddCommand(GameInput{ KeyboardInput::G }, new ScaleDownCommand{ this,m_pGameObject2->pTransform }, State::OnRelease);
+		pInputManager->AddCommand(GameInput{ KeyboardInput::H }, new ScaleUpCommand{ this,m_pGameObject2->pTransform }, State::OnRelease);
+	}
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowLeft }, [this]()
-			{
-				m_pGameObject2->pTransform->Translate(Vector2f{ -5.f, 0.f });
-			}, State::OnHeld);
+	virtual void Update() override
+	{
+		using namespace Integrian2D;
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowDown }, [this]()
-			{
-				m_pGameObject2->pTransform->Translate(Vector2f{ 0.f, -5.f });
-			}, State::OnHeld);
+		InputManager* const pInputManager{ InputManager::GetInstance() };
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::ArrowRight }, [this]()
-			{
-				m_pGameObject2->pTransform->Translate(Vector2f{ 5.f, 0.f });
-			}, State::OnHeld);
+		if (int8_t value = pInputManager->GetAxis("ParentVerticalMovement") != 0)
+			m_pGameObject->pTransform->Translate(Vector2f{ 0.f, 5.f * value });
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::T }, [this]()
-			{
-				m_pGameObject->pTransform->Scale(Point2f{ -1.f, -1.f });
-			}, State::OnRelease);
+		if (int8_t value = pInputManager->GetAxis("ParentHorizontalMovement") != 0)
+			m_pGameObject->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::Y }, [this]()
-			{
-				m_pGameObject->pTransform->Scale(Point2f{ 1.f, 1.f });
-			}, State::OnRelease);
+		if (int8_t value = pInputManager->GetAxis("ChildVerticalMovement") != 0)
+			m_pGameObject2->pTransform->Translate(Vector2f{ 0.f, 5.f * value });
 
-		inputManager.AddCommand(GameInput{ KeyboardInput::G }, [this]()
-			{
-				m_pGameObject2->pTransform->Scale(Point2f{ -1.f, -1.f });
-			}, State::OnRelease);
-
-		inputManager.AddCommand(GameInput{ KeyboardInput::H }, [this]()
-			{
-				m_pGameObject2->pTransform->Scale(Point2f{ 1.f, 1.f });
-			}, State::OnRelease);
+		if (int8_t value = pInputManager->GetAxis("ChildHorizontalMovement") != 0)
+			m_pGameObject2->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
 	}
 
 	virtual void Render() const override
