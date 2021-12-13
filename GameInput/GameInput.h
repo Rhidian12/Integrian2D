@@ -36,12 +36,13 @@ namespace Integrian2D
 	/* Interal Usage */
 	struct CommandAndButton final
 	{
-		CommandAndButton(Command* const pCommand, const State wantedKeystate, const GameInput gameInput);
+		CommandAndButton(Command* const pCommand, const State wantedKeystate, const GameInput gameInput, const bool _isActive = true);
 
 		Command* pCommand;
 		State wantedKeystate;
 		State previousKeystate;
 		GameInput gameInput;
+		bool isActive;
 	};
 
 	inline bool operator==(const GameInput& a, const GameInput& b) noexcept
