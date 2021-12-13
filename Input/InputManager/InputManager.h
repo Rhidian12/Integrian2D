@@ -24,9 +24,6 @@ namespace Integrian2D
 		/* Add a Command to the InputManager with an input, a KeyState and an optional controller index */
 		void AddCommand(const GameInput& gameInput, Command* const pCommand, const State keyState, const uint8_t controllerIndex = 0) noexcept;
 		
-		/* Remove a previously added Command from a specific input */
-		void RemoveCommandFromInput(const GameInput& input, Command* const pCommand, const uint8_t controllerIndex = 0) noexcept;
-
 		/* Remove a previously added Command from all inputs it is linked to */
 		void RemoveCommand(Command* const pCommand, const uint8_t controllerIndex = 0) noexcept;
 

@@ -51,18 +51,6 @@ namespace Integrian2D
 			m_pKeyboard->AddCommand(gameInput.keyboardInput, keyState, pCommand);
 	}
 
-	void InputManager::RemoveCommandFromInput(const GameInput& input, Command* const pCommand, const uint8_t controllerIndex) noexcept
-	{
-		if (input.mouseButton != MouseButton::INVALID)
-			m_pMouse->RemoveCommand(pCommand);
-
-		else if (input.keyboardInput != KeyboardInput::INVALID)
-			m_pKeyboard->RemoveCommand(pCommand);
-
-		else
-			m_pControllers[controllerIndex]->RemoveCommand(pCommand);
-	}
-
 	void InputManager::RemoveCommand(Command* const pCommand, const uint8_t controllerIndex) noexcept
 	{
 		m_pMouse->RemoveCommand(pCommand);
