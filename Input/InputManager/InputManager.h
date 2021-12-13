@@ -99,7 +99,7 @@ namespace Integrian2D
 
 		std::array<GameController, m_MaxAmountOfControllers> m_Controllers;
 		Keyboard m_Keyboard;
-		Mouse m_Mouse;
+		Mouse* m_pMouse;
 	};
 }
 

@@ -3,20 +3,6 @@
 
 namespace Integrian2D
 {
-	Mouse::Mouse(Mouse&& other) noexcept
-	{
-		m_MouseCommands = other.m_MouseCommands;
-		other.m_MouseCommands.clear();
-	}
-
-	Mouse& Mouse::operator=(Mouse&& other) noexcept
-	{
-		m_MouseCommands = other.m_MouseCommands;
-		other.m_MouseCommands.clear();
-
-		return *this;
-	}
-
 	void Mouse::Activate() noexcept
 	{
 		m_IsActive = true;
@@ -27,10 +13,11 @@ namespace Integrian2D
 		m_IsActive = false;
 	}
 
-	Mouse* const Mouse::GetInstance() noexcept
+	Mouse* const Mouse::CreateMouse() noexcept
 	{
-		if (!m_pInstance)
-			m_pInstance = new Mouse{};
+		ASSERT(m_pInstance == nullptr, "Mouse::CreateMouse() > Mouse is default created by the Input Manager!");
+
+		m_pInstance = new Mouse{};
 
 		return m_pInstance;
 	}
@@ -57,11 +44,11 @@ namespace Integrian2D
 
 		for (CommandAndButton& commandButton : m_MouseCommands)
 		{
-				const State currentKeystate{ GetKeystate(commandButton.gameInput.mouseButton, commandButton.previousKeystate) };
-				if (currentKeystate == commandButton.wantedKeystate)
-					commandButton.pCommand->Execute();
+			const State currentKeystate{ GetKeystate(commandButton.gameInput.mouseButton, commandButton.previousKeystate) };
+			if (currentKeystate == commandButton.wantedKeystate)
+				commandButton.pCommand->Execute();
 
-				commandButton.previousKeystate = currentKeystate;
+			commandButton.previousKeystate = currentKeystate;
 		}
 	}
 

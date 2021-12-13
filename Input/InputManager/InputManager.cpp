@@ -202,7 +202,7 @@ namespace Integrian2D
 	void InputManager::Deactivate() noexcept
 	{
 		m_Keyboard.Deactivate();
-		m_Mouse.Deactivate();
+		m_pMouse->Deactivate();
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
 			m_Controllers[i].Deactivate();
 	}
@@ -214,14 +214,12 @@ namespace Integrian2D
 		, m_AmountOfControllers{ uint8_t(SDL_NumJoysticks()) }
 		, m_Controllers{}
 		, m_Keyboard{}
-		, m_Mouse{}
+		, m_pMouse{ Mouse::CreateMouse() }
 		, m_Axis{}
 	{
 		for (uint32_t i{}; i < m_AmountOfControllers; ++i)
 			m_Controllers[i] = std::move(GameController{ uint8_t(i) });
 
 		m_Keyboard = std::move(Keyboard{});
-
-		m_Mouse = std::move(Mouse{});
 	}
 }

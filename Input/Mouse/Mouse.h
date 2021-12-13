@@ -8,7 +8,7 @@ namespace Integrian2D
 	class Mouse final
 	{
 	public:
-		static Mouse* const GetInstance() noexcept;
+		static Mouse* const CreateMouse() noexcept;
 		static void Cleanup() noexcept;
 		~Mouse();
 
@@ -30,9 +30,9 @@ namespace Integrian2D
 	private:
 		Mouse() = default;
 		Mouse(const Mouse&) = delete;
-		Mouse(Mouse&& other) noexcept;
+		Mouse(Mouse&& other) = delete;
 		Mouse& operator=(const Mouse&) = delete;
-		Mouse& operator=(Mouse&& other) noexcept;
+		Mouse& operator=(Mouse&& other) = delete;
 
 		inline static Mouse* m_pInstance{};
 
