@@ -6,6 +6,7 @@
 namespace Integrian2D
 {
 	class Command;
+	class Scene;
 
 	class Keyboard final
 	{
@@ -14,8 +15,8 @@ namespace Integrian2D
 		static void Cleanup() noexcept;
 		~Keyboard();
 
-		void Activate() noexcept;
-		void Deactivate() noexcept;
+		void Activate(Scene* const pScene) noexcept;
+		void Deactivate(Scene* const pScene) noexcept;
 
 		void AddCommand(const KeyboardInput keyboardInput, const State keyState, Command* const pCommand) noexcept;
 		void ExecuteCommands() noexcept;

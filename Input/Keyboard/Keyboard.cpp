@@ -4,14 +4,24 @@
 
 namespace Integrian2D
 {
-	void Keyboard::Activate() noexcept
+	void Keyboard::Activate(Scene* const pScene) noexcept
 	{
 		m_IsActive = true;
+
+		for (CommandAndButton& commandButton : m_KeyboardCommands)
+			if (commandButton.pCommand->GetScene() == pScene)
+				commandButton.isActive = true;
 	}
 
-	void Keyboard::Deactivate() noexcept
+	void Keyboard::Deactivate(Scene* const pScene) noexcept
 	{
+		ResetInputs();
+
 		m_IsActive = false;
+
+		for (CommandAndButton& commandButton : m_KeyboardCommands)
+			if (commandButton.pCommand->GetScene() == pScene)
+				commandButton.isActive = false;
 	}
 
 	Keyboard* Keyboard::CreateKeyboard() noexcept
@@ -45,11 +55,14 @@ namespace Integrian2D
 
 		for (CommandAndButton& commandButton : m_KeyboardCommands)
 		{
-			const State currentKeystate{ GetKeystate(commandButton.gameInput.keyboardInput, commandButton.previousKeystate) };
-			if (currentKeystate == commandButton.wantedKeystate)
-				commandButton.pCommand->Execute();
+			if (commandButton.isActive)
+			{
+				const State currentKeystate{ GetKeystate(commandButton.gameInput.keyboardInput, commandButton.previousKeystate) };
+				if (currentKeystate == commandButton.wantedKeystate)
+					commandButton.pCommand->Execute();
 
-			commandButton.previousKeystate = currentKeystate;
+				commandButton.previousKeystate = currentKeystate;
+			}
 		}
 	}
 
