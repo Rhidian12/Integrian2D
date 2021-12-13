@@ -14,15 +14,6 @@ namespace Integrian2D
 		static void Cleanup() noexcept;
 		~Keyboard();
 
-	private:
-		friend class InputManager;
-
-		Keyboard() = default;
-		Keyboard(const Keyboard&) = delete;
-		Keyboard(Keyboard&& other) = delete;
-		Keyboard& operator=(const Keyboard&) = delete;
-		Keyboard& operator=(Keyboard&& other) = delete;
-
 		void Activate() noexcept;
 		void Deactivate() noexcept;
 
@@ -39,6 +30,13 @@ namespace Integrian2D
 
 		void RemoveCommand(Command* const pCommand) noexcept;
 		void RemoveAllCommands() noexcept;
+
+	private:
+		Keyboard() = default;
+		Keyboard(const Keyboard&) = delete;
+		Keyboard(Keyboard&& other) = delete;
+		Keyboard& operator=(const Keyboard&) = delete;
+		Keyboard& operator=(Keyboard&& other) = delete;
 
 		bool m_IsActive{ true };
 		inline static Keyboard* m_pInstance{};
