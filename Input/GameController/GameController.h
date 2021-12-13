@@ -16,8 +16,8 @@ namespace Integrian2D
 		static void Cleanup(const uint8_t index) noexcept;
 		~GameController();
 
-		void Activate(const uint8_t index) noexcept;
-		void Deactivate(const uint8_t index) noexcept;
+		void Activate(Scene* const pScene, const uint8_t index) noexcept;
+		void Deactivate(Scene* const pScene, const uint8_t index) noexcept;
 
 		void AddCommand(const ControllerInput controllerInput, const State keyState, Command* const pCommand) noexcept;
 		void ExecuteCommands(const uint8_t index) noexcept;

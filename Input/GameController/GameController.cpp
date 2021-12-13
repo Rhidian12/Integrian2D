@@ -17,7 +17,7 @@ namespace Integrian2D
 		}
 	}
 
-	void GameController::Activate(const uint8_t index) noexcept
+	void GameController::Activate(Scene* const pScene, const uint8_t index) noexcept
 	{
 		if (SDL_IsGameController(index))
 		{
@@ -25,15 +25,25 @@ namespace Integrian2D
 
 			if (!m_pSDLGameControllers[index])
 				Logger::LogError("Error in controller: " + std::to_string(index) + "\n" + SDL_GetError());
+
+			for (CommandAndButton& commandButton : m_Commands)
+				if (commandButton.pCommand->GetScene() == pScene)
+					commandButton.isActive = true;
 		}
 	}
 
-	void GameController::Deactivate(const uint8_t index) noexcept
+	void GameController::Deactivate(Scene* const pScene, const uint8_t index) noexcept
 	{
 		if (m_pSDLGameControllers[index])
 		{
+			ResetInputs();
+
 			SDL_GameControllerClose(m_pSDLGameControllers[index]);
 			m_pSDLGameControllers[index] = nullptr;
+
+			for (CommandAndButton& commandButton : m_Commands)
+				if (commandButton.pCommand->GetScene() == pScene)
+					commandButton.isActive = true;
 		}
 	}
 
