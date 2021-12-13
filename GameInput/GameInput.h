@@ -15,17 +15,19 @@ namespace Integrian2D
 		NotPressed = 0 // internal usage
 	};
 
+	class Command;
+
 	/* Interal Usage */
 	struct CommandAndButton final
 	{
-		CommandAndButton(const std::function<void()>& pCommand, const State wantedKeystate)
+		CommandAndButton(Command* const pCommand, const State wantedKeystate)
 			: pCommand{ pCommand }
 			, wantedKeystate{ wantedKeystate }
 			, previousKeystate{ State::NotPressed }
 		{
 		}
 
-		std::function<void()> pCommand;
+		Command* pCommand;
 		State wantedKeystate;
 		State previousKeystate;
 	};
