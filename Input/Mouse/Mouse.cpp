@@ -3,14 +3,24 @@
 
 namespace Integrian2D
 {
-	void Mouse::Activate() noexcept
+	void Mouse::Activate(Scene* const pScene) noexcept
 	{
 		m_IsActive = true;
+
+		for (CommandAndButton& commandButton : m_MouseCommands)
+			if (commandButton.pCommand->GetScene() == pScene)
+				commandButton.isActive = true;
 	}
 
-	void Mouse::Deactivate() noexcept
+	void Mouse::Deactivate(Scene* const pScene) noexcept
 	{
+		ResetInputs();
+
 		m_IsActive = false;
+
+		for (CommandAndButton& commandButton : m_MouseCommands)
+			if (commandButton.pCommand->GetScene() == pScene)
+				commandButton.isActive = false;
 	}
 
 	Mouse* const Mouse::CreateMouse() noexcept
@@ -44,11 +54,14 @@ namespace Integrian2D
 
 		for (CommandAndButton& commandButton : m_MouseCommands)
 		{
-			const State currentKeystate{ GetKeystate(commandButton.gameInput.mouseButton, commandButton.previousKeystate) };
-			if (currentKeystate == commandButton.wantedKeystate)
-				commandButton.pCommand->Execute();
+			if (commandButton.isActive)
+			{
+				const State currentKeystate{ GetKeystate(commandButton.gameInput.mouseButton, commandButton.previousKeystate) };
+				if (currentKeystate == commandButton.wantedKeystate)
+					commandButton.pCommand->Execute();
 
-			commandButton.previousKeystate = currentKeystate;
+				commandButton.previousKeystate = currentKeystate;
+			}
 		}
 	}
 

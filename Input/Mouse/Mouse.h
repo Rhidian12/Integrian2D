@@ -12,8 +12,8 @@ namespace Integrian2D
 		static void Cleanup() noexcept;
 		~Mouse();
 
-		void Activate() noexcept;
-		void Deactivate() noexcept;
+		void Activate(Scene* const pScene) noexcept;
+		void Deactivate(Scene* const pScene) noexcept;
 
 		void AddCommand(const MouseButton mouseButton, const State keyState, Command* const pCommand) noexcept;
 		void ExecuteCommands() noexcept;
