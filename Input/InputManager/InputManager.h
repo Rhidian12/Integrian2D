@@ -101,6 +101,7 @@ namespace Integrian2D
 		inline static constexpr uint8_t m_MaxAmountOfControllers{ 4 };
 
 		std::vector<InputAxis> m_Axis;
+		std::vector<Command*> m_pCommands;
 
 		std::array<GameController*, m_MaxAmountOfControllers> m_pControllers;
 		Keyboard* m_pKeyboard;

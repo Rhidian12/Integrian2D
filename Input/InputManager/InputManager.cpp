@@ -3,6 +3,7 @@
 #include "../Mouse/Mouse.h"
 #include "../Keyboard/Keyboard.h"
 #include "../GameController/GameController.h"
+#include "../../Command/Command.h"
 
 #include <SDL.h>
 
@@ -17,6 +18,9 @@ namespace Integrian2D
 
 		for (uint8_t i{}; i < m_MaxAmountOfControllers; ++i)
 			m_pControllers[i]->Cleanup(i);
+
+		for (Command* pCommand : m_pCommands)
+			Utils::SafeDelete(pCommand);
 	}
 
 	InputManager* const InputManager::GetInstance() noexcept
@@ -71,6 +75,9 @@ namespace Integrian2D
 
 		if (gameInput.keyboardInput != KeyboardInput::INVALID)
 			m_pKeyboard->AddCommand(gameInput.keyboardInput, keyState, pCommand);
+
+		if (std::find(m_pCommands.cbegin(), m_pCommands.cend(), pCommand) == m_pCommands.cend())
+			m_pCommands.push_back(pCommand);
 	}
 
 	void InputManager::RemoveCommand(Command* const pCommand, const uint8_t controllerIndex) noexcept
@@ -229,6 +236,7 @@ namespace Integrian2D
 		, m_pKeyboard{ Keyboard::CreateKeyboard() }
 		, m_pMouse{ Mouse::CreateMouse() }
 		, m_Axis{}
+		, m_pCommands{}
 	{
 		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i] = GameController::CreateGameController(i);
