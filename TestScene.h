@@ -181,4 +181,3 @@ public:
 	Integrian2D::GameObject* m_pGameObject;
 	Integrian2D::GameObject* m_pGameObject2;
 };
-#pragma once
