@@ -6,7 +6,7 @@ namespace Integrian2D
 		: pCommand{ pCommand }
 		, wantedKeystate{ wantedKeystate }
 		, previousKeystate{ State::NotPressed }
-		, m_GameInput{ gameInput }
+		, gameInput{ gameInput }
 	{}
 
 	GameInput::GameInput(const ControllerInput controllerInput)

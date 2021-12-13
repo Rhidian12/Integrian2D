@@ -41,7 +41,7 @@ namespace Integrian2D
 		Command* pCommand;
 		State wantedKeystate;
 		State previousKeystate;
-		GameInput m_GameInput;
+		GameInput gameInput;
 	};
 
 	inline bool operator==(const GameInput& a, const GameInput& b) noexcept
