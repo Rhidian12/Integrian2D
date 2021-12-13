@@ -5,6 +5,8 @@
 
 namespace Integrian2D
 {
+	class Scene;
+
 	class Mouse final
 	{
 	public:

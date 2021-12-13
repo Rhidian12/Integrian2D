@@ -11,6 +11,7 @@ namespace Integrian2D
 	class Mouse;
 	class Keyboard;
 	class GameController;
+	class Scene;
 
 	class InputManager final
 	{
@@ -85,10 +86,10 @@ namespace Integrian2D
 		void ResetInputs() noexcept;
 
 		/* Activate all inputs */
-		void Activate() noexcept;
+		void Activate(Scene* const pScene) noexcept;
 
 		/* Deactivate all inputs */
-		void Deactivate() noexcept;
+		void Deactivate(Scene* const pScene) noexcept;
 
 	private:
 		InputManager();

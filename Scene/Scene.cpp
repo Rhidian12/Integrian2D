@@ -57,7 +57,7 @@ namespace Integrian2D
 	{
 		m_IsActive = true;
 
-		inputManager.Activate();
+		InputManager::GetInstance()->Activate(this);
 
 		ThreadManager::GetInstance()->AssignThreadTask([this]()
 			{
@@ -81,7 +81,7 @@ namespace Integrian2D
 	{
 		m_IsActive = false;
 
-		inputManager.Deactivate();
+		InputManager::GetInstance()->Deactivate(this);
 	}
 
 	void Scene::AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept

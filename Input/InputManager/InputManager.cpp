@@ -204,20 +204,20 @@ namespace Integrian2D
 			m_pControllers[i]->ResetInputs();
 	}
 
-	void InputManager::Activate() noexcept
+	void InputManager::Activate(Scene* const pScene) noexcept
 	{
-		m_pKeyboard->Activate();
-		m_pMouse->Activate();
+		m_pKeyboard->Activate(pScene);
+		m_pMouse->Activate(pScene);
 		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
-			m_pControllers[i]->Activate(i);
+			m_pControllers[i]->Activate(pScene, i);
 	}
 
-	void InputManager::Deactivate() noexcept
+	void InputManager::Deactivate(Scene* const pScene) noexcept
 	{
-		m_pKeyboard->Deactivate();
-		m_pMouse->Deactivate();
+		m_pKeyboard->Deactivate(pScene);
+		m_pMouse->Deactivate(pScene);
 		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
-			m_pControllers[i]->Deactivate(i);
+			m_pControllers[i]->Deactivate(pScene, i);
 	}
 
 	InputManager::InputManager()

@@ -8,6 +8,7 @@
 namespace Integrian2D
 {
 	class Command;
+	class Scene;
 
 	class GameController final
 	{
