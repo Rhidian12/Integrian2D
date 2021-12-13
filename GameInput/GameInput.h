@@ -12,7 +12,6 @@ namespace Integrian2D
 		OnRelease = 2,
 		OnPress = 3,
 
-
 		NotPressed = 0 // internal usage
 	};
 
