@@ -36,19 +36,19 @@ namespace Integrian2D
 			m_Controllers[i].ExecuteCommands();
 	}
 
-	void InputManager::AddCommand(const GameInput& gameInput, const std::function<void()>& pCommand, const State keyState, const uint8_t controllerIndex) noexcept
+	void InputManager::AddCommand(const GameInput& gameInput, Command* const pCommand, const State keyState, const uint8_t controllerIndex) noexcept
 	{
 		if (gameInput.controllerInput != ControllerInput::INVALID)
 			m_Controllers[controllerIndex].AddCommand(gameInput.controllerInput, keyState, pCommand);
 
-		else if (gameInput.mouseButton != MouseButton::INVALID)
+		if (gameInput.mouseButton != MouseButton::INVALID)
 			m_Mouse.AddCommand(gameInput.mouseButton, keyState, pCommand);
 
-		else /*if (gameInput.keyboardInput != KeyboardInput::INVALID)*/
+		if (gameInput.keyboardInput != KeyboardInput::INVALID)
 			m_Keyboard.AddCommand(gameInput.keyboardInput, keyState, pCommand);
 	}
 
-	void InputManager::RemoveCommandFromInput(const GameInput& input, std::function<void()>& pCommand, const uint8_t controllerIndex) noexcept
+	void InputManager::RemoveCommandFromInput(const GameInput& input, Command* const pCommand, const uint8_t controllerIndex) noexcept
 	{
 		if (input.mouseButton != MouseButton::INVALID)
 			m_Mouse.RemoveCommand(pCommand);
@@ -60,7 +60,7 @@ namespace Integrian2D
 			m_Controllers[controllerIndex].RemoveCommand(pCommand);
 	}
 
-	void InputManager::RemoveCommand(const std::function<void()>& pCommand, const uint8_t controllerIndex) noexcept
+	void InputManager::RemoveCommand(Command* const pCommand, const uint8_t controllerIndex) noexcept
 	{
 		m_Mouse.RemoveCommand(pCommand);
 		m_Keyboard.RemoveCommand(pCommand);
@@ -168,7 +168,7 @@ namespace Integrian2D
 		return m_Controllers[playerIndex].GetTriggerMovement(axis);
 	}
 
-	const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& InputManager::GetKeyboardCommands() const noexcept
+	const std::vector<CommandAndButton>& InputManager::GetKeyboardCommands() const noexcept
 	{
 		return m_Keyboard.m_KeyboardCommands;
 	}

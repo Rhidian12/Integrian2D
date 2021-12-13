@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../../GameInput/GameInput.h" // GameInput
-#include <unordered_map> // std::unordered_map
 #include <vector> // std::vector
 
 namespace Integrian2D
 {
 	class Command;
+
 	class Keyboard final
 	{
 	public:
@@ -14,9 +14,6 @@ namespace Integrian2D
 
 	private:
 		friend class InputManager;
-
-		using CommandPair = std::pair<KeyboardInput, std::vector<CommandAndButton>>;
-		using UMapIterator = std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>::iterator;
 
 		Keyboard() = default;
 		Keyboard(const Keyboard&) = delete;
@@ -27,20 +24,20 @@ namespace Integrian2D
 		void Activate() noexcept;
 		void Deactivate() noexcept;
 
-		void AddCommand(const KeyboardInput keyboardInput, const State keyState, const std::function<void()>& pCommand) noexcept;
+		void AddCommand(const KeyboardInput keyboardInput, const State keyState, Command* const pCommand) noexcept;
 		void ExecuteCommands() noexcept;
 
 		void ResetInputs() noexcept;
 
-		[[nodiscard]] bool IsPressed(const KeyboardInput gameInput) const noexcept;
+		bool IsPressed(const KeyboardInput gameInput) const noexcept;
 		bool WasPressed(const State previousState) const noexcept;
 		State GetKeystate(const KeyboardInput keyboardInput, const State previousState) const noexcept;
-		[[nodiscard]] const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& GetCommands() const noexcept;
-		[[nodiscard]] KeyboardInput GetWhichKeyIsPressed() const noexcept;
+		const std::vector<CommandAndButton>& GetCommands() const noexcept;
+		KeyboardInput GetWhichKeyIsPressed() const noexcept;
 
-		void RemoveCommand(const std::function<void()>& pCommand) noexcept;
+		void RemoveCommand(Command* const pCommand) noexcept;
 
 		bool m_IsActive{ true };
-		std::unordered_map<KeyboardInput, std::vector<CommandAndButton>> m_KeyboardCommands{};
+		std::vector<CommandAndButton> m_KeyboardCommands{};
 	};
 }

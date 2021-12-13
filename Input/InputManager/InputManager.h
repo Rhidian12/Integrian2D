@@ -21,13 +21,13 @@ namespace Integrian2D
 		void HandleInput() noexcept;
 
 		/* Add a Command to the InputManager with an input, a KeyState and an optional controller index */
-		void AddCommand(const GameInput& gameInput, const std::function<void()>& pCommand, const State keyState, const uint8_t controllerIndex = 0) noexcept;
+		void AddCommand(const GameInput& gameInput, Command* const pCommand, const State keyState, const uint8_t controllerIndex = 0) noexcept;
 		
 		/* Remove a previously added Command from a specific input */
-		void RemoveCommandFromInput(const GameInput& input, std::function<void()>& pCommand, const uint8_t controllerIndex = 0) noexcept;
+		void RemoveCommandFromInput(const GameInput& input, Command* const pCommand, const uint8_t controllerIndex = 0) noexcept;
 
 		/* Remove a previously added Command from all inputs it is linked to */
-		void RemoveCommand(const std::function<void()>& pCommand, const uint8_t controllerIndex = 0) noexcept;
+		void RemoveCommand(Command* const pCommand, const uint8_t controllerIndex = 0) noexcept;
 
 		/* Remove all Commands from the InputManager */
 		void RemoveAllCommands() noexcept;
@@ -65,7 +65,7 @@ namespace Integrian2D
 		double GetTriggerMovement(const ControllerInput axis, const uint8_t playerIndex = 0) const noexcept;
 
 		/* Returns the map containing all inputs (with corresponding commands) linked to keyboard buttons */
-		const std::unordered_map<KeyboardInput, std::vector<CommandAndButton>>& GetKeyboardCommands() const noexcept;
+		const std::vector<CommandAndButton>& GetKeyboardCommands() const noexcept;
 
 		/* Returns the map containing all inputs (with corresponding commands) linked to mouse buttons */
 		const std::unordered_map<MouseButton, std::vector<CommandAndButton>>& GetMouseCommands() const noexcept;
