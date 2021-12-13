@@ -7,6 +7,8 @@ namespace Integrian2D
 	class Command
 	{
 	public:
+		Command(Scene* const pScene);
+
 		virtual ~Command() = default;
 
 		/* When the input related to this command gets triggered, Execute() gets called */
