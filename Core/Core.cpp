@@ -84,7 +84,7 @@ namespace Integrian2D
 
 			Scene* const pActiveScene{ pSceneManager->GetActiveScene() };
 
-			pActiveScene->inputManager.HandleInput();
+			InputManager::GetInstance()->HandleInput();
 
 			pActiveScene->RootUpdate();
 			pActiveScene->Update();
