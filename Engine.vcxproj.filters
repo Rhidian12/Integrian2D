@@ -138,6 +138,9 @@
     <ClCompile Include="Components\TextComponent\TextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PrinterManager\PrinterManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -327,6 +330,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\TextComponent\TextComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrinterManager\PrinterManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
