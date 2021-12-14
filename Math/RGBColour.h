@@ -231,6 +231,24 @@ namespace Integrian2D
 	}
 #pragma endregion
 
+#pragma region Relational Operators
+	inline bool operator==(const RGBColour& c1, const RGBColour& c2) noexcept
+	{
+		return c1.r == c2.r && c1.g == c2.g && c1.b == c2.b && c1.a == c2.a;
+	}
+
+	inline bool operator!=(const RGBColour& c1, const RGBColour& c2) noexcept
+	{
+		return !(c1 == c2);
+	}
+#pragma endregion
+
+#pragma region Miscellaneous Operators
+	inline std::ostream& operator<<(std::ostream& os, const RGBColour& c) noexcept
+	{
+		return os << c.r << ", " << c.g << ", " << c.b << ", " << c.a << std::endl;
+	}
+
 #pragma region RGBColour Functions
 	inline void MaxToOne(RGBColour& colour) noexcept
 	{
