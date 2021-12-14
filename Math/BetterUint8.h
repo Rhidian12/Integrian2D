@@ -18,6 +18,16 @@ namespace Integrian2D
 		}
 	};
 
+	inline bool operator==(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	{
+		return a.v == b.v;
+	}
+
+	inline bool operator!=(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	{
+		return a.v != b.v;
+	}
+
 	inline Betteruint8_t operator+(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v + b.v));
