@@ -9,7 +9,7 @@
 namespace Integrian2D
 {
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text)
-		: TextComponent{ pParent, text, 100, nullptr, RGBColour{255u, 255u, 255u} }
+		: TextComponent{ pParent, text, 300, nullptr, RGBColour{255u, 255u, 255u} }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize)
@@ -44,7 +44,7 @@ namespace Integrian2D
 			while (true)
 			{
 				/* try to find the texture in the texture manager */
-				Texture* const pTexture{ pInstance->GetTexture("_Integrian2D_DefaultFont" + std::to_string(iterations)) };
+				Texture* const pTexture{ pInstance->GetTexture("_Integrian2D_DefaultFont_" + std::to_string(iterations)) };
 
 				/* if there is no "default" font of this type */
 				if (!pTexture)
@@ -62,8 +62,8 @@ namespace Integrian2D
 			/* if there is no printer, create one */
 			if (!pPrinter)
 			{
-				pInstance->AddTexture("_Integrian2D_DefaultFont" + std::to_string(iterations), new Texture{ text, "Resources/ubuntu.regular.ttf", textSize, colour});
-				m_pPrinter = PrinterManager::GetInstance()->CreatePrinter(pInstance->GetTexture("_Integrian2D_DefaultFont" + std::to_string(iterations)), textSize, colour);
+				pInstance->AddTexture("_Integrian2D_DefaultFont_" + std::to_string(iterations), new Texture{ "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:;'\"(!?)+-*/=", "Resources/ubuntu.regular.ttf",textSize,colour });
+				m_pPrinter = PrinterManager::GetInstance()->CreatePrinter(pInstance->GetTexture("_Integrian2D_DefaultFont_" + std::to_string(iterations)), textSize, colour);
 			}
 			else
 				m_pPrinter = pPrinter;
@@ -110,11 +110,11 @@ namespace Integrian2D
 
 	float TextComponent::GetTextWidth() const noexcept
 	{
-		return m_pPrinter->GetCharacterWidth() * m_TextToRender.size();
+		return m_pFont->GetWidth();
 	}
 
 	float TextComponent::GetTextHeight() const noexcept
 	{
-		return m_pPrinter->GetCharacterHeight();
+		return m_pFont->GetHeight();
 	}
 }

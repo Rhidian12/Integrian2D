@@ -241,16 +241,16 @@ namespace Integrian2D
 			float textTop{};
 			float textBottom{ 1.f };
 
-			float defaultDestWidth{ textureInformation.pTexture->GetHeight() };
-			float defaultDestHeight{ textureInformation.pTexture->GetWidth() };
+			float defaultDestWidth{ textureInformation.pTexture->GetWidth() };
+			float defaultDestHeight{ textureInformation.pTexture->GetHeight() };
 
 			if (!Utils::AreEqual(textureInformation.sourceRect.width, 0.f) && !Utils::AreEqual(textureInformation.sourceRect.height, 0.f)) // srcRect specified
 			{
 				// Convert to the range [0.0, 1.0]
-				textLeft = textureInformation.sourceRect.x / textureInformation.sourceRect.width;
-				textRight = (textureInformation.sourceRect.x + textureInformation.sourceRect.width) / textureInformation.sourceRect.width;
-				textTop = (textureInformation.sourceRect.y - textureInformation.sourceRect.height) / textureInformation.sourceRect.height;
-				textBottom = textureInformation.sourceRect.y / textureInformation.sourceRect.height;
+				textLeft = textureInformation.sourceRect.x / textureInformation.destRect.width;
+				textRight = (textureInformation.sourceRect.x + textureInformation.sourceRect.width) / textureInformation.destRect.width;
+				textTop = (textureInformation.sourceRect.y - textureInformation.sourceRect.height) / textureInformation.destRect.height;
+				textBottom = textureInformation.sourceRect.y / textureInformation.destRect.height;
 
 				defaultDestHeight = textureInformation.sourceRect.height;
 				defaultDestWidth = textureInformation.sourceRect.width;

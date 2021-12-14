@@ -127,9 +127,9 @@ public:
 
 		//m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino") });
 		//m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat") });
-		m_pGameObject->AddComponent(new TextComponent{ m_pGameObject, "WOOOOOOOOOOOH" });
+		m_pGameObject->AddComponent(new TextComponent{ m_pGameObject, "123" });
 
-		m_pGameObject->AddChild(m_pGameObject2);
+		//m_pGameObject->AddChild(m_pGameObject2);
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
@@ -178,6 +178,13 @@ public:
 
 		if (int8_t value = pInputManager->GetAxis("ChildRotation"); value != 0)
 			m_pGameObject2->pTransform->Rotate(Utils::ToRadians(5.f) * value);
+	}
+
+	virtual void Render() const override
+	{
+		using namespace Integrian2D;
+
+		Renderer::GetInstance()->RenderLine(Point2f{}, Point2f{ 158.f, 0.f }, 5.f);
 	}
 
 	Integrian2D::GameObject* m_pGameObject;

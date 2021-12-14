@@ -24,7 +24,7 @@ namespace Integrian2D
 
 		Printer(Texture* const pFont, const int textSize, const RGBColour& textColour);
 		Rectf CalculateSourceRect(const char c) const noexcept;
-	
+
 		Texture* m_pFont;
 		int m_TextSize;
 		RGBColour m_TextColour;
