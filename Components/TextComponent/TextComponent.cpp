@@ -9,7 +9,7 @@
 namespace Integrian2D
 {
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text)
-		: TextComponent{ pParent, text, 10, nullptr, RGBColour{255u, 255u, 255u} }
+		: TextComponent{ pParent, text, 100, nullptr, RGBColour{255u, 255u, 255u} }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize)

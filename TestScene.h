@@ -14,6 +14,7 @@
 #include "AI/Blackboard/Blackboard.h"
 #include "AI/DecisionMaking/BehaviourTree/BehaviourTree.h"
 #include "Command/Command.h"
+#include "Components/TextComponent/TextComponent.h"
 
 #include <string>
 
@@ -124,8 +125,9 @@ public:
 				}
 			} });*/
 
-		m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino") });
-		m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat") });
+		//m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino") });
+		//m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat") });
+		m_pGameObject->AddComponent(new TextComponent{ m_pGameObject, "WOOOOOOOOOOOH" });
 
 		m_pGameObject->AddChild(m_pGameObject2);
 
