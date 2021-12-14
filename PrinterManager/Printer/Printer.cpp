@@ -42,6 +42,16 @@ namespace Integrian2D
 		return m_TextColour;
 	}
 
+	float Printer::GetCharacterWidth() const noexcept
+	{
+		return m_CharWidth;
+	}
+
+	float Printer::GetCharacterHeight() const noexcept
+	{
+		return m_CharHeight;
+	}
+
 	Rectf Printer::CalculateSourceRect(const char c) const noexcept
 	{
 		for (unsigned int i{}; i < amountOfCharacters; ++i)

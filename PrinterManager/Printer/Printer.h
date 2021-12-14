@@ -16,6 +16,8 @@ namespace Integrian2D
 		Texture* const GetFont() const noexcept;
 		int GetTextSize() const noexcept;
 		const RGBColour& GetTextColour() const noexcept;
+		float GetCharacterWidth() const noexcept;
+		float GetCharacterHeight() const noexcept;
 
 	private:
 		friend class PrinterManager;
