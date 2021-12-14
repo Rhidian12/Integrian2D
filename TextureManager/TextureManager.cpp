@@ -5,6 +5,12 @@
 
 namespace Integrian2D
 {
+	TextureManager::TextureManager()
+		: m_pTextures{}
+	{
+		m_pTextures.insert(std::make_pair("_Integrian2D_DefaultFont", new Texture{ "", "Resources/ubuntu.regular.ttf", 10, RGBColour{255u, 255u, 255u} }));
+	}
+
 	TextureManager* TextureManager::GetInstance() noexcept
 	{
 		if (!m_pInstance)

@@ -37,7 +37,7 @@ namespace Integrian2D
 		TextureManager& operator=(TextureManager&&) = delete;
 
 	private:
-		TextureManager() = default;
+		TextureManager();
 
 		std::unordered_map<std::string, Texture*> m_pTextures;
 
