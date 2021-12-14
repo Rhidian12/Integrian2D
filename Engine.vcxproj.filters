@@ -141,6 +141,9 @@
     <ClCompile Include="PrinterManager\PrinterManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PrinterManager\Printer\Printer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -333,6 +336,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrinterManager\PrinterManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrinterManager\Printer\Printer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
