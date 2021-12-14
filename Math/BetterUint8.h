@@ -17,6 +17,11 @@ namespace Integrian2D
 			return v;
 		}
 	};
+	
+	inline std::ostream& operator<<(std::ostream& os, const Betteruint8_t& b) noexcept
+	{
+		return os << b;
+	}
 
 	inline bool operator==(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
