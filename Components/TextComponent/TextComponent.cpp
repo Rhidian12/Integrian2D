@@ -4,19 +4,20 @@
 #include "../../GameObject/GameObject.h"
 #include "../TransformComponent/TransformComponent.h"
 #include "../../TextureManager/TextureManager.h"
+#include "../../Texture/Texture.h"
 
 namespace Integrian2D
 {
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text)
-		: TextComponent{ pParent, text, 10, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), RGBColour{255u, 255u, 255u} }
+		: TextComponent{ pParent, text, 10, nullptr, RGBColour{255u, 255u, 255u} }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize)
-		: TextComponent{ pParent, text, textSize, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), RGBColour{255u, 255u, 255u} }
+		: TextComponent{ pParent, text, textSize, nullptr, RGBColour{255u, 255u, 255u} }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize, const RGBColour& colour)
-		: TextComponent{ pParent, text, textSize, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), colour }
+		: TextComponent{ pParent, text, textSize, nullptr, colour }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize, Texture* const pFont)
@@ -29,8 +30,45 @@ namespace Integrian2D
 		, m_TextSize{ textSize }
 		, m_TextColour{ colour }
 		, m_pFont{ pFont }
-		, m_pPrinter{ PrinterManager::GetInstance()->CreatePrinter(pFont, textSize, colour) }
-	{}
+		, m_pPrinter{}
+	{
+		/* if we need to use the default font */
+		if (!pFont)
+		{
+			/* check if this specific font exists */
+
+			int iterations{};
+			TextureManager* const pInstance{ TextureManager::GetInstance() };
+			Printer* pPrinter{};
+
+			while (true)
+			{
+				/* try to find the texture in the texture manager */
+				Texture* const pTexture{ pInstance->GetTexture("_Integrian2D_DefaultFont" + std::to_string(iterations)) };
+
+				/* if there is no "default" font of this type */
+				if (!pTexture)
+					break;
+				else
+				{
+					/* if the default font exists, does there exist a printer? */
+					if (pPrinter = PrinterManager::GetInstance()->GetPrinter(pTexture, textSize, colour); pPrinter != nullptr)
+						break;
+					else
+						++iterations;
+				}
+			}
+
+			/* if there is no printer, create one */
+			if (!pPrinter)
+			{
+				pInstance->AddTexture("_Integrian2D_DefaultFont" + std::to_string(iterations), new Texture{ text, "Resources/ubuntu.regular.ttf", textSize, colour});
+				m_pPrinter = PrinterManager::GetInstance()->CreatePrinter(pInstance->GetTexture("_Integrian2D_DefaultFont" + std::to_string(iterations)), textSize, colour);
+			}
+			else
+				m_pPrinter = pPrinter;
+		}
+	}
 
 	Component* TextComponent::Clone(GameObject* pParent) noexcept
 	{
