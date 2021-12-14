@@ -19,6 +19,8 @@ namespace Integrian2D
 		TextComponent(GameObject* const pParent, const std::string& text, const int textSize, Texture* const pFont);
 		TextComponent(GameObject* const pParent, const std::string& text, const int textSize, Texture* const pFont, const RGBColour& colour);
 
+		virtual Component* Clone(GameObject* pParent) noexcept override;
+
 		virtual void Render() const override;
 
 		void SetTextToRender(const std::string& text) noexcept;

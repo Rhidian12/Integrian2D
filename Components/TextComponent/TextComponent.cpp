@@ -32,6 +32,11 @@ namespace Integrian2D
 		, m_pPrinter{ PrinterManager::GetInstance()->CreatePrinter(pFont, textSize, colour) }
 	{}
 
+	Component* TextComponent::Clone(GameObject* pParent) noexcept
+	{
+		return new TextComponent{ pParent, m_TextToRender, m_TextSize, m_pFont, m_TextColour };
+	}
+
 	void TextComponent::Render() const
 	{
 		m_pPrinter->Render(m_pOwner->pTransform->GetWorldPosition(), m_pOwner->pTransform->GetWorldAngle(), m_pOwner->pTransform->GetWorldScale(), m_TextToRender);
