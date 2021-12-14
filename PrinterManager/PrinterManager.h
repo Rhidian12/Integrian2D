@@ -17,6 +17,7 @@ namespace Integrian2D
 		~PrinterManager();
 
 		Printer* const CreatePrinter(Texture* const pFont, const int textSize, const RGBColour& textColour) noexcept;
+		Printer* const GetPrinter(Texture* const pFont, const int textSize, const RGBColour& textColour) const noexcept;
 
 	private:
 		PrinterManager() = default;

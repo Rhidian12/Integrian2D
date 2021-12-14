@@ -36,4 +36,12 @@ namespace Integrian2D
 		else
 			return *it;
 	}
+
+	Printer* const PrinterManager::GetPrinter(Texture* const pFont, const int textSize, const RGBColour& textColour) const noexcept
+	{
+		return *std::find_if(m_pPrinters.cbegin(), m_pPrinters.cend(), [pFont, textSize, &textColour](Printer* const pPrinter)->bool
+			{
+				return pFont == pPrinter->GetFont() && textSize == pPrinter->GetTextSize() && textColour == pPrinter->GetTextColour();
+			});
+	}
 }
