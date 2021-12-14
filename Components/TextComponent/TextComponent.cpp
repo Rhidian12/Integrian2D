@@ -3,19 +3,20 @@
 #include "../../PrinterManager/Printer/Printer.h"
 #include "../../GameObject/GameObject.h"
 #include "../TransformComponent/TransformComponent.h"
+#include "../../TextureManager/TextureManager.h"
 
 namespace Integrian2D
 {
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text)
-		: TextComponent{ pParent, text, 10, nullptr, RGBColour{255u, 255u, 255u} }
+		: TextComponent{ pParent, text, 10, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), RGBColour{255u, 255u, 255u}}
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize)
-		: TextComponent{ pParent, text, textSize, nullptr, RGBColour{255u, 255u, 255u} }
+		: TextComponent{ pParent, text, textSize, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), RGBColour{255u, 255u, 255u} }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize, const RGBColour& colour)
-		: TextComponent{ pParent, text, textSize, nullptr, colour }
+		: TextComponent{ pParent, text, textSize, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), colour }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize, Texture* const pFont)
