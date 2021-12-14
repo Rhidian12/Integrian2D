@@ -226,6 +226,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Components\TextureComponent\TextureComponent.cpp" />
+    <ClCompile Include="Components\TextComponent\TextComponent.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="Texture\Texture.cpp" />
     <ClCompile Include="Components\TransformComponent\TransformComponent.cpp" />
@@ -290,6 +291,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Components\TextureComponent\TextureComponent.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="Components\TextComponent\TextComponent.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="Texture\Texture.h" />
     <ClInclude Include="Components\TransformComponent\TransformComponent.h" />
