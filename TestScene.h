@@ -159,22 +159,22 @@ public:
 
 		InputManager* const pInputManager{ InputManager::GetInstance() };
 
-		if (int8_t value = pInputManager->GetAxis("ParentVerticalMovement") != 0)
+		if (int8_t value = pInputManager->GetAxis("ParentVerticalMovement"); value != 0)
 			m_pGameObject->pTransform->Translate(Vector2f{ 0.f, 5.f * value });
 
-		if (int8_t value = pInputManager->GetAxis("ParentHorizontalMovement") != 0)
+		if (int8_t value = pInputManager->GetAxis("ParentHorizontalMovement"); value != 0)
 			m_pGameObject->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
 
-		if (int8_t value = pInputManager->GetAxis("ChildVerticalMovement") != 0)
+		if (int8_t value = pInputManager->GetAxis("ChildVerticalMovement"); value != 0)
 			m_pGameObject2->pTransform->Translate(Vector2f{ 0.f, 5.f * value });
 
-		if (int8_t value = pInputManager->GetAxis("ChildHorizontalMovement") != 0)
+		if (int8_t value = pInputManager->GetAxis("ChildHorizontalMovement"); value != 0)
 			m_pGameObject2->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
 
-		if (int8_t value = pInputManager->GetAxis("ParentRotation") != 0)
+		if (int8_t value = pInputManager->GetAxis("ParentRotation"); value != 0)
 			m_pGameObject->pTransform->Rotate(Utils::ToRadians(5.f) * value);
 
-		if (int8_t value = pInputManager->GetAxis("ChildRotation") != 0)
+		if (int8_t value = pInputManager->GetAxis("ChildRotation"); value != 0)
 			m_pGameObject2->pTransform->Rotate(Utils::ToRadians(5.f) * value);
 	}
 
