@@ -22,6 +22,9 @@ namespace Integrian2D
 		virtual void Render() const override;
 
 		void SetTextToRender(const std::string& text) noexcept;
+		void SetTextSize(const int textSize) noexcept;
+		void SetTextColour(const RGBColour& textColour) noexcept;
+		void SetTextFont(Texture* const pFont) noexcept;
 
 		const std::string& GetTextToRender() const noexcept;
 		float GetTextWidth() const noexcept;
@@ -31,6 +34,7 @@ namespace Integrian2D
 		std::string m_TextToRender;
 		int m_TextSize;
 		RGBColour m_TextColour;
+		Texture* m_pFont;
 		Printer* m_pPrinter;
 	};
 }

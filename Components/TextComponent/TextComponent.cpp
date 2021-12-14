@@ -8,7 +8,7 @@
 namespace Integrian2D
 {
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text)
-		: TextComponent{ pParent, text, 10, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), RGBColour{255u, 255u, 255u}}
+		: TextComponent{ pParent, text, 10, TextureManager::GetInstance()->GetTexture("_Integrian2D_DefaultFont"), RGBColour{255u, 255u, 255u} }
 	{}
 
 	TextComponent::TextComponent(GameObject* const pParent, const std::string& text, const int textSize)
@@ -28,6 +28,7 @@ namespace Integrian2D
 		, m_TextToRender{ text }
 		, m_TextSize{ textSize }
 		, m_TextColour{ colour }
+		, m_pFont{ pFont }
 		, m_pPrinter{ PrinterManager::GetInstance()->CreatePrinter(pFont, textSize, colour) }
 	{}
 
@@ -39,6 +40,24 @@ namespace Integrian2D
 	void TextComponent::SetTextToRender(const std::string& text) noexcept
 	{
 		m_TextToRender = text;
+	}
+
+	void TextComponent::SetTextSize(const int textSize) noexcept
+	{
+		m_pPrinter = PrinterManager::GetInstance()->CreatePrinter(m_pFont, textSize, m_TextColour);
+		m_TextSize = textSize;
+	}
+
+	void TextComponent::SetTextColour(const RGBColour& textColour) noexcept
+	{
+		m_pPrinter = PrinterManager::GetInstance()->CreatePrinter(m_pFont, m_TextSize, textColour);
+		m_TextColour = textColour;
+	}
+
+	void TextComponent::SetTextFont(Texture* const pFont) noexcept
+	{
+		m_pPrinter = PrinterManager::GetInstance()->CreatePrinter(pFont, m_TextSize, m_TextColour);
+		m_pFont = pFont;
 	}
 
 	const std::string& TextComponent::GetTextToRender() const noexcept
