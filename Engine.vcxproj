@@ -204,6 +204,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
     <ClCompile Include="EventQueue\EventQueue.cpp" />
     <ClCompile Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.cpp" />
+    <ClCompile Include="Components\FPSComponent\FPSComponent.cpp" />
     <ClCompile Include="GameInput\GameInput.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
     <ClCompile Include="Iterator\Iterator.cpp" />
@@ -247,6 +248,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
     <ClInclude Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.h" />
+    <ClInclude Include="Components\FPSComponent\FPSComponent.h" />
     <ClInclude Include="IListener\IListener.h" />
     <ClInclude Include="Input\InputAxis\InputAxis.h" />
     <ClInclude Include="Iterator\Iterator.h" />

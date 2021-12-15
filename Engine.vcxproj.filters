@@ -138,6 +138,9 @@
     <ClCompile Include="Components\TextComponent\TextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Components\FPSComponent\FPSComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -330,6 +333,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Printer\Printer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\FPSComponent\FPSComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
