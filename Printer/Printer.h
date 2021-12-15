@@ -14,7 +14,7 @@ namespace Integrian2D
 		inline static const std::string possibleCharacters{ "abcdefghijklmnopqrstuvvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.?!\n" };
 		inline static const size_t amountOfCharacters{ possibleCharacters.size() };
 
-		inline static Rectf CalculateSourceRect(const char c, const float charWidth, const float charHeight)
+		inline Rectf CalculateSourceRect(const char c, const float charWidth, const float charHeight)
 		{
 			const size_t location{ possibleCharacters.find(c) };
 
@@ -23,7 +23,7 @@ namespace Integrian2D
 			return Rectf{ charWidth * location,0.f,charWidth,charHeight };
 		}
 
-		inline static void RenderString(Texture* const pFont, const Point2f& location, const float angle, const Point2f& scale, const std::string& textToRender) noexcept
+		inline void RenderString(Texture* const pFont, const Point2f& location, const float angle, const Point2f& scale, const std::string& textToRender) noexcept
 		{
 			Point2f currentPosition{ location };
 			const float charWidth{ pFont->GetWidth() / amountOfCharacters };
