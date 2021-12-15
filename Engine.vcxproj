@@ -199,6 +199,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.cpp" />
     <ClCompile Include="AI\Blackboard\Blackboard.cpp" />
     <ClCompile Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.cpp" />
+    <ClCompile Include="AudioSystem\AudioSystem.cpp" />
     <ClCompile Include="Command\Command.cpp" />
     <ClCompile Include="EventQueue\Event\Event.cpp" />
     <ClCompile Include="EventQueue\Event\EventImplementation.cpp" />
@@ -243,6 +244,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.h" />
     <ClInclude Include="AI\Blackboard\Blackboard.h" />
     <ClInclude Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.h" />
+    <ClInclude Include="AudioSystem\AudioSystem.h" />
     <ClInclude Include="Command\Command.h" />
     <ClInclude Include="EventQueue\Event\Event.h" />
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
