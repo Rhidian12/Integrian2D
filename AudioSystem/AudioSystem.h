@@ -15,7 +15,7 @@ namespace Integrian2D
 		virtual SoundID AddSound(const std::string&) = 0;
 		virtual MusicID AddMusic(const std::string&) = 0;
 
-		virtual void Update(const float) = 0;
+		virtual void Update() = 0;
 
 		virtual void PlaySound(const SoundID, const bool = false, const int = 0, const int = 100) = 0;
 		virtual void PlayMusic(const MusicID, const bool = false, const int = 0, const int = 100) = 0;
