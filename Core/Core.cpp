@@ -8,7 +8,6 @@
 #include "../Locator/Locator.h"
 #include "../Timer/Timer.h"
 #include "../ThreadManager/ThreadManager.h"
-#include "../PrinterManager/PrinterManager.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -58,7 +57,6 @@ namespace Integrian2D
 		Locator::Cleanup();
 		Timer::Cleanup();
 		InputManager::Cleanup();
-		PrinterManager::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}

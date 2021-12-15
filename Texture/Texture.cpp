@@ -139,6 +139,9 @@ namespace Integrian2D
 		// Copy to video memory
 		CreateFromSurface(pLoadedSurface);
 
+		if (IMG_SavePNG(pLoadedSurface, std::string{ "Resources/Awooga.png" }.c_str()) == -1)
+			std::cout << SDL_GetError() << std::endl;
+
 		// Free loaded surface
 		SDL_FreeSurface(pLoadedSurface);
 	}

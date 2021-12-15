@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <utility>
 #include <algorithm>
+#include <string>
 
 #include "../Utils/Utils.h"
 #include "BetterUint8.h"
@@ -255,6 +256,11 @@ namespace Integrian2D
 		const uint8_t max{ std::max(colour.r.v, std::max(colour.g.v, colour.b.v)) };
 
 		colour /= max;
+	}
+
+	inline std::string ToString(const RGBColour& colour) noexcept
+	{
+		return std::to_string(colour.r.v) + ", " + std::to_string(colour.g.v) + ", " + std::to_string(colour.b.v) + ", " + std::to_string(colour.a.v);
 	}
 #pragma endregion
 }

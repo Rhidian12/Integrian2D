@@ -7,7 +7,6 @@
 
 namespace Integrian2D
 {
-	class Printer;
 	class Texture;
 
 	class TextComponent final : public Component
@@ -37,6 +36,5 @@ namespace Integrian2D
 		int m_TextSize;
 		RGBColour m_TextColour;
 		Texture* m_pFont;
-		Printer* m_pPrinter;
 	};
 }

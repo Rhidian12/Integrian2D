@@ -241,19 +241,22 @@ namespace Integrian2D
 			float textTop{};
 			float textBottom{ 1.f };
 
-			float defaultDestWidth{ textureInformation.pTexture->GetWidth() };
-			float defaultDestHeight{ textureInformation.pTexture->GetHeight() };
+			const float textureWidth{ textureInformation.pTexture->GetWidth() };
+			const float textureHeight{ textureInformation.pTexture->GetHeight() };
+
+			float defaultDestWidth{ textureWidth };
+			float defaultDestHeight{ textureHeight };
 
 			if (!Utils::AreEqual(textureInformation.sourceRect.width, 0.f) && !Utils::AreEqual(textureInformation.sourceRect.height, 0.f)) // srcRect specified
 			{
 				// Convert to the range [0.0, 1.0]
-				textLeft = textureInformation.sourceRect.x / textureInformation.destRect.width;
-				textRight = (textureInformation.sourceRect.x + textureInformation.sourceRect.width) / textureInformation.destRect.width;
-				textTop = (textureInformation.sourceRect.y - textureInformation.sourceRect.height) / textureInformation.destRect.height;
-				textBottom = textureInformation.sourceRect.y / textureInformation.destRect.height;
+				textLeft = textureInformation.sourceRect.x / textureWidth;
+				textRight = (textureInformation.sourceRect.x + textureInformation.sourceRect.width) / textureWidth;
+				textTop = (textureInformation.sourceRect.y - textureInformation.sourceRect.height) / textureHeight;
+				textBottom = textureInformation.sourceRect.y / textureHeight;
 
-				defaultDestHeight = textureInformation.sourceRect.height;
 				defaultDestWidth = textureInformation.sourceRect.width;
+				defaultDestHeight = textureInformation.sourceRect.height;
 			}
 
 			// Determine vertex coordinates
