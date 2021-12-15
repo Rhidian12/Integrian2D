@@ -1,20 +1,16 @@
 #pragma once
 
-#include "../IListener/IListener.h"
-
 #include <string>
 
 namespace Integrian2D
 {
-	class AudioSystem : public IListener
+	class AudioSystem
 	{
 	public:
 		using SoundID = unsigned int;
 		using MusicID = unsigned int;
 
 		virtual ~AudioSystem() = default;
-
-		virtual bool OnEvent(const Event&) = 0;
 
 		virtual SoundID AddSound(const std::string&) = 0;
 		virtual MusicID AddMusic(const std::string&) = 0;
