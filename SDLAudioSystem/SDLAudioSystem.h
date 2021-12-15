@@ -16,27 +16,55 @@ namespace Integrian2D
 		SDLAudioSystem();
 		virtual ~SDLAudioSystem();
 
+		/* Add a sound to the SDLAudioSystem */
 		virtual SoundID AddSound(const std::string& filePath) override;
+
+		/* Add music to the SDLAudioSystem */
 		virtual MusicID AddMusic(const std::string& filePath) override;
 
+		/* Internal Usage */
 		virtual void Update() override;
 
+		/* Play a previously added Sound
+			The Sound plays either infinitely, or amountOfLoops + 1
+			Volume is a percentage in the range of [0, 100] */
 		virtual void PlaySound(const SoundID soundID, const bool infiniteLoop = false, const int amountOfLoops = 0, const int volume = 100) override;
+
+		/* Play previously added Music
+			The Music plays either infinitely, or amountOfLoops + 1 
+			Volume is a percentage in the range of [0, 100] */
 		virtual void PlayMusic(const MusicID musicID, const bool infiniteLoop = false, const int amountOfLoops = 0, const int volume = 100) override;
 
+		/* Pause the Music playing */
 		virtual void PauseMusic() override;
+
+		/* Pause the Sound playing */
 		virtual void PauseSound(const SoundID soundID) override;
 
+		/* Rewind the Music to the start */
 		virtual void RewindMusic() override;
+
+		/* Set the Music's position to the passed parameter, measured from the beginning of the song, in seconds */
 		virtual void SetMusicPosition(double time) override;
 
+		/* Set the volume of the Sound 
+			The passed parameter must be a percentage in the range of [0, 100] */
 		virtual void SetSoundVolume(const SoundID soundID, const int volume) override;
+
+		/* Set the volume of the Music
+			The passed parameter must be a percentage in the range of [0, 100] */
 		virtual void SetMusicVolume(const int volume) override;
 
+		/* Check whether Music is playing */
 		virtual bool IsMusicPlaying() const override;
+
+		/* Check whether Sound is playing */
 		virtual bool IsSoundPlaying(const SoundID soundID) const override;
 
+		/* Get the volume of the Sound in the range of [0, 100] */
 		virtual int GetSoundVolume(const SoundID soundID) const override;
+
+		/* Get the volume of the Music in the range of [0, 100] */
 		virtual int GetMusicVolume() const override;
 
 	private:
