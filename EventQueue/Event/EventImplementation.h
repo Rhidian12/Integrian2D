@@ -47,7 +47,7 @@ namespace Integrian2D
 		template<typename Type>
 		const Type& GetData() const noexcept
 		{
-			return static_cast<EventData<Type>*>(m_pData.get())->GetData();
+			return std::static_pointer_cast<EventData<Type>>(m_pData)->GetData();
 		}
 
 	private:
