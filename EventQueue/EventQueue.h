@@ -3,9 +3,6 @@
 #include "../Integrian2D_API.h"
 #include "Event/Event.h"
 
-#include <vector>
-#include <deque>
-
 namespace Integrian2D
 {
 	class IListener;
@@ -13,6 +10,8 @@ namespace Integrian2D
 	class INTEGRIAN2D_API EventQueue final
 	{
 	public:
+		~EventQueue();
+
 		/* Queue an event to the EventQueue, this EventQueue operates on a principle of FIFO (First In, First Out) */
 		void QueueEvent(const Event& event) noexcept;
 
@@ -33,9 +32,10 @@ namespace Integrian2D
 	private:
 		friend class Scene;
 
+		class EventQueueImpl;
+
 		EventQueue();
 
-		std::vector<IListener*> m_pListeners;
-		std::deque<Event> m_Events;
+		EventQueueImpl* m_pEventQueueImpl;
 	};
 }

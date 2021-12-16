@@ -8,13 +8,19 @@
 
 namespace Integrian2D
 {
+	class Scene::SceneImpl final
+	{
+	public:
+
+	};
+
 	Scene::Scene(const std::string& sceneName)
 		: m_SceneName{ sceneName }
 		, m_pGameObjects{}
 		, m_TransformManager{}
 		, m_IsActive{}
-	{
-	}
+		, m_pSceneImpl{}
+	{}
 
 	Scene::~Scene()
 	{

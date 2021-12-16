@@ -82,6 +82,8 @@ namespace Integrian2D
 		friend class Locator; // Make sure that only the Locator can access the InputManager
 		friend class SceneManager; /* The SceneManager needs access to the RootOnSceneEnter and RootOnSceneExit */
 
+		class SceneImpl;
+
 		void RootStart();
 		void RootUpdate();
 		void RootFixedUpdate();
@@ -95,6 +97,8 @@ namespace Integrian2D
 		std::atomic_bool m_IsActive;
 		
 		TransformManager m_TransformManager;
+
+		SceneImpl* m_pSceneImpl;
 	};
 }
 

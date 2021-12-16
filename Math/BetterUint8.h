@@ -22,7 +22,7 @@ namespace Integrian2D
 	
 	INTEGRIAN2D_API inline std::ostream& operator<<(std::ostream& os, const Betteruint8_t& b) noexcept
 	{
-		return os << b;
+		return os << b.v;
 	}
 
 	INTEGRIAN2D_API inline bool operator==(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
