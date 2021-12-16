@@ -99,6 +99,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +127,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,6 +155,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -177,6 +183,8 @@ xcopy "$(SolutionDir)Libraries\VLD\lib\$(PlatformTarget)\*.DLL" "$(OutDir)" /y /
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -197,7 +205,6 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   <ItemGroup>
     <ClCompile Include="Components\AIComponent\AIComponent.cpp" />
     <ClCompile Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.cpp" />
-    <ClCompile Include="AI\Blackboard\Blackboard.cpp" />
     <ClCompile Include="AI\DecisionMaking\BehaviourTree\BehaviourTree.cpp" />
     <ClCompile Include="AudioLocator\AudioLocator.cpp" />
     <ClCompile Include="AudioSystem\AudioSystem.cpp" />
@@ -257,6 +264,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Components\FPSComponent\FPSComponent.h" />
     <ClInclude Include="IListener\IListener.h" />
     <ClInclude Include="Input\InputAxis\InputAxis.h" />
+    <ClInclude Include="Integrian2D_DLL.h" />
     <ClInclude Include="Iterator\Iterator.h" />
     <ClInclude Include="Math\BetterUint8.h" />
     <ClInclude Include="Math\Circle.h" />
