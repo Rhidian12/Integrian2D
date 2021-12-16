@@ -2,6 +2,8 @@
 
 // Reference: https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
 
+#include "../Integrian2D_API.h"
+
 #include <thread> // std::thread
 #include <vector> // std::vector
 #include <mutex> // std::mutex, std::unique_lock
@@ -35,7 +37,7 @@ namespace Integrian2D
 	class ThreadManager final
 	{
 	public:
-		~ThreadManager();
+		INTEGRIAN2D_API ~ThreadManager();
 
 		/* Get a ThreadManager instance */
 		static ThreadManager* const GetInstance() noexcept;
@@ -46,13 +48,13 @@ namespace Integrian2D
 
 		/* Assign a job to a thread
 			The ID you assign to the job is to identify the job */
-		void AssignThreadTask(const ThreadJob& task, const int id) noexcept;
+		INTEGRIAN2D_API void AssignThreadTask(const ThreadJob& task, const int id) noexcept;
 
 		/* Check if all assigned jobs have been completed */
-		bool AreAllTasksCompleted() const noexcept;
+		INTEGRIAN2D_API bool AreAllTasksCompleted() const noexcept;
 
 		/* Get all jobs that have not been processed yet */
-		const std::vector<ThreadTask>& GetThreadTasks() const noexcept;
+		INTEGRIAN2D_API const std::vector<ThreadTask>& GetThreadTasks() const noexcept;
 
 		/* Sleeps the thread for the time provided 
 			Example:
@@ -81,7 +83,7 @@ namespace Integrian2D
 		void SleepThreadWhile(const std::function<bool()>& predicate, const std::chrono::duration<_Rep, _Period>& time) const noexcept;
 
 		/* Check whether the job with the user-assigned ID is being executed */
-		bool IsJobBeingExecuted(const int userID) const noexcept;
+		INTEGRIAN2D_API bool IsJobBeingExecuted(const int userID) const noexcept;
 
 	private:
 		ThreadManager();

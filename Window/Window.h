@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <string>
 
 struct SDL_Window;
@@ -14,7 +16,7 @@ namespace Integrian2D
 		~Window();
 
 		/* Returns the Window created by the SDL Library */
-		const SDL_Window* const GetSDLWindow() const noexcept;
+		INTEGRIAN2D_API const SDL_Window* const GetSDLWindow() const noexcept;
 
 		Window(const Window&) = delete;
 		Window(Window&&) = delete;

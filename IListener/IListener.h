@@ -1,12 +1,13 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "../EventQueue/Event/Event.h"
 
 namespace Integrian2D
 {
 	/* This class is supposed to be inherited from 
 	   Any instance of this class gets added to the EventQueue */
-	class IListener
+	class INTEGRIAN2D_API IListener
 	{
 	public:
 		/* Upon creation, any instance of this class gets added to the EventQueue */

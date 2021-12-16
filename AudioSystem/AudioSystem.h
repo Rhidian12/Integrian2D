@@ -1,10 +1,11 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include <string>
 
 namespace Integrian2D
 {
-	class AudioSystem
+	class INTEGRIAN2D_API AudioSystem
 	{
 	public:
 		using SoundID = unsigned int;

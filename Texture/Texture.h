@@ -3,6 +3,9 @@
 // Bart Uyttenhove, professor at DAE created this class
 // I took it, with permission, and changed it to suit this engine
 // ===========================
+
+#include "../Integrian2D_API.h"
+
 #include "../Math/TypeDefines.h"
 
 #include <string> // std::string
@@ -15,26 +18,26 @@ namespace Integrian2D
 	class Texture final
 	{
 	public:
-		explicit Texture(const std::string& imagePath);
-		explicit Texture(const std::string& text, const std::string& fontPath, const int ptSize, const RGBColour& textColor);
-		~Texture();
+		INTEGRIAN2D_API explicit Texture(const std::string& imagePath);
+		INTEGRIAN2D_API explicit Texture(const std::string& text, const std::string& fontPath, const int ptSize, const RGBColour& textColor);
+		INTEGRIAN2D_API ~Texture();
 
 		/* Returns the Texture width */
-		float GetWidth() const noexcept;
+		INTEGRIAN2D_API float GetWidth() const noexcept;
 
 		/* Returns the Texture height */
-		float GetHeight() const noexcept;
+		INTEGRIAN2D_API float GetHeight() const noexcept;
 
 		/* Returns whether the creation of the Texture succeeded */
-		bool IsCreationOk() const noexcept;
+		INTEGRIAN2D_API bool IsCreationOk() const noexcept;
 
 		/* Get the ID assigned to the Texture */
-		unsigned int GetTextureID() const noexcept;
+		INTEGRIAN2D_API unsigned int GetTextureID() const noexcept;
 
-		Texture(const Texture& other) noexcept;
-		Texture(Texture&& other) noexcept;
-		Texture& operator=(const Texture& other) noexcept;
-		Texture& operator=(Texture&& other) noexcept;
+		INTEGRIAN2D_API Texture(const Texture& other) noexcept;
+		INTEGRIAN2D_API Texture(Texture&& other) noexcept;
+		INTEGRIAN2D_API Texture& operator=(const Texture& other) noexcept;
+		INTEGRIAN2D_API Texture& operator=(Texture&& other) noexcept;
 
 	private:
 		//DATA MEMBERS

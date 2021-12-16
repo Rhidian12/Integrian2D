@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "../Math/TypeDefines.h"
 
 #include <vector>
@@ -17,23 +18,23 @@ namespace Integrian2D
 	{
 	public:
 		/* Every GameObject has a TransformComponent by default! */
-		GameObject();
-		~GameObject();
+		INTEGRIAN2D_API GameObject();
+		INTEGRIAN2D_API ~GameObject();
 
 		/* This function calls the GameObject's Component's Start(). Do NOT call this manually */
-		void Start();
+		INTEGRIAN2D_API void Start();
 
 		/* This function calls the GameObject's Components' Update(). Do NOT call this manually */
-		void Update();
+		INTEGRIAN2D_API void Update();
 
 		/* This function calls the GameObject's Components' FixedUpdate(). Do NOT call this manually */
-		void FixedUpdate();
+		INTEGRIAN2D_API void FixedUpdate();
 
 		/* This function calls the GameObject's Components' LateUpdate(). Do NOT call this manually */
-		void LateUpdate();
+		INTEGRIAN2D_API void LateUpdate();
 
 		/* This function calls the GameObject's Components' Render(). Do NOT call this manually */
-		void Render() const;
+		INTEGRIAN2D_API void Render() const;
 
 		/* This function returns the Component requested by the User. This function will cause a compilation error
 		   if the requested Type is class not derived from Component 
@@ -44,38 +45,38 @@ namespace Integrian2D
 
 		/* Adds a Component to the GameObject, if it not already present
 		   Duplicate Component Types are allowed, but not the same Component twice */
-		void AddComponent(Component* const pComponent) noexcept;
+		INTEGRIAN2D_API void AddComponent(Component* const pComponent) noexcept;
 
 		/* Sets another GameObject as this GameObject's Child
 		   The GameObject set as Child its parent is set as this GameObject */
-		void AddChild(GameObject* const pChild) noexcept;
+		INTEGRIAN2D_API void AddChild(GameObject* const pChild) noexcept;
 
 		/* Set a GameObject's parent
 		   It is unnecessary to call this in conjunction with AddChild()
 		   Since AddChild() sets the parent automatically */
-		void SetParent(GameObject* const pParent) noexcept;
+		INTEGRIAN2D_API void SetParent(GameObject* const pParent) noexcept;
 
 		/* Set the GameObject's tag */
-		void SetTag(const std::string& tag) noexcept;
+		INTEGRIAN2D_API void SetTag(const std::string& tag) noexcept;
 
 		/* Get this GameObject's parent 
 		   If the GameObject has no parent, this function returns a nullptr */
-		GameObject* const GetParent() const noexcept;
+		INTEGRIAN2D_API GameObject* const GetParent() const noexcept;
 
 		/* Get the GameObject's Children 
 		   If the GameObject has no Children, this functions returns an empty std::vector */
-		const std::vector<GameObject*>& GetChildren() const noexcept;
+		INTEGRIAN2D_API const std::vector<GameObject*>& GetChildren() const noexcept;
 
 		/* Get the GameObject's tag */
-		const std::string& GetTag() const noexcept;
+		INTEGRIAN2D_API const std::string& GetTag() const noexcept;
 
 		/* The GameObject's Transform Component */
 		TransformComponent* pTransform;
 
-		GameObject(const GameObject& other) noexcept;
-		GameObject(GameObject&& other) noexcept;
-		GameObject& operator=(const GameObject& other) noexcept;
-		GameObject& operator=(GameObject&& other) noexcept;
+		INTEGRIAN2D_API GameObject(const GameObject& other) noexcept;
+		INTEGRIAN2D_API GameObject(GameObject&& other) noexcept;
+		INTEGRIAN2D_API GameObject& operator=(const GameObject& other) noexcept;
+		INTEGRIAN2D_API GameObject& operator=(GameObject&& other) noexcept;
 
 	private:
 		std::vector<Component*> m_pComponents;

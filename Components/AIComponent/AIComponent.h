@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
 #include "../Component/Component.h"
 #include "../../AI/BehaviourState.h"
 
@@ -11,16 +12,16 @@ namespace Integrian2D
 	class AIComponent final : public Component
 	{
 	public:
-		AIComponent(GameObject* const pOwner, Blackboard* const pBlackboard, BaseDecisionMaking* const pAI);
-		~AIComponent();
+		INTEGRIAN2D_API AIComponent(GameObject* const pOwner, Blackboard* const pBlackboard, BaseDecisionMaking* const pAI);
+		INTEGRIAN2D_API ~AIComponent();
 
-		virtual Component* Clone(GameObject* pOwner) noexcept override;
+		INTEGRIAN2D_API virtual Component* Clone(GameObject* pOwner) noexcept override;
 
-		virtual void Update() override;
+		INTEGRIAN2D_API virtual void Update() override;
 
-		Blackboard* const GetBlackboard() const noexcept;
-		BaseDecisionMaking* const GetDecisionMaking() const noexcept;
-		BehaviourState GetCurrentState() const noexcept;
+		INTEGRIAN2D_API Blackboard* const GetBlackboard() const noexcept;
+		INTEGRIAN2D_API BaseDecisionMaking* const GetDecisionMaking() const noexcept;
+		INTEGRIAN2D_API BehaviourState GetCurrentState() const noexcept;
 
 	private:
 		Blackboard* m_pBlackboard;

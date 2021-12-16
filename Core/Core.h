@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <string>
 
 namespace Integrian2D
@@ -11,22 +13,22 @@ namespace Integrian2D
 	{
 	public:
 		/* Get the earlier created Engine instance */
-		static Core* const GetInstance() noexcept;
+		INTEGRIAN2D_API static Core* const GetInstance() noexcept;
 
 		/* Create an instance of the engine, this initializes the libraries used by the engine and creates a window
 		   Call this function only ONCE */
-		static Core* const CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
+		INTEGRIAN2D_API static Core* const CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
 
 		/* Delete the earlier created Engine instance */
-		static void Cleanup() noexcept;
+		INTEGRIAN2D_API static void Cleanup() noexcept;
 
-		~Core();
+		INTEGRIAN2D_API ~Core();
 
 		/* This function starts the Engine and should be called ONCE */
-		void Run();
+		INTEGRIAN2D_API void Run();
 
 		/* Is the Engine running? */
-		bool IsEngineRunning() const noexcept;
+		INTEGRIAN2D_API bool IsEngineRunning() const noexcept;
 
 		Core(const Core&) = delete;
 		Core(Core&&) = delete;

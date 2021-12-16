@@ -1,6 +1,6 @@
 #include "NavigationGraphComponent.h"
-#include "../GameObject/GameObject.h"
-#include "../Components/TransformComponent/TransformComponent.h"
+#include "../../GameObject/GameObject.h"
+#include "../TransformComponent/TransformComponent.h"
 
 #include <algorithm>
 

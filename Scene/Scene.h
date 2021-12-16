@@ -1,9 +1,10 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <string>
 #include <unordered_map>
 
-#include "../Input/InputManager/InputManager.h"
 #include "../EventQueue/EventQueue.h"
 #include "../TransformManager/TransformManager.h"
 
@@ -12,7 +13,7 @@ namespace Integrian2D
 	class GameObject;
 
 	/* This class is supposed to be inherited from */
-	class Scene
+	class INTEGRIAN2D_API Scene
 	{
 	public:
 		Scene(const std::string& sceneName);

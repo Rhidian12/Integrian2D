@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
 #include "../Component/Component.h"
 #include "../../Math/TypeDefines.h"
 
@@ -7,7 +8,7 @@ namespace Integrian2D
 {
 	class TransformManager;
 
-	class TransformComponent final : public Component
+	class INTEGRIAN2D_API TransformComponent final : public Component
 	{
 	public:
 		TransformComponent(GameObject* pOwner);

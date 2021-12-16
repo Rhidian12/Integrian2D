@@ -1,8 +1,10 @@
 #pragma once
 
-#include <functional>
+#include "../Integrian2D_API.h"
 #include "PossibleInputs.h"
 #include "../Utils/Utils.h"
+
+#include <functional>
 
 namespace Integrian2D
 {
@@ -18,7 +20,7 @@ namespace Integrian2D
 	class Command;
 
 	/* Used by the InputManager to represent user input, either controller, mouse or keyboard input */
-	struct GameInput final
+	struct INTEGRIAN2D_API GameInput final
 	{
 		explicit GameInput() = default;
 		explicit GameInput(const ControllerInput controllerInput);

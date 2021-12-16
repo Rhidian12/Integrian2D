@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
+
 #include <string>
 #include <fstream>
 #include <type_traits>
@@ -13,18 +15,18 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the non-binary file with path filePath */
-		Writer(const std::string& filePath);
-		~Writer();
+		INTEGRIAN2D_API Writer(const std::string& filePath);
+		INTEGRIAN2D_API ~Writer();
 
 		/* Open the non-binary file */
-		void Open() noexcept;
+		INTEGRIAN2D_API void Open() noexcept;
 
 		/* Open a new non-binary file */
-		void OpenNewFile(const std::string& filePath) noexcept;
+		INTEGRIAN2D_API void OpenNewFile(const std::string& filePath) noexcept;
 
 		/* Close the non-binary file
 		   This happens automatically on destruction of the writer */
-		void Close() noexcept;
+		INTEGRIAN2D_API void Close() noexcept;
 
 		/* Write data to the non-binary file
 		   If the requested data has no operator<<, this function will result in a compiler error */

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
+
 #include <string>
 #include <fstream>
 #include <type_traits>
@@ -13,19 +15,19 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the file with path fileName */
-		BinaryWriter(const std::string& filePath);
-		~BinaryWriter();
+		INTEGRIAN2D_API BinaryWriter(const std::string& filePath);
+		INTEGRIAN2D_API ~BinaryWriter();
 
 		/* Open the binary file
 		   This happens automatically on creation of the writer */
-		void Open() noexcept;
+		INTEGRIAN2D_API void Open() noexcept;
 
 		/* Open a new binary file */
-		void OpenNewFile(const std::string& newFile) noexcept;
+		INTEGRIAN2D_API void OpenNewFile(const std::string& newFile) noexcept;
 
 		/* Close the binary file
 		   This happens automatically on destruction of the writer */
-		void Close() noexcept;
+		INTEGRIAN2D_API void Close() noexcept;
 
 		/* Read data from the binary file
 		   If the requested data is not POD, this function might result in undefined behaviour */

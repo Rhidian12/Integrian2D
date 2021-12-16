@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 namespace Integrian2D
 {
 	class Scene;
@@ -7,23 +9,23 @@ namespace Integrian2D
 	class Command
 	{
 	public:
-		Command(Scene* const pScene);
+		INTEGRIAN2D_API Command(Scene* const pScene);
 
-		virtual ~Command() = default;
+		INTEGRIAN2D_API virtual ~Command() = default;
 
 		/* When the input related to this command gets triggered, Execute() gets called */
-		virtual void Execute() = 0;
+		INTEGRIAN2D_API virtual void Execute() = 0;
 
 		/* Optionally overrideable function for ease-of-use, 
 			meaning that this function will never get called internally */
-		virtual void Undo() {}
+		INTEGRIAN2D_API virtual void Undo() {}
 
 		/* Optionally overrideable function for ease-of-use,
 			meaning that this function will never get called internally */
-		virtual void Redo() {}
+		INTEGRIAN2D_API virtual void Redo() {}
 
 		/* Get the Scene this Command is attached to */
-		Scene* const GetScene() const noexcept;
+		INTEGRIAN2D_API Scene* const GetScene() const noexcept;
 
 	protected:
 		Scene* m_pScene;

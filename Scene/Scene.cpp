@@ -4,6 +4,7 @@
 #include "../GameObject/GameObject.h"
 #include "../TransformManager/TransformManager.h"
 #include "../ThreadManager/ThreadManager.h"
+#include "../Input/InputManager/InputManager.h"
 
 namespace Integrian2D
 {

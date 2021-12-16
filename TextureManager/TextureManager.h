@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <string>
 #include <unordered_map>
 
@@ -17,19 +19,19 @@ namespace Integrian2D
 		   Do NOT call this function manually */
 		static void Cleanup() noexcept;
 
-		~TextureManager();
+		INTEGRIAN2D_API ~TextureManager();
 
 		/* Add a Texture to the Texture Manager
 		   Textures with duplicate names do not get added */
-		void AddTexture(const std::string& textureID, Texture* const pTexture) noexcept;
+		INTEGRIAN2D_API void AddTexture(const std::string& textureID, Texture* const pTexture) noexcept;
 
 		/* Get a previously added Texture to the TextureManager 
 		   If no Texture with identifier textureID has been added, this function will return a nullptr */
-		Texture* const GetTexture(const std::string& textureID) const noexcept;
+		INTEGRIAN2D_API Texture* const GetTexture(const std::string& textureID) const noexcept;
 
 		/* Get all previously added Textures 
 		   If no Textures have been added, this function returns an empty map */
-		const std::unordered_map<std::string, Texture*>& GetTextures() const noexcept;
+		INTEGRIAN2D_API const std::unordered_map<std::string, Texture*>& GetTextures() const noexcept;
 
 		TextureManager(const TextureManager&) = delete;
 		TextureManager(TextureManager&&) = delete;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <chrono>
 
 namespace Integrian2D
@@ -8,7 +10,7 @@ namespace Integrian2D
 	{
 	public:
 		/* Get a Timer instance */
-		static Timer* GetInstance() noexcept;
+		INTEGRIAN2D_API static Timer* GetInstance() noexcept;
 
 		/* Internal Usage
 		   Do NOT call this function manually */
@@ -24,20 +26,20 @@ namespace Integrian2D
 		void Update() noexcept;
 
 		/* Get the current FPS */
-		int GetFPS() const noexcept;
+		INTEGRIAN2D_API int GetFPS() const noexcept;
 
 		/* Get the elapsed seconds from the previous frame
 		   To ensure stable code, this will never be more than 0.1f */
-		float GetElapsedSeconds() const noexcept;
+		INTEGRIAN2D_API float GetElapsedSeconds() const noexcept;
 
 		/* Get a elapsed seconds for fixed update calculations */
-		float GetFixedElapsedSeconds() const noexcept;
+		INTEGRIAN2D_API float GetFixedElapsedSeconds() const noexcept;
 
 		/* Get how much time per frame can be spent at most */
-		float GetTimePerFrame() const noexcept;
+		INTEGRIAN2D_API float GetTimePerFrame() const noexcept;
 
 		/* Get the total amount of elapsed seconds since the start of the program */
-		float GetTotalElapsedSeconds() const noexcept;
+		INTEGRIAN2D_API float GetTotalElapsedSeconds() const noexcept;
 
 	private:
 		Timer();

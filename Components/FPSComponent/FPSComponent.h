@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
 #include "../Component/Component.h"
 
 namespace Integrian2D
@@ -12,14 +13,14 @@ namespace Integrian2D
 	public:
 		/* The FPSComponent does NOT take ownership of the passed TextComponent
 			Both components should be added to the same GameObject */
-		FPSComponent(GameObject* const pOwner, TextComponent* const pTextComponent);
+		INTEGRIAN2D_API FPSComponent(GameObject* const pOwner, TextComponent* const pTextComponent);
 
-		virtual Component* Clone(GameObject* pOwner) noexcept override;
+		INTEGRIAN2D_API virtual Component* Clone(GameObject* pOwner) noexcept override;
 
-		virtual void Update() override;
+		INTEGRIAN2D_API virtual void Update() override;
 
 		/* Get the provided text component */
-		TextComponent* const GetTextComponent() const noexcept;
+		INTEGRIAN2D_API TextComponent* const GetTextComponent() const noexcept;
 
 	private:
 		TextComponent* m_pTextComponent;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
+
 #include <string>
 #include <fstream>
 #include <type_traits>
@@ -13,24 +15,24 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the non-binary file with path filePath */
-		Reader(const std::string& filePath);
-		~Reader();
+		INTEGRIAN2D_API Reader(const std::string& filePath);
+		INTEGRIAN2D_API ~Reader();
 
 		/* Open the non-binary file
 		   This happens automatically on creation of the reader */
-		void Open() noexcept;
+		INTEGRIAN2D_API void Open() noexcept;
 
 		/* Open a new non-binary file */
-		void OpenNewFile(const std::string& filePath) noexcept;
+		INTEGRIAN2D_API void OpenNewFile(const std::string& filePath) noexcept;
 
 		/* Close the non-binary file
 		   This happens automatically on destruction of the reader */
-		void Close() noexcept;
+		INTEGRIAN2D_API void Close() noexcept;
 
 		/* Sets the Reader's internal line number 
 		   E.g. Calling this function with parameter 0 will set the reader to the beginning of the file 
 		   Note that this function has a linear time complexity, the further the line number the longer this takes */
-		void SetLine(const unsigned int line) noexcept;
+		INTEGRIAN2D_API void SetLine(const unsigned int line) noexcept;
 
 		/* Read data from the non-binary file
 		   If the requested data is wrong, this function will result in undefined behaviour */
@@ -39,10 +41,10 @@ namespace Integrian2D
 
 		/* Get amount of lines this non-binary file contains 
 		   Note that this function has a linear time complexity */
-		unsigned int GetAmountOfLines() noexcept;
+		INTEGRIAN2D_API unsigned int GetAmountOfLines() noexcept;
 
 		/* Read a specific line from the file */
-		std::string GetLine(const unsigned int line) noexcept;
+		INTEGRIAN2D_API std::string GetLine(const unsigned int line) noexcept;
 
 	private:
 		std::fstream m_File;

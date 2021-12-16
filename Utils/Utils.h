@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <type_traits>
 #include <string>
 #include <limits>
@@ -10,7 +12,7 @@ namespace Integrian2D
 	namespace Utils
 	{
 		/* I suggest using the ASSERT macro, since it gets optimised away in Release */
-		void Assert(const bool expression, const std::string& message);
+		INTEGRIAN2D_API void Assert(const bool expression, const std::string& message);
 
 #ifdef _DEBUG
 #define ASSERT(expression, message) Utils::Assert(expression, message);

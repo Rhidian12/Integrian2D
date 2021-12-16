@@ -30,6 +30,8 @@
 // 15 = intense white
 #pragma endregion
 
+#include "../Integrian2D_API.h"
+
 #include <iostream>
 #include <string>
 
@@ -37,7 +39,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-inline std::string operator""_s(const char* str, std::size_t len)
+INTEGRIAN2D_API inline std::string operator""_s(const char* str, std::size_t len)
 {
 	return std::string(str, len);
 }
@@ -49,16 +51,16 @@ namespace Integrian2D
 	{
 	public:
 		/* Log a message to the console in green */
-		static void LogNoWarning(const std::string& message, bool newLine = true) noexcept;
+		INTEGRIAN2D_API static void LogNoWarning(const std::string& message, bool newLine = true) noexcept;
 
 		/* Log a message to the console in yellow */
-		static void LogWarning(const std::string& message, bool newLine = true) noexcept;
+		INTEGRIAN2D_API static void LogWarning(const std::string& message, bool newLine = true) noexcept;
 
 		/* Log a message to the console in light red */
-		static void LogError(const std::string& message, bool newLine = true) noexcept;
+		INTEGRIAN2D_API static void LogError(const std::string& message, bool newLine = true) noexcept;
 
 		/* Log a message to the console in red */
-		static void LogSevereError(const std::string& message, bool newLine = true) noexcept;
+		INTEGRIAN2D_API static void LogSevereError(const std::string& message, bool newLine = true) noexcept;
 	};
 }
 

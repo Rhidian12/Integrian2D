@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "../AudioSystem/AudioSystem.h"
 
 namespace Integrian2D
@@ -9,13 +10,13 @@ namespace Integrian2D
 	class AudioLocator final
 	{
 	public:
-		static AudioLocator* const GetInstance() noexcept;
+		INTEGRIAN2D_API static AudioLocator* const GetInstance() noexcept;
 		static void Cleanup() noexcept;
-		~AudioLocator();
+		INTEGRIAN2D_API ~AudioLocator();
 
-		void Provide(AudioSystem* const pAudioSystem) noexcept;
+		INTEGRIAN2D_API void Provide(AudioSystem* const pAudioSystem) noexcept;
 
-		AudioSystem* const GetAudio() const noexcept;
+		INTEGRIAN2D_API AudioSystem* const GetAudio() const noexcept;
 
 	private:
 		AudioLocator() = default;

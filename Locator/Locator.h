@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 namespace Integrian2D
 {
 	class EventQueue;
@@ -9,12 +11,12 @@ namespace Integrian2D
 	{
 	public:
 		/* Get a Locator instance */
-		static Locator* GetInstance() noexcept;
+		INTEGRIAN2D_API static Locator* GetInstance() noexcept;
 
 		/* Internal Usage */
-		static void Cleanup() noexcept;
+		INTEGRIAN2D_API static void Cleanup() noexcept;
 
-		EventQueue* const GetEventQueue() const noexcept;
+		INTEGRIAN2D_API EventQueue* const GetEventQueue() const noexcept;
 
 	private:
 		Locator() = default;

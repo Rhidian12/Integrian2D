@@ -87,10 +87,10 @@
     <ClCompile Include="Timer\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NavigationGraph\NavigationGraphComponent.cpp">
+    <ClCompile Include="Components\NavigationGraphComponent\NavigationGraphComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.cpp">
+    <ClCompile Include="NavGraphPolygon\NavGraphPolygon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EventQueue\EventQueue.cpp">
@@ -136,9 +136,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\FPSComponent\FPSComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioSystem\AudioSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDLAudioSystem\SDLAudioSystem.cpp">
@@ -269,10 +266,10 @@
     <ClInclude Include="Timer\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NavigationGraph\NavigationGraphComponent.h">
+    <ClInclude Include="Components\NavigationGraphComponent\NavigationGraphComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NavigationGraph\NavGraphPolygon\NavGraphPolygon.h">
+    <ClInclude Include="NavGraphPolygon\NavGraphPolygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\PTriangle.h">
@@ -281,7 +278,7 @@
     <ClInclude Include="Math\PLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NavigationGraph\NavGraphPolygon\delaunator.hpp">
+    <ClInclude Include="NavGraphPolygon\delaunator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\Triangle.h">
@@ -356,7 +353,7 @@
     <ClInclude Include="AI\BehaviourState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Integrian2D_DLL.h">
+    <ClInclude Include="Integrian2D_API.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

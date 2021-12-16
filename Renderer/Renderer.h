@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include <vector>
 #include "../Math/TypeDefines.h"
 
@@ -17,14 +19,14 @@ namespace Integrian2D
 		static void CreateRenderer(SDL_Window* const pWindow) noexcept;
 
 		/* Return an instance of the Renderer */
-		static Renderer* GetInstance() noexcept;
+		INTEGRIAN2D_API static Renderer* GetInstance() noexcept;
 
 		/* Internal Usage
 		   Do NOT call this function manually */
 		static void Cleanup() noexcept;
 
 		/* Queue a Texture to be Rendered */
-		void RenderTexture(Texture* const pTexture, const PRectf& destRect, const Rectf& sourceRect) noexcept;
+		INTEGRIAN2D_API void RenderTexture(Texture* const pTexture, const PRectf& destRect, const Rectf& sourceRect) noexcept;
 
 		/* Render all queued Textures
 		   Do NOT call this function manually, this gets called internally */
@@ -35,46 +37,46 @@ namespace Integrian2D
 		void SetNewFrame() noexcept;
 
 		/* Render an empty rectangle to the screen */
-		void RenderRectangle(const Rectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderRectangle(const Rectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render an empty to the screen */
-		void RenderRectangle(const PRectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderRectangle(const PRectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a filled rectangle to the screen */
-		void RenderFilledRectangle(const Rectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderFilledRectangle(const Rectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a filled rectangle to the screen */
-		void RenderFilledRectangle(const PRectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderFilledRectangle(const PRectf& rect, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render an empty triangle to the screen */
-		void RenderTriangle(const PTrianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderTriangle(const PTrianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render an empty triangle to the screen */
-		void RenderTriangle(const Trianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderTriangle(const Trianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a filled triangle to the screen */
-		void RenderFilledTriangle(const PTrianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderFilledTriangle(const PTrianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a filled triangle to the screen */
-		void RenderFilledTriangle(const Trianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderFilledTriangle(const Trianglef& triangle, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 		
 		/* Render a line to the screen */
-		void RenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a line to the screen */
-		void RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a circle to the screen */
-		void RenderCircle(const Circlef& circle, const RGBColour& colour = RGBColour{ 255, 0, 0 }) noexcept;
+		INTEGRIAN2D_API void RenderCircle(const Circlef& circle, const RGBColour& colour = RGBColour{ 255, 0, 0 }) noexcept;
 
 		/* Render a filled circle to the screen */
-		void RenderFilledCircle(const Circlef& circle, const RGBColour& colour = RGBColour{ 255, 0, 0 }) noexcept;
+		INTEGRIAN2D_API void RenderFilledCircle(const Circlef& circle, const RGBColour& colour = RGBColour{ 255, 0, 0 }) noexcept;
 
 		/* Render a polygon to the screen */
-		void RenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		/* Render a filled polygon to the screen */
-		void RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
+		INTEGRIAN2D_API void RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) = delete;

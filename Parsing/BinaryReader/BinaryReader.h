@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
+
 #include <string>
 #include <fstream>
 #include <type_traits>
@@ -13,19 +15,19 @@ namespace Integrian2D
 	{
 	public:
 		/* Opens the file with path fileName */
-		BinaryReader(const std::string& fileName);
-		~BinaryReader();
+		INTEGRIAN2D_API BinaryReader(const std::string& fileName);
+		INTEGRIAN2D_API ~BinaryReader();
 
 		/* Open the binary file
 		   This happens automatically on creation of the reader */
-		void Open() noexcept;
+		INTEGRIAN2D_API void Open() noexcept;
 
 		/* Open a new binary file */
-		void OpenNewFile(const std::string& newFile) noexcept;
+		INTEGRIAN2D_API void OpenNewFile(const std::string& newFile) noexcept;
 
 		/* Close the binary file 
 		   This happens automatically on destruction of the reader */
-		void Close() noexcept;	
+		INTEGRIAN2D_API void Close() noexcept;
 
 		/* Read data from the binary file 
 		   If the requested data is wrong, this function will result in undefined behaviour */

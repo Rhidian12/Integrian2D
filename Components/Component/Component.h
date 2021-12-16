@@ -1,12 +1,13 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
 #include "../../Math/TypeDefines.h"
 
 namespace Integrian2D
 {
 	class GameObject;
 
-	class Component
+	class INTEGRIAN2D_API Component
 	{
 	public:
 		Component(GameObject* pOwner);
