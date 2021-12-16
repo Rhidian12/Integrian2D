@@ -1,6 +1,6 @@
 #include "AIComponent.h"
-#include "../Blackboard/Blackboard.h"
-#include "../DecisionMaking/BaseDecisionMaking/BaseDecisionMaking.h"
+#include "../../AI/Blackboard/Blackboard.h"
+#include "../../AI/DecisionMaking/BaseDecisionMaking/BaseDecisionMaking.h"
 #include "../../Utils/Utils.h"
 
 namespace Integrian2D
