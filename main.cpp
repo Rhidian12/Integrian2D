@@ -31,5 +31,5 @@ bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 //	return 0;
 //}
 
-#define EXPORT
-#include "Integrian2D_API.h"
+// #define EXPORT
+// #include "Integrian2D_API.h"

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "../Utils/Utils.h"
 #include "Point2.h"
 #include "Vector2.h"
@@ -25,7 +26,7 @@ namespace Integrian2D
 		  */
 
 	template<typename Type>
-	struct Rect
+	struct INTEGRIAN2D_API Rect
 	{
 #pragma region Constructors
 		explicit Rect()
@@ -101,13 +102,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	bool operator==(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
+	INTEGRIAN2D_API bool operator==(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
 	{
 		return (r1.xy == r2.xy) && Utils::AreEqual(r1.width, r2.width) && Utils::AreEqual(r1.height, r2.height);
 	}
 
 	template<typename Type>
-	bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
+	INTEGRIAN2D_API bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
 	{
 		return !(r1 == r2);
 	}
@@ -115,7 +116,7 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<typename Type>
-	Type GetArea(const Rect<Type>& r) noexcept
+	INTEGRIAN2D_API Type GetArea(const Rect<Type>& r) noexcept
 	{
 		return r.width * r.height;
 	}

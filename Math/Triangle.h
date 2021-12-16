@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "Point2.h"
 #include "../Utils/Utils.h"
 
@@ -44,7 +45,7 @@ namespace Integrian2D
 			*/
 
 	template<typename Type>
-	struct Triangle
+	struct INTEGRIAN2D_API Triangle
 	{
 #pragma region Constructors
 		explicit Triangle()
@@ -95,13 +96,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	inline bool operator==(const Triangle<Type>& a, const Triangle<Type>& b) noexcept
+	INTEGRIAN2D_API inline bool operator==(const Triangle<Type>& a, const Triangle<Type>& b) noexcept
 	{
 		return a.leftPoint == b.leftPoint && a.topPoint == b.topPoint && a.rightPoint == b.rightPoint;
 	}
 
 	template<typename Type>
-	inline bool operator!=(const Triangle<Type>& a, const Triangle<Type>& b) noexcept
+	INTEGRIAN2D_API inline bool operator!=(const Triangle<Type>& a, const Triangle<Type>& b) noexcept
 	{
 		return !(a == b);
 	}
@@ -110,7 +111,7 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<typename Type>
-	Type GetWidth(const Triangle<Type>& t) noexcept
+	INTEGRIAN2D_API Type GetWidth(const Triangle<Type>& t) noexcept
 	{
 		const Point<2, Type> leftPoint = Utils::AreEqual(std::min(t.leftPoint.x, t.rightPoint.x), t.leftPoint.x) ? t.leftPoint : t.rightPoint;
 		const Point<2, Type> rightPoint = Utils::AreEqual(leftPoint.x, t.leftPoint.x) ? t.rightPoint : t.leftPoint;
@@ -119,7 +120,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Type GetHeight(const Triangle<Type>& t) noexcept
+	INTEGRIAN2D_API Type GetHeight(const Triangle<Type>& t) noexcept
 	{
 		const Point<2, Type> topPoint = Utils::AreEqual(std::max(t.leftPoint.y, t.topPoint.y), t.topPoint.y) ? t.topPoint : t.leftPoint;
 		const Point<2, Type> bottomPoint = Utils::AreEqual(topPoint.y, t.topPoint.y) ? t.leftPoint: t.topPoint;
@@ -128,7 +129,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Type GetArea(const Triangle<Type>& t) noexcept
+	INTEGRIAN2D_API Type GetArea(const Triangle<Type>& t) noexcept
 	{
 		return (GetWidth(t) * GetHeight(t)) * static_cast<Type>(0.5f);
 	}

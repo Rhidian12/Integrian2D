@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../../Integrian2D_API.h"
+#include "../Integrian2D_API.h"
 
-#include "../../Math/TypeDefines.h"
+#include "../Math/TypeDefines.h"
+
 #include <vector>
 
 namespace Integrian2D

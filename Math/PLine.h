@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
+
 #include "Polygon.h"
 #include "Point2.h"
 #include "Vector2.h"
@@ -59,7 +61,7 @@ namespace Integrian2D
 
 	   // == Specialisation of Polygon, Being a Line ==
 	template<typename Type>
-	struct Polygon<2, Type>
+	struct INTEGRIAN2D_API Polygon<2, Type>
 	{
 #pragma region Constructors
 		explicit Polygon<2, Type>()
@@ -142,7 +144,7 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Data
-		class Points final
+		class INTEGRIAN2D_API Points final
 		{
 		private:
 			friend struct Polygon<2, Type>;
@@ -194,14 +196,14 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	bool operator==(const Polygon<2, Type>& p1, const Polygon<2, Type>& p2) noexcept
+	INTEGRIAN2D_API bool operator==(const Polygon<2, Type>& p1, const Polygon<2, Type>& p2) noexcept
 	{
 		return p1.points == p2.points && p1.begin == p2.begin && p1.end == p2.end && p1.width == p2.width &&
 			p1.height == p2.height && p1.scaleX == p2.scaleX && p1.scaleY == p2.scaleY && p1.angle == p2.angle;
 	}
 
 	template<typename Type>
-	bool operator!=(const Polygon<2, Type>& p1, const Polygon<2, Type>& p2) noexcept
+	INTEGRIAN2D_API bool operator!=(const Polygon<2, Type>& p1, const Polygon<2, Type>& p2) noexcept
 	{
 		return !(p1 == p2);
 	}
@@ -209,7 +211,7 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<int V, typename Type>
-	void Translate(Polygon<2, Type>& p, const Vector<V, Type>& v) noexcept
+	INTEGRIAN2D_API void Translate(Polygon<2, Type>& p, const Vector<V, Type>& v) noexcept
 	{
 		static_assert(V > 1, "A vector needs at least two dimensions");
 
@@ -220,7 +222,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void Rotate(Polygon<2, Type>& p, const Type& _angleChange) noexcept
+	INTEGRIAN2D_API void Rotate(Polygon<2, Type>& p, const Type& _angleChange) noexcept
 	{
 		p.angle += _angleChange;
 
@@ -228,7 +230,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void Scale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
+	INTEGRIAN2D_API void Scale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		p.scaleX += scale.x;
 		p.scaleY += scale.y;
@@ -237,7 +239,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetRotation(Polygon<2, Type>& p, const Type& _angle) noexcept
+	INTEGRIAN2D_API void SetRotation(Polygon<2, Type>& p, const Type& _angle) noexcept
 	{
 		p.angle = _angle;
 
@@ -262,7 +264,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetScale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
+	INTEGRIAN2D_API void SetScale(Polygon<2, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -306,7 +308,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetCenter(Polygon<2, Type>& p, const Point<2, Type>& _center) noexcept
+	INTEGRIAN2D_API void SetCenter(Polygon<2, Type>& p, const Point<2, Type>& _center) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -355,13 +357,13 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	const Point<2, Type>& GetCenter(const Polygon<2, Type>& p) noexcept
+	INTEGRIAN2D_API const Point<2, Type>& GetCenter(const Polygon<2, Type>& p) noexcept
 	{
 		return p.points.center;
 	}
 
 	template<typename Type>
-	void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type>& _pivotPoint) noexcept
+	INTEGRIAN2D_API void SetPivotPoint(Polygon<2, Type>& p, const Point<2, Type>& _pivotPoint) noexcept
 	{
 		p.points.pivotPoint = _pivotPoint;
 
@@ -371,13 +373,13 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	const Point<2, Type>& GetPivotPoint(const Polygon<2, Type>& p) noexcept
+	INTEGRIAN2D_API const Point<2, Type>& GetPivotPoint(const Polygon<2, Type>& p) noexcept
 	{
 		return p.points.pivotPoint;
 	}
 
 	template<typename Type>
-	void SetWidth(Polygon<2, Type>& p, const Type _width) noexcept
+	INTEGRIAN2D_API void SetWidth(Polygon<2, Type>& p, const Type _width) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -412,7 +414,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	void SetHeight(Polygon<2, Type>& p, const Type _height) noexcept
+	INTEGRIAN2D_API void SetHeight(Polygon<2, Type>& p, const Type _height) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -447,7 +449,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	bool AreLinesIntersecting(const Polygon<2, Type>& a, const Polygon<2, Type>& b) noexcept
+	INTEGRIAN2D_API bool AreLinesIntersecting(const Polygon<2, Type>& a, const Polygon<2, Type>& b) noexcept
 	{
 		return DoVectorsIntersect(a.begin, Vector<2, Type>{ a.begin, a.end }, b.begin, Vector<2, Type>{ b.begin, b.end }, nullptr);
 	}

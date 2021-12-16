@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "Point.h"
 
 namespace Integrian2D
@@ -8,7 +9,7 @@ namespace Integrian2D
 	   I suggest using the provided Polygon types - such as PTriangle - but others can be created using this class */
 
 	template<int Points, typename Type>
-	struct Polygon
+	struct INTEGRIAN2D_API Polygon
 	{
 		Point<2, Type> data[Points];
 

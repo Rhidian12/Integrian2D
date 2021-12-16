@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include <stdint.h>
 #include <utility>
 #include <algorithm>
@@ -50,7 +51,7 @@ namespace Integrian2D
 		 =>		This function essentially normalizes the colour
 		*/
 
-	struct RGBColour final
+	struct INTEGRIAN2D_API RGBColour final
 	{
 #pragma region Constructors
 		explicit RGBColour()
@@ -109,49 +110,49 @@ namespace Integrian2D
 	};
 
 #pragma region Arithmetic Operators
-	inline RGBColour operator+(const RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour operator+(const RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		return RGBColour{ cOne.r + cTwo.r, cOne.b + cTwo.b, cOne.g + cTwo.g, cOne.a + cTwo.a };
 	}
 
-	inline RGBColour operator+(const RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour operator+(const RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		return RGBColour{ cOne.r + inc, cOne.b + inc, cOne.g + inc, cOne.a + inc };
 	}
 
-	inline RGBColour operator-(const RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour operator-(const RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		return RGBColour{ cOne.r - cTwo.r, cOne.b - cTwo.b, cOne.g - cTwo.g, cOne.a - cTwo.a };
 	}
 
-	inline RGBColour operator-(const RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour operator-(const RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		return RGBColour{ cOne.r - inc, cOne.b - inc, cOne.g - inc, cOne.a - inc };
 	}
 
-	inline RGBColour operator*(const RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour operator*(const RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		return RGBColour{ cOne.r * cTwo.r, cOne.b * cTwo.b, cOne.g * cTwo.g, cOne.a * cTwo.a };
 	}
 
-	inline RGBColour operator*(const RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour operator*(const RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		return RGBColour{ cOne.r * inc, cOne.b * inc, cOne.g * inc, cOne.a * inc };
 	}
 
-	inline RGBColour operator/(const RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour operator/(const RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		return RGBColour{ cOne.r / cTwo.r, cOne.b / cTwo.b, cOne.g / cTwo.g, cOne.a / cTwo.a };
 	}
 
-	inline RGBColour operator/(const RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour operator/(const RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		return RGBColour{ cOne.r / inc, cOne.b / inc, cOne.g / inc, cOne.a / inc };
 	}
 #pragma endregion
 
 #pragma region Compound Arithmetic Operators
-	inline RGBColour& operator+=(RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator+=(RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		cOne.r += cTwo.r;
 		cOne.g += cTwo.g;
@@ -161,7 +162,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator+=(RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator+=(RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		cOne.r += inc;
 		cOne.g += inc;
@@ -171,7 +172,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator-=(RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator-=(RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		cOne.r -= cTwo.r;
 		cOne.g -= cTwo.g;
@@ -181,7 +182,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator-=(RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator-=(RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		cOne.r -= inc;
 		cOne.g -= inc;
@@ -191,7 +192,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator*(RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator*(RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		cOne.r *= cTwo.r;
 		cOne.g *= cTwo.g;
@@ -201,7 +202,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator*=(RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator*=(RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		cOne.r *= inc;
 		cOne.g *= inc;
@@ -211,7 +212,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator/=(RGBColour& cOne, const RGBColour& cTwo) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator/=(RGBColour& cOne, const RGBColour& cTwo) noexcept
 	{
 		cOne.r /= cTwo.r;
 		cOne.g /= cTwo.g;
@@ -221,7 +222,7 @@ namespace Integrian2D
 		return cOne;
 	}
 
-	inline RGBColour& operator/=(RGBColour& cOne, const uint8_t inc) noexcept
+	INTEGRIAN2D_API inline RGBColour& operator/=(RGBColour& cOne, const uint8_t inc) noexcept
 	{
 		cOne.r /= inc;
 		cOne.g /= inc;
@@ -233,32 +234,32 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region Relational Operators
-	inline bool operator==(const RGBColour& c1, const RGBColour& c2) noexcept
+	INTEGRIAN2D_API inline bool operator==(const RGBColour& c1, const RGBColour& c2) noexcept
 	{
 		return c1.r == c2.r && c1.g == c2.g && c1.b == c2.b && c1.a == c2.a;
 	}
 
-	inline bool operator!=(const RGBColour& c1, const RGBColour& c2) noexcept
+	INTEGRIAN2D_API inline bool operator!=(const RGBColour& c1, const RGBColour& c2) noexcept
 	{
 		return !(c1 == c2);
 	}
 #pragma endregion
 
 #pragma region Miscellaneous Operators
-	inline std::ostream& operator<<(std::ostream& os, const RGBColour& c) noexcept
+	INTEGRIAN2D_API inline std::ostream& operator<<(std::ostream& os, const RGBColour& c) noexcept
 	{
 		return os << c.r << ", " << c.g << ", " << c.b << ", " << c.a << std::endl;
 	}
 
 #pragma region RGBColour Functions
-	inline void MaxToOne(RGBColour& colour) noexcept
+	INTEGRIAN2D_API inline void MaxToOne(RGBColour& colour) noexcept
 	{
 		const uint8_t max{ std::max(colour.r.v, std::max(colour.g.v, colour.b.v)) };
 
 		colour /= max;
 	}
 
-	inline std::string ToString(const RGBColour& colour) noexcept
+	INTEGRIAN2D_API inline std::string ToString(const RGBColour& colour) noexcept
 	{
 		return std::to_string(colour.r.v) + ", " + std::to_string(colour.g.v) + ", " + std::to_string(colour.b.v) + ", " + std::to_string(colour.a.v);
 	}

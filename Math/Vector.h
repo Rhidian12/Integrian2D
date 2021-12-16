@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "../Utils/Utils.h"
 
 namespace Integrian2D
@@ -22,7 +23,7 @@ namespace Integrian2D
 		*/
 
 	template<int V, typename Type>
-	struct Vector
+	struct INTEGRIAN2D_API Vector
 	{
 		// == Data == 
 		Type data[V];

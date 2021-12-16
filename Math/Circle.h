@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "Point2.h"
 
 #include <utility>
@@ -7,7 +8,7 @@
 namespace Integrian2D
 {
 	template<typename Type>
-	struct Circle
+	struct INTEGRIAN2D_API Circle
 	{
 #pragma region Constructors
 		explicit Circle(const Point<2, Type>& _position, const Type _radius)
@@ -47,13 +48,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	bool operator==(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
+	INTEGRIAN2D_API bool operator==(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
 	{
 		return Utils::AreEqual(c1.radius, c2.radius) && (c1.position == c2.position);
 	}
 
 	template<typename Type>
-	bool operator!=(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
+	INTEGRIAN2D_API bool operator!=(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
 	{
 		return !(c1 == c2);
 	}
@@ -61,7 +62,7 @@ namespace Integrian2D
 
 #pragma region Misscellaneous Operators
 	template<typename Type>
-	std::ostream& operator<<(std::ostream& os, const Circle<Type>& c1) noexcept
+	INTEGRIAN2D_API std::ostream& operator<<(std::ostream& os, const Circle<Type>& c1) noexcept
 	{
 		os << c1.position << ", " << c1.radius << std::endl;
 		return os;

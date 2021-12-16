@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Integrian2D_API.h"
 #include "Point.h" // Point 
 #include "../Iterator/Iterator.h"
 
@@ -55,7 +56,7 @@ namespace Integrian2D
 		  /* The Point2 iterator covers the member variables x and y (in that order) */
 
 	template<typename Type>
-	struct Point<2, Type>
+	struct INTEGRIAN2D_API Point<2, Type>
 	{
 #pragma region Constructors
 		explicit Point<2, Type>()
@@ -166,37 +167,37 @@ namespace Integrian2D
 
 #pragma region Arithmetic Operators
 	template<typename Type>
-	Vector<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	INTEGRIAN2D_API Vector<2, Type> operator-(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x - rhs.x, lhs.y - rhs.y};
 	}
 
 	template<typename Type>
-	Point<2, Type> operator-(const Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type> operator-(const Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
 		return Point<2, Type>{lhs.x - rhs.x, lhs.y - rhs.y};
 	}
 
 	template<typename Type>
-	Vector<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	INTEGRIAN2D_API Vector<2, Type> operator+(const Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		return Vector<2, Type>{lhs.x + rhs.x, lhs.y + rhs.y};
 	}
 
 	template<typename Type>
-	Point<2, Type> operator+(const Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type> operator+(const Point<2, Type>& lhs, const Vector<2, Type>& rhs) noexcept
 	{
 		return Point<2, Type>{lhs.x + rhs.x, lhs.y + rhs.y};
 	}
 
 	template<typename Type>
-	Point<2, Type> operator*(const Point<2, Type>& lhs, Type& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type> operator*(const Point<2, Type>& lhs, Type& rhs) noexcept
 	{
 		return Point<2, Type>{lhs.x* rhs, lhs.y* rhs};
 	}
 
 	template<typename Type>
-	Point<2, Type> operator/(const Point<2, Type>& lhs, Type& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type> operator/(const Point<2, Type>& lhs, Type& rhs) noexcept
 	{
 		return Point<2, Type>{lhs.x* rhs, lhs.y* rhs};
 	}
@@ -204,7 +205,7 @@ namespace Integrian2D
 
 #pragma region Compound Assignment Operators
 	template<typename Type>
-	Point<2, Type>& operator+=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type>& operator+=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		lhs.x += rhs.x;
 		lhs.y += rhs.y;
@@ -212,7 +213,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<2, Type>& operator-=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type>& operator-=(Point<2, Type>& lhs, const Point<2, Type>& rhs) noexcept
 	{
 		lhs.x -= rhs.x;
 		lhs.y -= rhs.y;
@@ -220,7 +221,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<2, Type>& operator*=(Point<2, Type>& lhs, Type& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type>& operator*=(Point<2, Type>& lhs, Type& rhs) noexcept
 	{
 		lhs.x *= rhs;
 		lhs.y *= rhs;
@@ -228,7 +229,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<2, Type>& operator/=(Point<2, Type>& lhs, Type& rhs) noexcept
+	INTEGRIAN2D_API Point<2, Type>& operator/=(Point<2, Type>& lhs, Type& rhs) noexcept
 	{
 		lhs.x /= rhs;
 		lhs.y /= rhs;
@@ -238,13 +239,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	bool operator==(const Point<2, Type>& lhs, const Point<2, Type>& other) noexcept
+	INTEGRIAN2D_API bool operator==(const Point<2, Type>& lhs, const Point<2, Type>& other) noexcept
 	{
 		return Utils::AreEqual(lhs.x, other.x) && Utils::AreEqual(lhs.y, other.y);
 	}
 
 	template<typename Type>
-	bool operator!=(const Point<2, Type>& lhs, const Point<2, Type>& other) noexcept
+	INTEGRIAN2D_API bool operator!=(const Point<2, Type>& lhs, const Point<2, Type>& other) noexcept
 	{
 		return !(lhs == other);
 	}
@@ -252,7 +253,7 @@ namespace Integrian2D
 
 #pragma region Miscellaneous Operators
 	template<typename Type>
-	std::ostream& operator<<(std::ostream& os, const Point<2, Type>& point) noexcept
+	INTEGRIAN2D_API std::ostream& operator<<(std::ostream& os, const Point<2, Type>& point) noexcept
 	{
 		os << point.x << ", " << point.y;
 		return os;
