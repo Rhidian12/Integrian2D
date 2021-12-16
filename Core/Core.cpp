@@ -8,6 +8,7 @@
 #include "../Locator/Locator.h"
 #include "../Timer/Timer.h"
 #include "../ThreadManager/ThreadManager.h"
+#include "../AudioLocator/AudioLocator.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -57,6 +58,7 @@ namespace Integrian2D
 		Locator::Cleanup();
 		Timer::Cleanup();
 		InputManager::Cleanup();
+		AudioLocator::Cleanup();
 
 		ShutdownLibraries(); // m_pWindow is deleted in ShutDownLibraries() because of SDL reasons
 	}
@@ -66,6 +68,7 @@ namespace Integrian2D
 		SceneManager* pSceneManager{ SceneManager::GetInstance() };
 		Renderer* pRenderer{ Renderer::GetInstance() };
 		Timer* pTimer{ Timer::GetInstance() };
+		AudioLocator* pAudioLocator{ AudioLocator::GetInstance() };
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
 		{
@@ -95,6 +98,8 @@ namespace Integrian2D
 
 			pActiveScene->RootLateUpdate();
 			pActiveScene->LateUpdate();
+
+			pAudioLocator->GetAudio()->Update();
 
 			pActiveScene->RootRender();
 			pActiveScene->Render();
