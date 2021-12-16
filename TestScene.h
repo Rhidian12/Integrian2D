@@ -127,7 +127,7 @@ public:
 
 		//m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino") });
 		//m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat") });
-		m_pGameObject->AddComponent(new TextComponent{ m_pGameObject, "This is a sentence!?\nWeewoo" });
+		m_pGameObject->AddComponent(new TextComponent{ m_pGameObject, "This is a sentence!?\nWeewoo PooPee" });
 
 		//m_pGameObject->AddChild(m_pGameObject2);
 

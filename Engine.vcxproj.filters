@@ -147,6 +147,9 @@
     <ClCompile Include="SDLAudioSystem\SDLAudioSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AudioLocator\AudioLocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -348,6 +351,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDLAudioSystem\SDLAudioSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioLocator\AudioLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
