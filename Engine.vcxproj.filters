@@ -356,5 +356,8 @@
     <ClInclude Include="AudioLocator\AudioLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AI\BehaviourState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -39,7 +39,7 @@ namespace Integrian2D
 	void InputManager::HandleInput() noexcept
 	{
 		int x{}, y{};
-		const Uint32 mouseState = SDL_GetMouseState(&x, &y);
+		SDL_GetMouseState(&x, &y);
 
 		m_MousePosition = Point2f{ static_cast<float>(x), static_cast<float>(m_WindowHeight - y) };
 

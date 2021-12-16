@@ -1,10 +1,12 @@
 #pragma once
 
 #include "../Component/Component.h"
+#include "../../AI/BehaviourState.h"
 
 namespace Integrian2D
 {
 	class Blackboard;
+	class BaseDecisionMaking;
 
 	class AIComponent final : public Component
 	{

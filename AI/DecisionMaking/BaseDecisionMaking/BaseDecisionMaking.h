@@ -1,16 +1,11 @@
 #pragma once
 
+#include "../../BehaviourState.h"
+
 namespace Integrian2D
 {
 	class AIComponent;
 	class Blackboard;
-
-	enum class BehaviourState
-	{
-		Success = 0,
-		Failure = 1,
-		Running = 2
-	};
 
 	class BaseDecisionMaking 
 	{
