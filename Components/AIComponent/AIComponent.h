@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../DecisionMaking/BaseDecisionMaking/BaseDecisionMaking.h"
-#include "../../Components/Component/Component.h"
+#include "../../AI/DecisionMaking/BaseDecisionMaking/BaseDecisionMaking.h"
+#include "../Component/Component.h"
 
 namespace Integrian2D
 {

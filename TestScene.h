@@ -10,7 +10,7 @@
 #include "NavigationGraph/NavigationGraphComponent.h"
 #include "NavigationGraph/NavGraphPolygon/NavGraphPolygon.h"
 #include "Renderer/Renderer.h"
-#include "AI/AIComponent/AIComponent.h"
+#include "Components/AIComponent/AIComponent.h"
 #include "AI/Blackboard/Blackboard.h"
 #include "AI/DecisionMaking/BehaviourTree/BehaviourTree.h"
 #include "Command/Command.h"

@@ -114,7 +114,7 @@
     <ClCompile Include="Iterator\Iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AI\AIComponent\AIComponent.cpp">
+    <ClCompile Include="Components\AIComponent\AIComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.cpp">
@@ -317,7 +317,7 @@
     <ClInclude Include="Math\Circle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AI\AIComponent\AIComponent.h">
+    <ClInclude Include="Components\AIComponent\AIComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.h">
