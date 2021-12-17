@@ -1,5 +1,7 @@
 #pragma once
 
+inline bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
+
 #ifdef _WIN32
 	#ifdef EXPORT
 		#define INTEGRIAN2D_API __declspec(dllexport)

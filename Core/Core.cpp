@@ -19,7 +19,7 @@
 #include <SDL_video.h>
 #include <GL\GLU.h>
 
-extern bool volatile g_IsLooping;
+extern inline bool volatile g_IsLooping;
 
 namespace Integrian2D
 {

@@ -48,13 +48,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	INTEGRIAN2D_API bool operator==(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
+	bool operator==(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
 	{
 		return Utils::AreEqual(c1.radius, c2.radius) && (c1.position == c2.position);
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API bool operator!=(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
+	bool operator!=(const Circle<Type>& c1, const Circle<Type>& c2) noexcept
 	{
 		return !(c1 == c2);
 	}
@@ -62,7 +62,7 @@ namespace Integrian2D
 
 #pragma region Misscellaneous Operators
 	template<typename Type>
-	INTEGRIAN2D_API std::ostream& operator<<(std::ostream& os, const Circle<Type>& c1) noexcept
+	std::ostream& operator<<(std::ostream& os, const Circle<Type>& c1) noexcept
 	{
 		os << c1.position << ", " << c1.radius << std::endl;
 		return os;

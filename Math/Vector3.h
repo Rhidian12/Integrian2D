@@ -14,7 +14,7 @@ namespace Integrian2D
 
 	/* A list of available operators:
 		Assume Type is the templated type provided to the Vector3:
-		
+
 		Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Type rhs)
 		Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs)
 
@@ -45,21 +45,21 @@ namespace Integrian2D
 		std::ostream& operator<<(std::ostream& os, const Vector<3, Type>& v)
 		*/
 
-	/* A list of available functions:
-		Assume Type is the templated type provided to the Vector3:
-		
-		Type Dot(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs)
-		=>		Returns the dot product of the two provided vectors
+		/* A list of available functions:
+			Assume Type is the templated type provided to the Vector3:
 
-		Vector<3, Type> Cross(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs)
-		=>		Returns the cross product of the two provided vectors
+			Type Dot(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs)
+			=>		Returns the dot product of the two provided vectors
 
-		Vector<3, Type> Orthogonal(const Vector<3, Type>& lhs, const Vector<3, Type>& cpVector)
-		=>		Returns the vector ortogonal to the provided vector and an axis
-		=>		The default axis is { 0, 0, 1 }
-		*/
+			Vector<3, Type> Cross(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs)
+			=>		Returns the cross product of the two provided vectors
 
-	/* The Vector3 iterator covers the member variables x, y and z (in that order) */
+			Vector<3, Type> Orthogonal(const Vector<3, Type>& lhs, const Vector<3, Type>& cpVector)
+			=>		Returns the vector ortogonal to the provided vector and an axis
+			=>		The default axis is { 0, 0, 1 }
+			*/
+
+			/* The Vector3 iterator covers the member variables x, y and z (in that order) */
 
 	template<typename Type>
 	struct INTEGRIAN2D_API Vector<3, Type>
@@ -172,49 +172,49 @@ namespace Integrian2D
 
 #pragma region Arithmetic Operators
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x + rhs, lhs.y + rhs, lhs.z + rhs};
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type> operator+(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z};
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator-(const Vector<3, Type>& lhs, const Type& rhs) noexcept
+	Vector<3, Type> operator-(const Vector<3, Type>& lhs, const Type& rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x - rhs, lhs.y - rhs, lhs.z - rhs};
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator-(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type> operator-(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z};
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator*(const Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type> operator*(const Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x* rhs, lhs.y* rhs, lhs.z* rhs};
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator*(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type> operator*(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x* rhs.x, lhs.y* rhs.y, lhs.z* rhs.z};
 	}
-	
+
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator/(const Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type> operator/(const Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x / rhs, lhs.y / rhs, lhs.z / rhs};
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> operator/(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type> operator/(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Vector<3, Type>{lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z};
 	}
@@ -222,7 +222,7 @@ namespace Integrian2D
 
 #pragma region Compound Arithmetic Operators
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator+=(Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type>& operator+=(Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x += rhs;
 		lhs.y += rhs;
@@ -232,7 +232,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator+=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type>& operator+=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		lhs.x += rhs.x;
 		lhs.y += rhs.y;
@@ -242,7 +242,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator-=(Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type>& operator-=(Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x -= rhs;
 		lhs.y -= rhs;
@@ -252,7 +252,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator-=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type>& operator-=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		lhs.x -= rhs.x;
 		lhs.y -= rhs.y;
@@ -262,7 +262,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator*=(Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type>& operator*=(Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x *= rhs;
 		lhs.y *= rhs;
@@ -272,7 +272,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator*=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type>& operator*=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		lhs.x *= rhs.x;
 		lhs.y *= rhs.y;
@@ -282,7 +282,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator/=(Vector<3, Type>& lhs, const Type rhs) noexcept
+	Vector<3, Type>& operator/=(Vector<3, Type>& lhs, const Type rhs) noexcept
 	{
 		lhs.x /= rhs;
 		lhs.y /= rhs;
@@ -292,7 +292,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type>& operator/=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type>& operator/=(Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		lhs.x /= rhs.x;
 		lhs.y /= rhs.y;
@@ -304,13 +304,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	INTEGRIAN2D_API bool operator==(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	bool operator==(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Utils::AreEqual(lhs.x, rhs.x) && Utils::AreEqual(lhs.y, rhs.y) && Utils::AreEqual(rhs.z, lhs.z);
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API bool operator!=(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	bool operator!=(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return !(lhs == rhs);
 	}
@@ -318,21 +318,21 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<typename Type>
-	INTEGRIAN2D_API Type Dot(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Type Dot(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> Cross(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Vector<3, Type> Cross(const Vector<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		return Vector<3, Type>{ lhs.y* rhs.z - lhs.z * rhs.y,
-								lhs.x* rhs.y - lhs.y * rhs.x };
-								lhs.z* rhs.x - lhs.x * rhs.z,
+			lhs.x* rhs.y - lhs.y * rhs.x };
+		lhs.z* rhs.x - lhs.x * rhs.z,
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Vector<3, Type> Orthogonal(const Vector<3, Type>& lhs, const Vector<3, Type>& cpVector = Vector<3, Type>{ Type(0),Type(0),Type(1) }) noexcept
+	Vector<3, Type> Orthogonal(const Vector<3, Type>& lhs, const Vector<3, Type>& cpVector = Vector<3, Type>{ Type(0),Type(0),Type(1) }) noexcept
 	{
 		return Cross<Type>(lhs, cpVector);
 	}
@@ -340,7 +340,7 @@ namespace Integrian2D
 
 #pragma region Miscellanneous Operators
 	template<typename Type>
-	INTEGRIAN2D_API std::ostream& operator<<(std::ostream& os, const Vector<3, Type>& v) noexcept
+	std::ostream& operator<<(std::ostream& os, const Vector<3, Type>& v) noexcept
 	{
 		os << vector.x << ", " << vector.y << ", " << vector.z;
 		return os;

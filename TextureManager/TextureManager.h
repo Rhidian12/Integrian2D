@@ -13,7 +13,7 @@ namespace Integrian2D
 	{
 	public:
 		/* Get a TextureManager instance */
-		static TextureManager* GetInstance() noexcept;
+		INTEGRIAN2D_API static TextureManager* GetInstance() noexcept;
 
 		/* Internal Usage
 		   Do NOT call this function manually */

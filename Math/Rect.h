@@ -102,13 +102,13 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	INTEGRIAN2D_API bool operator==(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
+	bool operator==(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
 	{
 		return (r1.xy == r2.xy) && Utils::AreEqual(r1.width, r2.width) && Utils::AreEqual(r1.height, r2.height);
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
+	bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
 	{
 		return !(r1 == r2);
 	}
@@ -116,7 +116,7 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<typename Type>
-	INTEGRIAN2D_API Type GetArea(const Rect<Type>& r) noexcept
+	Type GetArea(const Rect<Type>& r) noexcept
 	{
 		return r.width * r.height;
 	}

@@ -9,90 +9,90 @@
 
 namespace Integrian2D
 {
-	/* This class is the specialisation of Polygon, representing a 2D Rectangle 
+	/* This class is the specialisation of Polygon, representing a 2D Rectangle
 	   This class is supposed to be a more complex Rect class, holding information regarding angle, ... */
 
-		/* A list of available operators:
-		   Assume Type is the templated Type provided to the PRect 
-		   
-		   bool operator==(const Polygon<4, Type>& lhs, const Polygon<4, Type>& rhs)
-		   bool operator!=(const Polygon<4, Type>& lhs, const Polygon<4, Type>& rhs)
-		   */
+	   /* A list of available operators:
+		  Assume Type is the templated Type provided to the PRect
 
-		/* A list of available functions:
-		   void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v)
-		   =>	Translates the PRect with the provided Vector2
+		  bool operator==(const Polygon<4, Type>& lhs, const Polygon<4, Type>& rhs)
+		  bool operator!=(const Polygon<4, Type>& lhs, const Polygon<4, Type>& rhs)
+		  */
 
-		   void Rotate(Polygon<4, Type>& p, const Type& _angleChange)
-		   =>	Rotates the PRect by adding the provided angle to the PRect's current angle
-		   =>	This function calls SetRotation() with the new angle internally
-		   =>	_angleChange is presumed to be in radians
+		  /* A list of available functions:
+			 void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v)
+			 =>	Translates the PRect with the provided Vector2
 
-		   void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale)
-		   =>	Scales the PRect by adding the provided scale to the PRect's current scale
-		   =>	This function calls SetScale() with the new scale internally
+			 void Rotate(Polygon<4, Type>& p, const Type& _angleChange)
+			 =>	Rotates the PRect by adding the provided angle to the PRect's current angle
+			 =>	This function calls SetRotation() with the new angle internally
+			 =>	_angleChange is presumed to be in radians
 
-		   void SetRotation(Polygon<4, Type>& p, const Type& _angle)
-		   =>	Rotates the PRect by rotating around its pivot point
-		   =>	_angleChange is presumed to be in radians
+			 void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale)
+			 =>	Scales the PRect by adding the provided scale to the PRect's current scale
+			 =>	This function calls SetScale() with the new scale internally
 
-		   void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale)
-		   =>	Scales the PRect by scaling its 4 vertices from the center
-		   =>	If the PRect's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
-		   =>	Once the PRect has been scaled, SetRotation() will get called with the original angle
+			 void SetRotation(Polygon<4, Type>& p, const Type& _angle)
+			 =>	Rotates the PRect by rotating around its pivot point
+			 =>	_angleChange is presumed to be in radians
 
-		   void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _center)
-		   =>	Sets the PRect's leftBottom to the provided Point2
-		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
-				after which all vertices get recalculated using the PRect's width and height
-		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
-		   =>	Once the PRect's leftBottom has been adjusted, all of its vertices recalculated and scaled,
-				SetRotation() will get called with the original angle
+			 void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale)
+			 =>	Scales the PRect by scaling its 4 vertices from the center
+			 =>	If the PRect's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
+			 =>	Once the PRect has been scaled, SetRotation() will get called with the original angle
 
-		   const Point<2, Type>& GetCenter(const Polygon<4, Type>& p)
-		   =>	Returns the PRect's center
+			 void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _center)
+			 =>	Sets the PRect's leftBottom to the provided Point2
+			 =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
+				  after which all vertices get recalculated using the PRect's width and height
+			 =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
+			 =>	Once the PRect's leftBottom has been adjusted, all of its vertices recalculated and scaled,
+				  SetRotation() will get called with the original angle
 
-		   const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p)
-		   =>	Returns the PRect's left bottom vertex
-		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the left bottom one
+			 const Point<2, Type>& GetCenter(const Polygon<4, Type>& p)
+			 =>	Returns the PRect's center
 
-		   const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p)
-		   =>	Returns the PRect's left top vertex
-		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the left top one
+			 const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p)
+			 =>	Returns the PRect's left bottom vertex
+			 =>	Note that this merely returns a member variable, this function does not calculate which vertex is the left bottom one
 
-		   const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p)
-		   =>	Returns the PRect's right top vertex
-		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the right top one
+			 const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p)
+			 =>	Returns the PRect's left top vertex
+			 =>	Note that this merely returns a member variable, this function does not calculate which vertex is the left top one
 
-		   const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p)
-		   =>	Returns the PRect's right bottom vertex
-		   =>	Note that this merely returns a member variable, this function does not calculate which vertex is the right bottom one
+			 const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p)
+			 =>	Returns the PRect's right top vertex
+			 =>	Note that this merely returns a member variable, this function does not calculate which vertex is the right top one
 
-		   SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type>& _pivotPoint)
-		   =>	Sets the PRect's pivot point to the provided Point2
-		   =>	If the PRect's angle is not 0, SetRotation() will get called 
+			 const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p)
+			 =>	Returns the PRect's right bottom vertex
+			 =>	Note that this merely returns a member variable, this function does not calculate which vertex is the right bottom one
 
-		   const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p)
-		   =>	Returns the PRect's pivot point
+			 SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type>& _pivotPoint)
+			 =>	Sets the PRect's pivot point to the provided Point2
+			 =>	If the PRect's angle is not 0, SetRotation() will get called
 
-		   void SetWidth(Polygon<4, Type>& p, const Type& _width)
-		   =>	Set's the PRect's width to the provided value
-		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
-				after which all vertices's x-values get recalculated using the provided width
-		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
-		   =>	Once the PRect's width has been adjusted, all of its vertices recalculated and scaled,
-				SetRotation() will get called with the original angle
+			 const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p)
+			 =>	Returns the PRect's pivot point
 
-		   void SetHeight(Polygon<4, Type>& p, const Type& _height)
-		   =>	Set's the PRect's height to the provided value
-		   =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
-				after which all vertices's y-values get recalculated using the provided height
-		   =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
-		   =>	Once the PRect's height has been adjusted, all of its vertices recalculated and scaled,
-				SetRotation() will get called with the original angle
-		*/
+			 void SetWidth(Polygon<4, Type>& p, const Type& _width)
+			 =>	Set's the PRect's width to the provided value
+			 =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
+				  after which all vertices's x-values get recalculated using the provided width
+			 =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
+			 =>	Once the PRect's width has been adjusted, all of its vertices recalculated and scaled,
+				  SetRotation() will get called with the original angle
 
-		/* The PRect iterator covers the member variables leftBottom, leftTop, rightTop and rightBottom (in that order) */
+			 void SetHeight(Polygon<4, Type>& p, const Type& _height)
+			 =>	Set's the PRect's height to the provided value
+			 =>	If the PRect's angle is no 0, SetRotation() will get called to set the angle to 0,
+				  after which all vertices's y-values get recalculated using the provided height
+			 =>	If the PRect's scale is not (1, 1), SetScale() will get called to scale the PRect to what it's scale is
+			 =>	Once the PRect's height has been adjusted, all of its vertices recalculated and scaled,
+				  SetRotation() will get called with the original angle
+		  */
+
+		  /* The PRect iterator covers the member variables leftBottom, leftTop, rightTop and rightBottom (in that order) */
 
 	template<typename Type>
 	struct INTEGRIAN2D_API Polygon<4, Type>
@@ -302,7 +302,7 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<typename Type>
-	INTEGRIAN2D_API void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v) noexcept
+	void Translate(Polygon<4, Type>& p, const Vector<2, Type>& v) noexcept
 	{
 		p.points.leftBottom += v;
 		p.points.leftTop += v;
@@ -313,7 +313,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void Rotate(Polygon<4, Type>& p, const Type& _angleChange) noexcept
+	void Rotate(Polygon<4, Type>& p, const Type& _angleChange) noexcept
 	{
 		p.angle += _angleChange;
 
@@ -321,7 +321,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept
+	void Scale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		p.scaleX += scale.x;
 		p.scaleY += scale.y;
@@ -330,7 +330,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetRotation(Polygon<4, Type>& p, const Type& _angle) noexcept
+	void SetRotation(Polygon<4, Type>& p, const Type& _angle) noexcept
 	{
 		p.angle = _angle;
 
@@ -361,7 +361,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept
+	void SetScale(Polygon<4, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -388,7 +388,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _leftBottom) noexcept
+	void SetLeftBottom(Polygon<4, Type>& p, const Point<2, Type>& _leftBottom) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -417,37 +417,37 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetCenter(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetCenter(const Polygon<4, Type>& p) noexcept
 	{
 		return p.points.center;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetLeftBottom(const Polygon<4, Type>& p) noexcept
 	{
 		return p.points.leftBottom;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetLeftTop(const Polygon<4, Type>& p) noexcept
 	{
 		return p.points.leftTop;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetRightTop(const Polygon<4, Type>& p) noexcept
 	{
 		return p.points.rightTop;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetRightBottom(const Polygon<4, Type>& p) noexcept
 	{
 		return p.points.rightBottom;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept
+	void SetPivotPoint(Polygon<4, Type>& p, const Point<2, Type> _pivotPoint) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -464,13 +464,13 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept
+	const Point<2, Type>& GetPivotPoint(const Polygon<4, Type>& p) noexcept
 	{
 		return p.points.pivotPoint;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetWidth(Polygon<4, Type>& p, const Type& _width) noexcept
+	void SetWidth(Polygon<4, Type>& p, const Type& _width) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -499,7 +499,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetHeight(Polygon<4, Type>& p, const Type& _height) noexcept
+	void SetHeight(Polygon<4, Type>& p, const Type& _height) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))

@@ -1,4 +1,3 @@
-bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
 //#define UNIT_TESTS
 

@@ -7,7 +7,7 @@
 
 #include <SDL.h>
 
-extern bool volatile g_IsLooping;
+extern inline bool volatile g_IsLooping;
 
 namespace Integrian2D
 {

@@ -17,89 +17,89 @@ namespace Integrian2D
 	/* This class is the specialisation of Polygon, representing a 2D Triangle
 	   This class is supposed to be a more complex Triangle class, holding information regarding angle, ... */
 
-	/* IMPORTANT NOTE: The vertices of a triangle are defined in a CLOCKWISE ORDER */
-		//		    pointTwo
-		//		   /		\
-		//		  /			 \
-		//		 /			  \
-		//		/			   \
-		//	   /				\
-		//	  /					 \
-		// pointOne ========= pointThree
+	   /* IMPORTANT NOTE: The vertices of a triangle are defined in a CLOCKWISE ORDER */
+		   //		    pointTwo
+		   //		   /		\
+   		//		  /			 \
+   		//		 /			  \
+   		//		/			   \
+   		//	   /				\
+   		//	  /					 \
+   		// pointOne ========= pointThree
 
-		/* A list of available operators:
-		   Assume Type is the templated Type provided to the PTriangle
+		   /* A list of available operators:
+			  Assume Type is the templated Type provided to the PTriangle
 
-		   bool operator==(const Polygon<3, Type>& lhs, const Polygon<3, Type>& rhs)
-		   bool operator!=(const Polygon<3, Type>& lhs, const Polygon<3, Type>& rhs)
-		   */
+			  bool operator==(const Polygon<3, Type>& lhs, const Polygon<3, Type>& rhs)
+			  bool operator!=(const Polygon<3, Type>& lhs, const Polygon<3, Type>& rhs)
+			  */
 
-		   /* A list of available functions:
-			  void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v)
-			  =>	Translates the PTriangle with the provided Vector2
+			  /* A list of available functions:
+				 void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v)
+				 =>	Translates the PTriangle with the provided Vector2
 
-			  void Rotate(Polygon<3, Type>& p, const Type _angleChange)
-			  =>	Rotates the PTriangle by adding the provided angle to the PTriangle's current angle
-			  =>	This function calls SetRotation() with the new angle internally
-			  =>	_angleChange is presumed to be in radians
+				 void Rotate(Polygon<3, Type>& p, const Type _angleChange)
+				 =>	Rotates the PTriangle by adding the provided angle to the PTriangle's current angle
+				 =>	This function calls SetRotation() with the new angle internally
+				 =>	_angleChange is presumed to be in radians
 
-			  void Scale(Polygon<3, Type>& p, const Point<2, Type>& scale)
-			  =>	Scales the PTriangle by adding the provided scale to the PTriangle's current scale
-			  =>	This function calls SetScale() with the new scale internally
+				 void Scale(Polygon<3, Type>& p, const Point<2, Type>& scale)
+				 =>	Scales the PTriangle by adding the provided scale to the PTriangle's current scale
+				 =>	This function calls SetScale() with the new scale internally
 
-			  void SetRotation(Polygon<3, Type>& p, const Type _angle)
-			  =>	Rotates the PTriangle by rotating around its pivot point
-			  =>	_angleChange is presumed to be in radians
+				 void SetRotation(Polygon<3, Type>& p, const Type _angle)
+				 =>	Rotates the PTriangle by rotating around its pivot point
+				 =>	_angleChange is presumed to be in radians
 
-			  void SetScale(Polygon<3, Type>& p, const Point<2, Type>& scale)
-			  =>	Scales the PTriangle by scaling its 3 vertices from the center
-			  =>	If the PTriangle's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
-			  =>	Once the PTriangle has been scaled, SetRotation() will get called with the original angle
+				 void SetScale(Polygon<3, Type>& p, const Point<2, Type>& scale)
+				 =>	Scales the PTriangle by scaling its 3 vertices from the center
+				 =>	If the PTriangle's angle is not 0, SetRotation() will get called to set the angle to 0, after which the scaling happens
+				 =>	Once the PTriangle has been scaled, SetRotation() will get called with the original angle
 
-			  void SetCenter(Polygon<3, Type>& p, const Point<2, Type>& _center)
-			  =>	Translates the PTriangle's center to the provided center
+				 void SetCenter(Polygon<3, Type>& p, const Point<2, Type>& _center)
+				 =>	Translates the PTriangle's center to the provided center
 
-			  const Point<2, Type>& GetCenter(const Polygon<3, Type>& p)
-			  =>	Returns the PTriangle's center
+				 const Point<2, Type>& GetCenter(const Polygon<3, Type>& p)
+				 =>	Returns the PTriangle's center
 
-			  SetPivotPoint(Polygon<3, Type>& p, const Point<2, Type>& _pivotPoint)
-			  =>	Sets the PTriangle's pivot point to the provided Point2
-			  =>	If the PTriangle's angle is not 0, SetRotation() will get called
+				 SetPivotPoint(Polygon<3, Type>& p, const Point<2, Type>& _pivotPoint)
+				 =>	Sets the PTriangle's pivot point to the provided Point2
+				 =>	If the PTriangle's angle is not 0, SetRotation() will get called
 
-			  const Point<2, Type>& GetPivotPoint(const Polygon<3, Type>& p)
-			  =>	Returns the PTriangle's pivot point
+				 const Point<2, Type>& GetPivotPoint(const Polygon<3, Type>& p)
+				 =>	Returns the PTriangle's pivot point
 
-			  void SetWidth(Polygon<3, Type>& p, const Type _width)
-			  =>	Set's the PTriangle's width to the provided value
-			  =>	If the PTriangle's angle is no 0, SetRotation() will get called to set the angle to 0,
-				   after which all vertices's x-values get recalculated using the provided width
-			  =>	If the PTriangle's scale is not (1, 1), SetScale() will get called to scale the PTriangle to what it's scale is
-			  =>	Once the PTriangle's width has been adjusted, all of its vertices recalculated and scaled,
-				   SetRotation() will get called with the original angle
+				 void SetWidth(Polygon<3, Type>& p, const Type _width)
+				 =>	Set's the PTriangle's width to the provided value
+				 =>	If the PTriangle's angle is no 0, SetRotation() will get called to set the angle to 0,
+					  after which all vertices's x-values get recalculated using the provided width
+				 =>	If the PTriangle's scale is not (1, 1), SetScale() will get called to scale the PTriangle to what it's scale is
+				 =>	Once the PTriangle's width has been adjusted, all of its vertices recalculated and scaled,
+					  SetRotation() will get called with the original angle
 
-			  void SetHeight(Polygon<3, Type>& p, const Type _height)
-			  =>	Set's the PTriangle's height to the provided value
-			  =>	If the PTriangle's angle is no 0, SetRotation() will get called to set the angle to 0,
-				   after which all vertices's y-values get recalculated using the provided height
-			  =>	If the PTriangle's scale is not (1, 1), SetScale() will get called to scale the PTriangle to what it's scale is
-			  =>	Once the PTriangle's height has been adjusted, all of its vertices recalculated and scaled,
-				   SetRotation() will get called with the original angle
+				 void SetHeight(Polygon<3, Type>& p, const Type _height)
+				 =>	Set's the PTriangle's height to the provided value
+				 =>	If the PTriangle's angle is no 0, SetRotation() will get called to set the angle to 0,
+					  after which all vertices's y-values get recalculated using the provided height
+				 =>	If the PTriangle's scale is not (1, 1), SetScale() will get called to scale the PTriangle to what it's scale is
+				 =>	Once the PTriangle's height has been adjusted, all of its vertices recalculated and scaled,
+					  SetRotation() will get called with the original angle
 
-			 Type GetArea(const Polygon<3, Type>& p)
-			 =>		Returns the area of the PTriangle
+				Type GetArea(const Polygon<3, Type>& p)
+				=>		Returns the area of the PTriangle
 
-			 bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p)
-			 =>		Returns whether the provided point is inside the PTriangle
+				bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p)
+				=>		Returns whether the provided point is inside the PTriangle
 
-			 Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t)
-			 =>		Returns the edge defined by pointOne => pointTwo
+				Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t)
+				=>		Returns the edge defined by pointOne => pointTwo
 
-			 Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t)
-			 =>		Returns the edge defined by pointTwo => pointThree
+				Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t)
+				=>		Returns the edge defined by pointTwo => pointThree
 
-			 Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t)
-			 =>		Returns the edge defined by pointThree => pointOne
-		   */
+				Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t)
+				=>		Returns the edge defined by pointThree => pointOne
+			  */
 
 	template<typename Type>
 	struct INTEGRIAN2D_API Polygon<3, Type>
@@ -248,14 +248,14 @@ namespace Integrian2D
 
 #pragma region Relational Operators
 	template<typename Type>
-	INTEGRIAN2D_API bool operator==(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
+	bool operator==(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
 	{
 		return a.points == b.points && Utils::AreEqual(a.width, b.width) && Utils::AreEqual(a.height, b.height) && Utils::AreEqual(a.scaleX, b.scaleX)
 			&& Utils::AreEqual(a.angle, b.angle);
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API bool operator!=(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
+	bool operator!=(const Polygon<3, Type>& a, const Polygon<3, Type>& b) noexcept
 	{
 		return !(a == b);
 	}
@@ -263,7 +263,7 @@ namespace Integrian2D
 
 #pragma region Functions
 	template<typename Type>
-	INTEGRIAN2D_API void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v) noexcept
+	void Translate(Polygon<3, Type>& p, const Vector<2, Type>& v) noexcept
 	{
 		p.points.center += v;
 		p.points.pivotPoint += v;
@@ -273,7 +273,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void Rotate(Polygon<3, Type>& p, const Type _angleChange) noexcept
+	void Rotate(Polygon<3, Type>& p, const Type _angleChange) noexcept
 	{
 		p.angle += _angleChange;
 
@@ -281,7 +281,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetRotation(Polygon<3, Type>& p, const Type _angle) noexcept
+	void SetRotation(Polygon<3, Type>& p, const Type _angle) noexcept
 	{
 		p.angle = _angle;
 
@@ -309,7 +309,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void Scale(Polygon<3, Type>& p, const Point<2, Type>& scale) noexcept
+	void Scale(Polygon<3, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		p.scaleX += scale.x;
 		p.scaleY += scale.y;
@@ -318,7 +318,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetScale(Polygon<3, Type>& p, const Point<2, Type>& scale) noexcept
+	void SetScale(Polygon<3, Type>& p, const Point<2, Type>& scale) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -344,7 +344,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetCenter(Polygon<3, Type>& p, const Point<2, Type>& _center) noexcept
+	void SetCenter(Polygon<3, Type>& p, const Point<2, Type>& _center) noexcept
 	{
 		const Vector<2, Type> toNewCenter{ p.points.center, _center };
 
@@ -352,7 +352,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetPivotPoint(Polygon<3, Type>& p, const Point<2, Type>& _pivotPoint) noexcept
+	void SetPivotPoint(Polygon<3, Type>& p, const Point<2, Type>& _pivotPoint) noexcept
 	{
 		p.points.pivotPoint = _pivotPoint;
 
@@ -361,19 +361,19 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetCenter(const Polygon<3, Type>& p) noexcept
+	const Point<2, Type>& GetCenter(const Polygon<3, Type>& p) noexcept
 	{
 		return p.points.center;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API const Point<2, Type>& GetPivotPoint(const Polygon<3, Type>& p) noexcept
+	const Point<2, Type>& GetPivotPoint(const Polygon<3, Type>& p) noexcept
 	{
 		return p.points.pivotPoint;
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetWidth(Polygon<3, Type>& p, const Type _width) noexcept
+	void SetWidth(Polygon<3, Type>& p, const Type _width) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -404,7 +404,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API void SetHeight(Polygon<3, Type>& p, const Type _height) noexcept
+	void SetHeight(Polygon<3, Type>& p, const Type _height) noexcept
 	{
 		Type originalAngle{};
 		if (!Utils::AreEqual(p.angle, static_cast<Type>(0.f)))
@@ -436,7 +436,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Type GetArea(const Polygon<3, Type>& p) noexcept
+	Type GetArea(const Polygon<3, Type>& p) noexcept
 	{
 		const Point<2, Type>& pointOne{ p.points.pointOne };
 		const Point<2, Type>& pointTwo{ p.points.pointTwo };
@@ -447,7 +447,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p) noexcept
+	bool IsPointInTriangle(const Polygon<3, Type>& t, const Point<2, Type>& p) noexcept
 	{
 		const Point<2, Type>& pointOne{ t.points.pointOne };
 		const Point<2, Type>& pointTwo{ t.points.pointTwo };
@@ -457,26 +457,26 @@ namespace Integrian2D
 		const Type parameterOne{ static_cast<Type>(1.f) / (static_cast<Type>(2.f) * area) * (pointOne.y * pointThree.x - pointOne.x * pointThree.y +
 			p.x * (pointThree.y - pointOne.y) + p.y * (pointOne.x - pointThree.x)) };
 		const Type parameterTwo{ static_cast<Type>(1.f) / (static_cast<Type>(2.f) * area) * (pointOne.x * pointTwo.y - pointOne.y * pointTwo.x +
-			p.x * (pointOne.y - pointTwo.y) + p.y * (pointTwo.x - pointOne.x) ) };
+			p.x * (pointOne.y - pointTwo.y) + p.y * (pointTwo.x - pointOne.x)) };
 
 		return (parameterOne >= static_cast<Type>(0.f)) && (parameterTwo >= static_cast<Type>(0.f)) &&
 			((static_cast<Type>(1.f) - parameterOne - parameterTwo) >= static_cast<Type>(0.f));
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t) noexcept
+	Polygon<2, Type> GetEdgeOne(const Polygon<3, Type>& t) noexcept
 	{
 		return Polygon<2, Type>{ t.points.pointOne, t.points.pointTwo };
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t) noexcept
+	Polygon<2, Type> GetEdgeTwo(const Polygon<3, Type>& t) noexcept
 	{
 		return Polygon<2, Type>{ t.points.pointTwo, t.points.pointThree };
 	}
 
 	template<typename Type>
-	INTEGRIAN2D_API Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t) noexcept
+	Polygon<2, Type> GetEdgeThree(const Polygon<3, Type>& t) noexcept
 	{
 		return Polygon<2, Type>{ t.points.pointThree, t.points.pointOne };
 	}

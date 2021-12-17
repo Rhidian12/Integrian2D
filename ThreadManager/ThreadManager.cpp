@@ -4,7 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
-extern bool volatile g_IsLooping;
+extern inline bool volatile g_IsLooping;
 
 namespace Integrian2D
 {

@@ -19,45 +19,45 @@ namespace Integrian2D
 			return v;
 		}
 	};
-	
-	INTEGRIAN2D_API inline std::ostream& operator<<(std::ostream& os, const Betteruint8_t& b) noexcept
+
+	inline std::ostream& operator<<(std::ostream& os, const Betteruint8_t& b) noexcept
 	{
 		return os << b.v;
 	}
 
-	INTEGRIAN2D_API inline bool operator==(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline bool operator==(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return a.v == b.v;
 	}
 
-	INTEGRIAN2D_API inline bool operator!=(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline bool operator!=(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return a.v != b.v;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator+(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t operator+(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v + b.v));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator+=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t& operator+=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		static_cast<uint8_t>(a.v += b.v);
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator+(const Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t operator+(const Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v + b));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator+=(Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t& operator+=(Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		static_cast<uint8_t>(a.v += b);
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator-(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t operator-(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v - b.v));
 	}
@@ -68,56 +68,56 @@ namespace Integrian2D
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator-(const Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t operator-(const Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v - b));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator-=(Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t& operator-=(Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		static_cast<uint8_t>(a.v -= b);
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator*(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t operator*(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v * b.v));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator*=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t& operator*=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		static_cast<uint8_t>(a.v *= b.v);
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator*(const Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t operator*(const Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v * b));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator*=(Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t& operator*=(Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		static_cast<uint8_t>(a.v *= b);
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator/(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t operator/(const Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v / b.v));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator/=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
+	inline Betteruint8_t& operator/=(Betteruint8_t& a, const Betteruint8_t& b) noexcept
 	{
 		static_cast<uint8_t>(a.v /= b.v);
 		return a;
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t operator/(const Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t operator/(const Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		return Betteruint8_t(static_cast<uint8_t>(a.v / b));
 	}
 
-	INTEGRIAN2D_API inline Betteruint8_t& operator/=(Betteruint8_t& a, const uint8_t b) noexcept
+	inline Betteruint8_t& operator/=(Betteruint8_t& a, const uint8_t b) noexcept
 	{
 		static_cast<uint8_t>(a.v /= b);
 		return a;

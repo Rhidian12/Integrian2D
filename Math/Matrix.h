@@ -247,19 +247,19 @@ namespace Integrian2D
 
 	// == Useful Non-Member Functions ==
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API constexpr int GetAmountOfRowsInMatrix(const Matrix<Rows, Columns, Type>&) noexcept
+	constexpr int GetAmountOfRowsInMatrix(const Matrix<Rows, Columns, Type>&) noexcept
 	{
 		return Rows;
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API constexpr int GetAmountOfColumnsInMatrix(const Matrix<Rows, Columns, Type>&) noexcept
+	constexpr int GetAmountOfColumnsInMatrix(const Matrix<Rows, Columns, Type>&) noexcept
 	{
 		return Columns;
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API Matrix<Rows, Columns, Type> GetIdentityMatrix() noexcept
+	Matrix<Rows, Columns, Type> GetIdentityMatrix() noexcept
 	{
 		static_assert(Rows == Columns, "Identity Matrices must be square!");
 
@@ -272,7 +272,7 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API Matrix<Rows, Columns, Type> GetMatrixCofactor(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length) noexcept
+	Matrix<Rows, Columns, Type> GetMatrixCofactor(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length) noexcept
 	{
 		static_assert(Rows == Columns, "GetMatrixCofactor() > Matrix must be square!");
 
@@ -300,7 +300,7 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API Type GetDeterminantOfMatrix(const Matrix<Rows, Columns, Type>& m, const int length) noexcept
+	Type GetDeterminantOfMatrix(const Matrix<Rows, Columns, Type>& m, const int length) noexcept
 	{
 		static_assert(Rows == Columns, "GetDeterminant() > Matrix must be square!");
 
@@ -325,7 +325,7 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API Matrix<Columns, Rows, Type> TransposeMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
+	Matrix<Columns, Rows, Type> TransposeMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
 	{
 		Matrix<Columns, Rows, Type> matrix{};
 
@@ -337,7 +337,7 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API Matrix<Columns, Rows, Type> GetAdjointMatrix(const Matrix<Columns, Rows, Type>& m) noexcept
+	Matrix<Columns, Rows, Type> GetAdjointMatrix(const Matrix<Columns, Rows, Type>& m) noexcept
 	{
 		static_assert(Rows == Columns, "Matrix::GetAdjointMatrix() > Matrix must be square!");
 
@@ -366,7 +366,7 @@ namespace Integrian2D
 	}
 
 	template<int Rows, int Columns, typename Type>
-	INTEGRIAN2D_API Matrix<Rows, Columns, Type> GetInverseMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
+	Matrix<Rows, Columns, Type> GetInverseMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
 	{
 		static_assert(Rows == Columns, "Matrix::GetInverseMatrix() > Matrix must be square!");
 
