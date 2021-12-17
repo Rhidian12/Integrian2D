@@ -14,11 +14,7 @@ namespace Integrian2D
 		/* I suggest using the ASSERT macro, since it gets optimised away in Release */
 		INTEGRIAN2D_API void Assert(const bool expression, const std::string& message);
 
-#ifdef _DEBUG
 #define ASSERT(expression, message) Utils::Assert(expression, message);
-#else
-#define ASSERT(expression, message)
-#endif
 
 		inline volatile constexpr double PI{ 3.14159265358979323846264338327950288 };
 
