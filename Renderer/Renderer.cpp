@@ -2,6 +2,9 @@
 #include "../Texture/Texture.h"
 #include "../Utils/Utils.h"
 
+#include <SDL_opengl.h>
+#include <SDL_video.h>
+
 namespace Integrian2D
 {
 	inline uint8_t operator"" _u(unsigned long long x) // adding _8 behind any integer (IN THIS FILE) will make it a uint8_t

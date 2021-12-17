@@ -6,6 +6,9 @@
 #include <SDL_mixer.h>
 #include <SDL_video.h>
 #include <GL\GLU.h>
+#include <SDL_ttf.h>
+#include <SDL_opengl.h>
+#include <SDL_opengl_glext.h>
 
 namespace Integrian2D
 {
@@ -110,7 +113,7 @@ namespace Integrian2D
 		TTF_CloseFont(pFont);
 	}
 
-	void Texture::CreateFromString(const std::string& text, TTF_Font* const pFont, RGBColour color) noexcept
+	void Texture::CreateFromString(const std::string& text, _TTF_Font* const pFont, RGBColour color) noexcept
 	{
 		m_CreationOk = true;
 		if (pFont == nullptr)

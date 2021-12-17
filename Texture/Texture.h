@@ -9,10 +9,10 @@
 #include "../Math/TypeDefines.h"
 
 #include <string> // std::string
-#include <SDL_opengl.h> // GLUint
-#include <SDL_ttf.h> // TTF_Font
 
 struct SDL_Surface;
+struct _TTF_Font;
+
 namespace Integrian2D
 {
 	class Texture final
@@ -41,7 +41,7 @@ namespace Integrian2D
 
 	private:
 		//DATA MEMBERS
-		GLuint m_Id;
+		unsigned int m_Id;
 		float m_Width;
 		float m_Height;
 		bool m_CreationOk;
@@ -50,7 +50,7 @@ namespace Integrian2D
 		void CreateFromImage(const std::string& path) noexcept;
 
 		/* Function copies RGBColour by value because it calls MaxToOne */
-		void CreateFromString(const std::string& text, TTF_Font* const pFont, RGBColour textColor) noexcept;
+		void CreateFromString(const std::string& text, _TTF_Font* const pFont, RGBColour textColor) noexcept;
 		void CreateFromString(const std::string& text, const std::string& fontPath, int ptSize, const RGBColour& textColor) noexcept;
 		void CreateFromSurface(SDL_Surface* const pSurface) noexcept;
 		void DrawFilledRect(const Rectf& dstRect) const noexcept;
