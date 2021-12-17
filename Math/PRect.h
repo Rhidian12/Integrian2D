@@ -373,14 +373,12 @@ namespace Integrian2D
 		p.scaleX = scale.x;
 		p.scaleY = scale.y;
 
-		const Type halfWidth{ p.width * static_cast<Type>(0.5f) };
-		const Type halfHeight{ p.height * static_cast<Type>(0.5f) };
-		const Point<2, Type>& center{ p.points.center };
+		const Point<2, Type>& leftBottom{ p.points.leftBottom };
 
-		p.points.leftBottom = { center.x - halfWidth * scale.x, center.y - halfHeight * scale.y };
-		p.points.leftTop = { center.x - halfWidth * scale.x, center.y + halfHeight * scale.y };
-		p.points.rightTop = { center.x + halfWidth * scale.x, center.y + halfHeight * scale.y };
-		p.points.rightBottom = { center.x + halfWidth * scale.x, center.y - halfHeight * scale.y };
+		p.points.leftTop = { leftBottom.x, leftBottom.y + p.height * scale.y };
+		p.points.rightTop = { leftBottom.x + p.width * scale.x, leftBottom.y + p.height * scale.y };
+		p.points.rightBottom = { leftBottom.x + p.width * scale.x, leftBottom.y };
+		p.points.center = { leftBottom.x + (p.width * 0.5f) * scale.x, leftBottom.y + (p.height * 0.5f) * scale.y };
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
@@ -481,13 +479,11 @@ namespace Integrian2D
 
 		p.width = _width;
 
-		const Point<2, Type>& center{ p.points.center };
-		const Type halfWidth{ _width * static_cast<Type>(0.5f) };
+		const Point<2, Type>& leftBottom{ p.points.leftBottom };
 
-		p.points.leftBottom.x = center.x - halfWidth;
-		p.points.leftTop.x = center.x - halfWidth;
-		p.points.rightTop.x = center.x + halfWidth;
-		p.points.rightBottom.x = center.x + halfWidth;
+		p.points.rightTop = { leftBottom.x + _width * p.scaleX, p.points.rightTop.y };
+		p.points.rightBottom = { leftBottom.x + _width * p.scaleX, p.points.rightBottom.y };
+		p.points.center = { leftBottom.x + (_width * 0.5f) * p.scaleX, p.points.center.y };
 
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))
@@ -510,13 +506,11 @@ namespace Integrian2D
 
 		p.height = _height;
 
-		const Point<2, Type>& center{ p.points.center };
-		const Type halfHeight{ _height * static_cast<Type>(0.5f) };
+		const Point<2, Type>& leftBottom{ p.points.leftBottom };
 
-		p.points.leftBottom.y = center.y - halfHeight;
-		p.points.leftTop.y = center.y + halfHeight;
-		p.points.rightTop.y = center.y + halfHeight;
-		p.points.rightBottom.y = center.y - halfHeight;
+		p.points.leftTop.y = leftBottom.y + _height;
+		p.points.rightTop.y = leftBottom.y + _height;
+		p.points.center.y = leftBottom.y + _height * static_cast<Type>(0.5f);
 
 		// == Scale, but only if the scale is not 1 ==
 		if (!Utils::AreEqual(p.scaleX, static_cast<Type>(1.f)) || !Utils::AreEqual(p.scaleY, static_cast<Type>(1.f)))

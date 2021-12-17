@@ -108,6 +108,7 @@ namespace Integrian2D
 		{
 			m_pSceneImpl->m_GameObjects.push_back(GameObjectInformation{ pGameObjectName, pGameObject});
 			m_pSceneImpl->m_TransformManager.AddTransformComponent(pGameObject->pTransform);
+			m_pSceneImpl->m_TransformManager.NotifyRecalculation();
 		}
 		else if (shouldAlwaysAdd)
 		{

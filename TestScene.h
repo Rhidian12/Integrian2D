@@ -7,8 +7,8 @@
 #include "Components/TransformComponent/TransformComponent.h"
 #include "Input/InputManager/InputManager.h"
 #include "Timer/Timer.h"
-#include "NavigationGraph/NavigationGraphComponent.h"
-#include "NavigationGraph/NavGraphPolygon/NavGraphPolygon.h"
+#include "Components/NavigationGraphComponent/NavigationGraphComponent.h"
+#include "NavGraphPolygon/NavGraphPolygon.h"
 #include "Renderer/Renderer.h"
 #include "Components/AIComponent/AIComponent.h"
 #include "AI/Blackboard/Blackboard.h"
@@ -56,13 +56,10 @@ class TestScene final : public Integrian2D::Scene
 {
 public:
 	TestScene(std::string name)
-		: Scene{ name }
+		: Scene{ name.c_str() }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
 		, m_pGameObject2{ new Integrian2D::GameObject{} }
-	{
-		Integrian2D::TextureManager::GetInstance()->AddTexture("Dino", new Integrian2D::Texture{ "dinoHappy.png" });
-		Integrian2D::TextureManager::GetInstance()->AddTexture("Kat", new Integrian2D::Texture{ "katHappy.png" });
-	}
+	{}
 
 	virtual void Start() override
 	{
@@ -125,19 +122,16 @@ public:
 				}
 			} });*/
 
-		//m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Dino") });
-		//m_pGameObject2->AddComponent(new TextureComponent{ m_pGameObject2, TextureManager::GetInstance()->GetTexture("Kat") });
-		m_pGameObject->AddComponent(new TextComponent{ m_pGameObject, "This is a sentence!?\nWeewoo PooPee" });
+		TextureManager::GetInstance()->AddTexture("Michael", new Texture{ "Resources/Michael_SoyakPoint2.png" });
 
-		//m_pGameObject->AddChild(m_pGameObject2);
+		m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Michael") });
+		m_pGameObject->pTransform->SetScale(Point2f{ 0.5f, 0.5f });
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
 
 		m_pGameObject->SetTag("Parent");
 		m_pGameObject2->SetTag("Child");
-
-		m_pGameObject->pTransform->SetPosition(Point2f{ 0.f, 100.f });
 
 		InputManager* const pInputManager{ InputManager::GetInstance() };
 
