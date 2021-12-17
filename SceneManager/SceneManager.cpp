@@ -48,7 +48,7 @@ namespace Integrian2D
 			/* Let the current active scene exit */
 			if (m_pActiveScene)
 			{
-				m_pActiveScene->m_IsActive = false;
+				m_pActiveScene->SetIsSceneActive(false);
 
 				m_pActiveScene->RootOnSceneExit();
 				m_pActiveScene->OnSceneExit();
@@ -57,7 +57,7 @@ namespace Integrian2D
 			m_pActiveScene = cIt->second;
 
 			/* Let the new active scene enter */
-			m_pActiveScene->m_IsActive = true;
+			m_pActiveScene->SetIsSceneActive(true);
 
 			m_pActiveScene->RootOnSceneEnter();
 			m_pActiveScene->OnSceneEnter();
@@ -67,7 +67,7 @@ namespace Integrian2D
 	void SceneManager::DeactivateAllScenes() noexcept
 	{
 		for (std::pair<const std::string, Scene*>& pair : m_pScenes)
-			pair.second->m_IsActive.store(false);
+			pair.second->SetIsSceneActive(false);
 	}
 
 	Scene* const SceneManager::GetActiveScene() const noexcept

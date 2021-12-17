@@ -1,5 +1,5 @@
 #include "NavGraphPolygon.h"
-#include "../../Renderer/Renderer.h"
+#include "../Renderer/Renderer.h"
 #include "delaunator.hpp"
 
 #include <algorithm>

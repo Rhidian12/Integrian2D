@@ -2,21 +2,25 @@
 
 #include "../Integrian2D_API.h"
 
-#include <string>
-#include <unordered_map>
-
 #include "../EventQueue/EventQueue.h"
-#include "../TransformManager/TransformManager.h"
+
+#include <vector>
 
 namespace Integrian2D
 {
 	class GameObject;
 
+	struct GameObjectInformation final
+	{
+		const char* pName;
+		GameObject* pGameObject;
+	};
+
 	/* This class is supposed to be inherited from */
 	class INTEGRIAN2D_API Scene
 	{
 	public:
-		Scene(const std::string& sceneName);
+		Scene(const char* pSceneName);
 		virtual ~Scene();
 
 		/* This function has to be overridden
@@ -55,24 +59,27 @@ namespace Integrian2D
 		   GameObjects with duplicate GameObject names are not allowed, except if the shouldAlwaysAdd parameter is set to true
 		   If this boolean is set to true and there is a duplicate GameObject name, the name will be the same, with (N) added to it
 		   where N is the amount of times this name has been added - 1 */
-		void AddGameObject(const std::string& gameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd = true) noexcept;
+		void AddGameObject(const char* pGameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd = true) noexcept;
 
 		/* Set the Scene's Name */
-		void SetSceneName(const std::string& sceneName) noexcept;
+		void SetSceneName(const char* pSceneName) noexcept;
 
 		/* Get a previously added GameObject by its name
 		   This function will return a nullptr if the GameObject is not present */
-		GameObject* const GetGameObject(const std::string& gameObjectName) const noexcept;
+		GameObject* const GetGameObject(const char* pGameObjectName) const noexcept;
 
 		/* Get all previously added GameObjects to the Scene
 		   This function will return an empty map if there have been no added GameObjects */
-		const std::unordered_map<std::string, GameObject*> GetGameObjects() const noexcept;
+		const std::vector<GameObjectInformation>& GetGameObjects() const noexcept;
 
 		/* Get the Scene's name */
-		const std::string& GetSceneName() const noexcept;
+		const char* GetSceneName() const noexcept;
 
 		/* Is the Scene active? */
 		bool IsSceneActive() const noexcept;
+
+		/* Set whether the scene is active */
+		void SetIsSceneActive(const bool isActive) noexcept;
 
 	protected:
 		EventQueue eventQueue{};
@@ -82,7 +89,7 @@ namespace Integrian2D
 		friend class Locator; // Make sure that only the Locator can access the InputManager
 		friend class SceneManager; /* The SceneManager needs access to the RootOnSceneEnter and RootOnSceneExit */
 
-		class SceneImpl;
+		struct SceneImpl;
 
 		void RootStart();
 		void RootUpdate();
@@ -91,12 +98,6 @@ namespace Integrian2D
 		void RootRender() const;
 		void RootOnSceneEnter() noexcept;
 		void RootOnSceneExit() noexcept;
-
-		std::string m_SceneName;
-		std::unordered_map<std::string, GameObject*> m_pGameObjects;
-		std::atomic_bool m_IsActive;
-		
-		TransformManager m_TransformManager;
 
 		SceneImpl* m_pSceneImpl;
 	};

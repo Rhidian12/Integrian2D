@@ -9,6 +9,7 @@
 #include "../Timer/Timer.h"
 #include "../ThreadManager/ThreadManager.h"
 #include "../AudioLocator/AudioLocator.h"
+#include "../Input/InputManager/InputManager.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
