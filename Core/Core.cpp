@@ -116,6 +116,16 @@ namespace Integrian2D
 		return m_IsEngineRunning;
 	}
 
+	int Core::GetWindowWidth() const noexcept
+	{
+		return m_WindowWidth;
+	}
+
+	int Core::GetWindowHeight() const noexcept
+	{
+		return m_WindowHeight;
+	}
+
 	void Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept
 	{
 #pragma region SDL Stuff

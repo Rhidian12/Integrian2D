@@ -30,6 +30,12 @@ namespace Integrian2D
 		/* Is the Engine running? */
 		INTEGRIAN2D_API bool IsEngineRunning() const noexcept;
 
+		/* Get the window width */
+		INTEGRIAN2D_API int GetWindowWidth() const noexcept;
+
+		/* Get the window height */
+		INTEGRIAN2D_API int GetWindowHeight() const noexcept;
+
 		Core(const Core&) = delete;
 		Core(Core&&) = delete;
 		Core& operator=(const Core&) = delete;
