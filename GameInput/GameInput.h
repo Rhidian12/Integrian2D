@@ -4,8 +4,6 @@
 #include "PossibleInputs.h"
 #include "../Utils/Utils.h"
 
-#include <functional>
-
 namespace Integrian2D
 {
 	enum class State

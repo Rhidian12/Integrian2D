@@ -130,10 +130,6 @@ namespace Integrian2D
 		DPAD_Down = 12, // SDL_CONTROLLER_BUTTON_DPAD_DOWN,
 		DPAD_Left = 13, // SDL_CONTROLLER_BUTTON_DPAD_LEFT,
 		DPAD_Right = 14, // SDL_CONTROLLER_BUTTON_DPAD_RIGHT,
-	};
-
-	enum class ControllerAxis : uint16_t
-	{
 		JoystickLeftHorizontalAxis = 0, // SDL_CONTROLLER_AXIS_LEFTX,
 		JoystickLeftVerticalAxis = 1, // SDL_CONTROLLER_AXIS_LEFTY,
 		JoystickRightHorizontalAxis = 2, // SDL_CONTROLLER_AXIS_RIGHTX,

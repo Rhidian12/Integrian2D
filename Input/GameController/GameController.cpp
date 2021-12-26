@@ -3,6 +3,8 @@
 #include "../../Utils/Utils.h"
 #include "../../Command/Command.h"
 
+#include <SDL.h>
+
 namespace Integrian2D
 {
 	GameController::GameController(const uint8_t index)
