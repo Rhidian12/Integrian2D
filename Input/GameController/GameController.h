@@ -5,6 +5,8 @@
 #include <vector> // std::vector
 #include <array>
 
+struct _SDL_GameController;
+
 namespace Integrian2D
 {
 	class Command;
@@ -46,7 +48,7 @@ namespace Integrian2D
 		inline static constexpr uint8_t m_MaxAmountOfJoysticks{ 4 }; /* arbitrary value tbh */
 
 		std::vector<CommandAndButton> m_Commands{};
-		inline static std::array<SDL_GameController*, m_MaxAmountOfJoysticks> m_pSDLGameControllers{};
+		inline static std::array<_SDL_GameController*, m_MaxAmountOfJoysticks> m_pSDLGameControllers{};
 		inline static std::array<GameController*, m_MaxAmountOfJoysticks> m_pInstances{};
 	};
 }

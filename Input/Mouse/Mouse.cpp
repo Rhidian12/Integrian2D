@@ -1,6 +1,8 @@
 #include "Mouse.h" // Header
 #include "../../Command/Command.h"
 
+#include <SDL.h>
+
 namespace Integrian2D
 {
 	void Mouse::Activate(Scene* const pScene) noexcept

@@ -9,7 +9,7 @@ namespace Integrian2D
 {
 	struct INTEGRIAN2D_API InputAxis final
 	{
-		std::string axis{};
+		const char* axis{};
 		GameInput positiveInput{ KeyboardInput::INVALID };
 		GameInput negativeInput{ KeyboardInput::INVALID };
 	};

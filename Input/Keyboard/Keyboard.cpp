@@ -2,6 +2,8 @@
 #include "../../Logger/Logger.h" // Logger
 #include "../../Command/Command.h"
 
+#include <SDL.h>
+
 namespace Integrian2D
 {
 	void Keyboard::Activate(Scene* const pScene) noexcept
