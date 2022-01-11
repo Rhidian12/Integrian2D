@@ -15,6 +15,8 @@ namespace Integrian2D
 		void Update() noexcept;
 		void Render() const noexcept;
 
+		bool GetIsActive() const noexcept;
+
 	private:
 		Point2f m_Position;
 		RGBColour m_Colour;

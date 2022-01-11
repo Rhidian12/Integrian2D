@@ -85,4 +85,9 @@ namespace Integrian2D
 				},
 				m_Colour);
 	}
+
+	bool Particle::GetIsActive() const noexcept
+	{
+		return m_IsActive;
+	}
 }
