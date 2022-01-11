@@ -250,6 +250,7 @@ namespace Integrian2D
 	{
 		return os << c.r << ", " << c.g << ", " << c.b << ", " << c.a << std::endl;
 	}
+#pragma endregion
 
 #pragma region RGBColour Functions
 	inline void MaxToOne(RGBColour& colour) noexcept
