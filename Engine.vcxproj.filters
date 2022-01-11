@@ -144,6 +144,12 @@
     <ClCompile Include="AudioLocator\AudioLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ParticleEmitterComponent\Particle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -354,6 +360,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Integrian2D_API.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ParticleEmitterComponent\Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ParticleEmitterComponent\ParticleEmitterSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

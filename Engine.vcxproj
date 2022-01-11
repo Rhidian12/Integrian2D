@@ -239,6 +239,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Input\Mouse\Mouse.cpp" />
     <ClCompile Include="Parsing\Reader\Reader.cpp" />
+    <ClCompile Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.cpp" />
+    <ClCompile Include="Components\ParticleEmitterComponent\Particle.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
@@ -264,6 +266,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="AudioLocator\AudioLocator.h" />
     <ClInclude Include="AudioSystem\AudioSystem.h" />
     <ClInclude Include="Command\Command.h" />
+    <ClInclude Include="Components\ParticleEmitterComponent\ParticleEmitterSettings.h" />
     <ClInclude Include="EventQueue\Event\Event.h" />
     <ClInclude Include="EventQueue\Event\EventImplementation.h" />
     <ClInclude Include="EventQueue\EventQueue.h" />
@@ -309,6 +312,8 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Parsing\DataType\DataType.h" />
     <ClInclude Include="Parsing\Reader\Reader.h" />
+    <ClInclude Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.h" />
+    <ClInclude Include="Components\ParticleEmitterComponent\Particle.h" />
     <ClInclude Include="Printer\Printer.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
