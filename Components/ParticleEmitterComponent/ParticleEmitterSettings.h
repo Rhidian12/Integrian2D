@@ -34,6 +34,12 @@ namespace Integrian2D
 		/* The percentual maximum change in size during the particle's lifetime */
 		float maximumSizeGrow{ 1.f };
 
+		/* The interval between each spawned particle (ie how many seconds per particle spawn) */
+		float spawnInterval{ 1.f };
+
+		/* The maximum amount of particles to spawn */
+		int maximumNumberOfParticles{ 50 };
+
 		/* The colour of each particle */
 		RGBColour colour{ Colours::White };
 	};
