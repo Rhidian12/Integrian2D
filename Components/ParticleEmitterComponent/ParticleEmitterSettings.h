@@ -1,10 +1,11 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
 #include "../../Math/TypeDefines.h"
 
 namespace Integrian2D
 {
-	struct ParticleEmitterSettings final
+	struct INTEGRIAN2D_API ParticleEmitterSettings final
 	{
 		/* The minimum size each particle can be when it is spawned */
 		float minimumSpawnSize{ 0.1f };

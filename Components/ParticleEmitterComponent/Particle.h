@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Integrian2D_API.h"
 #include "../../Math/TypeDefines.h"
 #include "ParticleEmitterSettings.h"
 
@@ -10,12 +11,12 @@ namespace Integrian2D
 	class Particle final
 	{
 	public:
-		void Initialize(const Point2f& _position, Texture* const pTexture, const ParticleEmitterSettings& settings) noexcept;
+		INTEGRIAN2D_API  void Initialize(const Point2f& _position, Texture* const pTexture, const ParticleEmitterSettings& settings) noexcept;
 
-		void Update() noexcept;
-		void Render() const noexcept;
+		INTEGRIAN2D_API void Update() noexcept;
+		INTEGRIAN2D_API void Render() const noexcept;
 
-		bool GetIsActive() const noexcept;
+		INTEGRIAN2D_API bool GetIsActive() const noexcept;
 
 	private:
 		Point2f m_Position;
