@@ -49,6 +49,9 @@ namespace Integrian2D
 		 void MaxToOne(RGBColour& colour)
 		 =>		Finds the maximum value of the rgb components, then divides every component by that max value
 		 =>		This function essentially normalizes the colour
+
+		 std::string ToString(const RGBColour&)
+		 =>		Returns the rgba values of the provided colour in a CSV manner
 		*/
 
 	struct INTEGRIAN2D_API RGBColour final
