@@ -18,7 +18,8 @@ namespace Integrian2D
 		/* The maximum lifetime of each particle, measured in seconds */
 		float maximumTime{ 2.f };
 
-		/* The starting velocity of the particles */
+		/* The starting velocity of the particles, this should be a normalized vector
+			Note that the particles will deviate from this velocity */
 		Vector2f startingVelocity{};
 
 		/* The maximum radius that the particles are spawned in */
