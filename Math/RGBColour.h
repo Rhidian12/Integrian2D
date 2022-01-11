@@ -268,4 +268,52 @@ namespace Integrian2D
 		return std::to_string(colour.r.v) + ", " + std::to_string(colour.g.v) + ", " + std::to_string(colour.b.v) + ", " + std::to_string(colour.a.v);
 	}
 #pragma endregion
+
+#pragma region Static Variables
+	namespace Colours
+	{
+		volatile const static RGBColour White{ 255u, 255u, 255u };
+
+		volatile const static RGBColour Black{ 0u, 0u, 0u };
+		volatile const static RGBColour Grey{ 128u, 128u, 128u };
+
+		volatile const static RGBColour Red{ 255u, 0u, 0u };
+		volatile const static RGBColour DarkRed{ 139u, 0u, 0u };
+		volatile const static RGBColour LightRed{ 255u, 204u, 203u };
+		volatile const static RGBColour Crimson{ 220u, 20u, 60u };
+		volatile const static RGBColour Salmon{ 250u, 128u, 114u };
+
+		volatile const static RGBColour Green{ 0u, 255u, 0u };
+		volatile const static RGBColour DarkGreen{ 0u, 128u, 0u };
+		volatile const static RGBColour LightGreen{ 127u, 255u, 0u };
+		volatile const static RGBColour Olive{ 128u, 128u, 0u };
+		volatile const static RGBColour LightSeaGreen{ 32u, 128u, 0u };
+
+		volatile const static RGBColour Blue{ 0u, 0u, 255u };
+		volatile const static RGBColour LightBlue{ 0u, 191u, 255u };
+		volatile const static RGBColour DarkBlue{ 0u, 0u, 139u };
+		volatile const static RGBColour Cyan{ 0u, 255u, 255u };
+		volatile const static RGBColour Navy{ 0u, 0u, 128u };
+
+		volatile const static RGBColour Orange{ 255u, 165u, 0u };
+		volatile const static RGBColour DarkOrange{ 255u, 140u, 0u };
+
+		volatile const static RGBColour Purple{ 128u, 0u, 128u };
+		volatile const static RGBColour Indigo{ 75u, 0u, 130u };
+		volatile const static RGBColour Violet{ 238u, 130u, 238u };
+		volatile const static RGBColour DarkViolet{ 148u, 0u, 211u };
+		volatile const static RGBColour Fuchsia{ 255u, 0u, 255u };
+
+		volatile const static RGBColour Yellow{ 255u, 255u, 0u };
+		volatile const static RGBColour LightYellow{ 255u, 255u, 224u };
+		volatile const static RGBColour Khaki{ 240u, 230u, 140u };
+		volatile const static RGBColour DarkKhaki{ 189u, 183u, 107u };
+		volatile const static RGBColour Gold{ 212u, 175u, 55u };
+
+		volatile const static RGBColour Pink{ 255u, 192u, 203u };
+		volatile const static RGBColour LightPink{ 255u, 182u, 193u };
+		volatile const static RGBColour HotPink{ 255u, 105u, 180u };
+		volatile const static RGBColour DeepPink{ 255u, 20u, 147u };
+	}
+#pragma endregion
 }
