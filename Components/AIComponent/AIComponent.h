@@ -15,6 +15,11 @@ namespace Integrian2D
 		INTEGRIAN2D_API AIComponent(GameObject* const pOwner, Blackboard* const pBlackboard, BaseDecisionMaking* const pAI);
 		INTEGRIAN2D_API ~AIComponent();
 
+		AIComponent(const AIComponent& other) noexcept;
+		AIComponent(AIComponent&& other) noexcept;
+		AIComponent& operator=(const AIComponent& other) noexcept;
+		AIComponent& operator=(AIComponent&& other) noexcept;
+
 		INTEGRIAN2D_API virtual Component* Clone(GameObject* pOwner) noexcept override;
 
 		INTEGRIAN2D_API virtual void Update() override;

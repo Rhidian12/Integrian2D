@@ -8,15 +8,17 @@ namespace Integrian2D
 	class AIComponent;
 	class Blackboard;
 
-	class BaseDecisionMaking 
+	class INTEGRIAN2D_API BaseDecisionMaking
 	{
 	public:
-		INTEGRIAN2D_API BaseDecisionMaking();
-		INTEGRIAN2D_API virtual ~BaseDecisionMaking() = default;
+		BaseDecisionMaking();
+		virtual ~BaseDecisionMaking() = default;
 
-		INTEGRIAN2D_API virtual BehaviourState Update(Blackboard* const) = 0;
+		virtual BaseDecisionMaking* Clone() noexcept = 0;
 
-		INTEGRIAN2D_API BehaviourState GetCurrentState() const noexcept;
+		virtual BehaviourState Update(Blackboard* const) = 0;
+
+		BehaviourState GetCurrentState() const noexcept;
 
 	protected:
 		BehaviourState m_CurrentState;
