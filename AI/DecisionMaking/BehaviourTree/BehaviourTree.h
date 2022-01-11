@@ -8,75 +8,75 @@
 
 namespace Integrian2D
 {
-	class INTEGRIAN2D_API BehaviourTreeNode
+	class BehaviourTreeNode
 	{
 	public:
-		 virtual ~BehaviourTreeNode() = default;
+		INTEGRIAN2D_API virtual ~BehaviourTreeNode() = default;
 
-		virtual BehaviourTreeNode* Clone() noexcept = 0;
+		INTEGRIAN2D_API virtual BehaviourTreeNode* Clone() noexcept = 0;
 
-		virtual BehaviourState Execute(Blackboard* const) const = 0;
+		INTEGRIAN2D_API virtual BehaviourState Execute(Blackboard* const) const = 0;
 	};
 
-	class INTEGRIAN2D_API ActionNode final : public BehaviourTreeNode
+	class ActionNode final : public BehaviourTreeNode
 	{
 	public:
 		using Action = std::function<BehaviourState(Blackboard* const)>;
 
-		ActionNode(const Action& action);
+		INTEGRIAN2D_API ActionNode(const Action& action);
 
-		virtual BehaviourTreeNode* Clone() noexcept override;
+		INTEGRIAN2D_API virtual BehaviourTreeNode* Clone() noexcept override;
 
-		virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
+		INTEGRIAN2D_API virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
 
 	private:
 		Action m_Action;
 	};
 
-	class INTEGRIAN2D_API ConditionalNode final : public BehaviourTreeNode
+	class ConditionalNode final : public BehaviourTreeNode
 	{
 	public:
 		using Predicate = std::function<bool(Blackboard* const)>;
 
-		ConditionalNode(const Predicate& predicate);
+		INTEGRIAN2D_API ConditionalNode(const Predicate& predicate);
 
-		virtual BehaviourTreeNode* Clone() noexcept override;
+		INTEGRIAN2D_API virtual BehaviourTreeNode* Clone() noexcept override;
 
-		virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
+		INTEGRIAN2D_API virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
 
 	private:
 		Predicate m_Predicate;
 	};
 
-	class INTEGRIAN2D_API InvertedConditionalNode final : public BehaviourTreeNode
+	class InvertedConditionalNode final : public BehaviourTreeNode
 	{
 	public:
 		using Predicate = std::function<bool(Blackboard* const)>;
 
-		InvertedConditionalNode(const Predicate& predicate);
+		INTEGRIAN2D_API InvertedConditionalNode(const Predicate& predicate);
 
-		virtual BehaviourTreeNode* Clone() noexcept override;
+		INTEGRIAN2D_API virtual BehaviourTreeNode* Clone() noexcept override;
 
-		virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
+		INTEGRIAN2D_API virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
 
 	private:
 		Predicate m_Predicate;
 	};
 
-	class INTEGRIAN2D_API SequenceNode final : public BehaviourTreeNode
+	class SequenceNode final : public BehaviourTreeNode
 	{
 	public:
-		SequenceNode(const std::vector<BehaviourTreeNode*>& nodes);
-		~SequenceNode();
+		INTEGRIAN2D_API SequenceNode(const std::vector<BehaviourTreeNode*>& nodes);
+		INTEGRIAN2D_API ~SequenceNode();
 
-		SequenceNode(const SequenceNode& other) noexcept;
-		SequenceNode(SequenceNode&& other) noexcept;
-		SequenceNode& operator=(const SequenceNode& other) noexcept;
-		SequenceNode& operator=(SequenceNode&& other) noexcept;
+		INTEGRIAN2D_API SequenceNode(const SequenceNode& other) noexcept;
+		INTEGRIAN2D_API SequenceNode(SequenceNode&& other) noexcept;
+		INTEGRIAN2D_API SequenceNode& operator=(const SequenceNode& other) noexcept;
+		INTEGRIAN2D_API SequenceNode& operator=(SequenceNode&& other) noexcept;
 
-		virtual BehaviourTreeNode* Clone() noexcept override;
+		INTEGRIAN2D_API virtual BehaviourTreeNode* Clone() noexcept override;
 
-		virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
+		INTEGRIAN2D_API virtual BehaviourState Execute(Blackboard* const pBlackboard) const override;
 
 	private:
 		std::vector<BehaviourTreeNode*> m_Nodes;
