@@ -5,20 +5,6 @@
 
 namespace Integrian2D
 {
-	Particle::Particle()
-		: m_Position{}
-		, m_Colour{}
-		, m_pTexture{}
-		, m_Velocity{}
-		, m_CurrentSize{}
-		, m_InitialSize{}
-		, m_CurrentTime{}
-		, m_MaximumTime{}
-		, m_SizeGrow{}
-		, m_Rotation{}
-		, m_IsActive{}
-	{}
-
 	void Particle::Initialize(const Point2f& _position, Texture* const pTexture, const ParticleEmitterSettings& settings) noexcept
 	{
 		/* Set the particle to true */

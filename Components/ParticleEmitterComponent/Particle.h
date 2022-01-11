@@ -9,8 +9,7 @@ namespace Integrian2D
 
 	class Particle final
 	{
-		Particle();
-
+	public:
 		void Initialize(const Point2f& _position, Texture* const pTexture, const ParticleEmitterSettings& settings) noexcept;
 
 		void Update() noexcept;
