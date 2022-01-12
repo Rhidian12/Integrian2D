@@ -126,12 +126,19 @@ public:
 		TextureManager::GetInstance()->AddTexture("Michael", new Texture{ "Resources/Michael_SoyakPoint2.png" });
 		TextureManager::GetInstance()->AddTexture("SmokeParticle", new Texture{ "Resources/Smoke_Particle.png" });
 
+		Texture* const pSmokeParticle{ TextureManager::GetInstance()->GetTexture("SmokeParticle") };
 		ParticleEmitterSettings settings{};
 		settings.maximumTime = 3.f;
 		settings.startingVelocity = Vector2f{ 0.f, 1.f };
+		settings.minimumSpawnSize = pSmokeParticle->GetWidth();
+		settings.maximumSpawnSize = pSmokeParticle->GetWidth();
+		settings.maximumEmitterRange = 20.f;
+		settings.spawnInterval = 0.1f;
 
 		m_pGameObject->AddComponent(new ParticleEmitterComponent{ m_pGameObject,
-			TextureManager::GetInstance()->GetTexture("SmokeParticle"), settings });
+			pSmokeParticle, settings });
+
+		m_pGameObject->pTransform->SetPosition(Point2f{ 150.f, 50.f });
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
@@ -143,26 +150,6 @@ public:
 	virtual void Update() override
 	{
 		using namespace Integrian2D;
-
-		InputManager* const pInputManager{ InputManager::GetInstance() };
-
-		if (int8_t value = pInputManager->GetAxis("ParentVerticalMovement"); value != 0)
-			m_pGameObject->pTransform->Translate(Vector2f{ 0.f, 5.f * value });
-
-		if (int8_t value = pInputManager->GetAxis("ParentHorizontalMovement"); value != 0)
-			m_pGameObject->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
-
-		if (int8_t value = pInputManager->GetAxis("ChildVerticalMovement"); value != 0)
-			m_pGameObject2->pTransform->Translate(Vector2f{ 0.f, 5.f * value });
-
-		if (int8_t value = pInputManager->GetAxis("ChildHorizontalMovement"); value != 0)
-			m_pGameObject2->pTransform->Translate(Vector2f{ 5.f * value, 0.f });
-
-		if (int8_t value = pInputManager->GetAxis("ParentRotation"); value != 0)
-			m_pGameObject->pTransform->Rotate(Utils::ToRadians(5.f) * value);
-
-		if (int8_t value = pInputManager->GetAxis("ChildRotation"); value != 0)
-			m_pGameObject2->pTransform->Rotate(Utils::ToRadians(5.f) * value);
 	}
 
 	Integrian2D::GameObject* m_pGameObject;

@@ -30,7 +30,15 @@ namespace Integrian2D
 		/* Set rotation */
 		m_Rotation = static_cast<float>(Utils::RandomNumber(-Utils::PI, Utils::PI));
 
-		/* Set velocity */
+		/* Set speed */
+		m_Speed = Utils::RandomNumber(settings.minimumParticleSpeed, settings.maximumParticleSpeed);
+
+		/* Move particle in a random direction a random distance away from starting point */
+		const Vector2f randomDirection{ Utils::RandomNumber(-1.f, 1.f), Utils::RandomNumber(-1.f, 1.f) };
+		const float randomDistance{ Utils::RandomNumber(settings.minimumEmitterRange, settings.maximumEmitterRange) };
+		m_Position += Point2f{ randomDirection * randomDistance };
+
+		/* Set velocity and rotate it with the rotation */
 		const float c{ cosf(m_Rotation) };
 		const float s{ sinf(m_Rotation) };
 
@@ -56,7 +64,7 @@ namespace Integrian2D
 		}
 
 		/* Update position */
-		m_Position += Point2f{ m_Velocity * dt };
+		m_Position += Point2f{ m_Velocity * dt * m_Speed };
 
 		/* Cache how long the particle is in its lifetime */
 		const float particleRemainingLifetime{ m_CurrentTime / m_MaximumTime };
@@ -73,6 +81,9 @@ namespace Integrian2D
 
 	void Particle::Render() const noexcept
 	{
+		if (!m_IsActive)
+			return;
+
 		if (m_pTexture)
 			Renderer::GetInstance()->RenderTexture(m_pTexture, PRectf{ m_Position, m_CurrentSize, m_CurrentSize }, Rectf{});
 		else

@@ -24,7 +24,7 @@ namespace Integrian2D
 		Vector2f startingVelocity{};
 
 		/* The maximum radius that the particles are spawned in */
-		float minimumEmitterRange{ 9.f };
+		float minimumEmitterRange{ 0.f };
 
 		/* The maximum radius that the particles are spawned in */
 		float maximumEmitterRange{ 10.f };
@@ -40,6 +40,12 @@ namespace Integrian2D
 
 		/* The maximum amount of particles to spawn */
 		int maximumNumberOfParticles{ 50 };
+
+		/* The minimum speed of each particle */
+		float minimumParticleSpeed{ 20.f };
+
+		/* The maximum speed of each particle */
+		float maximumParticleSpeed{ 50.f };
 
 		/* The colour of each particle */
 		RGBColour colour{ Colours::White };

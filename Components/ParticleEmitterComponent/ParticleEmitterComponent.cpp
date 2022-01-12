@@ -98,7 +98,7 @@ namespace Integrian2D
 		{
 			auto cIt{ std::find_if(m_Particles.cbegin(), m_Particles.cend(), [](const Particle* const pParticle)->bool
 				{
-					return pParticle->GetIsActive();
+					return !pParticle->GetIsActive();
 				}) };
 
 			if (cIt != m_Particles.cend())

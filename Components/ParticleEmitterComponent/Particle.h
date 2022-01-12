@@ -30,6 +30,7 @@ namespace Integrian2D
 		float m_MaximumTime;
 		float m_SizeGrow; /* Percentual grow during the particle's lifetime (< 0 == shrink, 0 > == grow) */
 		float m_Rotation;
+		float m_Speed;
 		bool m_IsActive;
 	};
 }
