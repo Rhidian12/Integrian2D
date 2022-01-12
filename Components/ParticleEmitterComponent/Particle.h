@@ -11,7 +11,7 @@ namespace Integrian2D
 	class Particle final
 	{
 	public:
-		INTEGRIAN2D_API  void Initialize(const Point2f& _position, Texture* const pTexture, const ParticleEmitterSettings& settings) noexcept;
+		INTEGRIAN2D_API void Initialize(const Point2f& _position, Texture* const pTexture, const ParticleEmitterSettings& settings) noexcept;
 
 		INTEGRIAN2D_API void Update() noexcept;
 		INTEGRIAN2D_API void Render() const noexcept;
