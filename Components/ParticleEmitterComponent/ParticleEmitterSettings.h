@@ -5,8 +5,16 @@
 
 namespace Integrian2D
 {
+	enum class EmitterShape
+	{
+		Circle,
+		Cone
+	};
+
+	template<EmitterShape Shape>
 	struct INTEGRIAN2D_API ParticleEmitterSettings final
 	{
+#pragma region Always Present
 		/* The minimum size each particle can be when it is spawned */
 		float minimumSpawnSize{ 0.1f };
 
@@ -49,5 +57,27 @@ namespace Integrian2D
 
 		/* The colour of each particle */
 		RGBColour colour{ Colours::White };
+#pragma endregion
+
+#pragma region SFINAE
+		template<EmitterShape _Shape>
+		struct Type {};
+
+		template<>
+		struct Type<EmitterShape::Cone>
+		{
+			/* The negative angle of the cone */
+			float coneNegativeAngle{ -15.f };
+
+			/* The negative angle of the cone */
+			float conePositiveAngle{ 15.f };
+
+			/* The direction the cone is pointing at */
+			Vector2f coneDirection{ 0.f, 1.f };
+		};
+#pragma endregion
 	};
+
+	using ConeEmitterSettings = ParticleEmitterSettings<EmitterShape::Cone>;
+	using CircleEmitterSettings = ParticleEmitterSettings<EmitterShape::Circle>;
 }

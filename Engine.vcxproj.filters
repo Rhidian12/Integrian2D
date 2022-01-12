@@ -144,9 +144,6 @@
     <ClCompile Include="AudioLocator\AudioLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Components\ParticleEmitterComponent\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

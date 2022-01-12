@@ -16,6 +16,7 @@
 #include "Command/Command.h"
 #include "Components/TextComponent/TextComponent.h"
 #include "Components/ParticleEmitterComponent/ParticleEmitterComponent.h"
+#include "Components/ParticleEmitterComponent/ParticleEmitterSettings.h"
 
 #include <string>
 
@@ -127,7 +128,7 @@ public:
 		TextureManager::GetInstance()->AddTexture("SmokeParticle", new Texture{ "Resources/Smoke_Particle.png" });
 
 		Texture* const pSmokeParticle{ TextureManager::GetInstance()->GetTexture("SmokeParticle") };
-		ParticleEmitterSettings settings{};
+		CircleEmitterSettings settings{};
 		settings.maximumTime = 3.f;
 		settings.startingVelocity = Vector2f{ 0.f, 1.f };
 		settings.minimumSpawnSize = pSmokeParticle->GetWidth();
@@ -135,7 +136,7 @@ public:
 		settings.maximumEmitterRange = 20.f;
 		settings.spawnInterval = 0.1f;
 
-		m_pGameObject->AddComponent(new ParticleEmitterComponent{ m_pGameObject,
+		m_pGameObject->AddComponent(new CircleParticleEmitterComponent{ m_pGameObject,
 			pSmokeParticle, settings });
 
 		m_pGameObject->pTransform->SetPosition(Point2f{ 150.f, 50.f });

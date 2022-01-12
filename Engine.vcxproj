@@ -239,7 +239,6 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Input\Mouse\Mouse.cpp" />
     <ClCompile Include="Parsing\Reader\Reader.cpp" />
-    <ClCompile Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.cpp" />
     <ClCompile Include="Components\ParticleEmitterComponent\Particle.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="SceneManager\SceneManager.cpp" />
