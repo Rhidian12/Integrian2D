@@ -30,7 +30,7 @@ namespace Integrian2D
 		float maximumEmitterRange{ 10.f };
 
 		/* The percentual minimum change in size during the particle's lifetime */
-		float minimumSizeGrow{ 1.f };
+		float minimumSizeGrow{ -1.f };
 
 		/* The percentual maximum change in size during the particle's lifetime */
 		float maximumSizeGrow{ 1.f };

@@ -34,8 +34,8 @@ namespace Integrian2D
 		const float c{ cosf(m_Rotation) };
 		const float s{ sinf(m_Rotation) };
 
-		m_Velocity.x = m_Velocity.x * c - m_Velocity.y * s;
-		m_Velocity.y = m_Velocity.x * s + m_Velocity.y * c;
+		m_Velocity.x = settings.startingVelocity.x * c - settings.startingVelocity.y * s;
+		m_Velocity.y = settings.startingVelocity.x * s + settings.startingVelocity.y * c;
 	}
 
 	void Particle::Update() noexcept
