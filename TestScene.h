@@ -15,6 +15,7 @@
 #include "AI/DecisionMaking/BehaviourTree/BehaviourTree.h"
 #include "Command/Command.h"
 #include "Components/TextComponent/TextComponent.h"
+#include "Components/ParticleEmitterComponent/ParticleEmitterComponent.h"
 
 #include <string>
 
@@ -123,32 +124,20 @@ public:
 			} });*/
 
 		TextureManager::GetInstance()->AddTexture("Michael", new Texture{ "Resources/Michael_SoyakPoint2.png" });
+		TextureManager::GetInstance()->AddTexture("SmokeParticle", new Texture{ "Resources/Smoke_Particle.png" });
 
-		m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Michael") });
-		m_pGameObject->pTransform->SetScale(Point2f{ 0.5f, 0.5f });
+		ParticleEmitterSettings settings{};
+		settings.maximumTime = 3.f;
+		settings.startingVelocity = Vector2f{ 0.f, 1.f };
+
+		m_pGameObject->AddComponent(new ParticleEmitterComponent{ m_pGameObject,
+			TextureManager::GetInstance()->GetTexture("SmokeParticle"), settings });
 
 		AddGameObject("Test1", m_pGameObject);
 		AddGameObject("Test2", m_pGameObject2);
 
 		m_pGameObject->SetTag("Parent");
 		m_pGameObject2->SetTag("Child");
-
-		InputManager* const pInputManager{ InputManager::GetInstance() };
-
-		pInputManager->AddAxis(InputAxis{ "ParentVerticalMovement", GameInput{ KeyboardInput::W }, GameInput{ KeyboardInput::S } });
-		pInputManager->AddAxis(InputAxis{ "ParentHorizontalMovement", GameInput{ KeyboardInput::D }, GameInput{ KeyboardInput::A } });
-
-		pInputManager->AddAxis(InputAxis{ "ChildVerticalMovement", GameInput{ KeyboardInput::ArrowUp }, GameInput{ KeyboardInput::ArrowDown } });
-		pInputManager->AddAxis(InputAxis{ "ChildHorizontalMovement", GameInput{ KeyboardInput::ArrowRight }, GameInput{ KeyboardInput::ArrowLeft } });
-
-		pInputManager->AddAxis(InputAxis{ "ParentRotation", GameInput{ KeyboardInput::I }, GameInput{ KeyboardInput::U } });
-		pInputManager->AddAxis(InputAxis{ "ChildRotation", GameInput{ KeyboardInput::L }, GameInput{ KeyboardInput::K } });
-
-		pInputManager->AddCommand(GameInput{ KeyboardInput::T }, new ScaleDownCommand{ this,m_pGameObject->pTransform }, State::OnRelease);
-		pInputManager->AddCommand(GameInput{ KeyboardInput::Y }, new ScaleUpCommand{ this,m_pGameObject->pTransform }, State::OnRelease);
-
-		pInputManager->AddCommand(GameInput{ KeyboardInput::G }, new ScaleDownCommand{ this,m_pGameObject2->pTransform }, State::OnRelease);
-		pInputManager->AddCommand(GameInput{ KeyboardInput::H }, new ScaleUpCommand{ this,m_pGameObject2->pTransform }, State::OnRelease);
 	}
 
 	virtual void Update() override
