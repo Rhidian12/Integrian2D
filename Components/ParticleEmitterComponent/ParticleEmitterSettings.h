@@ -31,7 +31,7 @@ namespace Integrian2D
 			Note that the particles will deviate from this velocity */
 		Vector2f startingVelocity{};
 
-		/* The maximum radius that the particles are spawned in */
+		/* The minimum radius that the particles are spawned in */
 		float minimumEmitterRange{ 0.f };
 
 		/* The maximum radius that the particles are spawned in */
