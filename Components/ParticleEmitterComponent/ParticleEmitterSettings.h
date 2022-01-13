@@ -60,7 +60,7 @@ namespace Integrian2D
 #pragma endregion
 
 #pragma region SFINAE
-		template<EmitterShape _Shape>
+		template<EmitterShape _Shape = Shape>
 		struct Type {};
 
 		template<>
@@ -76,6 +76,8 @@ namespace Integrian2D
 			Vector2f coneDirection{ 0.f, 1.f };
 		};
 #pragma endregion
+
+		Type<Shape> shapeSpecificData{};
 	};
 
 	using ConeEmitterSettings = ParticleEmitterSettings<EmitterShape::Cone>;
