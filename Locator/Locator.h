@@ -14,7 +14,7 @@ namespace Integrian2D
 		INTEGRIAN2D_API static Locator* GetInstance() noexcept;
 
 		/* Internal Usage */
-		INTEGRIAN2D_API static void Cleanup() noexcept;
+		static void Cleanup() noexcept;
 
 		INTEGRIAN2D_API EventQueue* const GetEventQueue() const noexcept;
 
