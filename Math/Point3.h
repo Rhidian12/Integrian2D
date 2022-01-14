@@ -24,12 +24,16 @@ namespace Integrian2D
 		   Point<3, Type> operator/(const Point<3, Type>& lhs, const Type& rhs)
 
 		   Point<3, Type>& operator+=(Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type>& operator+=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
 
 		   Point<3, Type>& operator-=(Point<3, Type>& lhs, const Point<3, Type>& rhs)
+		   Point<3, Type>& operator-=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
 
 		   Point<3, Type>& operator*=(Point<3, Type>& lhs, const Type& rhs)
+		   Point<3, Type>& operator*=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
 		   
 		   Point<3, Type>& operator/=(Point<3, Type>& lhs, const Type& rhs)
+		   Point<3, Type>& operator/=(Point<3, Type>& lhs, const Vector<3, Type>& rhs)
 
 		   template<typename Integral>
 		   Type& operator[](const Integral index)
@@ -231,7 +235,25 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
+	Point<3, Type>& operator+=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x += rhs.x;
+		lhs.y += rhs.y;
+		lhs.z += rhs.z;
+		return lhs;
+	}
+
+	template<typename Type>
 	Point<3, Type>& operator-=(Point<3, Type>& lhs, const Point<3, Type>& rhs) noexcept
+	{
+		lhs.x -= rhs.x;
+		lhs.y -= rhs.y;
+		lhs.z -= rhs.z;
+		return lhs;
+	}
+
+	template<typename Type>
+	Point<3, Type>& operator-=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
 		lhs.x -= rhs.x;
 		lhs.y -= rhs.y;
@@ -249,11 +271,29 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
+	Point<3, Type>& operator*=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x *= rhs.x;
+		lhs.y *= rhs.y;
+		lhs.z *= rhs.z;
+		return lhs;
+	}
+
+	template<typename Type>
 	Point<3, Type>& operator/=(Point<3, Type>& lhs, const Type& rhs) noexcept
 	{
 		lhs.x /= rhs.x;
 		lhs.y /= rhs.y;
 		lhs.z /= rhs.z;
+		return lhs;
+	}
+
+	template<typename Type>
+	Point<3, Type>& operator*=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	{
+		lhs.x *= rhs.x;
+		lhs.y *= rhs.y;
+		lhs.z *= rhs.z;
 		return lhs;
 	}
 #pragma endregion
