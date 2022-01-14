@@ -17,6 +17,59 @@
 - C++17
 
 ### Documentation
+#### Quick Start Guide
+Start by creating a new Scene
+```cpp
+// Header
+#pragma once
+
+#include <Scene/Scene.h>
+
+#include <string>
+
+namespace Integrian2D
+{
+   class GameObject;
+}
+
+class TestScene final : public Integrian2D::Scene
+{
+public:
+	TestScene(const std::string& name);
+
+	virtual void Start() override;
+
+private:
+	Integrian2D::GameObject* m_pBall;
+};
+
+// CPP
+#include "TestScene.h"
+
+#include <GameObject/GameObject.h>
+#include <Texture/Texture.h>
+#include <TextureManager/TextureManager.h>
+#include <Components/TextureComponent/TextureComponent.h> 
+#include <Components/TransformComponent/TransformComponent.h>
+
+TestScene::TestScene(const std::string& name)
+	: Scene{ name.c_str() }
+	, m_pBall{ new Integrian2D::GameObject{} }
+{}
+
+virtual void TestScene::Start()
+{
+	using namespace Integrian2D;
+
+	TextureManager::GetInstance()->AddTexture("Ball", new Texture{ "Resources/Ball.png" });
+
+	m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Ball") });
+	m_pGameObject->pTransform->SetScale(Point2f{ 0.5f, 0.5f });
+
+
+	AddGameObject("Ball", m_pBall);
+}
+```
 #### Engine Flowchart
 1. The Core gets created
 2. The Core initializes 3rd party libraries (such as SDL2)
