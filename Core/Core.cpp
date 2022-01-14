@@ -10,6 +10,7 @@
 #include "../ThreadManager/ThreadManager.h"
 #include "../AudioLocator/AudioLocator.h"
 #include "../Input/InputManager/InputManager.h"
+#include "../EventQueue/EventQueue.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -70,6 +71,7 @@ namespace Integrian2D
 		Renderer* pRenderer{ Renderer::GetInstance() };
 		Timer* pTimer{ Timer::GetInstance() };
 		AudioLocator* pAudioLocator{ AudioLocator::GetInstance() };
+		const Locator* const pLocator{ Locator::GetInstance() };
 
 		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
 		{
@@ -99,6 +101,8 @@ namespace Integrian2D
 
 			pActiveScene->RootLateUpdate();
 			pActiveScene->LateUpdate();
+
+			pLocator->GetEventQueue()->Update();
 
 			pAudioLocator->GetAudio()->Update();
 
