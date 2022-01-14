@@ -57,7 +57,7 @@ private:
 class TestScene final : public Integrian2D::Scene
 {
 public:
-	TestScene(std::string name)
+	TestScene(const std::string& name)
 		: Scene{ name.c_str() }
 		, m_pGameObject{ new Integrian2D::GameObject{} }
 		, m_pGameObject2{ new Integrian2D::GameObject{} }
@@ -66,63 +66,6 @@ public:
 	virtual void Start() override
 	{
 		using namespace Integrian2D;
-
-		/*Blackboard* const pBlackboard{ new Blackboard{} };
-
-		pBlackboard->AddData("FirstTime", true);
-		pBlackboard->AddData("FirstTimeRunning", true);
-
-		m_pGameObject->AddComponent(new AIComponent{ m_pGameObject, pBlackboard, new BehaviourTree{std::vector<BehaviourTreeNode*>
-				{
-					new ActionNode{ [](Blackboard* const)->BehaviourState
-						{
-							std::cout << "First Action!" << std::endl;
-							return BehaviourState::Success;
-						} },
-					new SequenceNode{std::vector<BehaviourTreeNode*>
-						{
-							new ActionNode{ [](Blackboard* const)->BehaviourState
-							{
-								std::cout << "First Action in Sequence!" << std::endl;
-								return BehaviourState::Success;
-							} },
-							new ActionNode{ [](Blackboard* const)->BehaviourState
-							{
-								std::cout << "Second Action in Sequence!" << std::endl;
-								return BehaviourState::Success;
-							} }
-						} },
-					new ConditionalNode{ [](Blackboard* const pBlackboard)->bool
-						{
-							if (pBlackboard->GetData<bool>("FirstTime"))
-							{
-								pBlackboard->ChangeData("FirstTime", false);
-								return false;
-							}
-							else
-								return true;
-						}},
-					new ActionNode{ [](Blackboard* const)->BehaviourState
-						{
-							std::cout << "Second Action after Sequence and after sucessfully changing bool in blackboard previous time!" << std::endl;
-							return BehaviourState::Success;
-						} },
-					new ActionNode{ [](Blackboard* const pBlackboard)->BehaviourState
-						{
-							if (pBlackboard->GetData<bool>("FirstTimeRunning"))
-							{
-								std::cout << "Third Action Before Running!" << std::endl;
-								pBlackboard->ChangeData("FirstTimeRunning", false);
-								return BehaviourState::Running;
-							}
-							else
-							{
-								std::cout << "Third Action After Running!" << std::endl;
-								return BehaviourState::Success;
-							}
-						} },
-				}
-			} });*/
 
 		TextureManager::GetInstance()->AddTexture("Michael", new Texture{ "Resources/Michael_SoyakPoint2.png" });
 		TextureManager::GetInstance()->AddTexture("SmokeParticle", new Texture{ "Resources/Smoke_Particle.png" });
