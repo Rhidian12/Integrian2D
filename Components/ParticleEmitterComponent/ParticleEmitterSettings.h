@@ -61,10 +61,10 @@ namespace Integrian2D
 
 #pragma region SFINAE
 		template<EmitterShape _Shape = Shape>
-		struct Type {};
+		struct INTEGRIAN2D_API Type {};
 
 		template<>
-		struct Type<EmitterShape::Cone>
+		struct INTEGRIAN2D_API Type<EmitterShape::Cone>
 		{
 			/* The negative angle of the cone */
 			float coneNegativeAngle{ -15.f };
