@@ -60,8 +60,8 @@ namespace Integrian2D
 			const Vector2f& coneDirection{ m_ParticleEmitterSettings.shapeSpecificData.coneDirection };
 
 			const float angle{
-				Dot(coneDirection, m_ParticleEmitterSettings.startingVelocity)  /
-				(Magnitude(coneDirection) * Magnitude(m_ParticleEmitterSettings.startingVelocity))
+				arccos(Dot(coneDirection, m_ParticleEmitterSettings.startingVelocity)  /
+				(Magnitude(coneDirection) * Magnitude(m_ParticleEmitterSettings.startingVelocity)))
 			};
 
 			ASSERT(Utils::IsInRange(angle,
