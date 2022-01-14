@@ -289,11 +289,11 @@ namespace Integrian2D
 	}
 
 	template<typename Type>
-	Point<3, Type>& operator*=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
+	Point<3, Type>& operator/=(Point<3, Type>& lhs, const Vector<3, Type>& rhs) noexcept
 	{
-		lhs.x *= rhs.x;
-		lhs.y *= rhs.y;
-		lhs.z *= rhs.z;
+		lhs.x /= rhs.x;
+		lhs.y /= rhs.y;
+		lhs.z /= rhs.z;
 		return lhs;
 	}
 #pragma endregion
