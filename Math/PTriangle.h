@@ -396,7 +396,7 @@ namespace Integrian2D
 
 		// == Scale, but only if the scale is not {1, 1}
 		if (!Utils::AreEqual(originalScale.x, static_cast<Type>(1.f)) || !Utils::AreEqual(originalScale.y, static_cast<Type>(1.f)))
-			SetScale(*this, originalScale);
+			SetScale(p, originalScale);
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
@@ -428,7 +428,7 @@ namespace Integrian2D
 
 		// == Scale, but only if the scale is not {1, 1}
 		if (!Utils::AreEqual(originalScale.x, static_cast<Type>(1.f)) || !Utils::AreEqual(originalScale.y, static_cast<Type>(1.f)))
-			SetScale(*this, originalScale);
+			SetScale(p, originalScale);
 
 		// == Rotate, but only if the angle is not 0 ==
 		if (!Utils::AreEqual(originalAngle, static_cast<Type>(0.f)))
