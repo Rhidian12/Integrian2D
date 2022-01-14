@@ -54,6 +54,21 @@ namespace Integrian2D
 
 		for (int i{}; i < settings.maximumNumberOfParticles; ++i)
 			m_Particles.push_back(new Particle{});
+
+		if constexpr (Shape == EmitterShape::Cone)
+		{
+			const Vector2f& coneDirection{ m_ParticleEmitterSettings.shapeSpecificData.coneDirection };
+
+			const float angle{
+				Dot(coneDirection, m_ParticleEmitterSettings.startingVelocity)  /
+				(Magnitude(coneDirection) * Magnitude(m_ParticleEmitterSettings.startingVelocity))
+			};
+
+			ASSERT(Utils::IsInRange(angle,
+				m_ParticleEmitterSettings.shapeSpecificData.coneNegativeAngle,
+				m_ParticleEmitterSettings.shapeSpecificData.conePositiveAngle),
+				"ConeEmitterSettings > The starting velocity is not in the direction of the cone or exceeds the cone angle limits");
+		}
 	}
 
 	template<EmitterShape Shape>
