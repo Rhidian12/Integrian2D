@@ -11,6 +11,10 @@ namespace Integrian2D
 	struct INTEGRIAN2D_API Circle
 	{
 #pragma region Constructors
+		explicit Circle()
+			: radius{}
+			, position{}
+		{}
 		explicit Circle(const Point<2, Type>& _position, const Type _radius)
 			: radius{ _radius }
 			, position{ _position }
