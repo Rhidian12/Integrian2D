@@ -66,6 +66,16 @@ namespace Integrian2D
 		: m_pEventQueueImpl{ new EventQueueImpl{} }
 	{}
 
+	EventQueue* const EventQueue::GetInstance() noexcept
+	{
+		return m_pInstance == nullptr ? m_pInstance = new EventQueue{} : m_pInstance;
+	}
+
+	void EventQueue::Cleanup() noexcept
+	{
+		Utils::SafeDelete(m_pInstance);
+	}
+
 	EventQueue::~EventQueue()
 	{
 		Utils::SafeDelete(m_pEventQueueImpl);

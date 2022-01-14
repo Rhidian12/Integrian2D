@@ -81,12 +81,8 @@ namespace Integrian2D
 		/* Set whether the scene is active */
 		void SetIsSceneActive(const bool isActive) noexcept;
 
-	protected:
-		EventQueue eventQueue{};
-
 	private:
 		friend class Core; // Make sure that only Core can access the Root functions
-		friend class Locator; // Make sure that only the Locator can access the InputManager
 		friend class SceneManager; /* The SceneManager needs access to the RootOnSceneEnter and RootOnSceneExit */
 
 		struct SceneImpl;

@@ -73,7 +73,7 @@ public:
 		Texture* const pSmokeParticle{ TextureManager::GetInstance()->GetTexture("SmokeParticle") };
 		CircleEmitterSettings settings{};
 		settings.maximumTime = 3.f;
-		settings.startingVelocity = Vector2f{ 0.f, 1.f };
+		settings.startingVelocity = Vector2f{ 1.f, 1.f };
 		settings.minimumSpawnSize = pSmokeParticle->GetWidth();
 		settings.maximumSpawnSize = pSmokeParticle->GetWidth();
 		settings.maximumEmitterRange = 20.f;
@@ -94,6 +94,13 @@ public:
 	virtual void Update() override
 	{
 		using namespace Integrian2D;
+	}
+
+	virtual void Render() const override
+	{
+		using namespace Integrian2D;
+
+		// Renderer::GetInstance()->RenderFilledCircle(Circlef{ Point2f{150.f, 50.f}, 30.f });
 	}
 
 	Integrian2D::GameObject* m_pGameObject;

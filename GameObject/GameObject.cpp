@@ -117,6 +117,11 @@ namespace Integrian2D
 		return m_Tag;
 	}
 
+	INTEGRIAN2D_API const std::vector<Component*>& GameObject::GetComponents() const noexcept
+	{
+		return m_pComponents;
+	}
+
 
 	// ================================
 	// ================================

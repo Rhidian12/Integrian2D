@@ -7,13 +7,16 @@ namespace Integrian2D
 {
 	class IListener;
 
-	class INTEGRIAN2D_API EventQueue final
+	class EventQueue final
 	{
 	public:
-		~EventQueue();
+		static EventQueue* const GetInstance() noexcept;
+		static void Cleanup() noexcept;
+
+		INTEGRIAN2D_API ~EventQueue();
 
 		/* Queue an event to the EventQueue, this EventQueue operates on a principle of FIFO (First In, First Out) */
-		void QueueEvent(const Event& event) noexcept;
+		INTEGRIAN2D_API void QueueEvent(const Event& event) noexcept;
 
 		/* This function gets called interally and should NOT get called manually 
 		   All events that were added before Update() gets called get executed, or their timer gets increased by 1
@@ -21,13 +24,13 @@ namespace Integrian2D
 		void Update() noexcept;
 
 		/* Add a Listener class that should receive events from the EventQueue */
-		void AddListener(IListener* const pListener) noexcept;
+		INTEGRIAN2D_API void AddListener(IListener* const pListener) noexcept;
 
 		/* Remove a Listener class from the EventQueue */
-		void RemoveListener(IListener* const pListener) noexcept;
+		INTEGRIAN2D_API void RemoveListener(IListener* const pListener) noexcept;
 
 		/* Check if all events have been processed */
-		bool AreAllEventsProcessed() const noexcept;
+		INTEGRIAN2D_API bool AreAllEventsProcessed() const noexcept;
 
 	private:
 		friend class Scene;
@@ -36,6 +39,7 @@ namespace Integrian2D
 
 		EventQueue();
 
+		inline static EventQueue* m_pInstance{};
 		EventQueueImpl* m_pEventQueueImpl;
 	};
 }

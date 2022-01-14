@@ -70,6 +70,9 @@ namespace Integrian2D
 		/* Get the GameObject's tag */
 		INTEGRIAN2D_API const std::string& GetTag() const noexcept;
 
+		/* Get all components attached to this GameObject */
+		INTEGRIAN2D_API const std::vector<Component*>& GetComponents() const noexcept;
+
 		/* The GameObject's Transform Component */
 		TransformComponent* pTransform;
 

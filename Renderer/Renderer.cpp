@@ -1,7 +1,6 @@
 #include "Renderer.h"
 #include "../Texture/Texture.h"
 #include "../Utils/Utils.h"
-#include "../Locator/Locator.h"
 #include "../EventQueue/EventQueue.h"
 
 #include <SDL_opengl.h>
@@ -78,8 +77,7 @@ namespace Integrian2D
 		SetWidth(rectangle.shapeSpecificData.rectangle, rect.width);
 		SetHeight(rectangle.shapeSpecificData.rectangle, rect.height);
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
+		m_RectanglesToRender.push_back(rectangle);
 	}
 
 	void Renderer::RenderRectangle(const PRectf& rect, const RGBColour& colour) noexcept
@@ -88,8 +86,7 @@ namespace Integrian2D
 		rectangle.colour = colour;
 		rectangle.shapeSpecificData.rectangle = rect;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
+		m_RectanglesToRender.push_back(rectangle);
 	}
 
 	void Renderer::RenderFilledRectangle(const Rectf& rect, const RGBColour& colour) noexcept
@@ -101,8 +98,7 @@ namespace Integrian2D
 		SetWidth(rectangle.shapeSpecificData.rectangle, rect.width);
 		SetHeight(rectangle.shapeSpecificData.rectangle, rect.height);
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
+		m_RectanglesToRender.push_back(rectangle);
 	}
 
 	void Renderer::RenderFilledRectangle(const PRectf& rect, const RGBColour& colour) noexcept
@@ -112,8 +108,7 @@ namespace Integrian2D
 		rectangle.isFilled = true;
 		rectangle.shapeSpecificData.rectangle = rect;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
+		m_RectanglesToRender.push_back(rectangle);
 	}
 
 	void Renderer::RenderTriangle(const PTrianglef& _triangle, const RGBColour& colour) noexcept
@@ -122,8 +117,7 @@ namespace Integrian2D
 		triangle.colour = colour;
 		triangle.shapeSpecificData.triangle = _triangle;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
+		m_TrianglesToRender.push_back(triangle);
 	}
 
 	void Renderer::RenderTriangle(const Trianglef& _triangle, const RGBColour& colour) noexcept
@@ -135,8 +129,7 @@ namespace Integrian2D
 		SetWidth(triangle.shapeSpecificData.triangle, GetWidth(_triangle));
 		SetHeight(triangle.shapeSpecificData.triangle, GetHeight(_triangle));
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
+		m_TrianglesToRender.push_back(triangle);
 	}
 
 	void Renderer::RenderFilledTriangle(const PTrianglef& _triangle, const RGBColour& colour) noexcept
@@ -146,8 +139,7 @@ namespace Integrian2D
 		triangle.isFilled = true;
 		triangle.shapeSpecificData.triangle = _triangle;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
+		m_TrianglesToRender.push_back(triangle);
 	}
 
 	void Renderer::RenderFilledTriangle(const Trianglef& _triangle, const RGBColour& colour) noexcept
@@ -160,8 +152,7 @@ namespace Integrian2D
 		SetWidth(triangle.shapeSpecificData.triangle, GetWidth(_triangle));
 		SetHeight(triangle.shapeSpecificData.triangle, GetHeight(_triangle));
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
+		m_TrianglesToRender.push_back(triangle);
 	}
 
 	void Renderer::RenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour) noexcept
@@ -171,8 +162,7 @@ namespace Integrian2D
 		line.shapeSpecificData.line = edge;
 		line.shapeSpecificData.lineWidth = lineWidth;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderLine", line } });
+		m_LinesToRender.push_back(line);
 	}
 
 	void Renderer::RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour) noexcept
@@ -182,8 +172,7 @@ namespace Integrian2D
 		line.shapeSpecificData.line = PLinef{ start, end };
 		line.shapeSpecificData.lineWidth = lineWidth;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderLine", line } });
+		m_LinesToRender.push_back(line);
 	}
 
 	void Renderer::RenderCircle(const Circlef& _circle, const RGBColour& colour) noexcept
@@ -192,8 +181,7 @@ namespace Integrian2D
 		circle.colour = colour;
 		circle.shapeSpecificData.circle = _circle;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderCircle", circle } });
+		m_CirclesToRender.push_back(circle);
 	}
 
 	void Renderer::RenderFilledCircle(const Circlef& _circle, const RGBColour& colour) noexcept
@@ -203,8 +191,7 @@ namespace Integrian2D
 		circle.isFilled = true;
 		circle.shapeSpecificData.circle = _circle;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderCircle", circle } });
+		m_CirclesToRender.push_back(circle);
 	}
 
 	void Renderer::RenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour) noexcept
@@ -213,8 +200,7 @@ namespace Integrian2D
 		polygon.colour = colour;
 		polygon.shapeSpecificData.points = points;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderPolygon", polygon } });
+		m_PolygonsToRender.push_back(polygon);
 	}
 
 	void Renderer::RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour) noexcept
@@ -224,54 +210,7 @@ namespace Integrian2D
 		polygon.isFilled = true;
 		polygon.shapeSpecificData.points = points;
 
-		Locator::GetInstance()->GetEventQueue()->QueueEvent(
-			Event{ EventImplementation{ "Integrian2D_RenderPolygon", polygon } });
-	}
-
-	bool Renderer::OnEvent(const Event& event)
-	{
-		if (event.event.GetEvent() == "Integrian2D_RenderRectangle")
-		{
-			const OpenGLRectangle& shape{ event.event.GetData<OpenGLRectangle>() };
-			InternalRenderRectangle(shape.shapeSpecificData.rectangle, shape.colour, shape.isFilled);
-
-			return true;
-		}
-
-		else if (event.event.GetEvent() == "Integrian2D_RenderTriangle")
-		{
-			const OpenGLTriangle& shape{ event.event.GetData<OpenGLTriangle>() };
-			InternalRenderTriangle(shape.shapeSpecificData.triangle, shape.colour, shape.isFilled);
-
-			return true;
-		}
-
-		else if (event.event.GetEvent() == "Integrian2D_RenderLine")
-		{
-			const OpenGLLine& shape{ event.event.GetData<OpenGLLine>() };
-			InternalRenderLine(shape.shapeSpecificData.line, shape.shapeSpecificData.lineWidth, shape.colour);
-
-			return true;
-		}
-
-		else if (event.event.GetEvent() == "Integrian2D_RenderCircle")
-		{
-			const OpenGLCircle& shape{ event.event.GetData<OpenGLCircle>() };
-			InternalRenderCircle(shape.shapeSpecificData.circle, shape.colour, shape.isFilled);
-
-			return true;
-		}
-
-		else if (event.event.GetEvent() == "Integrian2D_RenderPolygon")
-		{
-			const OpenGLPolygon& shape{ event.event.GetData<OpenGLPolygon>() };
-			InternalRenderPolygon(shape.shapeSpecificData.points, shape.colour, shape.isFilled);
-
-			return true;
-		}
-
-		else
-			return false;
+		m_PolygonsToRender.push_back(polygon);
 	}
 
 	void Renderer::RenderAllTextures() noexcept
@@ -333,6 +272,27 @@ namespace Integrian2D
 			}
 			glDisable(GL_TEXTURE_2D);
 		}
+
+		for (const OpenGLRectangle& shape : m_RectanglesToRender)
+			InternalRenderRectangle(shape.shapeSpecificData.rectangle, shape.colour, shape.isFilled);
+
+		for (const OpenGLTriangle& shape : m_TrianglesToRender)
+			InternalRenderTriangle(shape.shapeSpecificData.triangle, shape.colour, shape.isFilled);
+
+		for (const OpenGLLine& shape : m_LinesToRender)
+			InternalRenderLine(shape.shapeSpecificData.line, shape.shapeSpecificData.lineWidth, shape.colour);
+
+		for (const OpenGLCircle& shape : m_CirclesToRender)
+			InternalRenderCircle(shape.shapeSpecificData.circle, shape.colour, shape.isFilled);
+
+		for (const OpenGLPolygon& shape : m_PolygonsToRender)
+			InternalRenderPolygon(shape.shapeSpecificData.points, shape.colour, shape.isFilled);
+
+		m_RectanglesToRender.clear();
+		m_TrianglesToRender.clear();
+		m_LinesToRender.clear();
+		m_CirclesToRender.clear();
+		m_PolygonsToRender.clear();
 	}
 
 	void Renderer::EndRenderLoop() noexcept

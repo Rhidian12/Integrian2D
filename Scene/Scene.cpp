@@ -5,6 +5,8 @@
 #include "../TransformManager/TransformManager.h"
 #include "../ThreadManager/ThreadManager.h"
 #include "../Input/InputManager/InputManager.h"
+#include "../IListener/IListener.h"
+#include "../Components/Component/Component.h"
 
 #include <string>
 #include <vector>
@@ -88,6 +90,11 @@ namespace Integrian2D
 					m_pSceneImpl->m_TransformManager.UpdateTransforms();
 				}
 			}, 0);
+
+		for (GameObjectInformation& gameObject : m_pSceneImpl->m_GameObjects)
+			for (Component* pC : gameObject.pGameObject->GetComponents())
+				if (IListener* pL{ dynamic_cast<IListener*>(pC) }; pL != nullptr)
+					pL->m_IsActive = true;
 	}
 
 	void Scene::RootOnSceneExit() noexcept
@@ -95,6 +102,11 @@ namespace Integrian2D
 		m_pSceneImpl->m_IsActive = false;
 
 		InputManager::GetInstance()->Deactivate(this);
+
+		for (GameObjectInformation& gameObject : m_pSceneImpl->m_GameObjects)
+			for (Component* pC : gameObject.pGameObject->GetComponents())
+				if (IListener* pL{ dynamic_cast<IListener*>(pC) }; pL != nullptr)
+					pL->m_IsActive = false;
 	}
 
 	void Scene::AddGameObject(const char* pGameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept

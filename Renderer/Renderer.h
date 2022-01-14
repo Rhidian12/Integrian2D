@@ -3,7 +3,6 @@
 #include "../Integrian2D_API.h"
 #include "../Math/TypeDefines.h"
 #include "OpenGLInformation/OpenGLInformation.h"
-#include "../IListener/IListener.h"
 
 #include <vector>
 
@@ -13,7 +12,7 @@ namespace Integrian2D
 	class Texture;
 
 	/* This class renders Textures to the Window and can draw polygons to the Window */
-	class Renderer final : public IListener
+	class Renderer final
 	{
 	public:
 		/* Interal Usage
@@ -80,9 +79,6 @@ namespace Integrian2D
 		/* Render a filled polygon to the screen */
 		INTEGRIAN2D_API void RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour = RGBColour{ 255,0,0 }) noexcept;
 
-		/* Internal usage */
-		virtual bool OnEvent(const Event& event) override;
-
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) = delete;
 		Renderer& operator=(const Renderer&) = delete;
@@ -114,6 +110,11 @@ namespace Integrian2D
 
 		RGBColour m_ClearColour;
 		std::vector<TextureInformation> m_TexturesToRender;
+		std::vector<OpenGLRectangle> m_RectanglesToRender;
+		std::vector<OpenGLTriangle> m_TrianglesToRender;
+		std::vector<OpenGLLine> m_LinesToRender;
+		std::vector<OpenGLCircle> m_CirclesToRender;
+		std::vector<OpenGLPolygon> m_PolygonsToRender;
 
 		SDL_Window* const m_pWindow;
 	};
