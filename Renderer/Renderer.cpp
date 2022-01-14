@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "../Texture/Texture.h"
 #include "../Utils/Utils.h"
+#include "../Locator/Locator.h"
+#include "../EventQueue/EventQueue.h"
 
 #include <SDL_opengl.h>
 #include <SDL_video.h>
@@ -70,168 +72,206 @@ namespace Integrian2D
 
 	void Renderer::RenderRectangle(const Rectf& rect, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINE_LOOP);
-		{
-			glVertex2f(rect.x, rect.y);
-			glVertex2f(rect.x, rect.y + rect.height);
-			glVertex2f(rect.x + rect.width, rect.y + rect.height);
-			glVertex2f(rect.x + rect.width, rect.y);
-		}
-		glEnd();
+		OpenGLRectangle rectangle{};
+		rectangle.colour = colour;
+		SetLeftBottom(rectangle.shapeSpecificData.rectangle, rect.xy);
+		SetWidth(rectangle.shapeSpecificData.rectangle, rect.width);
+		SetHeight(rectangle.shapeSpecificData.rectangle, rect.height);
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
 	}
 
 	void Renderer::RenderRectangle(const PRectf& rect, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINE_LOOP);
-		{
-			glVertex2f(GetLeftBottom(rect).x, GetLeftBottom(rect).y);
-			glVertex2f(GetLeftTop(rect).x, GetLeftTop(rect).y);
-			glVertex2f(GetRightTop(rect).x, GetRightTop(rect).y);
-			glVertex2f(GetRightBottom(rect).x, GetRightBottom(rect).y);
-		}
-		glEnd();
+		OpenGLRectangle rectangle{};
+		rectangle.colour = colour;
+		rectangle.shapeSpecificData.rectangle = rect;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
 	}
 
 	void Renderer::RenderFilledRectangle(const Rectf& rect, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_POLYGON);
-		{
-			glVertex2f(rect.x, rect.y);
-			glVertex2f(rect.x, rect.y + rect.height);
-			glVertex2f(rect.x + rect.width, rect.y + rect.height);
-			glVertex2f(rect.x + rect.width, rect.y);
-		}
-		glEnd();
+		OpenGLRectangle rectangle{};
+		rectangle.colour = colour;
+		rectangle.isFilled = true;
+		SetLeftBottom(rectangle.shapeSpecificData.rectangle, rect.xy);
+		SetWidth(rectangle.shapeSpecificData.rectangle, rect.width);
+		SetHeight(rectangle.shapeSpecificData.rectangle, rect.height);
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
 	}
 
 	void Renderer::RenderFilledRectangle(const PRectf& rect, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_POLYGON);
-		{
-			glVertex2f(GetLeftBottom(rect).x, GetLeftBottom(rect).y);
-			glVertex2f(GetLeftTop(rect).x, GetLeftTop(rect).y);
-			glVertex2f(GetRightTop(rect).x, GetRightTop(rect).y);
-			glVertex2f(GetRightBottom(rect).x, GetRightBottom(rect).y);
-		}
-		glEnd();
+		OpenGLRectangle rectangle{};
+		rectangle.colour = colour;
+		rectangle.isFilled = true;
+		rectangle.shapeSpecificData.rectangle = rect;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderRectangle", rectangle } });
 	}
 
-	void Renderer::RenderTriangle(const PTrianglef& triangle, const RGBColour& colour) noexcept
+	void Renderer::RenderTriangle(const PTrianglef& _triangle, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINE_LOOP);
-		{
-			for (const Point2f& p : triangle)
-				glVertex2f(p.x, p.y);
-		}
-		glEnd();
+		OpenGLTriangle triangle{};
+		triangle.colour = colour;
+		triangle.shapeSpecificData.triangle = _triangle;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
 	}
 
-	void Renderer::RenderTriangle(const Trianglef& triangle, const RGBColour& colour) noexcept
+	void Renderer::RenderTriangle(const Trianglef& _triangle, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINE_LOOP);
-		{
-			glVertex2f(triangle.leftPoint.x, triangle.leftPoint.y);
-			glVertex2f(triangle.topPoint.x, triangle.topPoint.y);
-			glVertex2f(triangle.rightPoint.x, triangle.rightPoint.y);
-		}
-		glEnd();
+		OpenGLTriangle triangle{};
+		triangle.colour = colour;
+		SetCenter(triangle.shapeSpecificData.triangle,
+			Point2f{ (_triangle.leftPoint + _triangle.rightPoint + Vector2f{_triangle.topPoint}) / 3.f });
+		SetWidth(triangle.shapeSpecificData.triangle, GetWidth(_triangle));
+		SetHeight(triangle.shapeSpecificData.triangle, GetHeight(_triangle));
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
 	}
 
-	void Renderer::RenderFilledTriangle(const PTrianglef& triangle, const RGBColour& colour) noexcept
+	void Renderer::RenderFilledTriangle(const PTrianglef& _triangle, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_POLYGON);
-		{
-			for (const Point2f& p : triangle)
-				glVertex2f(p.x, p.y);
-		}
-		glEnd();
+		OpenGLTriangle triangle{};
+		triangle.colour = colour;
+		triangle.isFilled = true;
+		triangle.shapeSpecificData.triangle = _triangle;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
 	}
 
-	void Renderer::RenderFilledTriangle(const Trianglef& triangle, const RGBColour& colour) noexcept
+	void Renderer::RenderFilledTriangle(const Trianglef& _triangle, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_POLYGON);
-		{
-			glVertex2f(triangle.leftPoint.x, triangle.leftPoint.y);
-			glVertex2f(triangle.topPoint.x, triangle.topPoint.y);
-			glVertex2f(triangle.rightPoint.x, triangle.rightPoint.y);
-		}
-		glEnd();
+		OpenGLTriangle triangle{};
+		triangle.colour = colour;
+		triangle.isFilled = true;
+		SetCenter(triangle.shapeSpecificData.triangle,
+			Point2f{ (_triangle.leftPoint + _triangle.rightPoint + Vector2f{_triangle.topPoint}) / 3.f });
+		SetWidth(triangle.shapeSpecificData.triangle, GetWidth(_triangle));
+		SetHeight(triangle.shapeSpecificData.triangle, GetHeight(_triangle));
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderTriangle", triangle } });
 	}
 
 	void Renderer::RenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glLineWidth(lineWidth);
-		glBegin(GL_LINES);
-		{
-			glVertex2f(edge.begin.x, edge.begin.y);
-			glVertex2f(edge.end.x, edge.end.y);
-		}
-		glEnd();
+		OpenGLLine line{};
+		line.colour = colour;
+		line.shapeSpecificData.line = edge;
+		line.shapeSpecificData.lineWidth = lineWidth;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderLine", line } });
 	}
 
 	void Renderer::RenderLine(const Point2f& start, const Point2f& end, const float lineWidth, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glLineWidth(lineWidth);
-		glBegin(GL_LINES);
-		{
-			glVertex2f(start.x, start.y);
-			glVertex2f(end.x, end.y);
-		}
-		glEnd();
+		OpenGLLine line{};
+		line.colour = colour;
+		line.shapeSpecificData.line = PLinef{ start, end };
+		line.shapeSpecificData.lineWidth = lineWidth;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderLine", line } });
 	}
 
-	void Renderer::RenderCircle(const Circlef& circle, const RGBColour& colour) noexcept
+	void Renderer::RenderCircle(const Circlef& _circle, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINES);
-		{
-			for (float i{}; i < 360.f; ++i)
-				glVertex2f(circle.position.x + circle.radius * cosf(i), circle.position.y + circle.radius * sinf(i));
-		}
-		glEnd();
+		OpenGLCircle circle{};
+		circle.colour = colour;
+		circle.shapeSpecificData.circle = _circle;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderCircle", circle } });
 	}
 
-	void Renderer::RenderFilledCircle(const Circlef& circle, const RGBColour& colour) noexcept
+	void Renderer::RenderFilledCircle(const Circlef& _circle, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_POLYGON);
-		{
-			for (float i{}; i < 360.f; ++i)
-				glVertex2f(circle.position.x + circle.radius * cosf(i), circle.position.y + circle.radius * sinf(i));
-		}
-		glEnd();
+		OpenGLCircle circle{};
+		circle.colour = colour;
+		circle.isFilled = true;
+		circle.shapeSpecificData.circle = _circle;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderCircle", circle } });
 	}
 
 	void Renderer::RenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_LINES);
-		{
-			for (const Point2f& p : points)
-				glVertex2f(p.x, p.y);
-		}
-		glEnd();
+		OpenGLPolygon polygon{};
+		polygon.colour = colour;
+		polygon.shapeSpecificData.points = points;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderPolygon", polygon } });
 	}
 
 	void Renderer::RenderFilledPolygon(const std::vector<Point2f>& points, const RGBColour& colour) noexcept
 	{
-		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
-		glBegin(GL_POLYGON);
+		OpenGLPolygon polygon{};
+		polygon.colour = colour;
+		polygon.isFilled = true;
+		polygon.shapeSpecificData.points = points;
+
+		Locator::GetInstance()->GetEventQueue()->QueueEvent(
+			Event{ EventImplementation{ "Integrian2D_RenderPolygon", polygon } });
+	}
+
+	bool Renderer::OnEvent(const Event& event)
+	{
+		if (event.event.GetEvent() == "Integrian2D_RenderRectangle")
 		{
-			for (const Point2f& p : points)
-				glVertex2f(p.x, p.y);
+			const OpenGLRectangle& shape{ event.event.GetData<OpenGLRectangle>() };
+			InternalRenderRectangle(shape.shapeSpecificData.rectangle, shape.colour, shape.isFilled);
+
+			return true;
 		}
-		glEnd();
+
+		else if (event.event.GetEvent() == "Integrian2D_RenderTriangle")
+		{
+			const OpenGLTriangle& shape{ event.event.GetData<OpenGLTriangle>() };
+			InternalRenderTriangle(shape.shapeSpecificData.triangle, shape.colour, shape.isFilled);
+
+			return true;
+		}
+
+		else if (event.event.GetEvent() == "Integrian2D_RenderLine")
+		{
+			const OpenGLLine& shape{ event.event.GetData<OpenGLLine>() };
+			InternalRenderLine(shape.shapeSpecificData.line, shape.shapeSpecificData.lineWidth, shape.colour);
+
+			return true;
+		}
+
+		else if (event.event.GetEvent() == "Integrian2D_RenderCircle")
+		{
+			const OpenGLCircle& shape{ event.event.GetData<OpenGLCircle>() };
+			InternalRenderCircle(shape.shapeSpecificData.circle, shape.colour, shape.isFilled);
+
+			return true;
+		}
+
+		else if (event.event.GetEvent() == "Integrian2D_RenderPolygon")
+		{
+			const OpenGLPolygon& shape{ event.event.GetData<OpenGLPolygon>() };
+			InternalRenderPolygon(shape.shapeSpecificData.points, shape.colour, shape.isFilled);
+
+			return true;
+		}
+
+		else
+			return false;
 	}
 
 	void Renderer::RenderAllTextures() noexcept
@@ -303,6 +343,80 @@ namespace Integrian2D
 		SDL_GL_SwapWindow(m_pWindow);
 
 		m_TexturesToRender.clear();
+	}
+
+	void Renderer::InternalRenderRectangle(const PRectf& rect, const RGBColour& colour, const bool isFilled) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+
+		if (isFilled)
+			glBegin(GL_POLYGON);
+		else
+			glBegin(GL_LINE_LOOP);
+		{
+			glVertex2f(GetLeftBottom(rect).x, GetLeftBottom(rect).y);
+			glVertex2f(GetLeftTop(rect).x, GetLeftTop(rect).y);
+			glVertex2f(GetRightTop(rect).x, GetRightTop(rect).y);
+			glVertex2f(GetRightBottom(rect).x, GetRightBottom(rect).y);
+		}
+		glEnd();
+	}
+
+	void Renderer::InternalRenderTriangle(const PTrianglef& triangle, const RGBColour& colour, const bool isFilled) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+
+		if (isFilled)
+			glBegin(GL_POLYGON);
+		else
+			glBegin(GL_LINE_LOOP);
+		{
+			for (const Point2f& p : triangle)
+				glVertex2f(p.x, p.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::InternalRenderLine(const PLinef& edge, const float lineWidth, const RGBColour& colour) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+		glLineWidth(lineWidth);
+		glBegin(GL_LINES);
+		{
+			glVertex2f(edge.begin.x, edge.begin.y);
+			glVertex2f(edge.end.x, edge.end.y);
+		}
+		glEnd();
+	}
+
+	void Renderer::InternalRenderCircle(const Circlef& circle, const RGBColour& colour, const bool isFilled) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+
+		if (isFilled)
+			glBegin(GL_POLYGON);
+		else
+			glBegin(GL_LINES);
+		{
+			for (float i{}; i < 360.f; ++i)
+				glVertex2f(circle.position.x + circle.radius * cosf(i), circle.position.y + circle.radius * sinf(i));
+		}
+		glEnd();
+	}
+
+	void Renderer::InternalRenderPolygon(const std::vector<Point2f>& points, const RGBColour& colour, const bool isFilled) noexcept
+	{
+		glColor3ub(colour.r.v, colour.g.v, colour.b.v);
+
+		if (isFilled)
+			glBegin(GL_POLYGON);
+		else
+			glBegin(GL_LINES);
+		{
+			for (const Point2f& p : points)
+				glVertex2f(p.x, p.y);
+		}
+		glEnd();
 	}
 
 	void Renderer::RenderTexture(Texture* const pTexture, const PRectf& destRect, const Rectf& sourceRect) noexcept
