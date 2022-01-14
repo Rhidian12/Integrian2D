@@ -368,5 +368,8 @@
     <ClInclude Include="Components\ParticleEmitterComponent\ParticleEmitterSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\OpenGLInformation\OpenGLInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

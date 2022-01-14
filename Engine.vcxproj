@@ -314,6 +314,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Components\ParticleEmitterComponent\ParticleEmitterComponent.h" />
     <ClInclude Include="Components\ParticleEmitterComponent\Particle.h" />
     <ClInclude Include="Printer\Printer.h" />
+    <ClInclude Include="Renderer\OpenGLInformation\OpenGLInformation.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="Scene\Scene.h" />
