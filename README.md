@@ -51,7 +51,7 @@ private:
 };
 ```
 
-```
+```cpp
 // TestScene.cpp
 #include "TestScene.h"
 
@@ -80,7 +80,7 @@ virtual void TestScene::Start()
 	AddGameObject("Ball", m_pBall);
 }
 ```
-```
+```cpp
 // main.cpp
 #include <Core/Core.h>
 #include <SceneManager/SceneManager.h>
