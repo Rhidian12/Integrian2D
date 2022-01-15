@@ -1,20 +1,25 @@
 # Integrian2D
 
 ## Features
-- Fully functional math library, supporting Mat
-- Fully supported Navmesh generation, Behaviour trees and finite state machines
-- Texture rendering using OpenGL and SDL2
-- Keyboard, Mouse and GameController input supported
-- Particle Systems using Textures or Colours
+- Fully functional math library, supporting Matrices, Points, Vectors, Lines, Triangles, Circles, Rectangles and more!
+- Fully supported Navmesh generation, Behaviour trees and Finite State Machines, which can be used with each other.
+- Fast Texture and basic shape rendering
+- Keyboard, Mouse and GameController input supported through an InputManager which supports Axes and Commands.
+- Particle Systems using Textures or plain colours.
 - (Binary) file reader and writer fully supported
-- Automatic resource management
-- Multi-threaded transforms
-- Easy-to-use thread manager
+- Automatic Scene, Texture and GameObject management.
+- Multi-threaded transforms to optimize recalculation of world information.
+- Easy-to-use thread pool / manager.
 - Fully supported Audio system using SDL2
 - Fully supported Event Queue
 
 ## Requirements
-- C++17
+- C++17 - A lot of the utilities use C++17 functionality
+
+## Future features
+- Physics Engine
+- UI System
+- More pre-made Components
 
 ## Documentation
 ### Guide on how to create a basic scene and render a Texture
@@ -69,7 +74,8 @@ virtual void TestScene::Start()
 	m_pGameObject->AddComponent(new TextureComponent{ m_pGameObject, TextureManager::GetInstance()->GetTexture("Ball") });
 	m_pGameObject->pTransform->SetScale(Point2f{ 0.5f, 0.5f });
 
-
+	/* Derived Function from Integrian2D::Scene to add GameObjects to the Scene */
+	/* GameObjects MUST be added in this way */
 	AddGameObject("Ball", m_pBall);
 }
 ```
