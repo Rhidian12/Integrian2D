@@ -25,6 +25,7 @@
 ## Documentation
 ### Quick Links
 - How to create a basic scene and render a Texture: https://github.com/Rhidian12/Integrian2D/blob/main/README.md#guide-on-how-to-create-a-basic-scene-and-render-a-texture
+- How to create your own Components: https://github.com/Rhidian12/Integrian2D/blob/main/README.md#guide-on-how-to-create-your-own-components
 - Engine Flowchart: https://github.com/Rhidian12/Integrian2D/blob/main/README.md#engine-flowchart
 
 
