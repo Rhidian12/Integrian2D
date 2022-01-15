@@ -23,6 +23,10 @@
 - More pre-made Components
 
 ## Documentation
+### Quick Links
+- Engine Flowchart: https://github.com/Rhidian12/Integrian2D/blob/main/README.md#engine-flowchart
+
+
 ### Guide on how to create a basic scene and render a Texture
 Start by creating a new Scene. The Scene must implement Start(), **ALL SCENE INITIALISATION SHOULD HAPPEN IN START()**</br>
 In your `int main()`, create the Engine, add your Scenes to the SceneManager, and run the Engine!
