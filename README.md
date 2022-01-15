@@ -15,6 +15,7 @@
 
 ## Requirements
 - C++17 - A lot of the utilities use C++17 functionality
+- C++ knowledge
 
 ## Future features
 - Physics Engine
