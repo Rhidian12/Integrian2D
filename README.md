@@ -31,6 +31,7 @@
 ### Guide on how to create a basic scene and render a Texture
 Start by creating a new Scene. The Scene must implement Start(), **ALL SCENE INITIALISATION SHOULD HAPPEN IN START()**</br>
 In your `int main()`, create the Engine, add your Scenes to the SceneManager, and run the Engine!
+
 ```cpp
 // TestScene.h
 #pragma once
@@ -105,6 +106,49 @@ int main()
     pEngine->Cleanup();
 
     return 0;
+}
+```
+
+### Guide on how to create your own Components
+Components **must** derive from Integrian2D::Component, otherwise they cannot be added to the GameObject. They must also implement Component::Clone(),
+ which is used for the Rule of 5. The Derived Component must implement the Rule of 5 itself if necessary!
+
+```cpp
+// HealthComponent.h
+#pragma once
+
+#include <Components/Component/Component.h>
+
+class HealthComponent final : public Integrian2D::Component
+{
+public:
+	HealthComponent(Integrian2D::GameObject* const pOwner, const int maxHP);
+	
+	virtual Integrian2D::Component* Clone(Integrian2D::GameObject* pOwner) noexcept override;
+	
+	/* Other Functionality */
+	
+private:
+	int m_MaxHP;
+	int m_CurrentHP;
+};
+```
+```cpp
+// HealthComponent.cpp
+#include "HealthComponent.h"
+
+HealthComponent::HealthComponent(Integrian2D::GameObject* const pOwner, const int maxHP)
+	: Component{ pOwner }
+	, m_MaxHP{ maxHP }
+	, m_CurrentHP{ maxHP }
+{}
+
+Integrian2D::Component* HealthComponent::Clone(Integrian2D::GameObject* pOwner) noexcept
+{
+	HealthComponent* pHealthComponent{ new HealthComponent{ pOwner, m_MaxHP } };
+	pHealthComponent->m_CurrentHP = m_CurrentHP;
+	
+	return pHealthComponent;
 }
 ```
 
