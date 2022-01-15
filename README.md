@@ -1,7 +1,7 @@
 # Integrian2D
 
-### Features
-- Fully functional math library
+## Features
+- Fully functional math library, supporting Mat
 - Fully supported Navmesh generation, Behaviour trees and finite state machines
 - Texture rendering using OpenGL and SDL2
 - Keyboard, Mouse and GameController input supported
@@ -13,14 +13,15 @@
 - Fully supported Audio system using SDL2
 - Fully supported Event Queue
 
-### Requirements
+## Requirements
 - C++17
 
-### Documentation
-#### Quick Start Guide
-Start by creating a new Scene
+## Documentation
+### Guide on how to create a basic scene and render a Texture
+Start by creating a new Scene. The Scene must implement Start(), **ALL SCENE INITIALISATION SHOULD HAPPEN IN START()**</br>
+In your `int main()`, create the Engine, add your Scenes to the SceneManager, and run the Engine!
 ```cpp
-// Header
+// TestScene.h
 #pragma once
 
 #include <Scene/Scene.h>
@@ -42,8 +43,10 @@ public:
 private:
 	Integrian2D::GameObject* m_pBall;
 };
+```
 
-// CPP
+```
+// TestScene.cpp
 #include "TestScene.h"
 
 #include <GameObject/GameObject.h>
@@ -70,7 +73,30 @@ virtual void TestScene::Start()
 	AddGameObject("Ball", m_pBall);
 }
 ```
-#### Engine Flowchart
+```
+// main.cpp
+#include <Core/Core.h>
+#include <SceneManager/SceneManager.h>
+
+#include "TestScene.h"
+
+int main()
+{
+    using namespace Integrian2D;
+
+    Core* pEngine{ Core::CreateEngine(1080, 720, "Example") };
+
+    SceneManager::GetInstance()->AddScene(new TestScene{ "ExampleScene" });
+
+    pEngine->Run();
+
+    pEngine->Cleanup();
+
+    return 0;
+}
+```
+
+### Engine Flowchart
 1. The Core gets created
 2. The Core initializes 3rd party libraries (such as SDL2)
 3. The Core creates the Window and the Renderer
