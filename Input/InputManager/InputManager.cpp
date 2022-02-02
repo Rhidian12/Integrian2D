@@ -4,6 +4,7 @@
 #include "../Keyboard/Keyboard.h"
 #include "../GameController/GameController.h"
 #include "../../Command/Command.h"
+#include "../../Core/Core.h"
 
 #include <SDL.h>
 
@@ -41,7 +42,9 @@ namespace Integrian2D
 		int x{}, y{};
 		SDL_GetMouseState(&x, &y);
 
-		m_MousePosition = Point2f{ static_cast<float>(x), static_cast<float>(m_WindowHeight - y) };
+		m_MousePosition = Point2f{ static_cast<float>(x), static_cast<float>(m_WindowHeight) - static_cast<float>(y) };
+
+		std::cout << m_MousePosition << std::endl;
 
 		m_AmountOfControllers = uint8_t(SDL_NumJoysticks()); // check if controllers have been added / removed
 
@@ -240,5 +243,10 @@ namespace Integrian2D
 	{
 		for (uint8_t i{}; i < m_AmountOfControllers; ++i)
 			m_pControllers[i] = GameController::CreateGameController(i);
+
+		ASSERT(Core::GetInstance() != nullptr, "InputManager::InputManager() > First create the Core before calling the InputManager!");
+
+		m_WindowWidth = Core::GetInstance()->GetWindowWidth();
+		m_WindowHeight = Core::GetInstance()->GetWindowHeight();
 	}
 }
