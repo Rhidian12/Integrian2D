@@ -44,8 +44,6 @@ namespace Integrian2D
 
 		m_MousePosition = Point2f{ static_cast<float>(x), static_cast<float>(m_WindowHeight) - static_cast<float>(y) };
 
-		std::cout << m_MousePosition << std::endl;
-
 		m_AmountOfControllers = uint8_t(SDL_NumJoysticks()); // check if controllers have been added / removed
 
 		SDL_Event e;
