@@ -11,7 +11,7 @@ namespace Integrian2D
 		m_pStates.push_back(pStartState);
 	}
 
-	void FiniteStateMachine::AddState(State* const pState) noexcept
+	void FiniteStateMachine::AddState(FSMState* const pState) noexcept
 	{
 		m_pStates.push_back(pState);
 	}
@@ -59,27 +59,27 @@ namespace Integrian2D
 			return m_CurrentState = BehaviourState::Failure;
 	}
 
-	State::State(FiniteStateMachine* const pFSM, const Action& action)
+	FSMState::FSMState(FiniteStateMachine* const pFSM, const Action& action)
 		: m_pFSM{ pFSM }
 		, m_Action{ action }
 	{}
 
-	BehaviourState State::Update(Blackboard* const pBlackboard)
+	BehaviourState FSMState::Update(Blackboard* const pBlackboard)
 	{
 		return m_CurrentState = m_Action(pBlackboard);
 	}
 
-	FiniteStateMachine* const State::GetFiniteStateMachine() const noexcept
+	FiniteStateMachine* const FSMState::GetFiniteStateMachine() const noexcept
 	{
 		return m_pFSM;
 	}
 
-	const State::Action& State::GetAction() const noexcept
+	const FSMState::Action& FSMState::GetAction() const noexcept
 	{
 		return m_Action;
 	}
 
-	Transition::Transition(FiniteStateMachine* const pFSM, State* const pFrom, State* const pTo, const Predicate& predicate)
+	Transition::Transition(FiniteStateMachine* const pFSM, FSMState* const pFrom, FSMState* const pTo, const Predicate& predicate)
 		: m_pFSM{ pFSM }
 		, m_Predicate{ predicate }
 		, m_pFrom{ pFrom }
@@ -97,12 +97,12 @@ namespace Integrian2D
 		return m_pFSM;
 	}
 
-	State* const Transition::GetFrom() const noexcept
+	FSMState* const Transition::GetFrom() const noexcept
 	{
 		return m_pFrom;
 	}
 
-	State* const Transition::GetTo() const noexcept
+	FSMState* const Transition::GetTo() const noexcept
 	{
 		return m_pTo;
 	}
