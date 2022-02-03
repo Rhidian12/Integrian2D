@@ -1,5 +1,6 @@
 #include "FiniteStateMachine.h"
 #include "../BehaviourTree/BehaviourTree.h"
+#include "../../../Utils/Utils.h"
 
 #include <algorithm>
 
@@ -9,6 +10,66 @@ namespace Integrian2D
 		: m_pCurrentState{ pStartState }
 	{
 		m_pStates.push_back(pStartState);
+	}
+
+	FiniteStateMachine::FiniteStateMachine(const FiniteStateMachine& other) noexcept
+		: m_pCurrentState{ other.m_pCurrentState }
+	{
+		for (BaseDecisionMaking* const pState : other.m_pStates)
+			m_pStates.push_back(pState->Clone());
+
+		for (Transition* const pTransition : other.m_pTransitions)
+			m_pTransitions.push_back(pTransition->Clone());
+	}
+
+	FiniteStateMachine::FiniteStateMachine(FiniteStateMachine&& other) noexcept
+		: m_pCurrentState{ std::move(other.m_pCurrentState) }
+		, m_pStates{ std::move(other.m_pStates) }
+		, m_pTransitions{ std::move(other.m_pTransitions) }
+	{
+		other.m_pCurrentState = nullptr;
+		other.m_pStates.clear();
+		other.m_pTransitions.clear();
+	}
+
+	FiniteStateMachine& FiniteStateMachine::operator=(const FiniteStateMachine& other) noexcept
+	{
+		m_pCurrentState = other.m_pCurrentState;
+
+		for (BaseDecisionMaking* const pState : other.m_pStates)
+			m_pStates.push_back(pState->Clone());
+
+		for (Transition* const pTransition : other.m_pTransitions)
+			m_pTransitions.push_back(pTransition->Clone());
+
+		return *this;
+	}
+
+	FiniteStateMachine& FiniteStateMachine::operator=(FiniteStateMachine&& other) noexcept
+	{
+		m_pCurrentState = std::move(other.m_pCurrentState);
+		m_pStates = std::move(other.m_pStates);
+		m_pTransitions = std::move(other.m_pTransitions);
+
+		other.m_pCurrentState = nullptr;
+		other.m_pStates.clear();
+		other.m_pTransitions.clear();
+
+		return *this;
+	}
+
+	FiniteStateMachine::~FiniteStateMachine()
+	{
+		for (Transition* pTransition : m_pTransitions)
+			Utils::SafeDelete(pTransition);
+
+		for (BaseDecisionMaking* pState : m_pStates)
+			Utils::SafeDelete(pState);
+	}
+
+	BaseDecisionMaking* FiniteStateMachine::Clone() noexcept
+	{
+		return new FiniteStateMachine{ *this };
 	}
 
 	void FiniteStateMachine::AddState(FSMState* const pState) noexcept
@@ -64,6 +125,11 @@ namespace Integrian2D
 		, m_Action{ action }
 	{}
 
+	INTEGRIAN2D_API BaseDecisionMaking* FSMState::Clone() noexcept
+	{
+		return new FSMState{ m_pFSM, m_Action };
+	}
+
 	BehaviourState FSMState::Update(Blackboard* const pBlackboard)
 	{
 		return m_CurrentState = m_Action(pBlackboard);
@@ -85,6 +151,11 @@ namespace Integrian2D
 		, m_pFrom{ pFrom }
 		, m_pTo{ pTo }
 	{
+	}
+
+	INTEGRIAN2D_API Transition* Transition::Clone() noexcept
+	{
+		return new Transition{ m_pFSM, m_pFrom, m_pTo, m_Predicate };
 	}
 
 	bool Transition::Update(Blackboard* const pBlackboard)
