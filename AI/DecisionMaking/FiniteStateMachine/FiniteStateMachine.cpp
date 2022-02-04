@@ -6,16 +6,18 @@
 
 namespace Integrian2D
 {
-	FiniteStateMachine::FiniteStateMachine(BaseDecisionMaking* const pStartState)
-		: m_pCurrentState{ pStartState }
+	FiniteStateMachine::FiniteStateMachine(Blackboard* const pBlackboard, FSMState* const pStartState)
+		: BaseDecisionMaking{ pBlackboard }
+		, m_pCurrentState{ pStartState }
 	{
 		m_pStates.push_back(pStartState);
 	}
 
 	FiniteStateMachine::FiniteStateMachine(const FiniteStateMachine& other) noexcept
-		: m_pCurrentState{ other.m_pCurrentState }
+		: BaseDecisionMaking{ other.m_pBlackboard }
+		, m_pCurrentState{ other.m_pCurrentState }
 	{
-		for (BaseDecisionMaking* const pState : other.m_pStates)
+		for (FSMState* const pState : other.m_pStates)
 			m_pStates.push_back(pState->Clone());
 
 		for (Transition* const pTransition : other.m_pTransitions)
@@ -23,7 +25,8 @@ namespace Integrian2D
 	}
 
 	FiniteStateMachine::FiniteStateMachine(FiniteStateMachine&& other) noexcept
-		: m_pCurrentState{ std::move(other.m_pCurrentState) }
+		: BaseDecisionMaking{ std::move(other.m_pBlackboard) }
+		, m_pCurrentState{ std::move(other.m_pCurrentState) }
 		, m_pStates{ std::move(other.m_pStates) }
 		, m_pTransitions{ std::move(other.m_pTransitions) }
 	{
@@ -36,7 +39,7 @@ namespace Integrian2D
 	{
 		m_pCurrentState = other.m_pCurrentState;
 
-		for (BaseDecisionMaking* const pState : other.m_pStates)
+		for (FSMState* const pState : other.m_pStates)
 			m_pStates.push_back(pState->Clone());
 
 		for (Transition* const pTransition : other.m_pTransitions)
@@ -63,7 +66,7 @@ namespace Integrian2D
 		for (Transition* pTransition : m_pTransitions)
 			Utils::SafeDelete(pTransition);
 
-		for (BaseDecisionMaking* pState : m_pStates)
+		for (FSMState* pState : m_pStates)
 			Utils::SafeDelete(pState);
 	}
 
@@ -82,11 +85,11 @@ namespace Integrian2D
 		m_pTransitions.push_back(pTransition);
 	}
 
-	BehaviourState FiniteStateMachine::Update(Blackboard* const pBlackboard)
+	BehaviourState FiniteStateMachine::Update()
 	{
 		if (m_pCurrentState)
 		{
-			switch (m_pCurrentState->Update(pBlackboard))
+			switch (m_pCurrentState->Update(m_pBlackboard))
 			{
 			case BehaviourState::Failure:
 				m_CurrentState = BehaviourState::Failure;
@@ -96,17 +99,14 @@ namespace Integrian2D
 				break;
 			case BehaviourState::Success:
 			{
-				/* we need to know whether it's a State or a BHT */
-				BaseDecisionMaking* const pState{ static_cast<BaseDecisionMaking*>(m_pCurrentState) };
-
 				/* Find the state */
-				auto it{ std::find_if(m_pTransitions.cbegin(), m_pTransitions.cend(), [pState](const Transition* const pT)->bool
+				auto it{ std::find_if(m_pTransitions.cbegin(), m_pTransitions.cend(), [this](const Transition* const pT)->bool
 					{
-						return pState == pT->GetFrom();
+						return m_pCurrentState == pT->GetFrom();
 					}) };
 
 				/* If the transition's requirements are met, change the State */
-				if ((*it)->Update(pBlackboard))
+				if ((*it)->Update(m_pBlackboard))
 					m_pCurrentState = (*it)->GetTo();
 
 				m_CurrentState = BehaviourState::Success;
@@ -125,14 +125,14 @@ namespace Integrian2D
 		, m_Action{ action }
 	{}
 
-	INTEGRIAN2D_API BaseDecisionMaking* FSMState::Clone() noexcept
+	INTEGRIAN2D_API FSMState* FSMState::Clone() noexcept
 	{
 		return new FSMState{ m_pFSM, m_Action };
 	}
 
 	BehaviourState FSMState::Update(Blackboard* const pBlackboard)
 	{
-		return m_CurrentState = m_Action(pBlackboard);
+		return m_Action(pBlackboard);
 	}
 
 	FiniteStateMachine* const FSMState::GetFiniteStateMachine() const noexcept

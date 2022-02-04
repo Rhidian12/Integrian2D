@@ -3,21 +3,25 @@
 
 namespace Integrian2D
 {
-	BehaviourTree::BehaviourTree(const std::vector<BehaviourTreeNode*>& nodes)
-		: m_Nodes{ nodes }
+	BehaviourTree::BehaviourTree(Blackboard* const pBlackboard, const std::vector<BehaviourTreeNode*>& nodes)
+		: BaseDecisionMaking{ pBlackboard }
+		, m_Nodes{ nodes }
 		, m_pCurrentNode{}
 	{
 	}
 
 	BehaviourTree::~BehaviourTree()
 	{
+		Utils::SafeDelete(m_pBlackboard);
+
 		for (BehaviourTreeNode*& pNode : m_Nodes)
 			Utils::SafeDelete(pNode);
 	}
 
 #pragma region Rule Of 5
 	BehaviourTree::BehaviourTree(const BehaviourTree& other) noexcept
-		: m_Nodes{}
+		: BaseDecisionMaking{ other.m_pBlackboard }
+		, m_Nodes{}
 		, m_pCurrentNode{ other.m_pCurrentNode }
 	{
 		for (BehaviourTreeNode* const pNode : other.m_Nodes)
@@ -25,7 +29,8 @@ namespace Integrian2D
 	}
 
 	BehaviourTree::BehaviourTree(BehaviourTree&& other) noexcept
-		: m_Nodes{ std::move(other.m_Nodes) }
+		: BaseDecisionMaking{ std::move(other.m_pBlackboard) }
+		, m_Nodes{ std::move(other.m_Nodes) }
 		, m_pCurrentNode{ std::move(other.m_pCurrentNode) }
 	{
 		other.m_Nodes.clear();
@@ -56,10 +61,10 @@ namespace Integrian2D
 
 	BaseDecisionMaking* BehaviourTree::Clone() noexcept
 	{
-		return new BehaviourTree{ m_Nodes };
+		return new BehaviourTree{ m_pBlackboard, m_Nodes };
 	}
 
-	BehaviourState BehaviourTree::Update(Blackboard* const pBlackboard)
+	BehaviourState BehaviourTree::Update()
 	{
 		auto it{ m_Nodes.cbegin() };
 		auto end{ m_Nodes.cend() };
@@ -70,7 +75,7 @@ namespace Integrian2D
 				if (m_pCurrentNode != *it)
 					continue;
 
-			switch ((*it)->Execute(pBlackboard))
+			switch ((*it)->Execute(m_pBlackboard))
 			{
 			case BehaviourState::Failure:
 				m_pCurrentNode = nullptr;
