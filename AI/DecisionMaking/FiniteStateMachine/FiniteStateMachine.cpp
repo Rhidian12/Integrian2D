@@ -100,15 +100,10 @@ namespace Integrian2D
 				break;
 			case BehaviourState::Success:
 			{
-				/* Find the state */
-				auto it{ std::find_if(m_pTransitions.cbegin(), m_pTransitions.cend(), [this](const Transition* const pT)->bool
-					{
-						return m_pCurrentState == pT->GetFrom();
-					}) };
-
-				/* If the transition's requirements are met, change the State */
-				if ((*it)->Update(m_pBlackboard))
-					m_pCurrentState = (*it)->GetTo();
+				for (Transition* const pTransition : m_pTransitions)
+					if (pTransition->GetFrom() == m_pCurrentState)
+						if (pTransition->Update(m_pBlackboard)) /* If the transition's requirements are met, change the State */
+							m_pCurrentState = pTransition->GetTo();
 
 				m_CurrentState = BehaviourState::Success;
 			}
