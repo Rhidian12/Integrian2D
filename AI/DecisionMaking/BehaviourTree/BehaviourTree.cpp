@@ -1,4 +1,5 @@
 #include "BehaviourTree.h"
+
 #include "../../../Utils/Utils.h"
 
 namespace Integrian2D
@@ -12,8 +13,6 @@ namespace Integrian2D
 
 	BehaviourTree::~BehaviourTree()
 	{
-		Utils::SafeDelete(m_pBlackboard);
-
 		for (BehaviourTreeNode*& pNode : m_Nodes)
 			Utils::SafeDelete(pNode);
 	}

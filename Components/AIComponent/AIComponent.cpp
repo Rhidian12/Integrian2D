@@ -62,7 +62,7 @@ namespace Integrian2D
 
 	void AIComponent::Update()
 	{
-		m_pDecisionMaking->Update(m_pBlackboard);
+		m_pDecisionMaking->Update();
 	}
 
 	Blackboard* const AIComponent::GetBlackboard() const noexcept
