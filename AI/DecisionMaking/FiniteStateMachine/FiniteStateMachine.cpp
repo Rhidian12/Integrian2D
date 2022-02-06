@@ -10,6 +10,7 @@ namespace Integrian2D
 	FiniteStateMachine::FiniteStateMachine(Blackboard* const pBlackboard, FSMState* const pStartState)
 		: BaseDecisionMaking{ pBlackboard }
 		, m_pCurrentState{ pStartState }
+		, m_pPreviousState{ pStartState }
 	{
 		m_pStates.push_back(pStartState);
 	}
@@ -17,6 +18,7 @@ namespace Integrian2D
 	FiniteStateMachine::FiniteStateMachine(const FiniteStateMachine& other) noexcept
 		: BaseDecisionMaking{ other.m_pBlackboard }
 		, m_pCurrentState{ other.m_pCurrentState }
+		, m_pPreviousState{ other.m_pPreviousState }
 	{
 		for (FSMState* const pState : other.m_pStates)
 			m_pStates.push_back(pState->Clone());
@@ -30,6 +32,7 @@ namespace Integrian2D
 		, m_pCurrentState{ std::move(other.m_pCurrentState) }
 		, m_pStates{ std::move(other.m_pStates) }
 		, m_pTransitions{ std::move(other.m_pTransitions) }
+		, m_pPreviousState{ std::move(other.m_pPreviousState) }
 	{
 		other.m_pCurrentState = nullptr;
 		other.m_pStates.clear();
@@ -39,6 +42,7 @@ namespace Integrian2D
 	FiniteStateMachine& FiniteStateMachine::operator=(const FiniteStateMachine& other) noexcept
 	{
 		m_pCurrentState = other.m_pCurrentState;
+		m_pPreviousState = other.m_pPreviousState;
 
 		for (FSMState* const pState : other.m_pStates)
 			m_pStates.push_back(pState->Clone());
@@ -54,6 +58,7 @@ namespace Integrian2D
 		m_pCurrentState = std::move(other.m_pCurrentState);
 		m_pStates = std::move(other.m_pStates);
 		m_pTransitions = std::move(other.m_pTransitions);
+		m_pPreviousState = std::move(other.m_pPreviousState);
 
 		other.m_pCurrentState = nullptr;
 		other.m_pStates.clear();
@@ -94,6 +99,9 @@ namespace Integrian2D
 			{
 			case BehaviourState::Failure:
 				m_CurrentState = BehaviourState::Failure;
+
+				/* Reset to the previous state since this one failed */
+				m_pCurrentState = m_pPreviousState;
 				break;
 			case BehaviourState::Running:
 				m_CurrentState = BehaviourState::Running;
@@ -101,9 +109,16 @@ namespace Integrian2D
 			case BehaviourState::Success:
 			{
 				for (Transition* const pTransition : m_pTransitions)
+				{
 					if (pTransition->GetFrom() == m_pCurrentState)
+					{
 						if (pTransition->Update(m_pBlackboard)) /* If the transition's requirements are met, change the State */
+						{
+							m_pPreviousState = m_pCurrentState;
 							m_pCurrentState = pTransition->GetTo();
+						}
+					}
+				}
 
 				m_CurrentState = BehaviourState::Success;
 			}
