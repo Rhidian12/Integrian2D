@@ -69,6 +69,9 @@ namespace Integrian2D
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
 		void DeleteAllComponentsByType() noexcept;
 
+		/* Removes AND deletes a component from the GameObject */
+		void DeleteComponentByValue(Component* const pComponent) noexcept;
+
 		/* Sets another GameObject as this GameObject's Child
 		   The GameObject set as Child its parent is set as this GameObject */
 		INTEGRIAN2D_API void AddChild(GameObject* const pChild) noexcept;
