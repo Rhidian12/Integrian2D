@@ -57,7 +57,7 @@ namespace Integrian2D
 			This function will remove ALL Components of the provided type
 			This function does NOT destroy Components! */
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
-		void RemoveComponentByType(std::vector<Component*>* pComponents) noexcept;
+		void RemoveAllComponentsByType(std::vector<Component*>* pComponents) noexcept;
 
 		/* Removes a component from the GameObject
 			This function will remove the specific component
@@ -67,7 +67,7 @@ namespace Integrian2D
 		/* Removes AND deletes a component from the GameObject 
 			This function will delete ALL Components of the provided type */
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
-		void DeleteComponentByType() noexcept;
+		void DeleteAllComponentsByType() noexcept;
 
 		/* Sets another GameObject as this GameObject's Child
 		   The GameObject set as Child its parent is set as this GameObject */
@@ -137,7 +137,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type, typename>
-	void GameObject::RemoveComponentByType(std::vector<Component*>* pComponents) noexcept
+	void GameObject::RemoveAllComponentsByType(std::vector<Component*>* pComponents) noexcept
 	{
 		const std::type_info& typeInfo{ typeid(Type) };
 
@@ -164,7 +164,7 @@ namespace Integrian2D
 	}
 
 	template<typename Type, typename>
-	void GameObject::DeleteComponentByType() noexcept
+	void GameObject::DeleteAllComponentsByType() noexcept
 	{
 		const std::type_info& typeInfo{ typeid(Type) };
 
