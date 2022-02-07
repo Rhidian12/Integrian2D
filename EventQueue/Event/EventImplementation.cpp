@@ -5,8 +5,8 @@
 
 namespace Integrian2D
 {
-	EventImplementation::EventImplementation(const std::string& eventName)
-		: m_Event{ eventName.c_str() }
+	EventImplementation::EventImplementation(const char* eventName)
+		: m_Event{ eventName }
 		, m_pData{}
 	{}
 
