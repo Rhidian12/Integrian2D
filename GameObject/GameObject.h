@@ -45,6 +45,10 @@ namespace Integrian2D
 		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
 		Type* const GetComponentByType() const noexcept;
 
+		/* This function returns all of the Components requested by the user */
+		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
+		std::vector<Type*> GetAllComponentsByType() const noexcept;
+
 		/* Adds a Component to the GameObject, if it not already present
 		   Duplicate Component Types are allowed, but not the same Component twice */
 		INTEGRIAN2D_API void AddComponent(Component* const pComponent) noexcept;
@@ -115,6 +119,19 @@ namespace Integrian2D
 	}
 
 	template<typename Type, typename>
+	std::vector<Type*> GameObject::GetAllComponentsByType() const noexcept
+	{
+		std::vector<Type*> components{};
+		const std::type_info& typeInfo{ typeid(Type) };
+
+		for (Component* pC : m_pComponents)
+			if (typeid(*pC) == typeInfo)
+				components.push_back(static_cast<Type*>(pC));
+
+		return components;
+	}
+
+	template<typename Type, typename>
 	void GameObject::RemoveComponentByType(std::vector<Component*>* pComponents) noexcept
 	{
 		const std::type_info& typeInfo{ typeid(Type) };
@@ -146,7 +163,7 @@ namespace Integrian2D
 	{
 		const std::type_info& typeInfo{ typeid(Type) };
 
-		for (Component* pC : m_pComponents)
+		for (Component*& pC : m_pComponents)
 			if (typeid(*pC) == typeInfo)
 				Utils::SafeDelete(pC);
 
