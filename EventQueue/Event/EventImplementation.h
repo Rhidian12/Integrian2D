@@ -13,7 +13,7 @@ namespace Integrian2D
 	};
 
 	template<typename Type>
-	class INTEGRIAN2D_API EventData final : public IEventData
+	class EventData final : public IEventData
 	{
 	public:
 		EventData(const Type& data)

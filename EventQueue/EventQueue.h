@@ -18,7 +18,7 @@ namespace Integrian2D
 
 		/* Queue an event to the EventQueue, this EventQueue operates on a principle of FIFO (First In, First Out) */
 		template<typename Type>
-		INTEGRIAN2D_API void QueueEvent(const std::string& eventName, const Type& data, const int delay = 0) noexcept
+		void QueueEvent(const std::string& eventName, const Type& data, const int delay = 0) noexcept
 		{
 			m_Events.emplace_back(Event{ EventImplementation{ eventName, data }, delay });
 		}
