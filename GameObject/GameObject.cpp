@@ -80,6 +80,11 @@ namespace Integrian2D
 			m_pComponents.push_back(pComponent);
 	}
 
+	void GameObject::RemoveComponentByValue(Component* const pComponent) noexcept
+	{
+		m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), pComponent), m_pComponents.end());
+	}
+
 	void GameObject::AddChild(GameObject* const pChild) noexcept
 	{
 		std::vector<GameObject*>::const_iterator cIt{ std::find(m_pChildren.cbegin(), m_pChildren.cend(), pChild) };
