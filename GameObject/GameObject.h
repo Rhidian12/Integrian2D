@@ -62,7 +62,7 @@ namespace Integrian2D
 		/* Removes a component from the GameObject
 			This function will remove the specific component
 			This function does NOT destroy Components! */
-		void RemoveComponentByValue(Component* const pComponent) noexcept;
+		INTEGRIAN2D_API void RemoveComponentByValue(Component* const pComponent) noexcept;
 
 		/* Removes AND deletes a component from the GameObject 
 			This function will delete ALL Components of the provided type */
@@ -70,7 +70,7 @@ namespace Integrian2D
 		void DeleteAllComponentsByType() noexcept;
 
 		/* Removes AND deletes a component from the GameObject */
-		void DeleteComponentByValue(Component* const pComponent) noexcept;
+		INTEGRIAN2D_API void DeleteComponentByValue(Component* const pComponent) noexcept;
 
 		/* Sets another GameObject as this GameObject's Child
 		   The GameObject set as Child its parent is set as this GameObject */
