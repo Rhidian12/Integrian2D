@@ -365,5 +365,8 @@
     <ClInclude Include="Renderer\OpenGLInformation\OpenGLInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Integrian2D_Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

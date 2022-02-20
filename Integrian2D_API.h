@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Integrian2D_Config.h"
+
 inline bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 
 #ifdef _WIN32

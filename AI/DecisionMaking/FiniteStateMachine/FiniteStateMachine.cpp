@@ -2,6 +2,7 @@
 
 #include "../BehaviourTree/BehaviourTree.h"
 #include "../../../Utils/Utils.h"
+#include "../../../Logger/Logger.h"
 
 #include <algorithm>
 
@@ -11,6 +12,9 @@ namespace Integrian2D
 		: BaseDecisionMaking{ pBlackboard }
 		, m_pCurrentState{ pStartState }
 		, m_pPreviousState{ pStartState }
+#ifdef __INTEGRIAN2D__ENABLE_LOGGING__
+		, m_IsFirstFrame{ true }
+#endif
 	{
 		m_pStates.push_back(pStartState);
 	}
@@ -95,6 +99,13 @@ namespace Integrian2D
 	{
 		if (m_pCurrentState)
 		{
+#ifdef __INTEGRIAN2D__ENABLE_LOGGING__
+			if (m_IsFirstFrame)
+			{
+				Logger::LogNoWarning("Current State is: "_s + typeid(m_pCurrentState).name() + "\n");
+				m_IsFirstFrame = false;
+			}
+#endif
 			switch (m_pCurrentState->Update(m_pBlackboard))
 			{
 			case BehaviourState::Failure:
@@ -116,6 +127,11 @@ namespace Integrian2D
 						{
 							m_pPreviousState = m_pCurrentState;
 							m_pCurrentState = pTransition->GetTo();
+
+#ifdef __INTEGRIAN2D__ENABLE_LOGGING__
+							Logger::LogNoWarning("Changing State from: "_s + typeid(m_pPreviousState).name() +
+								" to: " + typeid(m_pCurrentState).name() + "\n");
+#endif
 						}
 					}
 				}
@@ -126,10 +142,10 @@ namespace Integrian2D
 			}
 
 			return m_CurrentState;
-		}
+	}
 		else
 			return m_CurrentState = BehaviourState::Failure;
-	}
+}
 
 	FSMState::FSMState(FiniteStateMachine* const pFSM, const Action& action)
 		: m_pFSM{ pFSM }
