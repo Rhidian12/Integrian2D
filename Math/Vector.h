@@ -1,80 +1,42 @@
 #pragma once
 
 #include "../Integrian2D_API.h"
-#include "../Utils/Utils.h"
 
-namespace Integrian2D
+namespace Integrian2D::Math
 {
-	/* This is the base class representing a vector
-		I suggest using the provided Vector typedefs, but others can be created using this class */
-
-	/* Available functions:
-		Type MagnitudeSquared(const Vector<V, Type>& v1)
-		=>		Returns the squared magnitude of the provided vector
-		
-		Type Magnitude(const Vector<V, Type>& v1)
-		=>		Returns the magnitude of the provided vector
-		
-		Type Normalize(Vector<V, Type>& v1)
-		=>		Normalizes the provided vector and returns the vector's magnitude
-		
-		Vector<V, Type> GetNormalized(const Vector<V, Type>& v1)
-		=>		Returns a normalized copy of the provided vector 
-		*/
-
-	template<int V, typename Type>
-	struct INTEGRIAN2D_API Vector
+	template<int N, typename T>
+	struct Vector
 	{
-		// == Data == 
-		Type data[V];
-
-#pragma region Access Operators
-		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
-		Type& operator[](const IntegralNumber index) noexcept
-		{
-			ASSERT(index < V, "Vector::operator[]() > index is out of bounds!");
-
-			return data[index];
-		}
-
-		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
-		const Type& operator[](const IntegralNumber index) const noexcept
-		{
-			ASSERT(index < V, "Vector::operator[]() > index is out of bounds!");
-
-			return data[index];
-		}
-#pragma endregion
+		T Data[N];
 	};
 
-	// == Non-Member Methods That Are Useful For All Vectors ==
-	template<int V, typename Type>
-	Type MagnitudeSquared(const Vector<V, Type>& v1) noexcept
+	template<int N, typename T>
+	T MagnitudeSquared(const Vector<N, T>& v1)
 	{
 		return Dot(v1, v1);
 	}
 
-	template<int V, typename Type>
-	Type Magnitude(const Vector<V, Type>& v1) noexcept
+	template<int N, typename T>
+	T Magnitude(const Vector<N, T>& v1)
 	{
-		return static_cast<Type>(sqrt(MagnitudeSquared(v1)));
+		return static_cast<T>(sqrt(MagnitudeSquared(v1)));
 	}
 
-	template<int V, typename Type>
-	Type Normalize(Vector<V, Type>& v1)
+	template<int N, typename T>
+	T Normalize(Vector<N, T>& v1)
 	{
-		const Type magnitude{ Magnitude(v1) };
+		const T magnitude{ Magnitude(v1) };
 
-		ASSERT(magnitude != static_cast<Type>(0.f), "Vector::Normalize() > Magnitude cannot be 0!");
+		__ASSERT(magnitude != static_cast<T>(0.f) && "Vector::Normalize() > Magnitude cannot be 0!");
 
 		v1 /= magnitude;
 		return magnitude;
 	}
 
-	template<int V, typename Type>
-	Vector<V, Type> GetNormalized(const Vector<V, Type>& v1)
+	template<int N, typename T>
+	Vector<N, T> GetNormalized(const Vector<N, T>& v1)
 	{
-		Vector<V, Type> temp{ v1 };
+		Vector<N, T> temp{ v1 };
 		Normalize(temp);
 		return temp;
 	}

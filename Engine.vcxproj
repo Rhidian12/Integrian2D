@@ -106,7 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
     </ClCompile>
@@ -134,7 +134,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
     </ClCompile>
@@ -162,7 +162,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
     </ClCompile>
@@ -190,7 +190,7 @@ xcopy "$(SolutionDir)Libraries\VLD\lib\$(PlatformTarget)\*.DLL" "$(OutDir)" /y /
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2_image-2.0.5\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.4\include;$(SolutionDir)Libraries\SDL2_ttf-2.0.15\include;$(SolutionDir)Libraries\SDL2-2.0.14\include;$(SolutionDir)Libraries\VLD\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
     </ClCompile>
@@ -224,11 +224,14 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="GameInput\GameInput.cpp" />
     <ClCompile Include="IListener\IListener.cpp" />
     <ClCompile Include="Iterator\Iterator.cpp" />
+    <ClCompile Include="Math\Math.cpp" />
+    <ClCompile Include="Math\RGBColour.cpp" />
     <ClCompile Include="NavGraphPolygon\NavGraphPolygon.cpp" />
     <ClCompile Include="Components\NavigationGraphComponent\NavigationGraphComponent.cpp" />
+    <ClCompile Include="Object\Object.cpp" />
     <ClCompile Include="Parsing\BinaryReader\BinaryReader.cpp" />
     <ClCompile Include="Parsing\BinaryWriter\BinaryWriter.cpp" />
-    <ClCompile Include="Components\Component\Component.cpp" />
+    <ClCompile Include="Component\Component.cpp" />
     <ClCompile Include="Input\GameController\GameController.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Input\InputManager\InputManager.cpp" />
@@ -249,6 +252,7 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClCompile Include="Texture\Texture.cpp" />
     <ClCompile Include="Components\TransformComponent\TransformComponent.cpp" />
     <ClCompile Include="ThreadManager\ThreadManager.cpp" />
+    <ClCompile Include="Timer\Timepoint\Timepoint.cpp" />
     <ClCompile Include="Timer\Timer.cpp" />
     <ClCompile Include="TransformManager\TransformManager.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
@@ -257,6 +261,9 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI\BehaviourState.h" />
+    <ClInclude Include="AI\Blackboard\BlackboardData.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Array\TArray.h" />
     <ClInclude Include="Components\AIComponent\AIComponent.h" />
     <ClInclude Include="AI\DecisionMaking\BaseDecisionMaking\BaseDecisionMaking.h" />
     <ClInclude Include="AI\Blackboard\Blackboard.h" />
@@ -270,30 +277,29 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="EventQueue\EventQueue.h" />
     <ClInclude Include="AI\DecisionMaking\FiniteStateMachine\FiniteStateMachine.h" />
     <ClInclude Include="Components\FPSComponent\FPSComponent.h" />
+    <ClInclude Include="GameObject\GameObjectUtils.h" />
     <ClInclude Include="IListener\IListener.h" />
     <ClInclude Include="Input\InputAxis\InputAxis.h" />
     <ClInclude Include="Integrian2D_API.h" />
     <ClInclude Include="Integrian2D_Config.h" />
     <ClInclude Include="Iterator\Iterator.h" />
-    <ClInclude Include="Math\BetterUint8.h" />
+    <ClInclude Include="Macros\Macros.h" />
+    <ClInclude Include="Math\AreEqual.h" />
     <ClInclude Include="Math\Circle.h" />
-    <ClInclude Include="Math\PLine.h" />
-    <ClInclude Include="Math\PRect.h" />
+    <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Matrix.h" />
     <ClInclude Include="Math\Point3.h" />
-    <ClInclude Include="Math\Polygon.h" />
     <ClInclude Include="Math\Rect.h" />
     <ClInclude Include="Math\RGBColour.h" />
-    <ClInclude Include="Math\PTriangle.h" />
-    <ClInclude Include="Math\Triangle.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="NavGraphPolygon\delaunator.hpp" />
     <ClInclude Include="NavGraphPolygon\NavGraphPolygon.h" />
     <ClInclude Include="Components\NavigationGraphComponent\NavigationGraphComponent.h" />
+    <ClInclude Include="Object\Object.h" />
     <ClInclude Include="Parsing\BinaryReader\BinaryReader.h" />
     <ClInclude Include="Parsing\BinaryWriter\BinaryWriter.h" />
     <ClInclude Include="catch.hpp" />
-    <ClInclude Include="Components\Component\Component.h" />
+    <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Input\GameController\GameController.h" />
     <ClInclude Include="GameInput\GameInput.h" />
     <ClInclude Include="GameInput\PossibleInputs.h" />
@@ -305,7 +311,6 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Input\Mouse\Mouse.h" />
     <ClInclude Include="Math\Point.h" />
     <ClInclude Include="Math\Point2.h" />
-    <ClInclude Include="Math\TypeDefines.h" />
     <ClInclude Include="Math\Vector.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Parsing\DataType\DataType.h" />
@@ -319,14 +324,18 @@ xcopy "$(SolutionDir)Libraries\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.DLL" "$(O
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Components\TextureComponent\TextureComponent.h" />
     <ClInclude Include="SDLAudioSystem\SDLAudioSystem.h" />
+    <ClInclude Include="TemplateUtils\TemplateUtils.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="Components\TextComponent\TextComponent.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="Texture\Texture.h" />
     <ClInclude Include="Components\TransformComponent\TransformComponent.h" />
     <ClInclude Include="ThreadManager\ThreadManager.h" />
+    <ClInclude Include="Timer\TimeLength.h" />
+    <ClInclude Include="Timer\Timepoint\Timepoint.h" />
     <ClInclude Include="Timer\Timer.h" />
     <ClInclude Include="TransformManager\TransformManager.h" />
+    <ClInclude Include="Types\Types.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="Window\Window.h" />
     <ClInclude Include="Parsing\Writer\Writer.h" />

@@ -12,7 +12,7 @@ namespace Integrian2D
 		, m_IsPolygonAdded{}
 	{}
 
-	NavigationGraphComponent::NavigationGraphComponent(GameObject* pOwner, const std::vector<NavGraphPolygon>& polygons, const bool triangulate)
+	NavigationGraphComponent::NavigationGraphComponent(GameObject* pOwner, const Array<NavGraphPolygon>& polygons, const bool triangulate)
 		: Component{ pOwner }
 		, m_Polygons{ polygons }
 		, m_IsPolygonAdded{}
@@ -22,11 +22,6 @@ namespace Integrian2D
 				polygon.Triangulate();
 	}
 
-	Component* NavigationGraphComponent::Clone(GameObject* pOwner) noexcept
-	{
-		return new NavigationGraphComponent{ pOwner, m_Polygons };
-	}
-
 	void NavigationGraphComponent::Render() const
 	{
 		/* TODO: Make this rendering optional */
@@ -34,34 +29,36 @@ namespace Integrian2D
 			polygon.Render(m_pOwner->pTransform->GetWorldPosition());
 	}
 
-	void NavigationGraphComponent::AddPolygon(NavGraphPolygon& polygon, const bool triangulatePolygon) noexcept
+	void NavigationGraphComponent::AddPolygon(NavGraphPolygon& polygon, const bool triangulatePolygon)
 	{
-		const std::vector<NavGraphPolygon>::const_iterator cIt{ std::find(m_Polygons.cbegin(), m_Polygons.cend(), polygon) };
+		const auto cIt{ m_Polygons.Find(polygon) };
+
 		if (cIt == m_Polygons.cend())
 		{
 			if (triangulatePolygon)
 				if (!polygon.IsTriangulated())
 					polygon.Triangulate();
 
-			m_Polygons.push_back(polygon);
+			m_Polygons.Add(polygon);
 			m_IsPolygonAdded = true;
 		}
 	}
 
-	void NavigationGraphComponent::RemovePolygon(const NavGraphPolygon& polygonToRemove) noexcept
+	void NavigationGraphComponent::RemovePolygon(const NavGraphPolygon& polygonToRemove)
 	{
-		const std::vector<NavGraphPolygon>::const_iterator cIt{ std::find(m_Polygons.cbegin(), m_Polygons.cend(), polygonToRemove) };
+		const auto cIt{ m_Polygons.Find(polygonToRemove) };
+
 		if (cIt != m_Polygons.cend())
-			m_Polygons.erase(cIt);
+			m_Polygons.Erase(cIt);
 	}
 
-	void NavigationGraphComponent::Triangulate() noexcept
+	void NavigationGraphComponent::Triangulate()
 	{
 		for (NavGraphPolygon& polygon : m_Polygons)
 			polygon.Triangulate();
 	}
 
-	const std::vector<NavGraphPolygon>& NavigationGraphComponent::GetPolygons() const noexcept
+	const Array<NavGraphPolygon>& NavigationGraphComponent::GetPolygons() const
 	{
 		return m_Polygons;
 	}

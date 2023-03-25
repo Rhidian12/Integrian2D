@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Integrian2D_API.h"
-#include "../Component/Component.h"
+#include "../../Component/Component.h"
 #include "../../Math/TypeDefines.h"
 
 #include <string>
@@ -20,8 +20,6 @@ namespace Integrian2D
 		INTEGRIAN2D_API TextComponent(GameObject* const pParent, const std::string& text, const int textSize, const RGBColour& colour);
 		INTEGRIAN2D_API TextComponent(GameObject* const pParent, const std::string& text, const int textSize, Texture* const pFont);
 		INTEGRIAN2D_API TextComponent(GameObject* const pParent, const std::string& text, const int textSize, Texture* const pFont, const RGBColour& colour);
-
-		INTEGRIAN2D_API virtual Component* Clone(GameObject* pParent) noexcept override;
 
 		INTEGRIAN2D_API virtual void Render() const override;
 

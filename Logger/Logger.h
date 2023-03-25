@@ -30,37 +30,83 @@
 // 15 = intense white
 #pragma endregion
 
-#include "../Integrian2D_API.h"
-
 #include <iostream>
 #include <string>
 
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-
-INTEGRIAN2D_API inline std::string operator""_s(const char* str, std::size_t len)
-{
-	return std::string(str, len);
-}
-
 namespace Integrian2D
 {
-	/* TODO: Make colours customisable and add a way to log to a file */
+#ifdef _WIN32
+	enum class MessageColour : uint8_t
+	{
+		Black = 0,
+		IntenseBlue = 1,
+		Green = 2,
+		LightBlue = 3,
+		Red = 4,
+		Purple = 5,
+		Yellow = 6,
+		White = 7,
+		Grey = 8,
+		Blue = 9,
+		LightGreen = 10,
+		VeryLightBlue = 11,
+		LightRed = 12,
+		LightPurple = 13,
+		VeryLightYellow = 14,
+		IntenseWhite = 15
+	};
+#endif
+
 	class Logger final
 	{
 	public:
-		/* Log a message to the console in green */
-		INTEGRIAN2D_API static void LogNoWarning(const std::string& message, bool newLine = true) noexcept;
+		static Logger& GetInstance();
 
-		/* Log a message to the console in yellow */
-		INTEGRIAN2D_API static void LogWarning(const std::string& message, bool newLine = true) noexcept;
+		void LogMessage(
+			const std::string_view message,
+			[[maybe_unused]] const int lineNumber,
+			[[maybe_unused]] const std::string_view file,
+			const bool bVerbose = false
+		);
 
-		/* Log a message to the console in light red */
-		INTEGRIAN2D_API static void LogError(const std::string& message, bool newLine = true) noexcept;
+		void LogWarning(
+			const std::string_view message,
+			[[maybe_unused]] const int lineNumber,
+			[[maybe_unused]] const std::string_view file,
+			const bool bVerbose = false
+		);
 
-		/* Log a message to the console in red */
-		INTEGRIAN2D_API static void LogSevereError(const std::string& message, bool newLine = true) noexcept;
+		void LogError(
+			const std::string_view message,
+			[[maybe_unused]] const int lineNumber,
+			[[maybe_unused]] const std::string_view file,
+			const bool bVerbose = false
+		);
+
+		void LogCustomMessage(
+			const std::string_view message,
+			[[maybe_unused]] const int lineNumber,
+			[[maybe_unused]] const std::string_view file,
+			const MessageColour colour,
+			const bool bVerbose = false
+		);
+
+		void LogAssertion(
+			const std::string_view message,
+			[[maybe_unused]] const int lineNumber,
+			[[maybe_unused]] const std::string_view file,
+			const MessageColour colour,
+			const bool bVerbose = false
+		);
+
+	private:
+		Logger();
+
+		friend std::unique_ptr<Logger> std::make_unique();
+		inline static std::unique_ptr<Logger> Instance{};
+
+		/* typedef void* HANDLE, ergo void* == HANDLE */
+		void* ConsoleHandle;
 	};
 }
 

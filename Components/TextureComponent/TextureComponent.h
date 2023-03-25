@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Integrian2D_API.h"
-#include "../Component/Component.h"
+#include "../../Component/Component.h"
 #include "../../Math/TypeDefines.h"
 
 namespace Integrian2D
@@ -22,9 +22,6 @@ namespace Integrian2D
 		/* This function should NOT get called manually. If this component is added to a GameObject,
 		the GameObject in question will call this function internally */
 		virtual void Render() const override;
-
-		/* See Component::Clone() for documentation */
-		virtual Component* Clone(GameObject* pOwner) noexcept override;
 
 		/* Set the Texture to be rendered */
 		void SetTexture(Texture* const pTexture) noexcept;

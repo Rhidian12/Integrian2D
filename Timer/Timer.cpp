@@ -1,72 +1,83 @@
 #include "Timer.h"
-#include "../Utils/Utils.h"
 
-namespace Integrian2D
+START_DISABLE_WARNING(4005)
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
+END_DISABLE_WARNING(4005)
+
+namespace Integrian2D::Time
 {
 	Timer::Timer()
-		: m_MaxElapsedSeconds{ 0.1f }
+		: m_MaxElapsedSeconds{ 0.1 }
 		, m_ElapsedSeconds{}
 		, m_TotalElapsedSeconds{}
 		, m_FPS{}
 		, m_FPSCounter{}
 		, m_FPSTimer{}
-		, m_TimePerFrame{ 1.f / 60.f }
+		, m_TimePerFrame{ 1.0 / 144.0 }
+		, m_StartTimepoint{}
+		, m_PreviousTimepoint{}
 	{
 		Start();
 	}
 
-	Timer* Timer::GetInstance() noexcept
+	Timer& Timer::GetInstance()
 	{
 		if (!m_pInstance)
-			m_pInstance = new Timer{};
+			m_pInstance.reset(new Timer{});
 
-		return m_pInstance;
+		return *m_pInstance.get();
 	}
 
-	void Timer::Cleanup() noexcept
+
+	void Timer::Start()
 	{
-		Utils::SafeDelete(m_pInstance);
+		m_PreviousTimepoint = Now();
 	}
 
-	void Timer::Start() noexcept
+	void Timer::Update()
 	{
-		m_PreviousTimepoint = std::chrono::steady_clock::now();
-	}
+		m_StartTimepoint = Now();
 
-	void Timer::Update() noexcept
-	{
-		m_StartTimepoint = std::chrono::steady_clock::now();
-		m_ElapsedSeconds = std::chrono::duration<float>(m_StartTimepoint - m_PreviousTimepoint).count();
-		m_ElapsedSeconds = std::min(m_ElapsedSeconds, m_MaxElapsedSeconds);
+		m_ElapsedSeconds = (m_StartTimepoint - m_PreviousTimepoint).Count();
+		m_ElapsedSeconds = Math::Min(m_ElapsedSeconds, m_MaxElapsedSeconds);
+
 		m_TotalElapsedSeconds += m_ElapsedSeconds;
 
 		m_PreviousTimepoint = m_StartTimepoint;
 
-		m_FPS = int(1.f / m_ElapsedSeconds);
+		m_FPS = static_cast<int>(1.0 / m_ElapsedSeconds);
 	}
 
-	int Timer::GetFPS() const noexcept
+	Timepoint Timer::Now()
 	{
-		return m_FPS;
+		const int64_t frequency{ _Query_perf_frequency() };
+		const int64_t counter{ _Query_perf_counter() };
+
+		// 10 MHz is a very common QPC frequency on modern PCs. Optimizing for
+		// this specific frequency can double the performance of this function by
+		// avoiding the expensive frequency conversion path.
+		constexpr int64_t tenMHz = 10'000'000;
+
+		if (frequency == tenMHz)
+		{
+			constexpr int64_t multiplier{ static_cast<int64_t>(SecToNano) / tenMHz };
+			return Timepoint{ (counter * multiplier) * NanoToSec };
+		}
+		else
+		{
+			// Instead of just having "(counter * static_cast<int64_t>(SecToNano)) / frequency",
+			// the algorithm below prevents overflow when counter is sufficiently large.
+			// It assumes that frequency * static_cast<int64_t>(SecToNano) does not overflow, which is currently true for nano period.
+			// It is not realistic for counter to accumulate to large values from zero with this assumption,
+			// but the initial value of counter could be large.
+
+			const int64_t whole = (counter / frequency) * static_cast<int64_t>(SecToNano);
+			const int64_t part = (counter % frequency) * static_cast<int64_t>(SecToNano) / frequency;
+			return Timepoint{ (whole + part) * NanoToSec };
+		}
 	}
 
-	float Timer::GetElapsedSeconds() const noexcept
-	{
-		return m_ElapsedSeconds;
-	}
-
-	float Timer::GetFixedElapsedSeconds() const noexcept
-	{
-		return m_TimePerFrame;
-	}
-
-	float Timer::GetTimePerFrame() const noexcept
-	{
-		return m_TimePerFrame;
-	}
-
-	float Timer::GetTotalElapsedSeconds() const noexcept
-	{
-		return m_TotalElapsedSeconds;
-	}
 }

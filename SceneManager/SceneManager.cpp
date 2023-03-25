@@ -1,98 +1,80 @@
 #include "SceneManager.h"
-#include "../Utils/Utils.h"
-#include "../Scene/Scene.h"
-#include "../Logger/Logger.h"
-#include "../Core/Core.h"
 
 namespace Integrian2D
 {
-	SceneManager* const SceneManager::GetInstance() noexcept
-	{
-		if (!m_pInstance)
-			m_pInstance = new SceneManager{};
-
-		return m_pInstance;
-	}
-
-	void SceneManager::Cleanup() noexcept
-	{
-		Utils::SafeDelete(m_pInstance);
-	}
+	SceneManager::SceneManager()
+		: m_Scenes{}
+		, m_pActiveScene{}
+	{}
 
 	SceneManager::~SceneManager()
 	{
-		for (std::pair<const std::string, Scene*>& pScene : m_pScenes)
-			Utils::SafeDelete(pScene.second);
+		for (Scene* pScene : m_Scenes)
+			__DELETE(pScene);
+
+		m_Scenes.Clear();
 	}
 
-	void SceneManager::AddScene(Scene* const pScene) noexcept
+	SceneManager& SceneManager::GetInstance()
 	{
-		const std::string& sceneName{ pScene->GetSceneName() };
-		std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
+		if (!m_pInstance)
+			m_pInstance = std::make_unique<SceneManager>();
 
-		if (cIt == m_pScenes.cend())
-		{
-			m_pScenes.insert(std::make_pair(sceneName, pScene));
-
-			if (!m_pActiveScene)
-				SetActiveScene(sceneName);
-		}
+		return *m_pInstance.get();
 	}
 
-	void SceneManager::SetActiveScene(const std::string& sceneName) noexcept
+	void SceneManager::AddScene(Scene* pScene)
 	{
-		const std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
+		m_Scenes.Add(pScene);
 
-		if (cIt != m_pScenes.cend())
-		{
-			/* Let the current active scene exit */
-			if (m_pActiveScene)
+		if (!m_pActiveScene)
+			m_pActiveScene = pScene;
+	}
+
+	void SceneManager::ChangeScene(const std::string_view sceneName)
+	{
+		const auto cIt{ m_Scenes.Find([sceneName](const Scene* const pScene)->bool
 			{
-				m_pActiveScene->SetIsSceneActive(false);
+				return pScene->GetSceneName() == sceneName;
+			}) };
 
-				m_pActiveScene->RootOnSceneExit();
-				m_pActiveScene->OnSceneExit();
-			}
+		__ASSERT(cIt != m_Scenes.cend() && "SceneManager::ChangeScene() > No scene with the specified name was found");
 
-			m_pActiveScene = cIt->second;
+		m_pActiveScene->__OnSceneExit();
+		m_pActiveScene->OnSceneExit();
 
-			/* Let the new active scene enter */
-			m_pActiveScene->SetIsSceneActive(true);
+		m_pActiveScene = *cIt;
 
-			m_pActiveScene->RootOnSceneEnter();
-			m_pActiveScene->OnSceneEnter();
-		}
+		m_pActiveScene->__OnSceneEnter();
+		m_pActiveScene->OnSceneEnter();
 	}
 
-	void SceneManager::DeactivateAllScenes() noexcept
+	Scene* const SceneManager::GetScene(const std::string_view sceneName)
 	{
-		for (std::pair<const std::string, Scene*>& pair : m_pScenes)
-			pair.second->SetIsSceneActive(false);
+		const auto it{ m_Scenes.Find([sceneName](const Scene* const pScene)->bool
+			{
+				return pScene->GetSceneName() == sceneName;
+			}) };
+
+		__ASSERT(it != m_Scenes.cend() && "SceneManager::GetScene() > No scene with the specified name was found");
+
+		return *it;
 	}
 
-	Scene* const SceneManager::GetActiveScene() const noexcept
+	const Scene* const SceneManager::GetScene(const std::string_view sceneName) const
 	{
-		return m_pActiveScene;
+		const auto cIt{ m_Scenes.Find([sceneName](const Scene* const pScene)->bool
+			{
+				return pScene->GetSceneName() == sceneName;
+			}) };
+
+		__ASSERT(cIt != m_Scenes.cend() && "SceneManager::ChangeScene() > No scene with the specified name was found");
+
+		return *cIt;
 	}
-
-	Scene* const SceneManager::GetScene(const std::string& sceneName) const noexcept
+	
+	const Array<Scene*>& SceneManager::GetScene() const
 	{
-		const std::unordered_map<std::string, Scene*>::const_iterator cIt{ m_pScenes.find(sceneName) };
-
-		if (cIt != m_pScenes.cend())
-			return cIt->second;
-		else
-			return nullptr;
-	}
-
-	const std::unordered_map<std::string, Scene*>& SceneManager::GetScenes() const noexcept
-	{
-		return m_pScenes;
-	}
-
-	SceneManager::SceneManager()
-		: m_pActiveScene{}
-		, m_pScenes{}
-	{
+		return m_Scenes;
 	}
 }

@@ -10,13 +10,10 @@ namespace Integrian2D
 	class Window final
 	{
 	public:
-		/* Do NOT create a Window manually
-		   This happens internally */
 		Window(const int windowWidth, const int windowHeight, const std::string& windowTitle);
 		~Window();
 
-		/* Returns the Window created by the SDL Library */
-		INTEGRIAN2D_API const SDL_Window* const GetSDLWindow() const noexcept;
+		INTEGRIAN2D_API const SDL_Window* const GetSDLWindow() const;
 
 		Window(const Window&) = delete;
 		Window(Window&&) = delete;

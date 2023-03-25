@@ -1,181 +1,173 @@
 #pragma once
 
 #include "../Integrian2D_API.h"
-#include "../Math/TypeDefines.h"
-#include "../Utils/Utils.h"
-
-#include <vector>
-#include <string>
-#include <typeinfo>
-#include <algorithm>
+#include "../Object/Object.h"
+#include "../Array/TArray.h"
+#include "GameObjectUtils.h"
 
 namespace Integrian2D
 {
 	class Component;
 	class TransformComponent;
 
-	/* The GameObject is the class that holds a list of Components, and calls their overridable functions, such as Render()
-	   The GameObjects get added to the Scene via Scene::AddGameObject */
-	class GameObject final
+	class INTEGRIAN2D_API GameObject : public Object
 	{
 	public:
-		/* Every GameObject has a TransformComponent by default! */
-		INTEGRIAN2D_API GameObject();
-		INTEGRIAN2D_API ~GameObject();
-
-		/* This function calls the GameObject's Component's Start(). Do NOT call this manually */
-		INTEGRIAN2D_API void Start();
-
-		/* This function calls the GameObject's Components' Update(). Do NOT call this manually */
-		INTEGRIAN2D_API void Update();
-
-		/* This function calls the GameObject's Components' FixedUpdate(). Do NOT call this manually */
-		INTEGRIAN2D_API void FixedUpdate();
-
-		/* This function calls the GameObject's Components' LateUpdate(). Do NOT call this manually */
-		INTEGRIAN2D_API void LateUpdate();
-
-		/* This function calls the GameObject's Components' Render(). Do NOT call this manually */
-		INTEGRIAN2D_API void Render() const;
-
-		/* This function returns the Component requested by the User. This function will cause a compilation error
-		   if the requested Type is class not derived from Component
-		   If the requested Type is present, it will return a pointer to the requested component
-		   Otherwise this function returns a nullptr */
-		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
-		Type* const GetComponentByType() const noexcept;
-
-		/* This function returns all of the Components requested by the user */
-		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
-		std::vector<Type*> GetAllComponentsByType() const noexcept;
-
-		/* Adds a Component to the GameObject, if it not already present
-		   Duplicate Component Types are allowed, but not the same Component twice */
-		INTEGRIAN2D_API void AddComponent(Component* const pComponent) noexcept;
-
-		/* Removes a component from the GameObject
-			This function will remove ALL Components of the provided type
-			This function does NOT destroy Components! */
-		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
-		void RemoveAllComponentsByType(std::vector<Component*>* pComponents) noexcept;
-
-		/* Removes a component from the GameObject
-			This function will remove the specific component
-			This function does NOT destroy Components! */
-		INTEGRIAN2D_API void RemoveComponentByValue(Component* const pComponent) noexcept;
-
-		/* Removes AND deletes a component from the GameObject 
-			This function will delete ALL Components of the provided type */
-		template<typename Type, typename = std::enable_if_t<std::is_base_of_v<Component, Type>>>
-		void DeleteAllComponentsByType() noexcept;
-
-		/* Removes AND deletes a component from the GameObject */
-		INTEGRIAN2D_API void DeleteComponentByValue(Component* const pComponent) noexcept;
-
-		/* Sets another GameObject as this GameObject's Child
-		   The GameObject set as Child its parent is set as this GameObject */
-		INTEGRIAN2D_API void AddChild(GameObject* const pChild) noexcept;
-
-		/* Set a GameObject's parent
-		   It is unnecessary to call this in conjunction with AddChild()
-		   Since AddChild() sets the parent automatically */
-		INTEGRIAN2D_API void SetParent(GameObject* const pParent) noexcept;
-
-		/* Set the GameObject's tag */
-		INTEGRIAN2D_API void SetTag(const std::string& tag) noexcept;
-
-		/* Get this GameObject's parent
-		   If the GameObject has no parent, this function returns a nullptr */
-		INTEGRIAN2D_API GameObject* const GetParent() const noexcept;
-
-		/* Get the GameObject's Children
-		   If the GameObject has no Children, this functions returns an empty std::vector */
-		INTEGRIAN2D_API const std::vector<GameObject*>& GetChildren() const noexcept;
-
-		/* Get the GameObject's tag */
-		INTEGRIAN2D_API const std::string& GetTag() const noexcept;
-
-		/* Get all components attached to this GameObject */
-		INTEGRIAN2D_API const std::vector<Component*>& GetComponents() const noexcept;
-
 		/* The GameObject's Transform Component */
 		TransformComponent* pTransform;
 
-		INTEGRIAN2D_API GameObject(const GameObject& other) noexcept;
-		INTEGRIAN2D_API GameObject(GameObject&& other) noexcept;
-		INTEGRIAN2D_API GameObject& operator=(const GameObject& other) noexcept;
-		INTEGRIAN2D_API GameObject& operator=(GameObject&& other) noexcept;
+		~GameObject();
 
-	private:
-		std::vector<Component*> m_pComponents;
-		std::vector<GameObject*> m_pChildren;
+		GameObject(const GameObject&) noexcept = delete;
+		GameObject(GameObject&&) noexcept = delete;
+		GameObject& operator=(const GameObject&) noexcept = delete;
+		GameObject& operator=(GameObject&&) noexcept = delete;
+
+	#pragma region Internal_Functionality
+
+		void Awake();
+
+		void Start();
+
+		void Update();
+
+		void FixedUpdate();
+
+		void LateUpdate();
+
+		void Render() const;
+
+	#pragma endregion
+
+	#pragma region Component_Functionality
+
+		template<typename T>
+		T* const GetComponentByType() const;
+
+		template<typename T>
+		void DeleteComponentByType();
+
+		template<typename T>
+		T* const AddComponent(T* const pComponent);
+
+		Array<Component*> GetComponents() const;
+
+	#pragma endregion
+
+	#pragma region Tag_Functionality
+
+		const std::string& AddTag(const std::string& tag);
+
+		const std::string& SetTag(const std::string& tag, const uint64_t index);
+
+		void RemoveTag(const std::string& tag);
+
+		void RemoveTag(const uint64_t index);
+
+		__NODISCARD const std::string& GetTag(const uint64_t index) const;
+
+		__NODISCARD const Array<std::string>& GetTags() const;
+
+		__NODISCARD bool HasTag(const std::string& tag) const;
+
+	#pragma endregion
+
+	#pragma region Parent_Child_Functionality
+
+		void AddChild(GameObject* const pChild);
+
+		void RemoveChild(GameObject* const pChild);
+
+		void RemoveChildByIndex(const size_t index);
+
+		void SetParent(GameObject* const pParent);
+
+		GameObject* const GetParent() const;
+
+		const Array<GameObject*>& GetChildren() const;
+
+	#pragma endregion
+
+	protected:
+		GameObject();
+		explicit GameObject(const std::string& name);
+		friend GameObject* Instantiate(const std::string&);
+		friend GameObject* Instantiate(const std::string&, class Scene*);
+
+		struct ComponentInfo final
+		{
+			uint32_t ID;
+			class Component* pComponent;
+		};
+
+		Array<ComponentInfo> m_Components;
+		Array<GameObject*> m_Children;
+		Array<std::string> m_Tags;
+
 		GameObject* m_pParent;
-
-		std::string m_Tag;
 	};
 
-	template<typename Type, typename>
-	Type* const GameObject::GetComponentByType() const noexcept
-	{
-		const std::type_info& typeInfo{ typeid(Type) };
+#pragma region Templated_Functions
 
-		for (Component* pC : m_pComponents)
-			if (typeid(*pC) == typeInfo)
-				return static_cast<Type*>(pC);
+	template<typename T>
+	T* const GameObject::GetComponentByType() const
+	{
+		constexpr uint32_t id{ GOUtils::GenerateComponentID<T>() };
+		const auto cIt{ m_Components.Find([id](const ComponentInfo& info)->bool
+			{
+				return info.ID == id;
+			}) };
+
+		if (cIt != m_Components.cend())
+			return static_cast<T*>(cIt->pComponent);
 
 		return nullptr;
 	}
 
-	template<typename Type, typename>
-	std::vector<Type*> GameObject::GetAllComponentsByType() const noexcept
+	template<typename T>
+	T* const GameObject::AddComponent(T* const pComponent)
 	{
-		std::vector<Type*> components{};
-		const std::type_info& typeInfo{ typeid(Type) };
+		constexpr uint32_t id{ GOUtils::GenerateComponentID<T>() };
 
-		for (Component* pC : m_pComponents)
-			if (typeid(*pC) == typeInfo)
-				components.push_back(static_cast<Type*>(pC));
+		if (m_Components.Find([id](const ComponentInfo& info)->bool
+			{
+				return info.ID == id;
+			}) == m_Components.cend())
+		{
+			m_Components.Add(ComponentInfo{ id, pComponent });
 
-		return components;
+			return pComponent;
+		}
+
+			return nullptr;
 	}
 
-	template<typename Type, typename>
-	void GameObject::RemoveAllComponentsByType(std::vector<Component*>* pComponents) noexcept
+	template<typename T>
+	void GameObject::DeleteComponentByType()
 	{
-		const std::type_info& typeInfo{ typeid(Type) };
+		constexpr uint32_t id{ GOUtils::GenerateComponentID<T>() };
+		const auto it{ m_Components.Find([id](const ComponentInfo& info)->bool
+			{
+				return info.ID == id;
+			}) };
 
-		if (pComponents)
+		if (it != m_Components.end())
 		{
-			m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(), [&typeInfo, &pComponents](Component* const pC)->bool
-				{
-					if (typeid(*pC) == typeInfo)
-					{
-						(*pComponents).push_back(pC);
-						return true;
-					}
-					else
-						return false;
-				}), m_pComponents.end());
-		}
-		else
-		{
-			m_pComponents.erase(std::remove_if(m_pComponents.begin(), m_pComponents.end(), [&typeInfo](Component* const pC)->bool
-				{
-					return typeid(*pC) == typeInfo;
-				}), m_pComponents.end());
+			it->pComponent->MarkForDestruction();
 		}
 	}
 
-	template<typename Type, typename>
-	void GameObject::DeleteAllComponentsByType() noexcept
-	{
-		const std::type_info& typeInfo{ typeid(Type) };
+#pragma endregion
 
-		for (Component*& pC : m_pComponents)
-			if (typeid(*pC) == typeInfo)
-				Utils::SafeDelete(pC);
 
-		m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), nullptr), m_pComponents.end());
-	}
+#pragma region Helper_Functions
+
+	__NODISCARD GameObject* Instantiate(const std::string& name = "");
+	__NODISCARD GameObject* Instantiate(const std::string& name, class Scene* pScene);
+
+	__NODISCARD GameObject* FindGameObjectWithTag(const std::string& tag);
+	__NODISCARD Array<GameObject*> FindGameObjectsWithTag(const std::string& tag);
+
+#pragma endregion
 }
 

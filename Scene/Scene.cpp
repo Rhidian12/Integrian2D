@@ -6,72 +6,71 @@
 #include "../ThreadManager/ThreadManager.h"
 #include "../Input/InputManager/InputManager.h"
 #include "../IListener/IListener.h"
-#include "../Components/Component/Component.h"
-
-#include <string>
-#include <vector>
+#include "../Component/Component.h"
 
 namespace Integrian2D
 {
-	struct Scene::SceneImpl final
+	Scene::Scene(const std::string& name)
+		: m_SceneName{ name }
+		, m_GameObjects{}
+		, m_IsActive{}
+		, m_TransformManager{}
 	{
-		std::string m_SceneName;
-		std::vector<GameObjectInformation> m_GameObjects;
-		std::atomic_bool m_IsActive;
-
-		TransformManager m_TransformManager;
-	};
-
-	Scene::Scene(const char* pSceneName)
-		: m_pSceneImpl{ new SceneImpl{} }
-	{
-		m_pSceneImpl->m_SceneName = pSceneName;
 	}
 
 	Scene::~Scene()
 	{
-		m_pSceneImpl->m_IsActive = false;
+		m_IsActive = false;
 
-		for (GameObjectInformation& pG : m_pSceneImpl->m_GameObjects)
-			Utils::SafeDelete(pG.pGameObject);
+		for (GameObject* pG : m_GameObjects)
+			__DELETE(pG);
 
-		Utils::SafeDelete(m_pSceneImpl);
+		m_GameObjects.Clear();
 	}
 
-	void Scene::RootStart()
+#pragma region Internal_Functionality
+
+	void Scene::Awake()
 	{
-		for (GameObjectInformation& pG : m_pSceneImpl->m_GameObjects)
-			pG.pGameObject->Start();
+		for (GameObject* const pG : m_GameObjects)
+			pG->Awake();
 	}
 
-	void Scene::RootUpdate()
+	void Scene::Start()
 	{
-		for (GameObjectInformation& pG : m_pSceneImpl->m_GameObjects)
-			pG.pGameObject->Update();
+		for (GameObject* const pG : m_GameObjects)
+			pG->Start();
 	}
 
-	void Scene::RootFixedUpdate()
+	void Scene::Update()
 	{
-		for (GameObjectInformation& pG : m_pSceneImpl->m_GameObjects)
-			pG.pGameObject->FixedUpdate();
+		for (GameObject* const pG : m_GameObjects)
+			pG->Update();
 	}
 
-	void Scene::RootLateUpdate()
+	void Scene::FixedUpdate()
 	{
-		for (GameObjectInformation& pG : m_pSceneImpl->m_GameObjects)
-			pG.pGameObject->LateUpdate();
+		for (GameObject* const pG : m_GameObjects)
+			pG->FixedUpdate();
 	}
 
-	void Scene::RootRender() const
+	void Scene::LateUpdate()
 	{
-		for (const GameObjectInformation& pG : m_pSceneImpl->m_GameObjects)
-			pG.pGameObject->Render();
+		for (GameObject* const pG : m_GameObjects)
+			pG->LateUpdate();
 	}
 
-	void Scene::RootOnSceneEnter() noexcept
+	void Scene::Render() const
 	{
-		m_pSceneImpl->m_IsActive = true;
+		for (GameObject* const pG : m_GameObjects)
+			pG->Render();
+	}
 
+	void Scene::__OnSceneEnter()
+	{
+		m_IsActive = true;
+
+		/* [TODO]: What the fuck am I doing here??? */
 		InputManager::GetInstance()->Activate(this);
 
 		ThreadManager::GetInstance()->AssignThreadTask([this]()
@@ -80,109 +79,103 @@ namespace Integrian2D
 
 				ThreadManager* const pInstance{ ThreadManager::GetInstance() };
 
-				while (m_pSceneImpl->m_IsActive.load())
+				while (m_IsActive.load())
 				{
 					pInstance->SleepThreadWhile<float, std::micro>([this]()->bool
 						{
-							return !m_pSceneImpl->m_IsActive.load() || m_pSceneImpl->m_TransformManager.ShouldRecalculate();
+							return !m_IsActive.load() || m_TransformManager.ShouldRecalculate();
 						}, 10us);
 
-					m_pSceneImpl->m_TransformManager.UpdateTransforms();
+					m_TransformManager.UpdateTransforms();
 				}
 			}, 0);
 
-		for (GameObjectInformation& gameObject : m_pSceneImpl->m_GameObjects)
-			for (Component* pC : gameObject.pGameObject->GetComponents())
+		/* [TODO]: What the fuck am I doing here??? */
+		for (GameObject* const pGameObject : m_GameObjects)
+			for (Component* pC : pGameObject->GetComponents())
 				if (IListener* pL{ dynamic_cast<IListener*>(pC) }; pL != nullptr)
 					pL->m_IsActive = true;
 	}
 
-	void Scene::RootOnSceneExit() noexcept
+	void Scene::__OnSceneExit()
 	{
-		m_pSceneImpl->m_IsActive = false;
+		m_IsActive = false;
 
+		/* [TODO]: What the fuck am I doing here??? */
 		InputManager::GetInstance()->Deactivate(this);
 
-		for (GameObjectInformation& gameObject : m_pSceneImpl->m_GameObjects)
-			for (Component* pC : gameObject.pGameObject->GetComponents())
+		/* [TODO]: What the fuck am I doing here??? */
+		for (GameObject* const pGameObject : m_GameObjects)
+			for (Component* pC : pGameObject->GetComponents())
 				if (IListener* pL{ dynamic_cast<IListener*>(pC) }; pL != nullptr)
 					pL->m_IsActive = false;
 	}
 
-	void Scene::AddGameObject(const char* pGameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd) noexcept
+#pragma endregion
+
+
+#pragma region GameObject_Functionality
+
+	void Scene::AddGameObject(GameObject* const pGameObject)
 	{
-		const auto cIt{ std::find_if(m_pSceneImpl->m_GameObjects.cbegin(), m_pSceneImpl->m_GameObjects.cend(), [pGameObjectName](const GameObjectInformation& pG)->bool
+		const auto cIt{ m_GameObjects.Find(pGameObject) };
+
+		if (cIt == m_GameObjects.cend())
+		{
+			m_GameObjects.Add(pGameObject);
+			m_TransformManager.AddTransformComponent(pGameObject->pTransform);
+			m_TransformManager.NotifyRecalculation();
+		}
+	}
+
+	GameObject* const Scene::GetGameObject(const std::string_view name) const
+	{
+		const auto cIt{ m_GameObjects.Find([name](const GameObject* const pG)->bool
 			{
-				return pG.pName == pGameObjectName;
+				return pG->GetName() == name;
 			}) };
 
-		if (cIt == m_pSceneImpl->m_GameObjects.cend())
-		{
-			m_pSceneImpl->m_GameObjects.push_back(GameObjectInformation{ pGameObjectName, pGameObject});
-			m_pSceneImpl->m_TransformManager.AddTransformComponent(pGameObject->pTransform);
-			m_pSceneImpl->m_TransformManager.NotifyRecalculation();
-		}
-		else if (shouldAlwaysAdd)
-		{
-			std::string newName{};
-			for (size_t i{}; i < m_pSceneImpl->m_GameObjects.size() + 1; ++i)
-			{
-				newName = std::string{ pGameObjectName } + "(" + std::to_string(i) + ")";
+		if (cIt != m_GameObjects.cend())
+			return *cIt;
 
-				if (std::find_if(m_pSceneImpl->m_GameObjects.cbegin(), m_pSceneImpl->m_GameObjects.cend(), [&newName](const GameObjectInformation& pG)->bool
-					{
-						return pG.pName == newName;
-					}) == m_pSceneImpl->m_GameObjects.cend())
-					break;
-			}
+		Logger::GetInstance().LogWarning
+		(
+			std::string{ "Scene::GetGameObject() > GameObject with name: " } + std::string{ name } + " is not present! Returning nullptr!",
+			__LINE__,
+			__FILE__
+		);
 
-			Logger::LogWarning(std::string{ "Scene::AddGameObject() > The Name: " } + pGameObjectName + " was already present and has been changed to: "
-				+ newName);
-
-			m_pSceneImpl->m_GameObjects.push_back(GameObjectInformation{ newName.c_str(), pGameObject });
-			m_pSceneImpl->m_TransformManager.AddTransformComponent(pGameObject->pTransform);
-			m_pSceneImpl->m_TransformManager.NotifyRecalculation();
-		}
+		return nullptr;
 	}
 
-	void Scene::SetSceneName(const char* pSceneName) noexcept
+	const Array<GameObject*>& Scene::GetGameObjects() const
 	{
-		m_pSceneImpl->m_SceneName = pSceneName;
+		return m_GameObjects;
 	}
 
-	GameObject* const Scene::GetGameObject(const char* pGameObjectName) const noexcept
+#pragma endregion
+
+#pragma region Scene_Functionality
+
+	void Scene::SetSceneName(const std::string& name)
 	{
-		const auto cIt{ std::find_if(m_pSceneImpl->m_GameObjects.cbegin(), m_pSceneImpl->m_GameObjects.cend(), [pGameObjectName](const GameObjectInformation& pG)->bool
-			{
-				return pG.pName == pGameObjectName;
-			}) };
-
-		if (cIt != m_pSceneImpl->m_GameObjects.cend())
-			return cIt->pGameObject;
-		else
-		{
-			Logger::LogWarning(std::string{ "Scene::GetGameObject() > GameObject with name: " } + pGameObjectName + " is not present! Returning nullptr!");
-			return nullptr;
-		}
+		m_SceneName = name;
 	}
 
-	const std::vector<GameObjectInformation>& Scene::GetGameObjects() const noexcept
+	std::string_view Scene::GetSceneName() const
 	{
-		return m_pSceneImpl->m_GameObjects;
+		return m_SceneName;
 	}
 
-	const char* Scene::GetSceneName() const noexcept
+	bool Scene::IsSceneActive() const
 	{
-		return m_pSceneImpl->m_SceneName.c_str();
+		return m_IsActive.load();
 	}
 
-	bool Scene::IsSceneActive() const noexcept
+	void Scene::SetIsSceneActive(const bool isActive)
 	{
-		return m_pSceneImpl->m_IsActive.load();
+		m_IsActive.store(isActive);
 	}
 
-	void Scene::SetIsSceneActive(const bool isActive) noexcept
-	{
-		m_pSceneImpl->m_IsActive.store(isActive);
-	}
+#pragma endregion
 }

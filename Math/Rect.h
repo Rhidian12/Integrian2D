@@ -2,119 +2,96 @@
 
 #include "../Integrian2D_API.h"
 #include "../Utils/Utils.h"
+#include "AreEqual.h"
 #include "Point2.h"
 #include "Vector2.h"
 
-#include <utility>
-
-namespace Integrian2D
+namespace Integrian2D::Math
 {
-	/* This class is a much simpler version of PRect, containing only information about its position, width and height */
-
-		/* A list of available operators:
-		   Assume Type is the templated Type provided to the Rect
-
-		   bool operator==(const Rect<Type>& r1, const Rect<Type>& r2)
-		   bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2)
-		   */
-
-		   /* A list of available functions:
-			  Assume Type is the templated Type provided to the Rect
-
-			  Type GetArea(const Rect<Type>& r)
-			  =>		Returns the Rect's area
-			*/
-
-	template<typename Type>
-	struct INTEGRIAN2D_API Rect
+	// xy represents bottom left
+	template<typename T>
+	struct Rect
 	{
-#pragma region Constructors
-		explicit Rect()
-			: x{}
-			, y{}
-			, width{}
-			, height{}
-		{}
-		explicit Rect(const Type _x, const Type _y, const Type _width, const Type _height)
-			: x{ _x }
-			, y{ _y }
-			, width{ _width }
-			, height{ _height }
-		{}
-		explicit Rect(const Point<2, Type>& _xy, const Type _width, const Type _height)
-			: x{ _xy.x }
-			, y{ _xy.y }
-			, width{ _width }
-			, height{ _height }
-		{}
-#pragma endregion
+	#pragma region Constructors
 
-#pragma region Rule of 5
-		Rect(const Rect& other) noexcept
-			: x{ other.x }
-			, y{ other.y }
-			, width{ other.width }
-			, height{ other.height }
-		{}
-		Rect(Rect&& other) noexcept
-			: x{ std::move(other.x) }
-			, y{ std::move(other.y) }
-			, width{ std::move(other.width) }
-			, height{ std::move(other.height) }
-		{}
-		Rect& operator=(const Rect& other) noexcept
-		{
-			x = other.x;
-			y = other.y;
-			width = other.width;
-			height = other.height;
+		Rect();
+		Rect(const T _x, const T _y, const T _width, const T _height);
+		Rect(const Point<2, T>& _xy, const T _width, const T _height);
 
-			return *this;
-		}
-		Rect& operator=(Rect&& other) noexcept
-		{
-			x = std::move(other.x);
-			y = std::move(other.y);
-			width = std::move(other.width);
-			height = std::move(other.height);
+	#pragma endregion
 
-			return *this;
-		}
-#pragma endregion
+	#pragma region Data
 
-#pragma region Data
+		START_DISABLE_WARNING(4201);
 		union
 		{
-#pragma warning ( push )
-#pragma warning ( disable : 4201 ) // Disable nameless struct warning
-			struct { Type x, y; };
-#pragma warning ( pop )
-			Point<2, Type> xy;
+			struct { T x, y; };
+			Point<2, T> xy;
 		};
+		END_DISABLE_WARNING(4201);
 
-		Type width, height;
-#pragma endregion
+		T width, height;
+
+	#pragma endregion
 	};
 
-#pragma region Relational Operators
-	template<typename Type>
-	bool operator==(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
+	template<typename T>
+	Rect<T>::Rect()
+		: x{}
+		, y{}
+		, width{}
+		, height{}
+	{}
+
+	template<typename T>
+	Rect<T>::Rect(const T _x, const T _y, const T _width, const T _height)
+		: x{ _x }
+		, y{ _y }
+		, width{ _width }
+		, height{ _height }
+	{}
+
+	template<typename T>
+	Rect<T>::Rect(const Point<2, T>& _xy, const T _width, const T _height)
+		: x{ _xy.x }
+		, y{ _xy.y }
+		, width{ _width }
+		, height{ _height }
+	{}
+
+	template<typename T>
+	bool operator==(const Rect<T>& r1, const Rect<T>& r2)
 	{
-		return (r1.xy == r2.xy) && Utils::AreEqual(r1.width, r2.width) && Utils::AreEqual(r1.height, r2.height);
+		return (r1.xy == r2.xy) && AreEqual(r1.width, r2.width) && AreEqual(r1.height, r2.height);
 	}
 
-	template<typename Type>
-	bool operator!=(const Rect<Type>& r1, const Rect<Type>& r2) noexcept
+	template<typename T>
+	bool operator!=(const Rect<T>& r1, const Rect<T>& r2)
 	{
 		return !(r1 == r2);
 	}
-#pragma endregion
 
-#pragma region Functions
-	template<typename Type>
-	Type GetArea(const Rect<Type>& r) noexcept
+	template<typename T>
+	T GetArea(const Rect<T>& r)
 	{
 		return r.width * r.height;
 	}
-#pragma endregion
+
+	template<typename T>
+	Point<2, T> GetTopLeft(const Rect<T>& r)
+	{
+		return Point<2, T>{ r.x, r.y + r.height };
+	}
+
+	template<typename T>
+	Point<2, T> GetTopRight(const Rect<T>& r)
+	{
+		return Point<2, T>{ r.x + r.width, r.y + r.height };
+	}
+
+	template<typename T>
+	Point<2, T> GetBottomRight(const Rect<T>& r)
+	{
+		return Point<2, T>{ r.x + r.width, r.y };
+	}
 }

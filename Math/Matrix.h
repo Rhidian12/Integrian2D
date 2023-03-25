@@ -1,283 +1,203 @@
 #pragma once
 
 #include "../Integrian2D_API.h"
-#include "../Utils/Utils.h"
+#include "AreEqual.h"
 #include "Point.h"
 #include "Vector.h"
-#include "../Logger/Logger.h"
 
-#include <utility>
-
-namespace Integrian2D
+namespace Integrian2D::Math
 {
 	/* A Matrix(for example a 3x3 Matrix) looks like this internally:
 	   [ A B C ]
 	   [ D E F ]
 	   [ G H I ] */
 
-	/* A list of available operators:
-	   Assume Type is the templated type given to the Matrix 
-
-	   Vector<Columns, Type> operator[](const int row)
-
-	   Type operator()(const int row, const int column)
-
-	   Matrix<Rows, Columns, Type> operator+(const Matrix&, const Matrix&)
-	   Matrix<Rows, Columns, Type> operator-(const Matrix&, const Matrix&)
-
-	   Matrix<Rows, Columns, Type> operator*(const Matrix&, const Matrix&)
-	   Matrix<Rows, Columns, Type> operator*(const Matrix&, const Type&)
-	   Matrix<Rows, Columns, Type> operator*(const Matrix&, const Point&)
-
-	   Matrix<Rows, Columns, Type> operator/(const Matrix&, const Matrix&)
-	   Matrix<Rows, Columns, Type> operator/(const Matrix&, const Type&)
-	   Matrix<Rows, Columns, Type> operator/(const Matrix&, const Point&)
-
-	   */
-
-	/* A list of available functions:
-	   int GetAmountOfRowsInMatrix(const Matrix<Rows, Columns, Type>& m)
-	   =>	returns the amount of rows in the provided matrix
-
-	   int GetAmountOfColumnsInMatrix(const Matrix<Rows, Columns, Type>&)
-	   =>	returns the amount of columns in the provided matrix
-
-	   static Matrix<Rows, Columns, Type> GetIdentityMatrix()
-	   =>	A static function to create an Identity Matrix. 
-	   =>	Example call: Matrix3f matrix{ GetIdentityMatrix<3, 3, float>() };
-
-	   Matrix<Rows, Columns, Type> GetMatrixCofactor(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length)
-	   =>	returns the cofactor of a matrix. This function is primarily called by GetAdjointMatrix() and GetDeterminantOfMatrix() internally
-
-	   Type GetDeterminantOfMatrix(const Matrix<Rows, Columns, Type>& m, const int length)
-	   =>	returns the determinant of a matrix. This function is primarily called by GetAdjointMatrix() internally
-	   =>	if you wish to call this function manually, provide the amount of Rows or Columns as the second parameter
-
-	   Matrix<Columns, Rows, Type> TransposeMatrix(const Matrix<Rows, Columns, Type>& m)
-	   =>	returns the transposed matrix of the provided matrix.
-
-	   Matrix<Columns, Rows, Type> GetAdjointMatrix(const Matrix<Columns, Rows, Type>& m)
-	   =>	returns the adjoint matrix of the provided matrix. This function is primarily called by GetInverseMatrix() internally
-
-	   Matrix<Rows, Columns, Type> GetInverseMatrix(const Matrix<Rows, Columns, Type>& m)
-	   =>	returns the inverse matrix of the provided matrix.
-	*/
-	template<int Rows, int Columns, typename Type>
-	struct INTEGRIAN2D_API Matrix
+	template<int R, int C, typename T>
+	struct Matrix
 	{
-#pragma region Constructors
-		Matrix<Rows, Columns, Type>()
-		{
-			for (int r{}; r < Rows; ++r)
-				for (int c{}; c < Columns; ++c)
-					data[r][c] = static_cast<Type>(0.f);
-		}
-#pragma endregion
+	#pragma region Constructors
 
-#pragma region Rule Of 5
-		Matrix<Rows, Columns, Type>(const Matrix<Rows, Columns, Type>& other) noexcept
-		{
-			for (int r{}; r < Rows; ++r)
-				for (int c{}; c < Columns; ++c)
-					data[r][c] = other.data[r][c];
-		}
-		Matrix<Rows, Columns, Type>(Matrix<Rows, Columns, Type>&& other) noexcept
-		{
-			for (int r{}; r < Rows; ++r)
-				for (int c{}; c < Columns; ++c)
-					data[r][c] = std::move(other.data[r][c]);
-		}
-		Matrix<Rows, Columns, Type>& operator=(const Matrix<Rows, Columns, Type>& other) noexcept
-		{
-			for (int r{}; r < Rows; ++r)
-				for (int c{}; c < Columns; ++c)
-					data[r][c] = other.data[r][c];
+		Matrix();
 
-			return *this;
-		}
-		Matrix<Rows, Columns, Type>& operator=(Matrix<Rows, Columns, Type>&& other) noexcept
+	#pragma endregion
+
+	#pragma region Data
+
+		T Data[R][C];
+
+	#pragma endregion
+
+	#pragma region Member Operators
+
+		Vector<C, T>& operator[](const int r)
 		{
-			for (int r{}; r < Rows; ++r)
-				for (int c{}; c < Columns; ++c)
-					data[r][c] = std::move(other.data[r][c]);
-
-			return *this;
-		}
-#pragma endregion
-
-#pragma region Data
-		Type data[Rows][Columns];
-#pragma endregion
-
-#pragma region Member Operators
-		const Vector<Columns, Type>& operator[](const int r) const noexcept
-		{
-			ASSERT(r < Rows, "Matrix::operator[] > Index is out of bounds!");
-			return *(reinterpret_cast<Vector<Columns, Type>*>(data[r]));
+			__ASSERT(r < R && "Matrix::operator[] > Index is out of bounds!");
+			return *(reinterpret_cast<Vector<C, T>*>(Data[r]));
 		}
 
-		Vector<Columns, Type>& operator[](const int r) noexcept
+		const Vector<C, T>& operator[](const int r) const
 		{
-			ASSERT(r < Rows, "Matrix::operator[] > Index is out of bounds!");
-			return *(reinterpret_cast<Vector<Columns, Type>*>(data[r]));
+			__ASSERT(r < R && "Matrix::operator[] > Index is out of bounds!");
+			return *(reinterpret_cast<Vector<C, T>*>(Data[r]));
 		}
 
-		const Type& operator()(const int r, const int c) const noexcept
+		T& operator()(const int r, const int c)
 		{
-			ASSERT((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
-			return data[r][c];
+			__ASSERT((r < R&& c < C) && "Matrix::operator() > Indices are out of bounds!");
+			return Data[r][c];
 		}
 
-		Type& operator()(const int r, const int c) noexcept
+		const T& operator()(const int r, const int c) const
 		{
-			ASSERT((r < Rows&& c < Columns), "Matrix::operator() > Indices are out of bounds!");
-			return data[r][c];
+			__ASSERT((r < R&& c < C) && "Matrix::operator() > Indices are out of bounds!");
+			return Data[r][c];
 		}
-#pragma endregion
+
+	#pragma endregion
 	};
 
-#pragma region Arithmetic Operators
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> operator+(const Matrix<Rows, Columns, Type>& lhs, const Matrix<Rows, Columns, Type>& rhs) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T>::Matrix()
 	{
-		Matrix<Rows, Columns, Type> matrix{};
+		for (int r{}; r < R; ++r)
+			for (int c{}; c < C; ++c)
+				Data[r][c] = static_cast<T>(0.f);
+	}
 
-		for (int r{}; r < Rows; ++r)
-			for (int c{}; c < Columns; ++c)
-				matrix.data[r][c] = lhs.data[r][c] + rhs.data[r][c];
+	template<int R, int C, typename T>
+	Matrix<R, C, T> operator+(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs)
+	{
+		Matrix<R, C, T> matrix{};
+
+		for (int r{}; r < R; ++r)
+			for (int c{}; c < C; ++c)
+				matrix.Data[r][c] = lhs.Data[r][c] + rhs.Data[r][c];
 
 		return matrix;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> operator-(const Matrix<Rows, Columns, Type>& lhs, const Matrix<Rows, Columns, Type>& rhs) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> operator-(const Matrix<R, C, T>& lhs, const Matrix<R, C, T>& rhs)
 	{
-		Matrix<Rows, Columns, Type> matrix{};
+		Matrix<R, C, T> matrix{};
 
-		for (int r{}; r < Rows; ++r)
-			for (int c{}; c < Columns; ++c)
-				matrix.data[r][c] = lhs.data[r][c] - rhs.data[r][c];
+		for (int r{}; r < R; ++r)
+			for (int c{}; c < C; ++c)
+				matrix.Data[r][c] = lhs.Data[r][c] - rhs.Data[r][c];
 
 		return matrix;
 	}
 
-	template<int RowsM1, int ColumnsM1, int RowsM2, int ColumnsM2, typename Type>
-	Matrix<RowsM1, ColumnsM1, Type> operator*(const Matrix<RowsM1, ColumnsM1, Type>& lhs, const Matrix<RowsM2, ColumnsM2, Type>& rhs) noexcept
+	template<int R1, int C1, int R2, int C2, typename T>
+	Matrix<R1, C1, T> operator*(const Matrix<R1, C1, T>& lhs, const Matrix<R2, C2, T>& rhs)
 	{
-		static_assert(ColumnsM1 == RowsM2, "Matrix::operator*() > Matrix<Rows1, Columns1> * Matrix<Rows2, Columns2>. Columns1 and Rows2 must be equal!");
+		static_assert(C1 == R2, "Matrix::operator*() > Matrix<R1, C1> * Matrix<R2, C2>. C1 and R2 must be equal!");
 
-		Matrix<RowsM1, ColumnsM2, Type> matrix{};
+		Matrix<R1, C2, T> matrix{};
 
-		constexpr int maxMatrixLength{ ColumnsM1 };
+		constexpr int maxMatrixLength{ C1 };
 
-		for (int row{}; row < RowsM1; ++row)
-			for (int col{}; col < ColumnsM2; ++col)
+		for (int row{}; row < R1; ++row)
+			for (int col{}; col < C2; ++col)
 				for (int i{}; i < maxMatrixLength; ++i)
-					matrix.data[row][col] += lhs.data[row][i] * rhs.data[i][col];
+					matrix.Data[row][col] += lhs.Data[row][i] * rhs.Data[i][col];
 
 		return matrix;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> operator*(const Matrix<Rows, Columns, Type>& lhs, const Type& rhs) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> operator*(const Matrix<R, C, T>& lhs, const T& rhs)
 	{
-		Matrix<Rows, Columns, Type> matrix{};
+		Matrix<R, C, T> matrix{};
 
-		for (int row{}; row < Rows; ++row)
-			for (int col{}; col < Columns; ++col)
-				matrix.data[row][col] += lhs.data[row][col] * rhs;
+		for (int row{}; row < R; ++row)
+			for (int col{}; col < C; ++col)
+				matrix.Data[row][col] += lhs.Data[row][col] * rhs;
 
 		return matrix;
 	}
 
-	template<int Rows, int Columns, int P, typename Type>
-	Point<P, Type> operator*(const Matrix<Rows, Columns, Type>& lhs, const Point<P, Type>& rhs) noexcept
+	template<int R, int C, typename T>
+	Vector<C, T> operator*(const Matrix<R, C, T>& lhs, const Vector<C, T>& rhs)
 	{
-		static_assert(Columns == P, "Matrix::operator*() > Amount of Columns and Point must be equal");
+		Vector<C, T> vector{};
 
-		Point<P, Type> point{};
+		for (int row{}; row < R; ++row)
+			for (int col{}; col < C; ++col)
+				vector[row] += lhs.Data[row][col] * rhs.Data[row];
 
-		for (int row{}; row < Rows; ++row)
-			for (int col{}; col < Columns; ++col)
-				point[row] += lhs.data[row][col] * rhs[row];
-
-		return point;
+		return vector;
 	}
 
-	template<int RowsM1, int ColumnsM1, int RowsM2, int ColumnsM2, typename Type>
-	Matrix<RowsM1, ColumnsM1, Type> operator/(const Matrix<RowsM1, ColumnsM1, Type>& lhs, const Matrix<RowsM2, ColumnsM2, Type>& rhs) noexcept
+	template<int R1, int C1, int R2, int C2, typename T>
+	Matrix<R1, C1, T> operator/(const Matrix<R1, C1, T>& lhs, const Matrix<R2, C2, T>& rhs)
 	{
-		static_assert(RowsM2 == ColumnsM2, "Matrix::operator/() > The divider must be square!");
-		static_assert(ColumnsM1 == RowsM2, "Matrix::operator/() > Matrix<Rows1, Columns1> * Matrix<Rows2, Columns2>. Columns1 and Rows2 must be equal!");
+		static_assert(R2 == C2, "Matrix::operator/() > The divider must be square!");
+		static_assert(C1 == R2, "Matrix::operator/() > Matrix<R1, C1> * Matrix<R2, C2>. C1 and R2 must be equal!");
 
 		// this is pain
 		// it has cost me blood, sweat and tears to make this
 		// if you think it is wrong, congratulations
-		// it is right, cunt
 
 		return lhs * GetInverseMatrix(rhs);
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> operator/(const Matrix<Rows, Columns, Type>& lhs, const Type& rhs) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> operator/(const Matrix<R, C, T>& lhs, const T& rhs)
 	{
-		Matrix<Rows, Columns, Type> matrix{};
+		Matrix<R, C, T> matrix{};
 
-		for (int row{}; row < Rows; ++row)
-			for (int col{}; col < Columns; ++col)
-				matrix.data[row][col] += lhs.data[row][col] / rhs;
+		for (int row{}; row < R; ++row)
+			for (int col{}; col < C; ++col)
+				matrix.Data[row][col] += lhs.Data[row][col] / rhs;
 
 		return matrix;
 	}
 
-	template<int Rows, int Columns, int P, typename Type>
-	Matrix<Rows, Columns, Type> operator/(const Matrix<Rows, Columns, Type>& lhs, const Point<P, Type>& rhs) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> operator/(const Matrix<R, C, T>& lhs, const Vector<C, T>& rhs)
 	{
-		static_assert(Columns == P, "Matrix::operator/() > Amount of Columns and Point must be equal");
+		Matrix<C, 1, T> vecMatrix{};
 
-		Point<P, Type> point{};
+		for (int i{}; i < C; ++i)
+			vecMatrix.Data[i][0] = rhs.Data[i];
 
-		for (int row{}; row < Rows; ++row)
-			for (int col{}; col < Columns; ++col)
-				point[row] += lhs.data[row][col] * rhs[row];
-
-		return point;
+		return lhs * GetInverseMatrix(vecMatrix);
 	}
-#pragma endregion
 
 	// == Useful Non-Member Functions ==
-	template<int Rows, int Columns, typename Type>
-	constexpr int GetAmountOfRowsInMatrix(const Matrix<Rows, Columns, Type>&) noexcept
+	template<int R, int C, typename T>
+	constexpr int GetAmountOfRowsInMatrix(const Matrix<R, C, T>&)
 	{
-		return Rows;
+		return R;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	constexpr int GetAmountOfColumnsInMatrix(const Matrix<Rows, Columns, Type>&) noexcept
+	template<int R, int C, typename T>
+	constexpr int GetAmountOfColumnsInMatrix(const Matrix<R, C, T>&)
 	{
-		return Columns;
+		return C;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> GetIdentityMatrix() noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> GetIdentityMatrix()
 	{
-		static_assert(Rows == Columns, "Identity Matrices must be square!");
+		static_assert(R == C, "Identity Matrices must be square!");
 
-		Matrix<Rows, Columns, Type> matrix{};
+		Matrix<R, C, T> matrix{};
 
-		for (int i{}; i < Rows; ++i)
-			matrix.data[i][i] = static_cast<Type>(1.f);
+		for (int i{}; i < R; ++i)
+			matrix.Data[i][i] = static_cast<T>(1.f);
 
 		return matrix;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> GetMatrixCofactor(const Matrix<Rows, Columns, Type>& m, const int rowToIgnore, const int colToIgnore, const int length) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> GetMatrixCofactor(const Matrix<R, C, T>& m, const int rowToIgnore, const int colToIgnore, const int length)
 	{
-		static_assert(Rows == Columns, "GetMatrixCofactor() > Matrix must be square!");
+		static_assert(R == C, "GetMatrixCofactor() > Matrix must be square!");
 
 		int rowCounter{}, columnCounter{};
-		Matrix<Rows, Columns, Type> matrix{};
+		Matrix<R, C, T> matrix{};
 
 		for (int r{}; r < length; ++r)
 		{
@@ -285,7 +205,7 @@ namespace Integrian2D
 			{
 				if (r != rowToIgnore && c != colToIgnore)
 				{
-					matrix.data[rowCounter][columnCounter++] = m.data[r][c];
+					matrix.Data[rowCounter][columnCounter++] = m.Data[r][c];
 
 					if (columnCounter == length - 1)
 					{
@@ -299,24 +219,28 @@ namespace Integrian2D
 		return matrix;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Type GetDeterminantOfMatrix(const Matrix<Rows, Columns, Type>& m, const int length) noexcept
+	template<int R, int C, typename T>
+	T GetDeterminantOfMatrix(const Matrix<R, C, T>& m, const int length)
 	{
-		static_assert(Rows == Columns, "GetDeterminant() > Matrix must be square!");
+		static_assert(R == C, "GetDeterminant() > Matrix must be square!");
 
 		if (length == 1)
-			return m.data[0][0];
+		{
+			return m.Data[0][0];
+		}
 		else if (length == 2)
-			return (m.data[0][0] * m.data[1][1]) - (m.data[0][1] * m.data[1][0]); // ad - bc
+		{
+			return (m.Data[0][0] * m.Data[1][1]) - (m.Data[0][1] * m.Data[1][0]); // ad - bc
+		}
 		else
 		{
-			Type determinant{};
+			T determinant{};
 			int sign{ 1 };
 
 			for (int i{}; i < length; ++i)
 			{
-				Matrix<Rows, Columns, Type> matrix{ GetMatrixCofactor<Rows, Columns, Type>(m, 0, i, length) };
-				determinant += sign * m.data[0][i] * GetDeterminantOfMatrix<Rows, Columns, Type>(matrix, length - 1);
+				Matrix<R, C, T> matrix{ GetMatrixCofactor<R, C, T>(m, 0, i, length) };
+				determinant += sign * m.Data[0][i] * GetDeterminantOfMatrix<R, C, T>(matrix, length - 1);
 				sign = -sign;
 			}
 
@@ -324,40 +248,42 @@ namespace Integrian2D
 		}
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Columns, Rows, Type> TransposeMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
+	template<int R, int C, typename T>
+	Matrix<C, R, T> TransposeMatrix(const Matrix<R, C, T>& m)
 	{
-		Matrix<Columns, Rows, Type> matrix{};
+		Matrix<C, R, T> matrix{};
 
-		for (int r{}; r < Rows; ++r)
-			for (int c{}; c < Columns; ++c)
-				matrix.data[c][r] = m.data[r][c];
+		for (int r{}; r < R; ++r)
+			for (int c{}; c < C; ++c)
+				matrix.Data[c][r] = m.Data[r][c];
 
 		return matrix;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Columns, Rows, Type> GetAdjointMatrix(const Matrix<Columns, Rows, Type>& m) noexcept
+	template<int R, int C, typename T>
+	Matrix<C, R, T> GetAdjointMatrix(const Matrix<C, R, T>& m)
 	{
-		static_assert(Rows == Columns, "Matrix::GetAdjointMatrix() > Matrix must be square!");
+		static_assert(R == C, "Matrix::GetAdjointMatrix() > Matrix must be square!");
 
-		Matrix<Columns, Rows, Type> matrix{};
+		Matrix<C, R, T> matrix{};
 
-		if constexpr (Rows == 1)
+		if constexpr (R == 1)
+		{
 			matrix[0][0] = 1;
+		}
 		else
 		{
 			int sign{ 1 };
 
-			for (int r{}; r < Rows; ++r)
+			for (int r{}; r < R; ++r)
 			{
-				for (int c{}; c < Columns; ++c)
+				for (int c{}; c < C; ++c)
 				{
-					Matrix<Columns, Rows, Type> cofactorMatrix{ GetMatrixCofactor(m, r, c, Rows) };
+					Matrix<C, R, T> cofactorMatrix{ GetMatrixCofactor(m, r, c, R) };
 
 					sign = ((r + c) % 2 == 0) ? 1 : -1;
-					
-					matrix.data[c][r] = sign * GetDeterminantOfMatrix(cofactorMatrix, Rows - 1);
+
+					matrix.Data[c][r] = sign * GetDeterminantOfMatrix(cofactorMatrix, R - 1);
 				}
 			}
 		}
@@ -365,26 +291,26 @@ namespace Integrian2D
 		return matrix;
 	}
 
-	template<int Rows, int Columns, typename Type>
-	Matrix<Rows, Columns, Type> GetInverseMatrix(const Matrix<Rows, Columns, Type>& m) noexcept
+	template<int R, int C, typename T>
+	Matrix<R, C, T> GetInverseMatrix(const Matrix<R, C, T>& m)
 	{
-		static_assert(Rows == Columns, "Matrix::GetInverseMatrix() > Matrix must be square!");
+		static_assert(R == C, "Matrix::GetInverseMatrix() > Matrix must be square!");
 
-		const Type determinant{ GetDeterminantOfMatrix(m, Rows) };
+		const T determinant{ GetDeterminantOfMatrix(m, R) };
 
-		if (Utils::AreEqual(determinant, static_cast<Type>(0.f)))
+		// if determinant is 0, return identity matrix
+		if (AreEqual(determinant, static_cast<T>(0.f)))
 		{
-			Logger::LogError("Matrix::GetInverseMatrix() > Determinant is zero, no inverse matrix exists! Returning Identity Matrix!");
-			return GetIdentityMatrix<Rows, Columns, Type>();
+			return GetIdentityMatrix<R, C, T>();
 		}
 
-		Matrix<Rows, Columns, Type> adjointMatrix{ GetAdjointMatrix(m) };
+		Matrix<R, C, T> adjointMatrix{ GetAdjointMatrix(m) };
 
-		Matrix<Rows, Columns, Type> inverseMatrix{};
+		Matrix<R, C, T> inverseMatrix{};
 
-		for (int r{}; r < Rows; ++r)
-			for (int c{}; c < Columns; ++c)
-				inverseMatrix.data[r][c] = adjointMatrix.data[r][c] / determinant;
+		for (int r{}; r < R; ++r)
+			for (int c{}; c < C; ++c)
+				inverseMatrix.Data[r][c] = adjointMatrix.Data[r][c] / determinant;
 
 		return inverseMatrix;
 	}

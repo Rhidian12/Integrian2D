@@ -19,7 +19,7 @@
 #include <SDL_video.h>
 #include <GL\GLU.h>
 
-extern inline bool volatile g_IsLooping;
+// extern inline bool volatile g_IsLooping;
 
 namespace Integrian2D
 {
@@ -32,32 +32,30 @@ namespace Integrian2D
 		InitializeLibraries(windowWidth, windowHeight, windowTitle);
 	}
 
-	Core* const Core::GetInstance() noexcept
+	Core& Core::GetInstance()
 	{
-		return m_pInstance;
+		__ASSERT(m_pInstance);
+
+		return *m_pInstance;
 	}
 
-	Core* const Core::CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept
+	Core& Core::CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle)
 	{
-		ASSERT(!m_pInstance, "Core::CreateEngine() > The Engine has already been created! Do not call this function twice!");
-		return m_pInstance = new Core{ windowWidth, windowHeight, windowTitle };
+		__ASSERT(!m_pInstance && "Core::CreateEngine() > The Engine has already been created! Do not call this function twice!");
+		return *(m_pInstance = new Core{ windowWidth, windowHeight, windowTitle });
 	}
 
-	void Core::Cleanup() noexcept
+	void Core::Cleanup()
 	{
 		Utils::SafeDelete(m_pInstance);
 	}
 
 	Core::~Core()
 	{
-		SceneManager::GetInstance()->DeactivateAllScenes();
-
 		ThreadManager::Cleanup();
-		SceneManager::Cleanup();
 		Renderer::Cleanup();
 		TextureManager::Cleanup();
 		EventQueue::Cleanup();
-		Timer::Cleanup();
 		InputManager::Cleanup();
 		AudioLocator::Cleanup();
 
@@ -66,46 +64,54 @@ namespace Integrian2D
 
 	void Core::Run()
 	{
-		SceneManager* pSceneManager{ SceneManager::GetInstance() };
+		using namespace Time;
+
+		SceneManager& sceneManager{ SceneManager::GetInstance() };
 		Renderer* pRenderer{ Renderer::GetInstance() };
-		Timer* pTimer{ Timer::GetInstance() };
+		Timer& timer{ Timer::GetInstance() };
 		AudioLocator* pAudioLocator{ AudioLocator::GetInstance() };
 		EventQueue* const pEventQueue{ EventQueue::GetInstance() };
 
-		for (const std::pair<const std::string, Scene*>& scenePair : pSceneManager->GetScenes())
-		{
-			scenePair.second->Start();
-			scenePair.second->RootStart();
-		}
+		for (Scene* pScene : sceneManager.GetScenes())
+			pScene->Awake();
 
-		ASSERT(pSceneManager->GetActiveScene() != nullptr, "Core::Run() > No Active Scene has been added!");
+		for (Scene* pScene : sceneManager.GetScenes())
+			pScene->Start();
+
+		__ASSERT(sceneManager.GetActiveScene() != nullptr && "Core::Run() > No Scene has been added!");
 
 		m_IsEngineRunning = true;
 
+		double lag{};
+		const double timePerFrame{ timer.GetFixedElapsedTime<TimeLength::MilliSeconds>() };
+
 		while (g_IsLooping)
 		{
-			pTimer->Update();
+			lag += timer.GetElapsedTime<TimeLength::MilliSeconds>();
+
+			timer.Update();
 
 			pRenderer->SetNewFrame();
 
-			Scene* const pActiveScene{ pSceneManager->GetActiveScene() };
+			Scene* const pActiveScene{ sceneManager.GetActiveScene() };
 
 			InputManager::GetInstance()->HandleInput();
 
-			pActiveScene->RootUpdate();
 			pActiveScene->Update();
 
-			pActiveScene->RootFixedUpdate();
-			pActiveScene->FixedUpdate();
+			while (lag >= timePerFrame)
+			{
+				pActiveScene->FixedUpdate();
 
-			pActiveScene->RootLateUpdate();
+				lag -= timePerFrame;
+			}
+
 			pActiveScene->LateUpdate();
 
 			pEventQueue->Update();
 
 			pAudioLocator->GetAudio()->Update();
 
-			pActiveScene->RootRender();
 			pActiveScene->Render();
 
 			pRenderer->Render();
@@ -114,30 +120,30 @@ namespace Integrian2D
 		m_IsEngineRunning = false;
 	}
 
-	bool Core::IsEngineRunning() const noexcept
+	bool Core::IsEngineRunning() const
 	{
 		return m_IsEngineRunning;
 	}
 
-	int Core::GetWindowWidth() const noexcept
+	int Core::GetWindowWidth() const
 	{
 		return m_WindowWidth;
 	}
 
-	int Core::GetWindowHeight() const noexcept
+	int Core::GetWindowHeight() const
 	{
 		return m_WindowHeight;
 	}
 
-	void Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept
+	void Core::InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle)
 	{
-#pragma region SDL Stuff
+	#pragma region SDL Stuff
 		//Create window + surfaces
-		ASSERT(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0, "Core::InitializeLibraries() > SDL initialisation failed : "_s + SDL_GetError());
+		__ASSERT(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0);
 
 		m_pWindow = new Window{ windowWidth, windowHeight, windowTitle };
 
-		ASSERT(SDL_GL_SetSwapInterval(1) == 0, "Core::InitializeLibraries() > Setting the screen refresh rate failed: "_s + SDL_GetError());
+		__ASSERT(SDL_GL_SetSwapInterval(1) == 0);
 
 		// Set the Projection matrix to the identity matrix
 		glMatrixMode(GL_PROJECTION);
@@ -161,27 +167,26 @@ namespace Integrian2D
 		//Initialize PNG loading
 		const int pngFlags{ IMG_INIT_PNG };
 		const int jpgFlags{ IMG_INIT_JPG };
-		ASSERT((IMG_Init(pngFlags) & pngFlags) || !(IMG_Init(jpgFlags) & jpgFlags), "Core::InitializeLibraries() > SDL_image could not initialize! "_s + SDL_GetError());
+		__ASSERT((IMG_Init(pngFlags) & pngFlags) || !(IMG_Init(jpgFlags) & jpgFlags));
 
-		ASSERT(TTF_Init() == 0, "Core::InitializeLibraries() > SDL_ttf could not initialize!"_s + SDL_GetError());
-#pragma endregion
+		__ASSERT(TTF_Init() == 0);
+	#pragma endregion
 
-#pragma region SDL_Mixer
+	#pragma region SDL_Mixer
 		// this final parameter is the chunk size of the audio, this might have to be made larger if too much hooks are getting used
-		// TODO: Load in all filesizes of music in our folder, and take the average of that
-		ASSERT(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 8, 2048) == 0, "Core::InitializeLibraries() > SDL_Mixer could not be opened! "_s + Mix_GetError());
+		__ASSERT(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 8, 2048) == 0);
 
 		// == Initialize SDL_Mixer == 
 		const int mixerFlags{ MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG };
-		ASSERT((Mix_Init(mixerFlags) & mixerFlags) == mixerFlags, "Core::InitializeLibraries() > SDL_Mixer failed to initialize!"_s + Mix_GetError());
-#pragma endregion
+		__ASSERT((Mix_Init(mixerFlags) & mixerFlags) == mixerFlags);
+	#pragma endregion
 
-#pragma region SDL_Controllers
-		ASSERT(SDL_JoystickEventState(SDL_ENABLE) == 1, "Core::InitializeLibraries() > The SDL_Joystick failed to initialize!"_s + SDL_GetError());
-#pragma endregion
+	#pragma region SDL_Controllers
+		__ASSERT(SDL_JoystickEventState(SDL_ENABLE) == 1);
+	#pragma endregion
 	}
 
-	void Core::ShutdownLibraries() noexcept
+	void Core::ShutdownLibraries()
 	{
 		Mix_CloseAudio();
 		Mix_Quit();
@@ -189,7 +194,7 @@ namespace Integrian2D
 		TTF_Quit();
 		IMG_Quit();
 
-		Utils::SafeDelete(m_pWindow);
+		__DELETE(m_pWindow);
 		SDL_Quit();
 	}
 }

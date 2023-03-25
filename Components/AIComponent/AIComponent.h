@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Integrian2D_API.h"
-#include "../Component/Component.h"
+#include "../../Component/Component.h"
 #include "../../AI/BehaviourState.h"
 
 namespace Integrian2D
@@ -15,12 +15,10 @@ namespace Integrian2D
 		INTEGRIAN2D_API AIComponent(GameObject* const pOwner, Blackboard* const pBlackboard, BaseDecisionMaking* const pAI);
 		INTEGRIAN2D_API ~AIComponent();
 
-		AIComponent(const AIComponent& other) noexcept;
-		AIComponent(AIComponent&& other) noexcept;
-		AIComponent& operator=(const AIComponent& other) noexcept;
-		AIComponent& operator=(AIComponent&& other) noexcept;
-
-		INTEGRIAN2D_API virtual Component* Clone(GameObject* pOwner) noexcept override;
+		AIComponent(const AIComponent&) noexcept = delete;
+		AIComponent(AIComponent&&) noexcept = delete;
+		AIComponent& operator=(const AIComponent&) noexcept = delete;
+		AIComponent& operator=(AIComponent&&) noexcept = delete;
 
 		INTEGRIAN2D_API virtual void Update() override;
 
