@@ -9,6 +9,11 @@ namespace Integrian2D
 		, m_pTextComponent{ pTextComponent }
 	{}
 
+	Component* FPSComponent::Clone(GameObject* pOwner) noexcept
+	{
+		return new FPSComponent{ pOwner, m_pTextComponent };
+	}
+
 	void FPSComponent::Update()
 	{
 		m_pTextComponent->SetTextToRender("FPS: " + std::to_string(Timer::GetInstance()->GetFPS()));

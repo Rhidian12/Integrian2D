@@ -63,7 +63,7 @@ public:
 		, m_pGameObject2{ new Integrian2D::GameObject{} }
 	{}
 
-	virtual void Initialize() override
+	virtual void Start() override
 	{
 		using namespace Integrian2D;
 

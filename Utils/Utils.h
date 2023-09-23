@@ -11,6 +11,11 @@ namespace Integrian2D
 {
 	namespace Utils
 	{
+		/* I suggest using the ASSERT macro, since it gets optimised away in Release */
+		INTEGRIAN2D_API void Assert(const bool expression, const std::string& message);
+
+#define ASSERT(expression, message) Utils::Assert(expression, message);
+
 		inline volatile constexpr double PI{ 3.14159265358979323846264338327950288 };
 
 		// == Templated Functions ==
@@ -59,6 +64,13 @@ namespace Integrian2D
 
 			if (value > max)
 				value = max;
+		}
+
+		/* This function checks if 2 fundamental types are equal */
+		template<typename FundamentalType, typename = std::enable_if_t<std::is_fundamental_v<FundamentalType>>>
+		constexpr bool AreEqual(const FundamentalType a, const FundamentalType b)
+		{
+			return abs(a - b) <= std::numeric_limits<FundamentalType>::epsilon();
 		}
 
 		/* This function converts a floating point value from degrees to radians */

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Integrian2D_API.h"
-#include "../../Component/Component.h"
+#include "../Component/Component.h"
 #include "ParticleEmitterSettings.h"
 #include "Particle.h"
 #include "../../GameObject/GameObject.h"
@@ -24,10 +24,12 @@ namespace Integrian2D
 		ParticleEmitterComponent(GameObject* const pOwner, Texture* const pTexture, const ParticleEmitterSettings<Shape>& settings);
 		virtual ~ParticleEmitterComponent();
 
-		ParticleEmitterComponent(const ParticleEmitterComponent&) noexcept = delete;
-		ParticleEmitterComponent(ParticleEmitterComponent&&) noexcept = delete;
-		ParticleEmitterComponent& operator=(const ParticleEmitterComponent&) noexcept = delete;
-		ParticleEmitterComponent& operator=(ParticleEmitterComponent&&) noexcept = delete;
+		ParticleEmitterComponent(const ParticleEmitterComponent& other) noexcept;
+		ParticleEmitterComponent(ParticleEmitterComponent&& other) noexcept;
+		ParticleEmitterComponent& operator=(const ParticleEmitterComponent& other) noexcept;
+		ParticleEmitterComponent& operator=(ParticleEmitterComponent&& other) noexcept;
+
+		virtual Component* Clone(GameObject* pOwner) noexcept override;
 
 		virtual void Update() override;
 		virtual void Render() const override;
@@ -74,6 +76,73 @@ namespace Integrian2D
 	{
 		for (Particle*& pParticle : m_Particles)
 			Utils::SafeDelete(pParticle);
+	}
+
+#pragma region Rule Of 5
+	template<EmitterShape Shape>
+	ParticleEmitterComponent<Shape>::ParticleEmitterComponent(const ParticleEmitterComponent<Shape>& other) noexcept
+		: Component{ m_pOwner }
+		, m_ParticleEmitterSettings{ other.m_ParticleEmitterSettings }
+		, m_Particles{}
+		, m_pTexture{ other.m_pTexture }
+		, m_ParticleSpawnerTimer{ other.m_ParticleSpawnerTimer }
+	{
+		m_Particles.reserve(m_ParticleEmitterSettings.maximumNumberOfParticles);
+
+		for (int i{}; i < m_ParticleEmitterSettings.maximumNumberOfParticles; ++i)
+		{
+			m_Particles.push_back(new Particle{ *other.m_Particles[i] });
+			m_Particles.back()->Initialize(m_pOwner->pTransform->GetWorldPosition(), m_pTexture, m_ParticleEmitterSettings);
+		}
+	}
+
+	template<EmitterShape Shape>
+	ParticleEmitterComponent<Shape>::ParticleEmitterComponent(ParticleEmitterComponent<Shape>&& other) noexcept
+		: Component{ std::move(m_pOwner) }
+		, m_ParticleEmitterSettings{ std::move(other.m_ParticleEmitterSettings) }
+		, m_Particles{ std::move(other.m_Particles) }
+		, m_pTexture{ std::move(other.m_pTexture) }
+		, m_ParticleSpawnerTimer{ std::move(other.m_ParticleSpawnerTimer) }
+	{
+		other.m_Particles.clear();
+	}
+
+	template<EmitterShape Shape>
+	ParticleEmitterComponent<Shape>& ParticleEmitterComponent<Shape>::operator=(const ParticleEmitterComponent<Shape>& other) noexcept
+	{
+		m_pOwner = other.m_pOwner;
+		m_ParticleEmitterSettings = other.m_ParticleEmitterSettings;
+		m_pTexture = other.m_pTexture;
+		m_ParticleSpawnerTimer = other.m_ParticleSpawnerTimer;
+
+		m_Particles.reserve(m_ParticleEmitterSettings.maximumNumberOfParticles);
+
+		for (int i{}; i < m_ParticleEmitterSettings.maximumNumberOfParticles; ++i)
+		{
+			m_Particles.push_back(new Particle{ *other.m_Particles[i] });
+			m_Particles.back()->Initialize(m_pOwner->pTransform->GetWorldPosition(), m_pTexture, m_ParticleEmitterSettings);
+		}
+
+		return *this;
+	}
+
+	template<EmitterShape Shape>
+	ParticleEmitterComponent<Shape>& ParticleEmitterComponent<Shape>::operator=(ParticleEmitterComponent&& other) noexcept
+	{
+		m_pOwner = std::move(other.m_pOwner);
+		m_ParticleEmitterSettings = std::move(other.m_ParticleEmitterSettings);
+		m_pTexture = std::move(other.m_pTexture);
+		m_Particles = std::move(other.m_Particles);
+		m_ParticleSpawnerTimer = std::move(other.m_ParticleSpawnerTimer);
+
+		return *this;
+	}
+#pragma endregion
+
+	template<EmitterShape Shape>
+	Component* ParticleEmitterComponent<Shape>::Clone(GameObject* pOwner) noexcept
+	{
+		return new ParticleEmitterComponent<Shape>{ pOwner, m_pTexture, m_ParticleEmitterSettings };
 	}
 
 	template<EmitterShape Shape>

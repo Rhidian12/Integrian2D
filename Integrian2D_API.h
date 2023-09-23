@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Integrian2D_Config.h"
-#include "Constants.h"
 
 inline bool volatile g_IsLooping{ true }; // Maybe move this somewhere else
 

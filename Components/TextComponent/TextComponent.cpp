@@ -49,6 +49,11 @@ namespace Integrian2D
 		}
 	}
 
+	Component* TextComponent::Clone(GameObject* pParent) noexcept
+	{
+		return new TextComponent{ pParent, m_TextToRender, m_TextSize, m_pFont, m_TextColour };
+	}
+
 	void TextComponent::Render() const
 	{
 		Printer::RenderString(m_pFont, m_pOwner->pTransform->GetWorldPosition(), m_pOwner->pTransform->GetWorldAngle(), m_pOwner->pTransform->GetWorldScale(), m_TextToRender);

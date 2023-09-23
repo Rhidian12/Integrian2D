@@ -28,6 +28,22 @@ namespace Integrian2D
 		m_TransformationMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 	}
 
+	Component* TransformComponent::Clone(GameObject* pOwner) noexcept
+	{
+		TransformComponent* pTransform{ new TransformComponent{pOwner} };
+
+		pTransform->m_LocalScale = m_LocalScale;
+		pTransform->m_LocalAngle = m_LocalAngle;
+		pTransform->m_TransformChanged = m_TransformChanged;
+		pTransform->m_HasWorldDataChanged = m_HasWorldDataChanged;
+		pTransform->m_TransformationMatrix = m_TransformationMatrix;
+		pTransform->m_WorldPosition = m_WorldPosition;
+		pTransform->m_WorldAngle = m_WorldAngle;
+		pTransform->m_WorldScale = m_WorldScale;
+
+		return pTransform;
+	}
+
 	void TransformComponent::FixedUpdate()
 	{
 		RecalculateTransformationMatrix();

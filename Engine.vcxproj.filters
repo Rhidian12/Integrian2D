@@ -30,7 +30,7 @@
     <ClCompile Include="GameObject\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Component\Component.cpp">
+    <ClCompile Include="Components\Component\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
@@ -144,18 +144,6 @@
     <ClCompile Include="Components\ParticleEmitterComponent\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\RGBColour.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer\Timepoint\Timepoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h">
@@ -170,7 +158,7 @@
     <ClInclude Include="GameObject\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component\Component.h">
+    <ClInclude Include="Components\Component\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="catch.hpp">
@@ -210,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\TypeDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Parsing\BinaryWriter\BinaryWriter.h">
@@ -257,6 +248,12 @@
     <ClInclude Include="Math\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\PRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Polygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Parsing\Writer\Writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -272,7 +269,16 @@
     <ClInclude Include="NavGraphPolygon\NavGraphPolygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math\PTriangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\PLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="NavGraphPolygon\delaunator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Triangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventQueue\EventQueue.h">
@@ -294,6 +300,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Iterator\Iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\BetterUint8.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math\Circle.h">
@@ -357,42 +366,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Integrian2D_Config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Array\TArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Macros\Macros.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Types\Types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\GameObjectUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TemplateUtils\TemplateUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\AreEqual.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer\Timepoint\Timepoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer\TimeLength.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AI\Blackboard\BlackboardData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

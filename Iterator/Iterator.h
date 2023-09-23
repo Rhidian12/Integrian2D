@@ -1,305 +1,152 @@
 #pragma once
 
-#include <iterator> /* std::iterator, ... */
+#include <iterator>
 
 namespace Integrian2D
 {
-	enum class IteratorTag : uint8_t
-	{
-		ForwardIt = 0,
-		BidirectionalIt = 1,
-		RandomAccessIt = 2
-	};
-
-	template<typename T, IteratorTag Tag, typename Diff = uint64_t>
+#pragma region Iterator
+	template<typename IteratorValue,
+		typename IteratorType = std::bidirectional_iterator_tag,
+		typename DifferenceType = std::ptrdiff_t,
+		typename = std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, IteratorType>>,
+		typename = std::enable_if_t<std::is_integral_v<DifferenceType>>>
 	class Iterator final
 	{
-		using Pointer = T*;
-		using Reference = T&;
+		using IteratorPointerType = IteratorValue*;
+		using IteratorReferenceType = IteratorValue&;
 
 	public:
-		Iterator(Pointer _pPointer)
-			: pPointer{ _pPointer }
-		{}
-
-	#pragma region Access Data
-		Reference operator*() const
+		Iterator(IteratorPointerType pPointer) noexcept
+			: m_Pointer{ pPointer }
 		{
-			return *pPointer;
+			static_assert(!std::is_same_v<IteratorType, std::random_access_iterator_tag>, "Integrian2D::Iterator > This class does nut support random access iterator!");
 		}
 
-		Pointer operator->() const
+		IteratorReferenceType operator*() const noexcept
 		{
-			return pPointer;
+			return *m_Pointer;
 		}
 
-		Pointer Data() const
+		IteratorPointerType operator->() noexcept
 		{
-			return pPointer;
+			return m_Pointer;
 		}
-	#pragma endregion
 
-	#pragma region Arithmetic
-		Iterator& operator++()
+		Iterator& operator++() noexcept
 		{
-			++pPointer;
+			++m_Pointer;
 			return *this;
 		}
 
-		Iterator& operator--()
-		{
-			static_assert(Tag > IteratorTag::ForwardIt, "Iterator::operator--() > This operator is only available for Bidirectional or Random Access iterators");
-
-			--pPointer;
-			return *this;
-		}
-
-		Iterator& operator+=(const uint64_t i)
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "Iterator::operator+=() > This operator is only available for Random Acess iterators");
-
-			pPointer += i;
-			return *this;
-		}
-
-		Iterator& operator-=(const uint64_t i)
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "Iterator::operator-=() > This operator is only available for Random Acess iterators");
-
-			pPointer -= i;
-			return *this;
-		}
-
-		Iterator operator++(int)
+		Iterator operator++(int) noexcept
 		{
 			Iterator tmp = *this;
 			++(*this);
 			return tmp;
 		}
 
-		Iterator operator--(int)
+		Iterator& operator--() noexcept
 		{
-			static_assert(Tag > IteratorTag::ForwardIt, "Iterator::operator--() > This operator is only available for Bidirectional or Random Access iterators");
+			static_assert(std::is_same_v<IteratorType, std::bidirectional_iterator_tag>, "Iterator::operator--() > The iterator type is not a bidirectional iterator");
+
+			--m_Pointer;
+			return *this;
+		}
+
+		Iterator operator--(int) noexcept
+		{
+			static_assert(std::is_same_v<IteratorType, std::bidirectional_iterator_tag>, "Iterator::operator--(int) > The iterator type is not a bidirectional iterator");
 
 			Iterator tmp = *this;
 			--(*this);
 			return tmp;
 		}
 
-		Iterator operator+(const uint64_t i) const
+		bool operator==(const Iterator& other) const noexcept
 		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "Iterator::operator+() > This operator is only available for Random Acess iterators");
-
-			return Iterator{ pPointer + i };
+			return m_Pointer == other.m_Pointer;
 		}
-
-		Iterator operator+(const Iterator& it) const
+		
+		bool operator!=(const Iterator& other) const noexcept
 		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "Iterator::operator+() > This operator is only available for Random Acess iterators");
-
-			return Iterator{ pPointer + it.pPointer };
+			return m_Pointer != other.m_Pointer;
 		}
-
-		Iterator operator-(const uint64_t i) const
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "Iterator::operator-() > This operator is only available for Random Acess iterators");
-
-			return Iterator{ pPointer - i };
-		}
-
-		Iterator operator-(const Iterator& it) const
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "Iterator::operator-() > This operator is only available for Random Acess iterators");
-
-			return Iterator{ pPointer - it.pPointer };
-		}
-	#pragma endregion
-
-	#pragma region Comparing Iterators
-		bool operator==(const Iterator& other) const
-		{
-			return pPointer == other.pPointer;
-		}
-
-		bool operator!=(const Iterator& other) const
-		{
-			return pPointer != other.pPointer;
-		}
-
-		bool operator>(const Iterator& other) const
-		{
-			return pPointer > other.pPointer;
-		}
-
-		bool operator<(const Iterator& other) const
-		{
-			return pPointer < other.pPointer;
-		}
-
-		bool operator>=(const Iterator& other) const
-		{
-			return pPointer >= other.pPointer;
-		}
-
-		bool operator<=(const Iterator& other) const
-		{
-			return pPointer <= other.pPointer;
-		}
-	#pragma endregion
 
 	private:
-		Pointer pPointer;
+		IteratorPointerType m_Pointer;
 	};
+#pragma endregion
 
-	template<typename T, IteratorTag Tag, typename Diff = uint64_t>
+#pragma region ConstIterator
+	template<typename IteratorValue,
+		typename IteratorType = std::bidirectional_iterator_tag,
+		typename DifferenceType = std::ptrdiff_t,
+		typename = std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, IteratorType>>,
+		typename = std::enable_if_t<std::is_integral_v<DifferenceType>>>
 	class ConstIterator final
 	{
-		using Pointer = const T*;
-		using Reference = const T&;
+		using IteratorPointerType = const IteratorValue*;
+		using IteratorReferenceType = const IteratorValue&;
 
 	public:
-		ConstIterator(Pointer _pPointer)
-			: pPointer{ _pPointer }
-		{}
-
-	#pragma region Access Data
-		Reference operator*() const
+		ConstIterator(IteratorPointerType pPointer) noexcept
+			: m_Pointer{ pPointer }
 		{
-			return *pPointer;
+			static_assert(!std::is_same_v<IteratorType, std::random_access_iterator_tag>, "Integrian2D::Iterator > This class does nut support random access iterator!");
 		}
 
-		Pointer operator->() const
+		IteratorReferenceType operator*() const noexcept
 		{
-			return pPointer;
+			return *m_Pointer;
 		}
 
-		Pointer Data() const
+		IteratorPointerType operator->() noexcept
 		{
-			return pPointer;
+			return m_Pointer;
 		}
-	#pragma endregion
 
-	#pragma region Arithmetic
-		ConstIterator& operator++()
+		ConstIterator& operator++() noexcept
 		{
-			++pPointer;
+			++m_Pointer;
 			return *this;
 		}
 
-		ConstIterator& operator--()
+		ConstIterator operator++(int) noexcept
 		{
-			static_assert(Tag > IteratorTag::ForwardIt, "ConstIterator::operator--() > This operator is only available for Bidirectional or Random Access iterators");
-
-			--pPointer;
-			return *this;
-		}
-
-		ConstIterator& operator+=(const uint64_t i)
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "ConstIterator::operator+=() > This operator is only available for Random Acess iterators");
-
-			pPointer += i;
-			return *this;
-		}
-
-		ConstIterator& operator-=(const uint64_t i)
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "ConstIterator::operator-=() > This operator is only available for Random Acess iterators");
-
-			pPointer -= i;
-			return *this;
-		}
-
-		ConstIterator operator++(int)
-		{
-			ConstIterator tmp = *this;
+			Iterator tmp = *this;
 			++(*this);
 			return tmp;
 		}
 
-		ConstIterator operator--(int)
+		ConstIterator& operator--() noexcept
 		{
-			static_assert(Tag > IteratorTag::ForwardIt, "ConstIterator::operator--() > This operator is only available for Bidirectional or Random Access iterators");
+			static_assert(std::is_same_v<IteratorType, std::bidirectional_iterator_tag>, "Iterator::operator--() > The iterator type is not a bidirectional iterator");
 
-			ConstIterator tmp = *this;
+			--m_Pointer;
+			return *this;
+		}
+
+		ConstIterator operator--(int) noexcept
+		{
+			static_assert(std::is_same_v<IteratorType, std::bidirectional_iterator_tag>, "Iterator::operator--(int) > The iterator type is not a bidirectional iterator");
+
+			Iterator tmp = *this;
 			--(*this);
 			return tmp;
 		}
 
-		ConstIterator operator+(const uint64_t i) const
+		bool operator==(const ConstIterator& other) const noexcept
 		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "ConstIterator::operator+() > This operator is only available for Random Acess iterators");
-
-			return ConstIterator{ pPointer + i };
+			return m_Pointer == other.m_Pointer;
 		}
 
-		ConstIterator operator+(const ConstIterator& it) const
+		bool operator!=(const ConstIterator& other) const noexcept
 		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "ConstIterator::operator+() > This operator is only available for Random Acess iterators");
-
-			return ConstIterator{ pPointer + it.pPointer };
+			return m_Pointer != other.m_Pointer;
 		}
-
-		ConstIterator operator-(const uint64_t i) const
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "ConstIterator::operator-() > This operator is only available for Random Acess iterators");
-
-			return ConstIterator{ pPointer - i };
-		}
-
-		ConstIterator operator-(const ConstIterator& it) const
-		{
-			static_assert(Tag == IteratorTag::RandomAccessIt, "ConstIterator::operator-() > This operator is only available for Random Acess iterators");
-
-			return ConstIterator{ pPointer - it.pPointer };
-		}
-	#pragma endregion
-
-	#pragma region Comparing Iterators
-		bool operator==(const ConstIterator& other) const
-		{
-			return pPointer == other.pPointer;
-		}
-
-		bool operator!=(const ConstIterator& other) const
-		{
-			return pPointer != other.pPointer;
-		}
-
-		bool operator>(const ConstIterator& other) const
-		{
-			return pPointer > other.pPointer;
-		}
-
-		bool operator<(const ConstIterator& other) const
-		{
-			return pPointer < other.pPointer;
-		}
-
-		bool operator>=(const ConstIterator& other) const
-		{
-			return pPointer >= other.pPointer;
-		}
-
-		bool operator<=(const ConstIterator& other) const
-		{
-			return pPointer <= other.pPointer;
-		}
-	#pragma endregion
 
 	private:
-		Pointer pPointer;
+		IteratorPointerType m_Pointer;
 	};
-
-	template<typename T, IteratorTag Tag, typename Diff = uint64_t>
-	bool operator==(const Iterator<T, Tag, Diff>& it, const ConstIterator<T, Tag, Diff>& cIt)
-	{
-		return it.Data() == cIt.Data();
-	}
-
-	template<typename T, IteratorTag Tag, typename Diff = uint64_t>
-	bool operator!=(const Iterator<T, Tag, Diff>& it, const ConstIterator<T, Tag, Diff>& cIt)
-	{
-		return it.Data() != cIt.Data();
-	}
+#pragma endregion
 }

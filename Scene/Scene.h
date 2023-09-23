@@ -3,83 +3,99 @@
 #include "../Integrian2D_API.h"
 
 #include "../EventQueue/EventQueue.h"
-#include "../GameObject/GameObject.h"
-#include "../Array/TArray.h"
-#include "../TransformManager/TransformManager.h"
 
-#include <string>
+#include <vector>
 
 namespace Integrian2D
 {
+	class GameObject;
+
+	struct GameObjectInformation final
+	{
+		const char* pName;
+		GameObject* pGameObject;
+	};
+
 	/* This class is supposed to be inherited from */
 	class INTEGRIAN2D_API Scene
 	{
 	public:
-		explicit Scene(const std::string& name);
+		Scene(const char* pSceneName);
 		virtual ~Scene();
 
-	#pragma region Inheritable_Functionality
+		/* This function has to be overridden
+		   This is where all of the Scene initisialition should start! */
+		virtual void Start() = 0;
 
-		virtual void Initialize() = 0;
+		/* An optionally overridable Scene-specific Update
+		   This function should not try to update the GameObject's Update
+		   This happens internally */
+		virtual void Update() {}
 
-		virtual void OnSceneEnter() {}
+		/* An optionally overridable Scene-specific FixedUpdate
+		   This function should not try to update the GameObject's FixedUpdate
+		   This happens internally */
+		virtual void FixedUpdate() {}
 
-		virtual void OnSceneExit() {}
+		/* An optionally overridable Scene-specific LateUpdate
+		   This function should not try to update the GameObject's LateUpdate
+		   This happens internally */
+		virtual void LateUpdate() {}
 
-	#pragma endregion
+		/* An optionally overridable Scene-specific Render
+		   This function should not try to update the GameObject's Render
+		   This happens internally */
+		virtual void Render() const {}
 
-	#pragma region Internal_Functionality
+		/* An optionally overridable Scene-specific function
+			This function gets called when the scene gets set as active */
+		virtual void OnSceneEnter() noexcept {}
 
-		void Awake();
+		/* An optionally overridable Scene-specific function
+			This function gets called when the scene is active, and gets replaced by another scene as the active scene */
+		virtual void OnSceneExit() noexcept {}
 
-		void Start();
-
-		void Update();
-
-		void FixedUpdate();
-
-		void LateUpdate();
-
-		void Render() const;
-
-		void __OnSceneEnter();
-
-		void __OnSceneExit();
-
-	#pragma endregion
-
-	#pragma region GameObject_Functionality
-
-		void AddGameObject(GameObject* const pGameObject);
-
-		GameObject* const GetGameObject(const std::string_view name) const;
-
-		const Array<GameObject*>& GetGameObjects() const;
-
-	#pragma endregion
-
-	#pragma region Scene_Functionality
+		/* Use this function to add GameObjects to the Scene!
+		   GameObjects with duplicate GameObject names are not allowed, except if the shouldAlwaysAdd parameter is set to true
+		   If this boolean is set to true and there is a duplicate GameObject name, the name will be the same, with (N) added to it
+		   where N is the amount of times this name has been added - 1 */
+		void AddGameObject(const char* pGameObjectName, GameObject* const pGameObject, const bool shouldAlwaysAdd = true) noexcept;
 
 		/* Set the Scene's Name */
-		void SetSceneName(const std::string& name);
+		void SetSceneName(const char* pSceneName) noexcept;
+
+		/* Get a previously added GameObject by its name
+		   This function will return a nullptr if the GameObject is not present */
+		GameObject* const GetGameObject(const char* pGameObjectName) const noexcept;
+
+		/* Get all previously added GameObjects to the Scene
+		   This function will return an empty map if there have been no added GameObjects */
+		const std::vector<GameObjectInformation>& GetGameObjects() const noexcept;
 
 		/* Get the Scene's name */
-		std::string_view GetSceneName() const;
+		const char* GetSceneName() const noexcept;
 
 		/* Is the Scene active? */
-		bool IsSceneActive() const;
+		bool IsSceneActive() const noexcept;
 
 		/* Set whether the scene is active */
-		void SetIsSceneActive(const bool isActive);
-
-	#pragma endregion
+		void SetIsSceneActive(const bool isActive) noexcept;
 
 	private:
-		std::string m_SceneName;
-		Array<GameObject*> m_GameObjects;
-		std::atomic_bool m_IsActive;
+		friend class Core; // Make sure that only Core can access the Root functions
+		friend class SceneManager; /* The SceneManager needs access to the RootOnSceneEnter and RootOnSceneExit */
 
-		TransformManager m_TransformManager;
+		struct SceneImpl;
+
+		void RootStart();
+		void RootUpdate();
+		void RootFixedUpdate();
+		void RootLateUpdate();
+		void RootRender() const;
+		void RootOnSceneEnter() noexcept;
+		void RootOnSceneExit() noexcept;
+
+		SceneImpl* m_pSceneImpl;
 	};
 }
 

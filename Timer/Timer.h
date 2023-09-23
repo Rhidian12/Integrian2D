@@ -1,155 +1,60 @@
 #pragma once
 
 #include "../Integrian2D_API.h"
-#include "TimeLength.h"
-#include "Timepoint/Timepoint.h"
-#include "../Math/Math.h"
 
-#include <memory> /* std::unique_ptr */
+#include <chrono>
 
-namespace Integrian2D::Time
+namespace Integrian2D
 {
 	class Timer final
 	{
 	public:
-		~Timer() = default;
+		/* Get a Timer instance */
+		INTEGRIAN2D_API static Timer* GetInstance() noexcept;
 
-		static Timer& GetInstance();
+		/* Internal Usage
+		   Do NOT call this function manually */
+		static void Cleanup() noexcept;
 
-		Timer(const Timer&) noexcept = delete;
-		Timer(Timer&&) noexcept = delete;
-		Timer& operator=(const Timer&) noexcept = delete;
-		Timer& operator=(Timer&&) noexcept = delete;
+		/* Starts the Timer
+		   This function gets called automatically on creation of the Timer
+		   which happens just before the first Update cycle */
+		void Start() noexcept;
 
-		void Start();
-		void Update();
+		/* Internal Usage
+		   Do NOT call this function manually */
+		void Update() noexcept;
 
-		__NODISCARD static Timepoint Now();
-		__NODISCARD double GetElapsedSeconds() const { return m_ElapsedSeconds; }
-		__NODISCARD double GetFixedElapsedSeconds() const { return m_TimePerFrame; }
-		__NODISCARD double GetTotalElapsedSeconds() const { return m_TotalElapsedSeconds; }
-		__NODISCARD int GetFPS() const { return m_FPS; }
-		__NODISCARD double GetTimePerFrame() const { return m_TimePerFrame; }
+		/* Get the current FPS */
+		INTEGRIAN2D_API int GetFPS() const noexcept;
 
-	#pragma region GetElapsedTime
-		template<TimeLength T>
-		__NODISCARD double GetElapsedTime() const
-		{
-			if constexpr (T == TimeLength::NanoSeconds)
-				return m_ElapsedSeconds * SecToNano;
-			else if constexpr (T == TimeLength::MicroSeconds)
-				return m_ElapsedSeconds * SecToMicro;
-			else if constexpr (T == TimeLength::MilliSeconds)
-				return m_ElapsedSeconds * SecToMilli;
-			else if constexpr (T == TimeLength::Seconds)
-				return m_ElapsedSeconds;
-			else if constexpr (T == TimeLength::Minutes)
-				return m_ElapsedSeconds * SecToMin;
-			else /* Hours */
-				return m_ElapsedSeconds * SecToHours;
-		}
-		template<TimeLength T, typename Ret>
-		__NODISCARD Ret GetElapsedTime() const
-		{
-			if constexpr (T == TimeLength::NanoSeconds)
-				return static_cast<Ret>(m_ElapsedSeconds * SecToNano);
-			else if constexpr (T == TimeLength::MicroSeconds)
-				return static_cast<Ret>(m_ElapsedSeconds * SecToMicro);
-			else if constexpr (T == TimeLength::MilliSeconds)
-				return static_cast<Ret>(m_ElapsedSeconds * SecToMilli);
-			else if constexpr (T == TimeLength::Seconds)
-				return static_cast<Ret>(m_ElapsedSeconds);
-			else if constexpr (T == TimeLength::Minutes)
-				return static_cast<Ret>(m_ElapsedSeconds * SecToMin);
-			else /* Hours */
-				return static_cast<Ret>(m_ElapsedSeconds * SecToHours);
-		}
-	#pragma endregion
+		/* Get the elapsed seconds from the previous frame
+		   To ensure stable code, this will never be more than 0.1f */
+		INTEGRIAN2D_API float GetElapsedSeconds() const noexcept;
 
-	#pragma region GetFixedElapsedTime
-		template<TimeLength T>
-		__NODISCARD double GetFixedElapsedTime() const
-		{
-			if constexpr (T == TimeLength::NanoSeconds)
-				return m_TimePerFrame * SecToNano;
-			else if constexpr (T == TimeLength::MicroSeconds)
-				return m_TimePerFrame * SecToMicro;
-			else if constexpr (T == TimeLength::MilliSeconds)
-				return m_TimePerFrame * SecToMilli;
-			else if constexpr (T == TimeLength::Seconds)
-				return m_TimePerFrame;
-			else if constexpr (T == TimeLength::Minutes)
-				return m_TimePerFrame * SecToMin;
-			else /* Hours */
-				return m_TimePerFrame * SecToHours;
-		}
-		template<TimeLength T, typename Ret>
-		__NODISCARD Ret GetFixedElapsedTime() const
-		{
-			if constexpr (T == TimeLength::NanoSeconds)
-				return static_cast<Ret>(m_TimePerFrame * SecToNano);
-			else if constexpr (T == TimeLength::MicroSeconds)
-				return static_cast<Ret>(m_TimePerFrame * SecToMicro);
-			else if constexpr (T == TimeLength::MilliSeconds)
-				return static_cast<Ret>(m_TimePerFrame * SecToMilli);
-			else if constexpr (T == TimeLength::Seconds)
-				return static_cast<Ret>(m_TimePerFrame);
-			else if constexpr (T == TimeLength::Minutes)
-				return static_cast<Ret>(m_TimePerFrame * SecToMin);
-			else /* Hours */
-				return static_cast<Ret>(m_TimePerFrame * SecToHours);
-		}
-	#pragma endregion
+		/* Get a elapsed seconds for fixed update calculations */
+		INTEGRIAN2D_API float GetFixedElapsedSeconds() const noexcept;
 
-	#pragma region GetTotalElapsedTime
-		template<TimeLength T>
-		__NODISCARD double GetTotalElapsedTime() const
-		{
-			if constexpr (T == TimeLength::NanoSeconds)
-				return m_TotalElapsedSeconds * SecToNano;
-			else if constexpr (T == TimeLength::MicroSeconds)
-				return m_TotalElapsedSeconds * SecToMicro;
-			else if constexpr (T == TimeLength::MilliSeconds)
-				return m_TotalElapsedSeconds * SecToMilli;
-			else if constexpr (T == TimeLength::Seconds)
-				return m_TotalElapsedSeconds;
-			else if constexpr (T == TimeLength::Minutes)
-				return m_TotalElapsedSeconds * SecToMin;
-			else /* Hours */
-				return m_TotalElapsedSeconds * SecToHours;
-		}
-		template<TimeLength T, typename Ret>
-		__NODISCARD Ret GetTotalElapsedTime() const
-		{
-			if constexpr (T == TimeLength::NanoSeconds)
-				return static_cast<Ret>(m_TotalElapsedSeconds * SecToNano);
-			else if constexpr (T == TimeLength::MicroSeconds)
-				return static_cast<Ret>(m_TotalElapsedSeconds * SecToMicro);
-			else if constexpr (T == TimeLength::MilliSeconds)
-				return static_cast<Ret>(m_TotalElapsedSeconds * SecToMilli);
-			else if constexpr (T == TimeLength::Seconds)
-				return static_cast<Ret>(m_TotalElapsedSeconds);
-			else if constexpr (T == TimeLength::Minutes)
-				return static_cast<Ret>(m_TotalElapsedSeconds * SecToMin);
-			else /* Hours */
-				return static_cast<Ret>(m_TotalElapsedSeconds * SecToHours);
-		}
-	#pragma endregion
+		/* Get how much time per frame can be spent at most */
+		INTEGRIAN2D_API float GetTimePerFrame() const noexcept;
+
+		/* Get the total amount of elapsed seconds since the start of the program */
+		INTEGRIAN2D_API float GetTotalElapsedSeconds() const noexcept;
 
 	private:
 		Timer();
 
-		inline static std::unique_ptr<Timer> m_pInstance{};
+		inline static Timer* m_pInstance{};
 
-		const double m_MaxElapsedSeconds;
-		double m_ElapsedSeconds;
-		double m_TotalElapsedSeconds;
+		const float m_MaxElapsedSeconds;
+		float m_ElapsedSeconds;
+		float m_TotalElapsedSeconds;
 		int m_FPS;
 		int m_FPSCounter;
-		double m_FPSTimer;
-		double m_TimePerFrame;
+		float m_FPSTimer;
+		float m_TimePerFrame;
 
-		Timepoint m_StartTimepoint;
-		Timepoint m_PreviousTimepoint;
+		std::chrono::steady_clock::time_point m_StartTimepoint;
+		std::chrono::steady_clock::time_point m_PreviousTimepoint;
 	};
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Integrian2D_API.h"
-#include "../../Component/Component.h"
+#include "../Component/Component.h"
 #include "../../Math/TypeDefines.h"
 
 namespace Integrian2D
@@ -12,6 +12,9 @@ namespace Integrian2D
 	{
 	public:
 		TransformComponent(GameObject* pOwner);
+
+		/* See Component::Clone() for documentation */
+		virtual Component* Clone(GameObject* pOwner) noexcept override;
 
 		virtual void FixedUpdate() override;
 

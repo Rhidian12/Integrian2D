@@ -12,12 +12,15 @@ namespace Integrian2D
 	class Core final
 	{
 	public:
-		INTEGRIAN2D_API static Core& GetInstance();
+		/* Get the earlier created Engine instance */
+		INTEGRIAN2D_API static Core* const GetInstance() noexcept;
 
-		INTEGRIAN2D_API static Core& CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle);
+		/* Create an instance of the engine, this initializes the libraries used by the engine and creates a window
+		   Call this function only ONCE */
+		INTEGRIAN2D_API static Core* const CreateEngine(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
 
 		/* Delete the earlier created Engine instance */
-		INTEGRIAN2D_API static void Cleanup();
+		INTEGRIAN2D_API static void Cleanup() noexcept;
 
 		INTEGRIAN2D_API ~Core();
 
@@ -25,13 +28,13 @@ namespace Integrian2D
 		INTEGRIAN2D_API void Run();
 
 		/* Is the Engine running? */
-		INTEGRIAN2D_API bool IsEngineRunning() const;
+		INTEGRIAN2D_API bool IsEngineRunning() const noexcept;
 
 		/* Get the window width */
-		INTEGRIAN2D_API int GetWindowWidth() const;
+		INTEGRIAN2D_API int GetWindowWidth() const noexcept;
 
 		/* Get the window height */
-		INTEGRIAN2D_API int GetWindowHeight() const;
+		INTEGRIAN2D_API int GetWindowHeight() const noexcept;
 
 		Core(const Core&) = delete;
 		Core(Core&&) = delete;
@@ -40,8 +43,8 @@ namespace Integrian2D
 
 	private:
 		Core(const int windowWidth, const int windowHeight, const std::string& windowTitle);
-		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle);
-		void ShutdownLibraries();
+		void InitializeLibraries(const int windowWidth, const int windowHeight, const std::string& windowTitle) noexcept;
+		void ShutdownLibraries() noexcept;
 
 		bool m_IsEngineRunning;
 

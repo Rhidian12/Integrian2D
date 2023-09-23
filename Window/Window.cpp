@@ -19,11 +19,13 @@ namespace Integrian2D
 			SDL_WINDOW_OPENGL);
 
 		if (!m_pWindow)
-			Logger::GetInstance().LogError(std::string{ "Window::Window() > m_pWindow creation failed" } + SDL_GetError(), __LINE__, __FILE__);
+			Logger::LogSevereError(std::string{ "Window::Window() > m_pWindow creation failed" } + SDL_GetError());
 
 		SDL_GLContext context = SDL_GL_CreateContext(m_pWindow);
 		if (context == nullptr)
-			Logger::GetInstance().LogError(std::string{ "Window::Window() > Creating a openGL context failed" } + SDL_GetError(), __LINE__, __FILE__);
+			Logger::LogSevereError(std::string{ "Window::Window() > Creating a openGL context failed" } + SDL_GetError());
+
+		Renderer::CreateRenderer(m_pWindow);
 	}
 
 	Window::~Window()
@@ -31,7 +33,7 @@ namespace Integrian2D
 		SDL_DestroyWindow(m_pWindow);
 	}
 
-	const SDL_Window* const Window::GetSDLWindow() const
+	const SDL_Window* const Window::GetSDLWindow() const noexcept
 	{
 		return m_pWindow;
 	}

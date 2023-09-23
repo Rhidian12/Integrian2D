@@ -4,25 +4,56 @@
 
 #include "Vector.h"
 
-namespace Integrian2D::Math
+namespace Integrian2D
 {
-	template<int N, typename Type>
-	struct Point
+	/* This is the base class representing a point
+	   I suggest using the provided Point2f type, but others can be created using this class */
+
+	/* Available functions:
+		Type DistanceSquared(const Point<P, Type>& p1, const Point<P, Type>& p2) 
+		=>		Returns the squared distance between the two provided points
+		
+		Type Distance(const Point<P, Type>& p1, const Point<P, Type>& p2)
+		=>		Returns the distance between the two provided points
+		*/
+
+	template<int P, typename Type>
+	struct INTEGRIAN2D_API Point
 	{
-		Type Data[N];
+		// == Data ==
+		Type data[P];
+
+#pragma region Access Operators
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		Type& operator[](const IntegralNumber index) noexcept
+		{
+			ASSERT(index < P, "Point::operator[]() > index is out of bounds!");
+
+			return data[index];
+		}
+
+		template<typename IntegralNumber, typename = std::enable_if_t<std::is_integral_v<IntegralNumber>>>
+		const Type& operator[](const IntegralNumber index) const noexcept
+		{
+			ASSERT(index < P, "Point::operator[]() > index is out of bounds!");
+
+			return data[index];
+		}
+#pragma endregion
 	};
 
-	template<int N, typename T>
-	T DistanceSquared(const Point<N, T>& p1, const Point<N, T>& p2) noexcept
+	// == Non-Member Functions That Are Useful For All Points ==
+	template<int P, typename Type>
+	Type DistanceSquared(const Point<P, Type>& p1, const Point<P, Type>& p2) noexcept
 	{
-		const Vector<N, T> vector{ p1, p2 };
-		return static_cast<T>(MagnitudeSquared(vector));
+		const Vector<P, Type> vector{ p1, p2 };
+		return static_cast<Type>(MagnitudeSquared(vector));
 	}
 
-	template<int N, typename T>
-	T Distance(const Point<N, T>& p1, const Point<N, T>& p2) noexcept
+	template<int P, typename Type>
+	Type Distance(const Point<P, Type>& p1, const Point<P, Type>& p2) noexcept
 	{
-		const Vector<N, T> vector{ p1, p2 };
-		return static_cast<T>(sqrt(MagnitudeSquared(vector)));
+		const Vector<P, Type> vector{ p1, p2 };
+		return static_cast<Type>(sqrt(MagnitudeSquared(vector)));
 	}
 };
